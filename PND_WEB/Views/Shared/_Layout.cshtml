@@ -1,0 +1,451 @@
+﻿﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - PND_WEB</title>
+    @* <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/PND_WEB.styles.css" asp-append-version="true" /> *@
+
+
+    <!-- =============== VENDOR STYLES ===============-->
+    <!-- FONT AWESOME-->
+    <link rel="stylesheet" href="~/app/vendor/font-awesome/css/font-awesome.css">
+    <!-- SIMPLE LINE ICONS-->
+    <link rel="stylesheet" href="~/app/vendor/simple-line-icons/css/simple-line-icons.css">
+    <!-- ANIMATE.CSS-->
+    <link rel="stylesheet" href="~/app/vendor/animate.css/animate.css">
+    <!-- WHIRL (spinners)-->
+    <link rel="stylesheet" href="~/app/vendor/whirl/dist/whirl.css">
+    <!-- =============== PAGE VENDOR STYLES ===============-->
+    <!-- Datatables-->
+    <link rel="stylesheet" href="~/app/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="~/app/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
+    <link rel="stylesheet" href="~/app/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
+    <!-- =============== BOOTSTRAP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
+    <!-- =============== APP STYLES ===============-->
+    <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+</head>
+<body>
+    <div class="wrapper">
+        <!-- top navbar-->
+        <header class="topnavbar-wrapper">
+            <!-- START Top Navbar-->
+            <nav class="navbar topnavbar">
+                <!-- START navbar header-->
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#/">
+                        <div class="brand-logo">
+                            <img class="img-fluid" src="img/logo.png" alt="App Logo">
+                        </div>
+                        <div class="brand-logo-collapsed">
+                            <img class="img-fluid" src="img/logo-single.png" alt="App Logo">
+                        </div>
+                    </a>
+                </div>
+                <!-- END navbar header-->
+                <!-- START Left navbar-->
+                <ul class="navbar-nav mr-auto flex-row">
+                    <li class="nav-item">
+                        <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                        <a class="nav-link d-none d-md-block d-lg-block d-xl-block" href="#" data-trigger-resize="" data-toggle-state="aside-collapsed">
+                            <em class="fa fa-navicon"></em>
+                        </a>
+                        <!-- Button to show/hide the sidebar on mobile. Visible on mobile only.-->
+                        <a class="nav-link sidebar-toggle d-md-none" href="#" data-toggle-state="aside-toggled" data-no-persist="true">
+                            <em class="fa fa-navicon"></em>
+                        </a>
+                    </li>
+                    <!-- START User avatar toggle-->
+                    <li class="nav-item d-none d-md-block">
+                        <!-- Button used to collapse the left sidebar. Only visible on tablet and desktops-->
+                        <a class="nav-link" id="user-block-toggle" href="#user-block" data-toggle="collapse">
+                            <em class="icon-user"></em>
+                        </a>
+                    </li>
+                    <!-- END User avatar toggle-->
+                    <!-- START lock screen-->
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link" href="lock.html" title="Lock screen">
+                            <em class="icon-lock"></em>
+                        </a>
+                    </li>
+                    <!-- END lock screen-->
+                </ul>
+                <!-- END Left navbar-->
+                <!-- START Right Navbar-->
+                <ul class="navbar-nav flex-row">
+                    <!-- Search icon-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-search-open="">
+                            <em class="icon-magnifier"></em>
+                        </a>
+                    </li>
+                    <!-- Fullscreen (only desktops)-->
+                    <li class="nav-item d-none d-md-block">
+                        <a class="nav-link" href="#" data-toggle-fullscreen="">
+                            <em class="fa fa-expand"></em>
+                        </a>
+                    </li>
+                    <!-- START Alert menu-->
+                    <li class="nav-item dropdown dropdown-list">
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="#" data-toggle="dropdown">
+                            <em class="icon-bell"></em>
+                            <span class="badge badge-danger">11</span>
+                        </a>
+                        <!-- START Dropdown menu-->
+                        <div class="dropdown-menu dropdown-menu-right animated flipInX">
+                            <div class="dropdown-item">
+                                <!-- START list group-->
+                                <div class="list-group">
+                                    <!-- list item-->
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="media">
+                                            <div class="align-self-start mr-2">
+                                                <em class="fa fa-twitter fa-2x text-info"></em>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="m-0">New followers</p>
+                                                <p class="m-0 text-muted text-sm">1 new follower</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- list item-->
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="media">
+                                            <div class="align-self-start mr-2">
+                                                <em class="fa fa-envelope fa-2x text-warning"></em>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="m-0">New e-mails</p>
+                                                <p class="m-0 text-muted text-sm">You have 10 new emails</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- list item-->
+                                    <div class="list-group-item list-group-item-action">
+                                        <div class="media">
+                                            <div class="align-self-start mr-2">
+                                                <em class="fa fa-tasks fa-2x text-success"></em>
+                                            </div>
+                                            <div class="media-body">
+                                                <p class="m-0">Pending Tasks</p>
+                                                <p class="m-0 text-muted text-sm">11 pending task</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- last list item-->
+                                    <div class="list-group-item list-group-item-action">
+                                        <span class="d-flex align-items-center">
+                                            <span class="text-sm">More notifications</span>
+                                            <span class="badge badge-danger ml-auto">14</span>
+                                        </span>
+                                    </div>
+                                </div>
+                                <!-- END list group-->
+                            </div>
+                        </div>
+                        <!-- END Dropdown menu-->
+                    </li>
+                    <!-- END Alert menu-->
+                    <!-- START Offsidebar button-->
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle-state="offsidebar-open" data-no-persist="true">
+                            <em class="icon-notebook"></em>
+                        </a>
+                    </li>
+                    <!-- END Offsidebar menu-->
+                </ul>
+                <!-- END Right Navbar-->
+                <!-- START Search form-->
+                <form class="navbar-form" role="search" action="search.html">
+                    <div class="form-group">
+                        <input class="form-control" type="text" placeholder="Type and hit enter ...">
+                        <div class="fa fa-times navbar-form-close" data-search-dismiss=""></div>
+                    </div>
+                    <button class="d-none" type="submit">Submit</button>
+                </form>
+                <!-- END Search form-->
+            </nav>
+            <!-- END Top Navbar-->
+        </header>
+        <!-- sidebar-->
+        <aside class="aside-container">
+            <!-- START Sidebar (left)-->
+            <div class="aside-inner">
+                <nav class="sidebar" data-sidebar-anyclick-close="">
+                    <!-- START sidebar nav-->
+                    <ul class="sidebar-nav">
+                        <!-- START user info-->
+                        <li class="has-user-block">
+                            <div class="collapse" id="user-block">
+                                <div class="item user-block">
+                                    <!-- User picture-->
+                                    <div class="user-block-picture">
+                                        <div class="user-block-status">
+                                            <img class="img-thumbnail rounded-circle" src="img/user/02.jpg" alt="Avatar" width="60" height="60">
+                                            <div class="circle bg-success circle-lg"></div>
+                                        </div>
+                                    </div>
+                                    <!-- Name and Job-->
+                                    <div class="user-block-info">
+                                        <span class="user-block-name">Hello, Mike</span>
+                                        <span class="user-block-role">Designer</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- END user info-->
+                        <!-- Iterates over all sidebar items-->
+                        <li class=" ">
+                            <a asp-controller="Home" asp-action="Index">
+                                <em class="icon-home"></em>
+                                <span>Home</span>
+                            </a>
+                        </li>
+
+
+
+
+                        <li class="nav-heading">
+                            <span>Quản lý job</span>
+                        </li>
+
+                        <li class=" ">
+                            <a asp-controller="Job" asp-action="Index">
+                                <em class="icon-rocket"></em>
+                                <span>JOB</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-heading">
+                            <span>Quản lý HSCODE</span>
+                        </li>
+
+                        <li class=" ">
+                            <a asp-controller="TblHscode" asp-action="Index">
+                                <em class="icon-home"></em>
+                                <span>HSCODE</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-heading">
+                            <span>Báo giá</span>
+                        </li>
+
+                        <li class=" ">
+                            <a asp-controller="TblCnee" asp-action="Index">
+                                <span>CUSTOMER</span>
+                            </a>
+                        </li>
+
+                        <li class=" ">
+                            <a asp-controller="TblCnee" asp-action="Index">
+                                <span>Báo giá</span>
+                            </a>
+                        </li>
+
+
+
+                        <li class="nav-heading">
+                            <span>Menu</span>
+                        </li>
+
+                        <li class=" ">
+                            <a href="#MenuDoc" title="MenuDoc" data-toggle="collapse">
+                                <em class="icon-note"></em>
+                                <span>Cập nhật menu</span>
+                            </a>
+                            <ul class="sidebar-nav sidebar-subnav collapse" id="MenuDoc">
+                                <li class="sidebar-subnav-header">Cập nhật menu</li>
+
+                                <li class=" ">
+                                    <a asp-controller="Agent" asp-action="Index">
+                                        <span>AGENT</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a asp-controller="Carrier" asp-action="Index">
+                                        <span>CARRIER</span>
+                                    </a>
+                                </li>
+
+
+
+                                <li class=" ">
+                                    <a asp-controller="TblShipper" asp-action="Index">
+                                        <span>SHIPPER</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="TblCnee" asp-action="Index">
+                                        <span>CNEE</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
+                        <li class="nav-heading">
+                            <span>Quản lý danh mục</span>
+                        </li>
+
+                        <li class=" ">
+                            <a href="#DanhMuc" title="DanhMuc" data-toggle="collapse">
+                                <em class="icon-note"></em>
+                                <span>Cập nhật danh mục</span>
+                            </a>
+                            <ul class="sidebar-nav sidebar-subnav collapse" id="DanhMuc">
+                                <li class="sidebar-subnav-header">Cập nhật danh mục</li>
+                                <li class=" ">
+                                    <a asp-controller="Cports" asp-action="Index">
+                                        <span>PORT</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Currencies" asp-action="Index">
+                                        <span>CURRENCIES</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Unit" asp-action="Index">
+                                        <span>UNIT</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Fee" asp-action="Index">
+                                        <span>FEE</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Kindofpackage" asp-action="Index">
+                                        <span>KIND OF PACKAGE</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Mode" asp-action="Index">
+                                        <span>MODE</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+
+                        <li class="nav-heading">
+                            <span>Tạm ứng thanh toán</span>
+                        </li>
+                        <li class=" ">
+                            <a asp-controller="TamUngThanhToan" asp-action="Index">
+                                <span>TẠM ỨNG THANH TOÁN</span>
+                            </a>
+                        </li>
+
+
+                        <li class="nav-heading">
+                            <span>Quản lý tài khoản</span>
+                        </li>
+
+
+                        <li class=" ">
+                            <a href="#Account" title="Account" data-toggle="collapse">
+                                <em class="icon-note"></em>
+                                <span>Quản lý tài khoản</span>
+                            </a>
+                            <ul class="sidebar-nav sidebar-subnav collapse" id="Account">
+                                <li class="sidebar-subnav-header">Quản lý tài khoản</li>
+                                <li class=" ">
+                                    <a asp-controller="TblTaiKhoan" asp-action="Index">
+                                        <span>Cập nhật tài khoản</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
+                        </li>
+
+
+                    </ul>
+                    <!-- END sidebar nav-->
+                </nav>
+            </div>
+            <!-- END Sidebar (left)-->
+        </aside>
+
+
+
+        <!-- Main section-->
+
+        <section class="section-container">
+            <!-- Page content-->
+            <div class="content-wrapper">
+
+                @RenderBody()
+
+
+            </div>
+        </section>
+
+
+        <!-- Page footer-->
+        <footer class="footer-container">
+            <span>&copy; 2025 - PND</span>
+        </footer>
+    </div>
+
+
+    <!-- =============== VENDOR SCRIPTS ===============-->
+    <!-- MODERNIZR-->
+    <script src="~/app/vendor/modernizr/modernizr.custom.js"></script>
+    <!-- JQUERY-->
+    <script src="~/app/vendor/jquery/dist/jquery.js"></script>
+    <!-- BOOTSTRAP-->
+    <script src="~/app/vendor/popper.js/dist/umd/popper.js"></script>
+    <script src="~/app/vendor/bootstrap/dist/js/bootstrap.js"></script>
+    <!-- STORAGE API-->
+    <script src="~/app/vendor/js-storage/js.storage.js"></script>
+    <!-- JQUERY EASING-->
+    <script src="~/app/vendor/jquery.easing/jquery.easing.js"></script>
+    <!-- ANIMO-->
+    <script src="~/app/vendor/animo/animo.js"></script>
+    <!-- SCREENFULL-->
+    <script src="~/app/vendor/screenfull/dist/screenfull.js"></script>
+    <!-- LOCALIZE-->
+    <script src="~/app/vendor/jquery-localize/dist/jquery.localize.js"></script>
+    <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <script src="~/app/vendor/datatables.net/js/jquery.dataTables.js"></script>
+    <script src="~/app/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons/js/buttons.colVis.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons/js/buttons.flash.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons/js/buttons.html5.js"></script>
+    <script src="~/app/vendor/datatables.net-buttons/js/buttons.print.js"></script>
+    <script src="~/app/vendor/datatables.net-keytable/js/dataTables.keyTable.js"></script>
+    <script src="~/app/vendor/datatables.net-responsive/js/dataTables.responsive.js"></script>
+    <script src="~/app/vendor/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="~/app/vendor/jszip/dist/jszip.js"></script>
+    <script src="~/app/vendor/pdfmake/build/pdfmake.js"></script>
+    <script src="~/app/vendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- =============== APP SCRIPTS ===============-->
+    <script src="~/app/js/app.js"></script>
+
+
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
+    @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
+    @* <script src="~/js/site.js" asp-append-version="true"></script> *@
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
