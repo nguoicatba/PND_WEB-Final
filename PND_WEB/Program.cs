@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
+using PND_WEB.Repository;
 
 namespace PND_WEB
 {
@@ -16,6 +17,8 @@ namespace PND_WEB
 
             builder.Services.AddDbContext<Repository.DataContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
 
             builder.Services.AddIdentity<AppUserModel,IdentityRole>()
     .AddEntityFrameworkStores<Repository.DataContext>().AddDefaultTokenProviders();

@@ -36,6 +36,6 @@ public partial class TblCustomer
     [EmailAddress(ErrorMessage = "Email không hợp lệ")]
     public string? Email { get; set; }
 
-    // Navigation property (nếu bạn có bảng liên kết HBL)
+    
     public virtual ICollection<TblHbl> TblHbls { get; set; } = new List<TblHbl>();
 }

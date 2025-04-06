@@ -1,0 +1,16 @@
+﻿@model (string Title, bool satatus)
+
+@{
+    if (Model.satatus)
+    {
+        <div class="alert alert-success" role="alert">
+            @Model.Title
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">
+            @Model.Title
+        </div> 
+    }
+}

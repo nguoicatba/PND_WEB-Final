@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PND_WEB.Models.Currency>
+
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Currencies", SubTitle = "Danh sách thông tin đơn vị tiền tệ" })
+
+@if (TempData["Message"] != null)
+{
+    
+    @await Component.InvokeAsync("Notification", new { Title = "Tạo thành công", status = true })
+    TempData["Message"] = null;
+}
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        
+     
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+        <tr>
+            <th class="col-3 text-nowrap">
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th class="col-3 text-nowrap">
+                @Html.DisplayNameFor(model => model.CurrName)
+            </th>
+            <th class="col-3 text-nowrap">
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th class="col-1 text-nowrap">
+
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td class="col-3 text-nowrap">
+                    @Html.DisplayFor(modelItem => item.Code)
+                    </td>
+                <td class="col-3 text-nowrap">
+                    @Html.DisplayFor(modelItem => item.CurrName)
+                </td>
+                <td class="col-3 text-nowrap">
+                    @Html.DisplayFor(modelItem => item.Note)
+                </td>
+                <td class="col-1 text-nowrap" style="text-align: right; padding-right: 20px ">
+                        <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-primary">Edit</a>
+                        <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
+</div>

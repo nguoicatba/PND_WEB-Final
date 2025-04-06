@@ -1,10 +1,13 @@
-﻿@model PND_WEB.Models.Unit
+﻿@model PND_WEB.Models.Currency
 
 @{
     ViewData["Title"] = "Create";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm Unit", SubTitle = "Tạo mới Unit" })
+<h1>Create</h1>
+
+<h4>Currency</h4>
+<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">
@@ -15,9 +18,9 @@
                 <span asp-validation-for="Code" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="UnitName" class="control-label"></label>
-                <input asp-for="UnitName" class="form-control" />
-                <span asp-validation-for="UnitName" class="text-danger"></span>
+                <label asp-for="CurrName" class="control-label"></label>
+                <input asp-for="CurrName" class="form-control" />
+                <span asp-validation-for="CurrName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Note" class="control-label"></label>
