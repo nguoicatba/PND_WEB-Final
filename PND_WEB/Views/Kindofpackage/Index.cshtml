@@ -1,0 +1,58 @@
+﻿@model IEnumerable<PND_WEB.Models.Kindofpackage>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách", SubTitle = "Danh sách chứa các thông tin liên quan" })
+
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PackageName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PackagesDescription)
+                    </th>
+                    <th></th>
+
+                    @* <th class="sort-numeric">Engine version</th> *@
+                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackageName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PackagesDescription)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
