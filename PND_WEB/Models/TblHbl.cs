@@ -1,79 +1,137 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
-namespace PND_WEB.Models;
-
-public partial class TblHbl
+namespace PND_WEB.Models
 {
-    [Key]
-    public string Hbl { get; set; } = null!;
+    [Table("tbl_HBL")]  
+    public partial class TblHbl
+    {
+        [Key]
+        [Column("HBL")]  
+        [MaxLength(50)]  
+        public string Hbl { get; set; } = null!;
 
-    public string? RequestId { get; set; }
+        [Column("Request_ID")]
+        [MaxLength(50)]  
+        public string? RequestId { get; set; }
 
-    public string? IssuePlaceH { get; set; }
+        [Column("Issue_placeH")]
+        [MaxLength(255)]  
+        public string? IssuePlaceH { get; set; }
 
-    public DateTime? IssueDateH { get; set; }
+        [Column("Issue_dateH")]
+        public DateTime? IssueDateH { get; set; }
 
-    public DateTime? OnBoardDateH { get; set; }
+        [Column("OnBoard_dateH")]
+        public DateTime? OnBoardDateH { get; set; }
 
-    public string? CustomerId { get; set; }
+        [Column("Customer_ID")]
+        [MaxLength(20)]  
+        public string? CustomerId { get; set; }
 
-    public string? Shipper { get; set; }
+        [Column("Shipper")]
+        [MaxLength(255)]  
+        public string? Shipper { get; set; }
 
-    public string? Cnee { get; set; }
+        [Column("CNEE")]
+        [MaxLength(255)]  
+        public string? Cnee { get; set; }
 
-    public string? NotifyParty { get; set; }
+        [Column("Notify_party")]
+        [MaxLength(255)]  
+        public string? NotifyParty { get; set; }
 
-    public string? BlType { get; set; }
+        [Column("BL_type")]
+        [MaxLength(100)] 
+        public string? BlType { get; set; }
 
-    public string NomFree { get; set; } = null!;
+        [Column("Nom_Free")]
+        [MaxLength(100)] 
+        public string NomFree { get; set; } = null!;
 
-    public string? ContSealNo { get; set; }
+        [Column("Cont_Seal_No")]
+        [MaxLength(1000)]  
+        public string? ContSealNo { get; set; }
 
-    public string? Volume { get; set; }
+        [Column("Volume")]
+        [MaxLength(255)]  
+        public string? Volume { get; set; }
 
-    public string? Quantity { get; set; }
+        [Column("Quantity")]
+        [MaxLength(255)]  
+        public string? Quantity { get; set; }
 
-    public string? GoodsDesciption { get; set; }
+        [Column("Goods_desciption")]
+        [MaxLength(255)]  
+        public string? GoodsDesciption { get; set; }
 
-    public double? GrossWeight { get; set; }
+        [Column("Gross_weight")]
+        public double? GrossWeight { get; set; }
 
-    public double? Tonnage { get; set; }
+        [Column("Tonnage")]
+        public double? Tonnage { get; set; }
 
-    public string? CustomsDeclarationNo { get; set; }
+        [Column("Customs_declaration_No")]
+        [MaxLength(100)]  
+        public string? CustomsDeclarationNo { get; set; }
 
-    public string? InvoiceNo { get; set; }
+        [Column("Invoice_No")]
+        [MaxLength(50)]  
+        public string? InvoiceNo { get; set; }
 
-    public string? NumberofOrigins { get; set; }
+        [Column("NumberofOrigins")]
+        [MaxLength(100)] 
+        public string? NumberofOrigins { get; set; }
 
-    public string? FreightPayable { get; set; }
+        [Column("Freight_Payable")]
+        [MaxLength(100)] 
+        public string? FreightPayable { get; set; }
 
-    public string? MarkNos { get; set; }
+        [Column("Mark_Nos")]
+        [MaxLength(1000)] 
+        public string? MarkNos { get; set; }
 
-    public bool? FreightCharge { get; set; }
+        [Column("Freight_charge")]
+        public bool? FreightCharge { get; set; }
 
-    public bool? Prepaid { get; set; }
+        [Column("Prepaid")]
+        public bool? Prepaid { get; set; }
 
-    public bool? Collect { get; set; }
+        [Column("Collect")]
+        public bool? Collect { get; set; }
 
-    public string? SiNo { get; set; }
+        [Column("SI_No")]
+        [MaxLength(20)]  
+        public string? SiNo { get; set; }
 
-    public string? Pic { get; set; }
+        [Column("PIC")]
+        [MaxLength(255)]  
+        public string? Pic { get; set; }
 
-    public DateTime? DoDate { get; set; }
+        [Column("DO_date")]
+        public DateTime? DoDate { get; set; }
 
-    public string? PicPhone { get; set; }
+        [Column("PIC_phone")]
+        [MaxLength(20)]  
+        public string? PicPhone { get; set; }
 
-    public virtual TblCnee? CneeNavigation { get; set; }
+      
+        [ForeignKey("RequestId")]
+        public virtual TblJob? Request { get; set; }
 
-    public virtual TblCustomer? Customer { get; set; }
+        [ForeignKey("CustomerId")]
+        public virtual TblCustomer? Customer { get; set; }
 
-    public virtual TblJob? Request { get; set; }
+        [ForeignKey("Shipper")]
+        public virtual TblShipper? ShipperNavigation { get; set; }
 
-    public virtual TblShipper? ShipperNavigation { get; set; }
+        [ForeignKey("Cnee")]
+        public virtual TblCnee? CneeNavigation { get; set; }
 
-    public virtual ICollection<TblConth> TblConths { get; set; } = new List<TblConth>();
+        public virtual ICollection<TblConth> TblConths { get; set; } = new List<TblConth>();
 
-    public virtual ICollection<TblInvoice> TblInvoices { get; set; } = new List<TblInvoice>();
+        public virtual ICollection<TblInvoice> TblInvoices { get; set; } = new List<TblInvoice>();
+    }
 }

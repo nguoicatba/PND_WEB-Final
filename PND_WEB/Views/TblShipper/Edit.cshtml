@@ -1,0 +1,49 @@
+﻿@model PND_WEB.Models.TblShipper
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>TblShipper</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Shipper" />
+            <div class="form-group">
+                <label asp-for="Saddress" class="control-label"></label>
+                <input asp-for="Saddress" class="form-control" />
+                <span asp-validation-for="Saddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Scity" class="control-label"></label>
+                <input asp-for="Scity" class="form-control" />
+                <span asp-validation-for="Scity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SpersonInCharge" class="control-label"></label>
+                <input asp-for="SpersonInCharge" class="form-control" />
+                <span asp-validation-for="SpersonInCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxId" class="control-label"></label>
+                <input asp-for="TaxId" class="form-control" />
+                <span asp-validation-for="TaxId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,65 @@
+﻿@model IEnumerable<PND_WEB.Models.TblShipper>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Shipper", SubTitle = "Danh sách Shipper " })
+
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Shipper)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Saddress)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Scity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.SpersonInCharge)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TaxId)
+                    </th>
+                    <th></th>
+                </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model) {
+                 <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Shipper)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Saddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Scity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SpersonInCharge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TaxId)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Shipper">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Shipper">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Shipper">Delete</a>
+                        </td>
+            
+        </tr>
+}
+    </tbody>
+
+</div>
+</div>

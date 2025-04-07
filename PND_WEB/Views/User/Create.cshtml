@@ -19,6 +19,26 @@
                 <input asp-for="Password" class="form-control" placeholder="Password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
+            <div>
+                <label asp-for="Staff_Name" class="control-label"></label>
+                <input asp-for="Staff_Name" class="form-control" placeholder="Họ tên" />
+                <span asp-validation-for="Staff_Name" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label asp-for="DOB" class="control-label"></label>
+                <input asp-for="DOB" class="form-control" placeholder="Ngày sinh" />
+                <span asp-validation-for="DOB" class="text-danger"></span>
+            </div>
+
+            <div>
+                <label asp-for="Role_Id" class="control-label"></label>
+                <select asp-for="Role_Id" class="form-control" asp-items="ViewBag.Roles"> </select>
+                <span asp-validation-for="Role_Id" class="text-danger"></span>
+            </div>
+                
+               
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

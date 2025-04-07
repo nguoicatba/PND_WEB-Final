@@ -2,28 +2,50 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PND_WEB.Models;
 
+[Table("tbl_TUTT")] // Bảng Tạm Ứng Thanh Toán
 public partial class TblTutt
 {
     [Key]
-    [DisplayName("Số Đơn")]   
+    [Column("SoTUTT")]
+    [MaxLength(50)]
+    [DisplayName("Số Đơn")]
     public string SoTutt { get; set; } = null!;
+
+    [Column("Ngay")]
     [DisplayName("Ngày tạo")]
     public DateTime? Ngay { get; set; }
+
+    [Column("NhanvienTUTT")]
+    [MaxLength(100)]
     [DisplayName("Nhân viên thực hiện")]
     public string? NhanvienTutt { get; set; }
+
+    [Column("Noi_dung")]
+    [MaxLength(255)]
     [DisplayName("Nội dung")]
     public string? NoiDung { get; set; }
 
+    [Column("xacnhanduyet")]
+    [DisplayName("Xác nhận duyệt")]
     public bool? xacnhanduyet { get; set; }
+
+    [Column("ketoan")]
     [DisplayName("Kế toán xác nhận")]
     public bool? Ketoan { get; set; }
-    [DisplayName("Ceo xác nhận")]
+
+    [Column("ceo")]
+    [DisplayName("CEO xác nhận")]
     public bool? Ceo { get; set; }
+
+    [Column("Ghi_chu")]
+    [MaxLength(255)]
     [DisplayName("Ghi chú")]
     public string? GhiChu { get; set; }
 
+  
     public virtual ICollection<TblTuttPhi> TblTuttPhis { get; set; } = new List<TblTuttPhi>();
 }

@@ -160,9 +160,9 @@ create table tbl_SHIPPER(
 
 create table tbl_CNEE(
 	CNEE nvarchar(255) not null primary key,
-	VCNEE nvarchar(255),				-- new one
+	VCNEE nvarchar(255),			
 	CAddress nvarchar(1000),
-	VAddress nvarchar(1000),			-- new one
+	VAddress nvarchar(1000),			
 	CCity nvarchar(100),
 	CPerson_in_charge nvarchar(255),
 	TaxID	nvarchar(20),
@@ -192,14 +192,14 @@ create table tbl_TUTT(
 
 );
 
-create table tbl_TUTT_PHI(			-- thanh toan khong cho du an
+create table tbl_TUTT_PHI(			-
 	ID int not null primary key identity(1,1),
 	SoHoaDon nvarchar(20),
 	TenPhi nvarchar(255),
 	TU bit DEFAULT 0,
 	TT bit DEFAULT 0,
 	SoTien float default 0,
-	NghiChu nvarchar(255),
+	GhiChu nvarchar(255),
 
 	SoTUTT nvarchar(50) foreign key references tbl_TUTT(SoTUTT),
 );

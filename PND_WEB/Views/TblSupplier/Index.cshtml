@@ -1,0 +1,62 @@
+﻿@model IEnumerable<PND_WEB.Models.TblSupplier>
+
+@{
+    ViewData["Title"] = "Index";
+}
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Supplier", SubTitle = "Danh sách chứa các thông tin liên quan tới đơn vị nhà cung cấp" })
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.NameSup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Typer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressSup)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LccFee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameSup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Typer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressSup)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LccFee)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.SupplierId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.SupplierId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.SupplierId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>

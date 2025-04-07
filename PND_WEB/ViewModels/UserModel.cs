@@ -11,6 +11,15 @@ namespace PND_WEB.ViewModels
         [DataType(DataType.Password),Required(ErrorMessage ="Làm ơn nhập password")]
         public string? Password { get; set; }
 
+        public string? Staff_Name { get; set; }
+
+        public DateTime? DOB { get; set; }  
+
+        public string? Role_Id { get; set; }
+
+
+
+
 
     }
 }

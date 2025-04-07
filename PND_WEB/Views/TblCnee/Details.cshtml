@@ -1,0 +1,75 @@
+﻿@model PND_WEB.ViewModels.CneeViewModel
+
+@{
+    ViewData["Title"] = "Chi tiết Cnee";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết Cnee", SubTitle = "" })
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Chi tiết Cnee</div>
+    </div>
+
+    <div class="card-body">
+        
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Cnee)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Cnee)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Vcnee)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Vcnee)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Caddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Caddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Vaddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Vaddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Ccity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Ccity)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.CpersonInCharge)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.CpersonInCharge)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.TaxId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.TaxId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Haddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Haddress)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Cnee.Cnee">Edit</a> |
+            <a asp-action="Index">Back to List</a>
+        </div>
+    </div>
+</div>
+
+

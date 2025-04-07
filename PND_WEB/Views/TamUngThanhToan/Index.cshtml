@@ -1,0 +1,188 @@
+﻿@model IEnumerable<PND_WEB.Models.TblTutt>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">Chưa đề nghị duyệt</div>
+            <div class="card-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active">Tạm ứng</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link">Thanh toán tạm ứng</a>
+                        </li>
+
+                    </ul>
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        <p>
+                            <a asp-action="Create">Tạo tạm ứng mới</a>
+                        </p>
+
+
+                        <table class="table table-striped my-4 w-100" id="datatable1">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SoTutt)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NhanvienTutt)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoiDung)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Ngay)
+                                    </th>
+
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    @if (item.xacnhanduyet == true)
+                                        continue;
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SoTutt)
+                                        </td>
+                                       
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NhanvienTutt)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NoiDung)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ngay)
+                                        </td>
+                                      
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.SoTutt">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.SoTutt">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.SoTutt">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">Đã đề nghị duyệt</div>
+            <div class="card-body">
+           
+
+                        <table class="table table-striped my-4 w-100" id="datatable4">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.SoTutt)
+                                    </th>
+
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NhanvienTutt)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.NoiDung)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Ngay)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Ketoan)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Ceo)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.GhiChu)
+                                    </th>
+
+
+
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    @if (item.xacnhanduyet == false)
+                                        continue;
+
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SoTutt)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NhanvienTutt)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.NoiDung)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ngay)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ketoan)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Ceo)
+                                        </td>
+
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.GhiChu)
+                                        </td>
+
+
+
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.SoTutt">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.SoTutt">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.SoTutt">Delete</a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+              
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+
+                                            

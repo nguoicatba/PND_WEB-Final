@@ -1,0 +1,60 @@
+﻿@model PND_WEB.Models.TblCnee
+
+@{
+    ViewData["Title"] = "Edit";
+}
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa CNEE", SubTitle = "Chỉnh sửa CNEE" })
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Cnee" />
+            <div class="form-group">
+                <label asp-for="Vcnee" class="control-label"></label>
+                <input asp-for="Vcnee" class="form-control" />
+                <span asp-validation-for="Vcnee" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Caddress" class="control-label"></label>
+                <input asp-for="Caddress" class="form-control" />
+                <span asp-validation-for="Caddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Vaddress" class="control-label"></label>
+                <input asp-for="Vaddress" class="form-control" />
+                <span asp-validation-for="Vaddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Ccity" class="control-label"></label>
+                <input asp-for="Ccity" class="form-control" />
+                <span asp-validation-for="Ccity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="CpersonInCharge" class="control-label"></label>
+                <input asp-for="CpersonInCharge" class="form-control" />
+                <span asp-validation-for="CpersonInCharge" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TaxId" class="control-label"></label>
+                <input asp-for="TaxId" class="form-control" />
+                <span asp-validation-for="TaxId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Haddress" class="control-label"></label>
+                <input asp-for="Haddress" class="form-control" />
+                <span asp-validation-for="Haddress" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,61 @@
+﻿@model PND_WEB.ViewModels.CneeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Cập nhật thêm cho CNEE @Model.Cnee.Cnee</div>
+        <div class="text-sm">
+                Cập nhật CNEE với mã @Model.Cnee.Cnee  và tên @Model.Cnee.Vcnee
+
+        </div>
+    </div>
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" asp-controller="TblCneeAdd">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead>
+                <tr>
+
+                    <th data-priority="1">Adds</th>
+                    <th>Place</th>
+                    <th>PersonInCharge</th>
+                    <th>Action</th>
+
+                    @* <th class="sort-numeric">Engine version</th> *@
+                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.CneeAdds)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Adds)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Place)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PersonInCharge)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-controller="TblCneeAdd" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-controller="TblCneeAdd" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-controller="TblCneeAdd" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+

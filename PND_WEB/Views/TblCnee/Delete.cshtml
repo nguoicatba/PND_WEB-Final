@@ -1,0 +1,63 @@
+﻿@model PND_WEB.Models.TblCnee
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+
+@Component.InvokeAsync("HeaderBody", new { Title = "Xác nhận xóa", SubTitle = "Bạn chắc chắn muốn xóa ?" }) 
+
+<div>
+    <h4>TblCnee</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vcnee)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vcnee)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Caddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Caddress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vaddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vaddress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ccity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ccity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CpersonInCharge)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CpersonInCharge)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaxId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaxId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Haddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Haddress)
+        </dd>
+    </dl>
+    
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="Cnee" />
+        <input type="submit" value="Delete" class="btn btn-danger" /> |
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

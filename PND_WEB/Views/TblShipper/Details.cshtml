@@ -1,0 +1,42 @@
+﻿@model PND_WEB.Models.TblShipper
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblShipper</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Saddress)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Saddress)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Scity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Scity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SpersonInCharge)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SpersonInCharge)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.TaxId)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.TaxId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.Shipper">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

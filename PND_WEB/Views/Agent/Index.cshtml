@@ -1,0 +1,63 @@
+﻿@model IEnumerable<PND_WEB.Models.Agent>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Agent", SubTitle = "Danh sách thông tin đại lý" })
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary">Create New</a>
+        </p>
+
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
+                    <th>@Html.DisplayNameFor(model => model.AgentName)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AgentNamekd)
+                        
+                    </th>
+               
+                     <th>
+                       @Html.DisplayNameFor(model => model.AgentAdd)
+                    </th>
+                    <th>
+                       @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                    <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+            @foreach (var item in Model) {
+             <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AgentName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AgentNamekd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AgentAdd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Note)
+            </td>
+                <td class="col-1 text-nowrap" style="text-align: right; padding-right: 20px">
+                    <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-primary">Edit</a>
+                @* <a asp-action="Details" asp-route-id="@item.Code">Details</a> | *@
+                    <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>
+</div>

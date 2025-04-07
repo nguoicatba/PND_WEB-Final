@@ -21,6 +21,8 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [Route("Login")]
+        [Route("Account/Login")]
         public async Task<IActionResult> Login(string url)
         {
             return View(new LoginViewModel {ReturnUrl =url });
@@ -42,35 +44,12 @@ namespace PND_WEB.Controllers
             return View(loginViewModel);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Logout()
         {
-            return View();
-
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login", "Account");
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Create(UserModel userModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = new AppUserModel()
-                {
-                    UserName = userModel.UserName,
-                    Status = "Active",
-                    createDate = DateTime.Now
-                };
-                IdentityResult result = await _userManager.CreateAsync(user, userModel.Password);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View(userModel);
-        }
+        
     }
 }

@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PND_WEB.Models.AppUserModel>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách user", SubTitle = "Danh sách quản lý thông tin user" })
+
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Id)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.PasswordHash)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Staff_Name)
+                    </th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.DOB)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.createDate)
+                    </th>
+
+                    
+
+                    <th>Action</th>
+
+                    @* <th class="sort-numeric">Engine version</th> *@
+                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PasswordHash)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Staff_Name)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DOB)
+                        </td>
+                        
+                        <td>
+                            @Html.DisplayFor(modelItem => item.createDate)
+                        </td>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
