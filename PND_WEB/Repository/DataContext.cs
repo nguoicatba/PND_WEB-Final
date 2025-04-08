@@ -7,6 +7,8 @@ namespace PND_WEB.Repository
     public class DataContext :IdentityDbContext<AppUserModel>
 
     {
+      
+
         public DataContext(DbContextOptions<DataContext> options)
             : base(options)
         {

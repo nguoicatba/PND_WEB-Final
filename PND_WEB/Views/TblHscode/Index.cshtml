@@ -1,0 +1,141 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+@using X.PagedList.Mvc.Core
+@model X.PagedList.IPagedList<TblHscode>
+
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách HSCODE", SubTitle = "" })
+
+<form method="get" asp-action="Search" style="padding: 20px">
+    <select name="matchType">
+        <option value="exact">Chính xác</option>
+        <option value="suggest">Gợi ý</option>
+    </select>
+    <input type="text" name="s" placeholder="Nhập từ khóa" required value="@ViewBag.SearchTerm" />
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>HS Code</th>
+            <th>Mô tả hàng hóa (V)</th>
+            <th>Mô tả hàng hóa (E)</th>
+            <th>Chi tiết</th>
+        </tr>
+    </thead>
+    <tbody id="data-container">
+        @foreach (var item in Model)
+        {
+            <tr style="color: @(GetTextColor(item.MoTaHangHoaV))">
+                <td>@item.HsCode</td>
+                <td>@item.MoTaHangHoaV</td>
+                <td>@item.MoTaHangHoaE</td>
+                <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Chi tiết</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Loader -->
+<div id="loading" style="display: none; text-align: center;">
+    <img src="~/images/loader.gif" alt="Loading..." />
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    function getTextColor(text) {
+        let count = (text.match(/-/g) || []).length; // Đếm tất cả dấu '-'
+
+        let colors = {
+            0: "#002776",
+            1: "#0000EE",
+            2: "#C00000",
+            3: "#588C38",
+            4: "#7A34AE",
+            5: "#833C0C",
+            6: "#A27800"
+        };
+        return colors[count] || "#000";
+    }
+
+    function applyTextColors() {
+        $("#data-container tr").each(function () {
+            let descriptionCell = $(this).find("td:nth-child(2)"); // Cột MoTaHangHoaV
+            let text = descriptionCell.text();
+            $(this).css("color", getTextColor(text));
+        });
+    }
+
+    $(document).ready(function () {
+        applyTextColors();
+
+        var page = 2; // Bắt đầu từ trang 2
+        var isLoading = false;
+        var hasNextPage = true;
+
+        $(window).scroll(function () {
+            if (isLoading || !hasNextPage) return;
+            if ($(window).scrollTop() + $(window).height() >= $(document).height() - 100) {
+                loadMoreData();
+            }
+        });
+
+        function loadMoreData() {
+            isLoading = true;
+            $("#loading").show();
+
+            $.ajax({
+                url: '@Url.Action("Index", "TblHscode")',
+                type: "GET",
+                data: { page: page },
+                headers: { "X-Requested-With": "XMLHttpRequest" },
+                success: function (response) {
+                    if (response.data.length > 0) {
+                        $.each(response.data, function (index, item) {
+                            let row = $(`
+                                <tr style="color: ${getTextColor(item.moTaHangHoaV)};">
+                                    <td>${item.hsCode}</td>
+                                    <td>${item.moTaHangHoaV}</td>
+                                    <td>${item.moTaHangHoaE}</td>
+                                    <td><a href="/TblHscode/Details/${item.id}" class="btn btn-info">Chi tiết</a></td>
+                                </tr>
+                            `);
+                            $("#data-container").append(row);
+                        });
+                        page++;
+                    } else {
+                        hasNextPage = false;
+                    }
+                },
+                complete: function () {
+                    isLoading = false;
+                    $("#loading").hide();
+                }
+            });
+        }
+    });
+</script>
+
+@functions {
+    string GetTextColor(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return "#000";
+        int count = text.Count(c => c == '-'); // Đếm số dấu '-'
+
+        var colors = new Dictionary<int, string>
+        {
+            { 0, "#002776" },
+            { 1, "#0000EE" },
+            { 2, "#C00000" },
+            { 3, "#588C38" },
+            { 4, "#7A34AE" },
+            { 5, "#833C0C" },
+            { 6, "#A27800" }
+        };
+
+        return colors.ContainsKey(count) ? colors[count] : "#000";
+    }
+}

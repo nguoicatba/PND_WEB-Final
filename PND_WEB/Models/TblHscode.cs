@@ -1,94 +1,97 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PND_WEB.Models;
 
+[Table("tbl_HSCODE")]
 public partial class TblHscode
 {
     [Key]
+    [Column("ID")]
+    [DisplayName("ID")]
     public int Id { get; set; }
 
-    [MaxLength(20,ErrorMessage ="Độ dài HS code tối đa 20")]
+    [MaxLength(20, ErrorMessage = "Độ dài HS code tối đa 20")]
+    [Column("HS_CODE")]
+    [DisplayName("Mã HS Code")]
     public string? HsCode { get; set; }
-    
+
+    [Column("Mo_ta_hang_hoaV")]
+    [DisplayName("Mô tả hàng hóa (VI)")]
     public string? MoTaHangHoaV { get; set; }
 
+    [Column("Mo_ta_hang_hoaE")]
+    [DisplayName("Mô tả hàng hóa (EN)")]
     public string? MoTaHangHoaE { get; set; }
 
+    [MaxLength(50)]
+    [Column("Don_vi_tinh")]
+    [DisplayName("Đơn vị tính")]
     public string? DonViTinh { get; set; }
 
-    public double? ThueNkTt { get; set; }
+    [Column("Thue_NK_TT")]
+    public double? ThueNkTt { get; set; } = 0;
 
-    public double? ThueNkUd { get; set; }
+    [Column("Thue_NK_UD")]
+    public double? ThueNkUd { get; set; } = 0;
 
+    [Column("Thue_VAT")]
+    [MaxLength(100)]
     public string? ThueVat { get; set; }
 
-    public double? Acfta { get; set; }
+    public double? Acfta { get; set; } = 0;
+    public double? Atiga { get; set; } = 0;
+    public double? Ajcep { get; set; } = 0;
+    public double? Vjepa { get; set; } = 0;
+    public double? Akfta { get; set; } = 0;
+    public double? Aanzfta { get; set; } = 0;
+    public double? Aifta { get; set; } = 0;
+    public double? Vkfta { get; set; } = 0;
+    public double? Vcfta { get; set; } = 0;
+    public double? VnEaeu { get; set; } = 0;
+    public double? Cptpp { get; set; } = 0;
+    public double? Ahkfta { get; set; } = 0;
+    public double? Vncu { get; set; } = 0;
+    public double? Evfta { get; set; } = 0;
+    public double? Ukvfta { get; set; } = 0;
+    public double? VnLao { get; set; } = 0;
+    public double? RceptA { get; set; } = 0;
+    public double? RceptB { get; set; } = 0;
+    public double? RceptC { get; set; } = 0;
+    public double? RceptD { get; set; } = 0;
+    public double? RceptE { get; set; } = 0;
+    public double? RceptF { get; set; } = 0;
 
-    public double? Atiga { get; set; }
+    public double? Ttdb { get; set; } = 0;
+    public double? Xk { get; set; } = 0;
+    public double? Xkcptpp { get; set; } = 0;
+    public double? Xkev { get; set; } = 0;
+    public double? Xkukv { get; set; } = 0;
 
-    public double? Ajcep { get; set; }
-
-    public double? Vjepa { get; set; }
-
-    public double? Akfta { get; set; }
-
-    public double? Aanzfta { get; set; }
-
-    public double? Aifta { get; set; }
-
-    public double? Vkfta { get; set; }
-
-    public double? Vcfta { get; set; }
-
-    public double? VnEaeu { get; set; }
-
-    public double? Cptpp { get; set; }
-
-    public double? Ahkfta { get; set; }
-
-    public double? Vncu { get; set; }
-
-    public double? Evfta { get; set; }
-
-    public double? Ukvfta { get; set; }
-
-    public double? VnLao { get; set; }
-
-    public double? RceptA { get; set; }
-
-    public double? RceptB { get; set; }
-
-    public double? RceptC { get; set; }
-
-    public double? RceptD { get; set; }
-
-    public double? RceptE { get; set; }
-
-    public double? RceptF { get; set; }
-
-    public double? Ttdb { get; set; }
-
-    public double? Xk { get; set; }
-
-    public double? Xkcptpp { get; set; }
-
-    public double? Xkev { get; set; }
-
-    public double? Xkukv { get; set; }
-
+    [MaxLength(100)]
+    [Column("Thue_BVMT")]
     public string? ThueBvmt { get; set; }
 
+    [MaxLength(1000)]
+    [Column("Chinh_sach_hang_hoa")]
     public string? ChinhSachHangHoa { get; set; }
 
+    [MaxLength(50)]
+    [Column("Giam_VAT")]
     public string? GiamVat { get; set; }
 
+    [MaxLength(500)]
+    [Column("Chi_tiet_giam_VAT")]
     public string? ChiTietGiamVat { get; set; }
 
+    [Column("Mo_ta_khong_dau")]
     public string? MoTaKhongDau { get; set; }
 
+    [Column("Ghi_chu")]
     public string? GhiChu { get; set; }
 
+    [Column("Ghi_chu_khong_dau")]
     public string? GhiChuKhongDau { get; set; }
 }

@@ -40,12 +40,12 @@ namespace PND_WEB.Models
         [MaxLength(255)]
         public string? Contact { get; set; }
 
-        [Column("Email")] // Email công ty
+        [Column("Email")] 
         [MaxLength(255)]
         [EmailAddress(ErrorMessage = "Email không hợp lệ")]
         public string? Email { get; set; }
 
-        // Danh sách các HBL liên quan đến khách hàng này
+      
         public virtual ICollection<TblHbl> TblHbls { get; set; } = new List<TblHbl>();
     }
 }
