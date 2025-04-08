@@ -1,0 +1,82 @@
+﻿@model PND_WEB.Models.TblJob
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạo mới job", SubTitle = "Tạo mới job" })
+
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Job Form Stack</div>
+            <div class="card-body">
+                <form asp-action="Create">
+                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <input type="hidden" asp-for="JobId" value="0" />
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GoodsType" class="control-label">Kiểu hàng hóa</label>
+                            <select asp-for="GoodsType" class="form-control" asp-items="ViewBag.GoodsType"></select>
+                            <span asp-validation-for="GoodsType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Etd" class="control-label"></label>
+                            <input asp-for="Etd" class="form-control" />
+                            <span asp-validation-for="Etd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Eta" class="control-label"></label>
+                            <input asp-for="Eta" class="form-control" />
+                            <span asp-validation-for="Eta" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                          
+                            <label asp-for="Agent" class="control-label"></label>
+                            <select asp-for="Agent" class="form-control" asp-items="ViewBag.Agent"></select>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Carrier" class="control-label"></label>
+                            <select asp-for="Carrier" class="form-control" asp-items="ViewBag.Carrier"></select>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+
+                    
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+        <!-- END card-->
+ </div>
+
+
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

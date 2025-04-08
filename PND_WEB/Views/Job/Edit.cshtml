@@ -1,0 +1,192 @@
+﻿@model PND_WEB.Models.TblJob
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa job", SubTitle = "Chỉnh sửa job" })
+
+
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Edit Job</div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+                        <div class="from-group col-2">
+                            <label asp-for="JobId" class="control-label">Job ID*</label>
+                            <input asp-for="JobId" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="JobId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="JobDate" class="control-label"></label>
+                            <input asp-for="JobDate" class="form-control" />
+                            <span asp-validation-for="JobDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="VesselName" class="control-label"></label>
+                            <input asp-for="VesselName" class="form-control" />
+                            <span asp-validation-for="VesselName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="VoyageName" class="control-label"></label>
+                            <input asp-for="VoyageName" class="form-control" />
+                            <span asp-validation-for="VoyageName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Mode" class="control-label"></label>
+                            <input asp-for="Mode" class="form-control" />
+                            <span asp-validation-for="Mode" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="YunLock" class="control-label"></label>
+                            <input asp-for="YunLock" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="YunLock" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label asp-for="Mbl" class="control-label"></label>
+                            <input asp-for="Mbl" class="form-control" />
+                            <span asp-validation-for="Mbl" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="GoodsType" class="control-label">Kiểu hàng hóa</label>
+                            <input asp-for="GoodsType" class="form-control" readonly="readonly"></input>
+                            <span asp-validation-for="GoodsType" class="text-danger"></span>
+                        </div>
+                      
+                        <div class="form-group col-2">
+                            <label asp-for="Etd" class="control-label">ETD*</label>
+                            <input asp-for="Etd" class="form-control" />
+                            <span asp-validation-for="Etd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Eta" class="control-label">ETA*</label>
+                            <input asp-for="Eta" class="form-control" />
+                            <span asp-validation-for="Eta" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="IssueDateM" class="control-label"></label>
+                            <input asp-for="IssueDateM" class="form-control" />
+                            <span asp-validation-for="IssueDateM" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="OnBoardDateM" class="control-label"></label>
+                            <input asp-for="OnBoardDateM" class="form-control" />
+                            <span asp-validation-for="OnBoardDateM" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-2">
+                            <label asp-for="Pol" class="control-label">Port of Loading</label>
+                            <input asp-for="Pol" class="form-control" />
+                            <span asp-validation-for="Pol" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Pod" class="control-label">Port of Destination</label>
+                            <input asp-for="Pod" class="form-control" />
+                            <span asp-validation-for="Pod" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Podel" class="control-label">Port of Delivery</label>
+                            <input asp-for="Podel" class="form-control" />
+                            <span asp-validation-for="Podel" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Podis" class="control-label">Port of Discharge</label>
+                            <input asp-for="Podis" class="form-control" />
+                            <span asp-validation-for="Podis" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="PlaceofReceipt" class="control-label"></label>
+                            <input asp-for="PlaceofReceipt" class="form-control" />
+                            <span asp-validation-for="PlaceofReceipt" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="PlaceofDelivery" class="control-label"></label>
+                            <input asp-for="PlaceofDelivery" class="form-control" />
+                            <span asp-validation-for="PlaceofDelivery" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-row">
+                        
+
+                        <div class="form-group col-2">
+
+                            <label asp-for="Agent" class="control-label"></label>
+                            <select asp-for="Agent" class="form-control" asp-items="ViewBag.Agent"></select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Carrier" class="control-label"></label>
+                            <select asp-for="Carrier" class="form-control" asp-items="ViewBag.Carrier"></select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="PreCariageBy" class="control-label"></label>
+                            <input asp-for="PreCariageBy" class="form-control" />
+                            <span asp-validation-for="PreCariageBy" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label asp-for="Link" class="control-label"></label>
+                            @Html.TextArea("Link", "my default content for textarea", new { @class = "form-control" })
+                            <span asp-validation-for="Link" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label asp-for="Ycompany" class="control-label"></label>
+                            @Html.TextArea("Ycompany", "my default content for textarea", new { @class = "form-control" })
+                            <span asp-validation-for="Ycompany" class="text-danger"></span>
+
+                        </div>
+
+                    
+                    </div>
+
+                    
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+        <!-- END card-->
+    </div>
+
+
+
+
+
+
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
