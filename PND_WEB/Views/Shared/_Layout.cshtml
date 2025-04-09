@@ -77,7 +77,7 @@
                                 <div class="list-group">
                                     <!-- list item-->
                                     <div class="list-group-item list-group-item-action">
-                                        <a href="template.html">
+                                        <a asp-controller="Account" asp-action="UpdateAccount" asp-route-name="@User.Identity.Name">
                                             <div class="media">
                                                 <div class="align-self-start mr-2">
                                                     <em class="fa fa-user text-primary"></em>
@@ -91,7 +91,7 @@
                                     </div>
                                     <!-- list item-->
                                     <div class="list-group-item list-group-item-action">
-                                        <a asp-controller="Account" asp-action="ChangePassword">
+                                        <a asp-controller="Account" asp-action="ChangePassword" asp-route-name=@User.Identity.Name>
                                             <div class="media">
                                                 <div class="align-self-start mr-2">
                                                     <em class="fa fa-lock text-success"></em>
@@ -333,6 +333,11 @@
                                 <li class=" ">
                                     <a asp-controller="User" asp-action="Index">
                                         <span>Cập nhật tài khoản</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a asp-controller="Role" asp-action="Index">
+                                        <span>Quản lý quyền</span>
                                     </a>
                                 </li>
 

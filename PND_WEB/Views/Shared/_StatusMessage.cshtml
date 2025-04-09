@@ -1,0 +1,14 @@
+﻿@model string
+@if (!string.IsNullOrEmpty(Model))
+{
+    var status = Model.StartsWith("Error") ? "danger" : "success";
+    <div class="alert alert-@status alert-dismissible fade show" role="alert">
+        <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        @Model
+    </div>
+
+
+}
+
