@@ -50,18 +50,26 @@ public partial class TblHscode
     public double? Aifta { get; set; } = 0;
     public double? Vkfta { get; set; } = 0;
     public double? Vcfta { get; set; } = 0;
+    [Column("VN_EAEU")]
     public double? VnEaeu { get; set; } = 0;
     public double? Cptpp { get; set; } = 0;
     public double? Ahkfta { get; set; } = 0;
     public double? Vncu { get; set; } = 0;
     public double? Evfta { get; set; } = 0;
     public double? Ukvfta { get; set; } = 0;
+    [Column("VN_LAO")]
     public double? VnLao { get; set; } = 0;
+    [Column("RCEPT_A")]
     public double? RceptA { get; set; } = 0;
+    [Column("RCEPT_B")]
     public double? RceptB { get; set; } = 0;
+    [Column("RCEPT_C")]
     public double? RceptC { get; set; } = 0;
+    [Column("RCEPT_D")]
     public double? RceptD { get; set; } = 0;
+    [Column("RCEPT_E")]
     public double? RceptE { get; set; } = 0;
+    [Column("RCEPT_F")]
     public double? RceptF { get; set; } = 0;
 
     public double? Ttdb { get; set; } = 0;
