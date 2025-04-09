@@ -50,6 +50,47 @@ namespace PND_WEB.Controllers
             return RedirectToAction("Login", "Account");
         }
 
-        
+        [HttpGet]
+        [Route("ChangePassword")]
+
+        public async Task<IActionResult> ChangePassword()
+        {
+           
+            var model = new ChangePasswordViewModel
+            {
+                UserId = "",
+                OldPassword = "",
+                NewPassword = "",
+                ConfirmPassword = ""
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null)
+                {
+                    return NotFound();
+                }
+                var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError("", error.Description);
+                }
+            }
+            return View(model);
+        }
+
+
+
+
     }
 }
