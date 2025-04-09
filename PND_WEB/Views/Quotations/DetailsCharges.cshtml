@@ -1,0 +1,89 @@
+﻿@using PND_WEB.ViewModels
+@model QuotationsAIOController
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Mã báo giá:</th>
+        <td>@Model.Quotation.QuotationId</td>
+    </tr>
+    <tr>
+        <th>Trạng thái:</th>
+        <td>@Model.Quotation.Qsatus</td>
+    </tr>
+    <tr>
+        <th>Nhân viên:</th>
+        <td>@Model.Quotation.StaffName</td>
+    </tr>
+    <tr>
+        <th>Khách hàng:</th>
+        <td>@Model.Quotation.CusTo</td>
+    </tr>
+    <tr>
+        <th>Liên hệ khách:</th>
+        <td>@Model.Quotation.CusContact</td>
+    </tr>
+    <tr>
+        <th>Ngày tạo:</th>
+        <td>@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Hiệu lực:</th>
+        <td>@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</td>
+    </tr>
+    <tr>
+        <th>Điều khoản:</th>
+        <td>@Model.Quotation.Term</td>
+    </tr>
+    <tr>
+        <th>Hàng hóa:</th>
+        <td>@Model.Quotation.Commodity</td>
+    </tr>
+    <tr>
+        <th>Khối lượng:</th>
+        <td>@Model.Quotation.Vol</td>
+    </tr>
+    <tr>
+        <th>Điểm đi (POL):</th>
+        <td>@Model.Quotation.Pol</td>
+    </tr>
+    <tr>
+        <th>Điểm đến (POD):</th>
+        <td>@Model.Quotation.Pod</td>
+    </tr>
+</table>
+
+<h3>Chi tiết chi phí</h3>
+<p>
+    <a asp-action="CreateCharges" asp-controller="Quotations">Create New</a>
+</p>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Tên phí</th>
+            <th>Số lượng</th>
+            <th>Đơn vị</th>
+            <th>Đơn giá</th>
+            <th>Tiền tệ</th>
+            <th>Ghi chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.QuotationsCharges)
+        {
+            <tr>
+                <td>@item.ChargeName</td>
+                <td>@item.Quantity</td>
+                <td>@item.Unit</td>
+                <td>@item.Rate?.ToString("N2")</td>
+                <td>@item.Currency</td>
+                <td>@item.Notes</td>
+            </tr>
+        }
+    </tbody>
+</table>

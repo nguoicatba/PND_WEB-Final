@@ -4361,15 +4361,21 @@ table.dataTable {
     color: inherit; }
 
 .dataTables_length {
-  text-align: center; }
+    display: none;
+    text-align: center;
+}
   @media (min-width: 768px) {
     .dataTables_length {
-      float: right; } }
-  .dataTables_length select {
+        display: none;
+        float: right;
+    } }
+.dataTables_length select {
+    display: none;
     border: 1px solid rgba(160, 160, 160, 0.25);
     margin-left: 10px;
     padding: 0.25rem .5rem;
-    color: inherit; }
+    color: inherit;
+}
 
 .dt-buttons {
   display: flex;

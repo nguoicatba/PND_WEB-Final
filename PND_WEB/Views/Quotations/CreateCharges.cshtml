@@ -1,0 +1,43 @@
+﻿@model PND_WEB.ViewModels.QuotationsAIOController
+
+@{
+    ViewData["Title"] = "Tạo báo giá mới";
+}
+
+<h2>Tạo báo giá mới</h2>
+
+<form asp-action="Create" method="post">
+
+    <h4>Chi tiết chi phí</h4>
+    <div id="charges">
+        @for (int i = 0; i < Model.QuotationsCharges.Count; i++)
+        {
+            <div class="border p-3 mb-2 rounded">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label>Tên phí</label>
+                        <input asp-for="QuotationsCharges[@i].ChargeName" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Số lượng</label>
+                        <input asp-for="QuotationsCharges[@i].Quantity" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Đơn giá</label>
+                        <input asp-for="QuotationsCharges[@i].Rate" class="form-control" />
+                    </div>
+                    <div class="col-md-2">
+                        <label>Tiền tệ</label>
+                        <input asp-for="QuotationsCharges[@i].Currency" class="form-control" />
+                    </div>
+                    <div class="col-md-3">
+                        <label>Ghi chú</label>
+                        <input asp-for="QuotationsCharges[@i].Notes" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <button type="submit" class="btn btn-success">Tạo báo giá</button>
+</form>
