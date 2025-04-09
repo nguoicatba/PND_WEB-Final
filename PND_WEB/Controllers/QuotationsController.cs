@@ -62,28 +62,51 @@ namespace PND_WEB.Controllers
             return View(viewModel);
         }
 
+        public IActionResult CreateCharges()
+        {
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId");
+            return View();
+        }
+
+        // POST: QuotationsCharges/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCharges(QuotationsAIOController model)
+        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
         {
             if (ModelState.IsValid)
             {
-                _context.Quotations.Add(model.Quotation);
+                _context.Add(quotationsCharge);
                 await _context.SaveChangesAsync();
-
-                // Thêm các dòng phí
-                foreach (var charge in model.QuotationsCharges)
-                {
-                    charge.QuotationId = model.Quotation.QuotationId;
-                    _context.QuotationsCharges.Add(charge);
-                }
-
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), new { id = model.Quotation.QuotationId });
+                return RedirectToAction(nameof(Index));
             }
-
-            return View(model);
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            return View(quotationsCharge);
         }
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> CreateCharges(QuotationsAIOController model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        _context.Quotations.Add(model.Quotation);
+        //        await _context.SaveChangesAsync();
+
+        //        // Thêm các dòng phí
+        //        foreach (var charge in model.QuotationsCharges)
+        //        {
+        //            charge.QuotationId = model.Quotation.QuotationId;
+        //            _context.QuotationsCharges.Add(charge);
+        //        }
+
+        //        await _context.SaveChangesAsync();
+        //        return RedirectToAction(nameof(Details), new { id = model.Quotation.QuotationId });
+        //    }
+
+        //    return View(model);
+        //}
 
 
         // GET: Quotations/Create
