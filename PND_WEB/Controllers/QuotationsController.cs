@@ -68,11 +68,12 @@ namespace PND_WEB.Controllers
             if (quotation == null)
                 return NotFound();
 
-            var model = new QuotationsAIOController
+            var model = new QuotationsCharge
             {
-                Quotation = quotation,
-                QuotationsSelectList = new SelectList(_context.Quotations, "QuotationId", "QuotationId", id)
+                QuotationId = id
             };
+
+            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", id);
 
             return View(model);
         }
