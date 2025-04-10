@@ -1,0 +1,51 @@
+﻿@model IEnumerable<PND_WEB.ViewModels.UserRole>
+
+
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách quyền cho user", SubTitle = "Danh sách quản lý quyền user" })
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th data-priority="1" class="col-2">@Html.DisplayNameFor(model => model.UserName)</th>
+                    <th class="col-8">
+                        @Html.DisplayNameFor(model => model.Roles)
+                    </th>
+                   
+
+
+                    <th>Action</th>
+
+                    @* <th class="sort-numeric">Engine version</th> *@
+                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+
+                        <td>
+                            @item.GetRoleView()
+                        </td>
+
+                        
+
+                        <td>
+                            <a asp-action="UpdateUserRole" asp-route-id="@item.Id" class="btn btn-success">Cập nhật role user</a>
+ 
+                       
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>

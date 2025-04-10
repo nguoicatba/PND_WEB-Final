@@ -51,11 +51,7 @@ namespace PND_WEB.Controllers
                     DOB = userModel.DOB,
                 };
 
-                if (userModel.Role_Id != null)
-                {
-                    var role = await _roleManager.FindByIdAsync(userModel.Role_Id);
-                    var IdentityResult = await _userManager.AddToRoleAsync(user, role.Name);
-                }
+              
 
                 IdentityResult result = await _userManager.CreateAsync(user, userModel.Password);
                 if (result.Succeeded)
@@ -78,9 +74,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            var roles = await _roleManager.Roles.ToListAsync();
-            ViewBag.Roles = new SelectList(roles, "Id", "Name");
-            Console.WriteLine(user.PasswordHash);
+        
             var userModel = new UserModel()
             {
                 UserName = user.UserName,
@@ -105,11 +99,7 @@ namespace PND_WEB.Controllers
                 user.UserName = userModel.UserName;
                 user.Staff_Name = userModel.Staff_Name;
                 user.DOB = userModel.DOB;
-                if (userModel.Role_Id != null)
-                {
-                    var role = await _roleManager.FindByIdAsync(userModel.Role_Id);
-                    var IdentityResult = await _userManager.AddToRoleAsync(user, role.Name);
-                }
+              
                 IdentityResult result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -131,14 +121,13 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            var roles = await _roleManager.Roles.ToListAsync();
-            ViewBag.Roles = new SelectList(roles, "Id", "Name");
+            
             var userModel = new UserModel()
             {
                 UserName = user.UserName,
                 Staff_Name = user.Staff_Name,
                 DOB = user.DOB,
-                Role_Id = (await _userManager.GetRolesAsync(user)).FirstOrDefault()
+         
             };
             return View(userModel);
         }
