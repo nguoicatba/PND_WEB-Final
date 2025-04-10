@@ -79,6 +79,7 @@ namespace PND_WEB.Controllers
         }
 
 
+
         // POST: QuotationsCharges/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -90,34 +91,11 @@ namespace PND_WEB.Controllers
             {
                 _context.Add(quotationsCharge);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
             }
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
             return View(quotationsCharge);
         }
-
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> CreateCharges(QuotationsAIOController model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Quotations.Add(model.Quotation);
-        //        await _context.SaveChangesAsync();
-
-        //        // Thêm các dòng phí
-        //        foreach (var charge in model.QuotationsCharges)
-        //        {
-        //            charge.QuotationId = model.Quotation.QuotationId;
-        //            _context.QuotationsCharges.Add(charge);
-        //        }
-
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction(nameof(Details), new { id = model.Quotation.QuotationId });
-        //    }
-
-        //    return View(model);
-        //}
 
 
         // GET: Quotations/Create
