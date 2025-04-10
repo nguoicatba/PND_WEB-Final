@@ -62,11 +62,21 @@ namespace PND_WEB.Controllers
             return View(viewModel);
         }
 
-        public IActionResult CreateCharges()
+        public IActionResult CreateCharges(string id)
         {
-            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId");
-            return View();
+            var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
+            if (quotation == null)
+                return NotFound();
+
+            var model = new QuotationsAIOController
+            {
+                Quotation = quotation,
+                QuotationsSelectList = new SelectList(_context.Quotations, "QuotationId", "QuotationId", id)
+            };
+
+            return View(model);
         }
+
 
         // POST: QuotationsCharges/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.

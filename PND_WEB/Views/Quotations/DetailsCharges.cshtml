@@ -60,7 +60,7 @@
 
 <h3>Chi tiết chi phí</h3>
 <p>
-    <a asp-action="CreateCharges" asp-controller="Quotations">Create New</a>
+    <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId">Create New</a>
 </p>
 <table class="table table-striped">
     <thead>
