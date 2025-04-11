@@ -1,0 +1,92 @@
+﻿@model PND_WEB.Models.TblCustomer
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa khách hàng", SubTitle = "Chỉnh sửa thông tin khách hàng" })
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Chỉnh sửa khách hàng</div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="CustomerId" class="control-label"></label>
+                            <input asp-for="CustomerId" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="CompanyName" class="control-label"></label>
+                            <input asp-for="CompanyName" class="form-control" />
+                            <span asp-validation-for="CompanyName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="CompanyNamekd" class="control-label"></label>
+                            <input asp-for="CompanyNamekd" class="form-control" />
+                            <span asp-validation-for="CompanyNamekd" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="ComAddress" class="control-label"></label>
+                            <input asp-for="ComAddress" class="form-control" />
+                            <span asp-validation-for="ComAddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ComAddresskd" class="control-label"></label>
+                            <input asp-for="ComAddresskd" class="form-control" />
+                            <span asp-validation-for="ComAddresskd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Website" class="control-label"></label>
+                            <input asp-for="Website" class="form-control" />
+                            <span asp-validation-for="Website" class="text-danger"></span>
+                        </div>
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="DutyPerson" class="control-label"></label>
+                            <input asp-for="DutyPerson" class="form-control" />
+                            <span asp-validation-for="DutyPerson" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Contact" class="control-label"></label>
+                            <input asp-for="Contact" class="form-control" />
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Email" class="control-label"></label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index">Back to List</a>
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

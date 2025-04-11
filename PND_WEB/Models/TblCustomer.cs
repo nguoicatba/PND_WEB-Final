@@ -9,18 +9,22 @@ namespace PND_WEB.Models
         [Key]
         [Column("Customer_ID")] 
         [MaxLength(20)]
-        [Required(ErrorMessage = "Mã số thuế không được để trống")]
+        [Required(ErrorMessage = "Không được để trống")]
+        [Display(Name = "Customer ID")]
         public string CustomerId { get; set; } = null!;
 
         [Column("Company_Name")] 
         [MaxLength(255)]
+        [Display(Name = "Company Name")]
         public string? CompanyName { get; set; }
 
         [Column("Company_Namekd")] 
         [MaxLength(255)]
+        [Display(Name = "Company Name không dấu")]
         public string? CompanyNamekd { get; set; }
 
-        [Column("Com_Address")] 
+        [Column("Com_Address")]
+        [Display(Name = "Địa chỉ công ty")]
         [MaxLength(1000)]
         public string? ComAddress { get; set; }
 
@@ -28,15 +32,18 @@ namespace PND_WEB.Models
         [MaxLength(1000)]
         public string? ComAddresskd { get; set; }
 
-        [Column("Website")] 
+        [Column("Website")]
+        [Display(Name = "Website")]
         [MaxLength(255)]
         public string? Website { get; set; }
 
-        [Column("Duty_Person")] 
+        [Column("Duty_Person")]
+        [Display(Name = "Người phụ trách")]
         [MaxLength(255)]
         public string? DutyPerson { get; set; }
 
         [Column("Contact")] 
+
         [MaxLength(255)]
         public string? Contact { get; set; }
 
