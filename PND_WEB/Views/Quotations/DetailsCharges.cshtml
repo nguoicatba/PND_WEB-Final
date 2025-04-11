@@ -62,6 +62,10 @@
 <p>
     <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId">Create New</a>
 </p>
+
+@{
+    float totalAmount = 0f;
+}
 <table class="table table-striped">
     <thead>
         <tr>
@@ -71,11 +75,16 @@
             <th>Đơn giá</th>
             <th>Tiền tệ</th>
             <th>Ghi chú</th>
+            <th>Thành tiền</th> 
         </tr>
     </thead>
     <tbody>
         @foreach (var item in Model.QuotationsCharges)
         {
+            float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+            float quantity = (float)item.Quantity;
+            float amount = quantity * rate;
+            totalAmount += amount;
             <tr>
                 <td>@item.ChargeName</td>
                 <td>@item.Quantity</td>
@@ -83,9 +92,21 @@
                 <td>@item.Rate?.ToString("N2")</td>
                 <td>@item.Currency</td>
                 <td>@item.Notes</td>
+                <td>
+                    @if (item.Rate.HasValue)
+                    {
+                        @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
+                    }
+                </td>
             </tr>
         }
     </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+            <td><strong>@totalAmount.ToString("N2")</strong></td>
+        </tr>
+    </tfoot>
 </table>
 
 <a asp-controller="Quotations" asp-action="Index">Back to List</a>

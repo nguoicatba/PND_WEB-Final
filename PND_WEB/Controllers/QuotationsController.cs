@@ -74,6 +74,7 @@ namespace PND_WEB.Controllers
             };
 
             ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", id);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
 
             return View(model);
         }
@@ -94,6 +95,7 @@ namespace PND_WEB.Controllers
                 return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
             }
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
             return View(quotationsCharge);
         }
 
