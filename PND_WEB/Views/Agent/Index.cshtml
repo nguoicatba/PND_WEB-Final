@@ -42,7 +42,7 @@
                  
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Code)
+                            <a asp-action="Details" asp-route-id="@item.Code"> @Html.DisplayFor(modelItem => item.Code) </a>
                         </td>
 
                         <td>

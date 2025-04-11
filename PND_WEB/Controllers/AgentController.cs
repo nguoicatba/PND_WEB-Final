@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Repository;
-using PND_WEB.ViewModels.AgentViewModels;
+using PND_WEB.ViewModels;
 
 namespace WebApplication4.Controllers
 {
@@ -41,7 +41,10 @@ namespace WebApplication4.Controllers
                 return NotFound();
             }
 
-            return View(agent);
+            AgentViewModel agentViewModel = new AgentViewModel();
+            agentViewModel.agent = agent;
+
+            return View(agentViewModel);
         }
 
         // GET: Agent/Create
@@ -154,5 +157,27 @@ namespace WebApplication4.Controllers
         {
             return _context.Agents.Any(e => e.Code == id);
         }
+
+        public async Task<IActionResult> AgentIndex(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var agent = await _context.Agents.FirstOrDefaultAsync(m => m.Code == id);
+            if (agent == null)
+            {
+                return NotFound();
+            }
+            AgentViewModel agentViewModel = new AgentViewModel();
+            agentViewModel.agent = agent;
+            agentViewModel.agentActions = await _context.AgentActions
+                .Where(a => a.Code == id)
+                .ToListAsync();
+
+            return View(agentViewModel);
+        }
+
+     
     }
 }
