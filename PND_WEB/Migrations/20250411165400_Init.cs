@@ -6,24 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PND_WEB.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Agents",
+                name: "AGENT",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    AgentName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AgentNamekd = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AgentAdd = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Agent_name = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Agent_namekd = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Agent_add = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Agents", x => x.Code);
+                    table.PrimaryKey("PK_AGENT", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
@@ -70,91 +70,91 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "BlTypes",
+                name: "BL_TYPE",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    BlName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    BL_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BL_TYPE", x => x.CODE);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CARRIER",
+                columns: table => new
+                {
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Carrier_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Carrier_namekd = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Carier_add = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BlTypes", x => x.Code);
+                    table.PrimaryKey("PK_CARRIER", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Carriers",
+                name: "CPORT",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CarrierName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CarrierNamekd = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CarierAdd = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    PORT_NAME = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Carriers", x => x.Code);
+                    table.PrimaryKey("PK_CPORT", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cports",
+                name: "CURRENCY",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PortName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Curr_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cports", x => x.Code);
+                    table.PrimaryKey("PK_CURRENCY", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Currencies",
+                name: "FEE",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CurrName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    FEE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    UNIT = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    NOTE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Currencies", x => x.Code);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Fees",
-                columns: table => new
-                {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Fee1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Fees", x => x.Code);
+                    table.PrimaryKey("PK_FEE", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
                 name: "GoodsTypes",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GtName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    GT_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GoodsTypes", x => x.Code);
+                    table.PrimaryKey("PK_GoodsTypes", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
                 name: "InvoiceTypes",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NameType = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Name_type = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -162,28 +162,28 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Kindofpackages",
+                name: "KINDOFPACKAGES",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    PackageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PackagesDescription = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Package_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Packages_description = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Kindofpackages", x => x.Code);
+                    table.PrimaryKey("PK_KINDOFPACKAGES", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Modes",
+                name: "MODE",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Modes", x => x.Code);
+                    table.PrimaryKey("PK_MODE", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
@@ -214,65 +214,65 @@ namespace PND_WEB.Migrations
                 name: "Sourses",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SourName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    SOUR_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sourses", x => x.Code);
+                    table.PrimaryKey("PK_Sourses", x => x.CODE);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbl_CNEE",
+                columns: table => new
+                {
+                    CNEE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    VCNEE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    VAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    CCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    CPerson_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    TaxID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    HAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_CNEE", x => x.CNEE);
                 });
 
             migrationBuilder.CreateTable(
                 name: "tbl_CUSTOMER",
                 columns: table => new
                 {
-                    CustomerId = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
-                    CompanyName = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    CompanyNamekd = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    ComAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
-                    ComAddresskd = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Customer_ID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Company_Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Company_Namekd = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Com_Address = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Com_Addresskd = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Website = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DutyPerson = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Duty_Person = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Contact = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_tbl_CUSTOMER", x => x.CustomerId);
+                    table.PrimaryKey("PK_tbl_CUSTOMER", x => x.Customer_ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblCnees",
+                name: "tbl_HSCODE",
                 columns: table => new
                 {
-                    Cnee = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Vcnee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Caddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Vaddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ccity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CpersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Haddress = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TblCnees", x => x.Cnee);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TblHscodes",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    HsCode = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    MoTaHangHoaV = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MoTaHangHoaE = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DonViTinh = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ThueNkTt = table.Column<double>(type: "float", nullable: true),
-                    ThueNkUd = table.Column<double>(type: "float", nullable: true),
-                    ThueVat = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HS_CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Mo_ta_hang_hoaV = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mo_ta_hang_hoaE = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Don_vi_tinh = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Thue_NK_TT = table.Column<double>(type: "float", nullable: true),
+                    Thue_NK_UD = table.Column<double>(type: "float", nullable: true),
+                    Thue_VAT = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Acfta = table.Column<double>(type: "float", nullable: true),
                     Atiga = table.Column<double>(type: "float", nullable: true),
                     Ajcep = table.Column<double>(type: "float", nullable: true),
@@ -282,120 +282,119 @@ namespace PND_WEB.Migrations
                     Aifta = table.Column<double>(type: "float", nullable: true),
                     Vkfta = table.Column<double>(type: "float", nullable: true),
                     Vcfta = table.Column<double>(type: "float", nullable: true),
-                    VnEaeu = table.Column<double>(type: "float", nullable: true),
+                    VN_EAEU = table.Column<double>(type: "float", nullable: true),
                     Cptpp = table.Column<double>(type: "float", nullable: true),
                     Ahkfta = table.Column<double>(type: "float", nullable: true),
                     Vncu = table.Column<double>(type: "float", nullable: true),
                     Evfta = table.Column<double>(type: "float", nullable: true),
                     Ukvfta = table.Column<double>(type: "float", nullable: true),
-                    VnLao = table.Column<double>(type: "float", nullable: true),
-                    RceptA = table.Column<double>(type: "float", nullable: true),
-                    RceptB = table.Column<double>(type: "float", nullable: true),
-                    RceptC = table.Column<double>(type: "float", nullable: true),
-                    RceptD = table.Column<double>(type: "float", nullable: true),
-                    RceptE = table.Column<double>(type: "float", nullable: true),
-                    RceptF = table.Column<double>(type: "float", nullable: true),
+                    VN_LAO = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_A = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_B = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_C = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_D = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_E = table.Column<double>(type: "float", nullable: true),
+                    RCEPT_F = table.Column<double>(type: "float", nullable: true),
                     Ttdb = table.Column<double>(type: "float", nullable: true),
                     Xk = table.Column<double>(type: "float", nullable: true),
                     Xkcptpp = table.Column<double>(type: "float", nullable: true),
                     Xkev = table.Column<double>(type: "float", nullable: true),
                     Xkukv = table.Column<double>(type: "float", nullable: true),
-                    ThueBvmt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ChinhSachHangHoa = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GiamVat = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ChiTietGiamVat = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MoTaKhongDau = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GhiChuKhongDau = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Thue_BVMT = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Chinh_sach_hang_hoa = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Giam_VAT = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Chi_tiet_giam_VAT = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Mo_ta_khong_dau = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ghi_chu = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Ghi_chu_khong_dau = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblHscodes", x => x.Id);
+                    table.PrimaryKey("PK_tbl_HSCODE", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblShippers",
+                name: "tbl_SHIPPER",
                 columns: table => new
                 {
-                    Shipper = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Saddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Scity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SpersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TaxId = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Shipper = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    SAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    SCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    SPerson_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    TaxID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblShippers", x => x.Shipper);
+                    table.PrimaryKey("PK_tbl_SHIPPER", x => x.Shipper);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblSuppliers",
+                name: "tbl_SUPPLIER",
                 columns: table => new
                 {
-                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    NameSup = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Typer = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AddressSup = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LccFee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    Supplier_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Name_sup = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Typer = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Address_sup = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LCC_Fee = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblSuppliers", x => x.SupplierId);
+                    table.PrimaryKey("PK_tbl_SUPPLIER", x => x.Supplier_ID);
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblTutts",
+                name: "tbl_TUTT",
                 columns: table => new
                 {
-                    SoTutt = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    SoTUTT = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Ngay = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    NhanvienTutt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NoiDung = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    NhanvienTUTT = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Noi_dung = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     xacnhanduyet = table.Column<bool>(type: "bit", nullable: true),
-                    Ketoan = table.Column<bool>(type: "bit", nullable: true),
-                    Ceo = table.Column<bool>(type: "bit", nullable: true),
-                    GhiChu = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ketoan = table.Column<bool>(type: "bit", nullable: true),
+                    ceo = table.Column<bool>(type: "bit", nullable: true),
+                    Ghi_chu = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblTutts", x => x.SoTutt);
+                    table.PrimaryKey("PK_tbl_TUTT", x => x.SoTUTT);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Units",
+                name: "UNIT",
                 columns: table => new
                 {
-                    Code = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    UnitName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Unit_name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UNIT", x => x.CODE);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AGENT_ACTION",
+                columns: table => new
+                {
+                    ID = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Person_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Phone_number = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Units", x => x.Code);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AgentActions",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeNavigationCode = table.Column<string>(type: "nvarchar(450)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AgentActions", x => x.Id);
+                    table.PrimaryKey("PK_AGENT_ACTION", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_AgentActions_Agents_CodeNavigationCode",
-                        column: x => x.CodeNavigationCode,
-                        principalTable: "Agents",
-                        principalColumn: "Code");
+                        name: "FK_AGENT_ACTION_AGENT_CODE",
+                        column: x => x.CODE,
+                        principalTable: "AGENT",
+                        principalColumn: "CODE");
                 });
 
             migrationBuilder.CreateTable(
@@ -505,73 +504,70 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CarrierActions",
+                name: "CARRIER_ACTION",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    LccFee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Note = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CodeNavigationCode = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Person_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Phone_number = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    LCC_Fee = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Note = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CarrierActions", x => x.Id);
+                    table.PrimaryKey("PK_CARRIER_ACTION", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_CarrierActions_Carriers_CodeNavigationCode",
-                        column: x => x.CodeNavigationCode,
-                        principalTable: "Carriers",
-                        principalColumn: "Code");
+                        name: "FK_CARRIER_ACTION_CARRIER_CODE",
+                        column: x => x.CODE,
+                        principalTable: "CARRIER",
+                        principalColumn: "CODE");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblJobs",
+                name: "tbl_JOB",
                 columns: table => new
                 {
-                    JobId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    GoodsType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    JobDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Mbl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IssueDateM = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OnBoardDateM = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    VesselName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    VoyageName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Pol = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Pod = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Podel = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Podis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlaceofReceipt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlaceofDelivery = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PreCariageBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Etd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Eta = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Mode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Agent = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Carrier = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Ycompany = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Link = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Job_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Goods_type = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Job_date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MBL = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Issue_dateM = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OnBoard_dateM = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Vessel_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Voyage_name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    POL = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    POD = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PODel = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PODis = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PlaceofReceipt = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PlaceofDelivery = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Pre_Cariage_by = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    ETD = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ETA = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Mode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Agent = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Carrier = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Ycompany = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Link = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     YunLock = table.Column<int>(type: "int", nullable: true),
-                    UseTime = table.Column<int>(type: "int", nullable: true),
-                    AgentNavigationCode = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    CarrierNavigationCode = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Use_time = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblJobs", x => x.JobId);
+                    table.PrimaryKey("PK_tbl_JOB", x => x.Job_ID);
                     table.ForeignKey(
-                        name: "FK_TblJobs_Agents_AgentNavigationCode",
-                        column: x => x.AgentNavigationCode,
-                        principalTable: "Agents",
-                        principalColumn: "Code");
+                        name: "FK_tbl_JOB_AGENT_Agent",
+                        column: x => x.Agent,
+                        principalTable: "AGENT",
+                        principalColumn: "CODE");
                     table.ForeignKey(
-                        name: "FK_TblJobs_Carriers_CarrierNavigationCode",
-                        column: x => x.CarrierNavigationCode,
-                        principalTable: "Carriers",
-                        principalColumn: "Code");
+                        name: "FK_tbl_JOB_CARRIER_Carrier",
+                        column: x => x.Carrier,
+                        principalTable: "CARRIER",
+                        principalColumn: "CODE");
                 });
 
             migrationBuilder.CreateTable(
@@ -599,133 +595,129 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblCneeAdds",
+                name: "tbl_CNEE_ADD",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Adds = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Place = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cnee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CneeNavigationCnee = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    Adds = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Place = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    PersonInCharge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CNEE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblCneeAdds", x => x.Id);
+                    table.PrimaryKey("PK_tbl_CNEE_ADD", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TblCneeAdds_TblCnees_CneeNavigationCnee",
-                        column: x => x.CneeNavigationCnee,
-                        principalTable: "TblCnees",
-                        principalColumn: "Cnee");
+                        name: "FK_tbl_CNEE_ADD_tbl_CNEE_CNEE",
+                        column: x => x.CNEE,
+                        principalTable: "tbl_CNEE",
+                        principalColumn: "CNEE");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblSupplierActions",
+                name: "tbl_SUPPLIER_ACTION",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    PersonInCharge = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Supplier_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Person_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Phone_number = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Note = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblSupplierActions", x => x.Id);
+                    table.PrimaryKey("PK_tbl_SUPPLIER_ACTION", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TblSupplierActions_TblSuppliers_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "TblSuppliers",
-                        principalColumn: "SupplierId");
+                        name: "FK_tbl_SUPPLIER_ACTION_tbl_SUPPLIER_Supplier_ID",
+                        column: x => x.Supplier_ID,
+                        principalTable: "tbl_SUPPLIER",
+                        principalColumn: "Supplier_ID");
                 });
 
             migrationBuilder.CreateTable(
                 name: "TblTuttsPhi",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    SoHoaDon = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    TenPhi = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Tu = table.Column<bool>(type: "bit", nullable: true),
-                    Tt = table.Column<bool>(type: "bit", nullable: true),
+                    SoHoaDon = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    TenPhi = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    TU = table.Column<bool>(type: "bit", nullable: true),
+                    TT = table.Column<bool>(type: "bit", nullable: true),
                     SoTien = table.Column<double>(type: "float", nullable: true),
-                    NghiChu = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SoTutt = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SoTuttNavigationSoTutt = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    GhiChu = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    SoTUTT = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblTuttsPhi", x => x.Id);
+                    table.PrimaryKey("PK_TblTuttsPhi", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TblTuttsPhi_TblTutts_SoTuttNavigationSoTutt",
-                        column: x => x.SoTuttNavigationSoTutt,
-                        principalTable: "TblTutts",
-                        principalColumn: "SoTutt");
+                        name: "FK_TblTuttsPhi_tbl_TUTT_SoTUTT",
+                        column: x => x.SoTUTT,
+                        principalTable: "tbl_TUTT",
+                        principalColumn: "SoTUTT");
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblHbls",
+                name: "tbl_HBL",
                 columns: table => new
                 {
-                    Hbl = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    RequestId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    IssuePlaceH = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IssueDateH = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    OnBoardDateH = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    CustomerId = table.Column<string>(type: "nvarchar(20)", nullable: true),
-                    Shipper = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Cnee = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NotifyParty = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BlType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NomFree = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ContSealNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Volume = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Quantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GoodsDesciption = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    GrossWeight = table.Column<double>(type: "float", nullable: true),
+                    HBL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Request_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Issue_placeH = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Issue_dateH = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OnBoard_dateH = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Customer_ID = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Shipper = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    CNEE = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Notify_party = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    BL_type = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Nom_Free = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Cont_Seal_No = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Volume = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Quantity = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Goods_desciption = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Gross_weight = table.Column<double>(type: "float", nullable: true),
                     Tonnage = table.Column<double>(type: "float", nullable: true),
-                    CustomsDeclarationNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvoiceNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    NumberofOrigins = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FreightPayable = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    MarkNos = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FreightCharge = table.Column<bool>(type: "bit", nullable: true),
+                    Customs_declaration_No = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Invoice_No = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    NumberofOrigins = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Freight_Payable = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Mark_Nos = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    Freight_charge = table.Column<bool>(type: "bit", nullable: true),
                     Prepaid = table.Column<bool>(type: "bit", nullable: true),
                     Collect = table.Column<bool>(type: "bit", nullable: true),
-                    SiNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Pic = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DoDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PicPhone = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CneeNavigationCnee = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ShipperNavigationShipper = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    SI_No = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    PIC = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DO_date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    PIC_phone = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblHbls", x => x.Hbl);
+                    table.PrimaryKey("PK_tbl_HBL", x => x.HBL);
                     table.ForeignKey(
-                        name: "FK_TblHbls_TblCnees_CneeNavigationCnee",
-                        column: x => x.CneeNavigationCnee,
-                        principalTable: "TblCnees",
-                        principalColumn: "Cnee");
+                        name: "FK_tbl_HBL_tbl_CNEE_CNEE",
+                        column: x => x.CNEE,
+                        principalTable: "tbl_CNEE",
+                        principalColumn: "CNEE");
                     table.ForeignKey(
-                        name: "FK_TblHbls_TblJobs_RequestId",
-                        column: x => x.RequestId,
-                        principalTable: "TblJobs",
-                        principalColumn: "JobId");
-                    table.ForeignKey(
-                        name: "FK_TblHbls_TblShippers_ShipperNavigationShipper",
-                        column: x => x.ShipperNavigationShipper,
-                        principalTable: "TblShippers",
-                        principalColumn: "Shipper");
-                    table.ForeignKey(
-                        name: "FK_TblHbls_tbl_CUSTOMER_CustomerId",
-                        column: x => x.CustomerId,
+                        name: "FK_tbl_HBL_tbl_CUSTOMER_Customer_ID",
+                        column: x => x.Customer_ID,
                         principalTable: "tbl_CUSTOMER",
-                        principalColumn: "CustomerId");
+                        principalColumn: "Customer_ID");
+                    table.ForeignKey(
+                        name: "FK_tbl_HBL_tbl_JOB_Request_ID",
+                        column: x => x.Request_ID,
+                        principalTable: "tbl_JOB",
+                        principalColumn: "Job_ID");
+                    table.ForeignKey(
+                        name: "FK_tbl_HBL_tbl_SHIPPER_Shipper",
+                        column: x => x.Shipper,
+                        principalTable: "tbl_SHIPPER",
+                        principalColumn: "Shipper");
                 });
 
             migrationBuilder.CreateTable(
@@ -743,16 +735,16 @@ namespace PND_WEB.Migrations
                     Cmb = table.Column<double>(type: "float", nullable: true),
                     GoodsQuantity = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     GoodsDepcription = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HblNavigationHbl = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    HblNavigationHbl = table.Column<string>(type: "nvarchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TblConths", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_TblConths_TblHbls_HblNavigationHbl",
+                        name: "FK_TblConths_tbl_HBL_HblNavigationHbl",
                         column: x => x.HblNavigationHbl,
-                        principalTable: "TblHbls",
-                        principalColumn: "Hbl");
+                        principalTable: "tbl_HBL",
+                        principalColumn: "HBL");
                 });
 
             migrationBuilder.CreateTable(
@@ -765,23 +757,23 @@ namespace PND_WEB.Migrations
                     PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     InvoiceNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SupplierId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SupplierId = table.Column<string>(type: "nvarchar(50)", nullable: true),
                     Hbl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HblNavigationHbl = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                    HblNavigationHbl = table.Column<string>(type: "nvarchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_TblInvoices", x => x.DebitId);
                     table.ForeignKey(
-                        name: "FK_TblInvoices_TblHbls_HblNavigationHbl",
+                        name: "FK_TblInvoices_tbl_HBL_HblNavigationHbl",
                         column: x => x.HblNavigationHbl,
-                        principalTable: "TblHbls",
-                        principalColumn: "Hbl");
+                        principalTable: "tbl_HBL",
+                        principalColumn: "HBL");
                     table.ForeignKey(
-                        name: "FK_TblInvoices_TblSuppliers_SupplierId",
+                        name: "FK_TblInvoices_tbl_SUPPLIER_SupplierId",
                         column: x => x.SupplierId,
-                        principalTable: "TblSuppliers",
-                        principalColumn: "SupplierId");
+                        principalTable: "tbl_SUPPLIER",
+                        principalColumn: "Supplier_ID");
                 });
 
             migrationBuilder.CreateTable(
@@ -815,9 +807,9 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AgentActions_CodeNavigationCode",
-                table: "AgentActions",
-                column: "CodeNavigationCode");
+                name: "IX_AGENT_ACTION_CODE",
+                table: "AGENT_ACTION",
+                column: "CODE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -859,9 +851,9 @@ namespace PND_WEB.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CarrierActions_CodeNavigationCode",
-                table: "CarrierActions",
-                column: "CodeNavigationCode");
+                name: "IX_CARRIER_ACTION_CODE",
+                table: "CARRIER_ACTION",
+                column: "CODE");
 
             migrationBuilder.CreateIndex(
                 name: "IX_QuotationsCharges_QuotationId",
@@ -869,39 +861,54 @@ namespace PND_WEB.Migrations
                 column: "QuotationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_CNEE_ADD_CNEE",
+                table: "tbl_CNEE_ADD",
+                column: "CNEE");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_HBL_CNEE",
+                table: "tbl_HBL",
+                column: "CNEE");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_HBL_Customer_ID",
+                table: "tbl_HBL",
+                column: "Customer_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_HBL_Request_ID",
+                table: "tbl_HBL",
+                column: "Request_ID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_HBL_Shipper",
+                table: "tbl_HBL",
+                column: "Shipper");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_JOB_Agent",
+                table: "tbl_JOB",
+                column: "Agent");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_JOB_Carrier",
+                table: "tbl_JOB",
+                column: "Carrier");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_SUPPLIER_ACTION_Supplier_ID",
+                table: "tbl_SUPPLIER_ACTION",
+                column: "Supplier_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TblCharges_DebitId",
                 table: "TblCharges",
                 column: "DebitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblCneeAdds_CneeNavigationCnee",
-                table: "TblCneeAdds",
-                column: "CneeNavigationCnee");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TblConths_HblNavigationHbl",
                 table: "TblConths",
                 column: "HblNavigationHbl");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblHbls_CneeNavigationCnee",
-                table: "TblHbls",
-                column: "CneeNavigationCnee");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblHbls_CustomerId",
-                table: "TblHbls",
-                column: "CustomerId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblHbls_RequestId",
-                table: "TblHbls",
-                column: "RequestId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblHbls_ShipperNavigationShipper",
-                table: "TblHbls",
-                column: "ShipperNavigationShipper");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblInvoices_HblNavigationHbl",
@@ -914,31 +921,16 @@ namespace PND_WEB.Migrations
                 column: "SupplierId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblJobs_AgentNavigationCode",
-                table: "TblJobs",
-                column: "AgentNavigationCode");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblJobs_CarrierNavigationCode",
-                table: "TblJobs",
-                column: "CarrierNavigationCode");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblSupplierActions_SupplierId",
-                table: "TblSupplierActions",
-                column: "SupplierId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblTuttsPhi_SoTuttNavigationSoTutt",
+                name: "IX_TblTuttsPhi_SoTUTT",
                 table: "TblTuttsPhi",
-                column: "SoTuttNavigationSoTutt");
+                column: "SoTUTT");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AgentActions");
+                name: "AGENT_ACTION");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
@@ -956,19 +948,19 @@ namespace PND_WEB.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BlTypes");
+                name: "BL_TYPE");
 
             migrationBuilder.DropTable(
-                name: "CarrierActions");
+                name: "CARRIER_ACTION");
 
             migrationBuilder.DropTable(
-                name: "Cports");
+                name: "CPORT");
 
             migrationBuilder.DropTable(
-                name: "Currencies");
+                name: "CURRENCY");
 
             migrationBuilder.DropTable(
-                name: "Fees");
+                name: "FEE");
 
             migrationBuilder.DropTable(
                 name: "GoodsTypes");
@@ -977,10 +969,10 @@ namespace PND_WEB.Migrations
                 name: "InvoiceTypes");
 
             migrationBuilder.DropTable(
-                name: "Kindofpackages");
+                name: "KINDOFPACKAGES");
 
             migrationBuilder.DropTable(
-                name: "Modes");
+                name: "MODE");
 
             migrationBuilder.DropTable(
                 name: "QuotationsCharges");
@@ -989,25 +981,25 @@ namespace PND_WEB.Migrations
                 name: "Sourses");
 
             migrationBuilder.DropTable(
-                name: "TblCharges");
+                name: "tbl_CNEE_ADD");
 
             migrationBuilder.DropTable(
-                name: "TblCneeAdds");
+                name: "tbl_HSCODE");
+
+            migrationBuilder.DropTable(
+                name: "tbl_SUPPLIER_ACTION");
+
+            migrationBuilder.DropTable(
+                name: "TblCharges");
 
             migrationBuilder.DropTable(
                 name: "TblConths");
 
             migrationBuilder.DropTable(
-                name: "TblHscodes");
-
-            migrationBuilder.DropTable(
-                name: "TblSupplierActions");
-
-            migrationBuilder.DropTable(
                 name: "TblTuttsPhi");
 
             migrationBuilder.DropTable(
-                name: "Units");
+                name: "UNIT");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
@@ -1022,31 +1014,31 @@ namespace PND_WEB.Migrations
                 name: "TblInvoices");
 
             migrationBuilder.DropTable(
-                name: "TblTutts");
+                name: "tbl_TUTT");
 
             migrationBuilder.DropTable(
-                name: "TblHbls");
+                name: "tbl_HBL");
 
             migrationBuilder.DropTable(
-                name: "TblSuppliers");
+                name: "tbl_SUPPLIER");
 
             migrationBuilder.DropTable(
-                name: "TblCnees");
-
-            migrationBuilder.DropTable(
-                name: "TblJobs");
-
-            migrationBuilder.DropTable(
-                name: "TblShippers");
+                name: "tbl_CNEE");
 
             migrationBuilder.DropTable(
                 name: "tbl_CUSTOMER");
 
             migrationBuilder.DropTable(
-                name: "Agents");
+                name: "tbl_JOB");
 
             migrationBuilder.DropTable(
-                name: "Carriers");
+                name: "tbl_SHIPPER");
+
+            migrationBuilder.DropTable(
+                name: "AGENT");
+
+            migrationBuilder.DropTable(
+                name: "CARRIER");
         }
     }
 }

@@ -67,6 +67,10 @@ namespace PND_WEB
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
+            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Repository.DataContext>();
+            SeedingData.SeedData(context);
+            
+            // run code
             app.Run();
         }
     }

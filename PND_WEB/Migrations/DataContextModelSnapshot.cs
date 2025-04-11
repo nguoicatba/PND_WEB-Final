@@ -469,30 +469,40 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.GoodsType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("GtName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("GT_name");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.HasKey("Code");
 
-                    b.ToTable("GoodsTypes");
+                    b.ToTable("GOODS_TYPE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.InvoiceType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("Code");
 
                     b.Property<string>("NameType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Name_type");
 
                     b.HasKey("Code");
 
-                    b.ToTable("InvoiceTypes");
+                    b.ToTable("INVOICE_TYPE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Kindofpackage", b =>
@@ -622,17 +632,23 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.Sourse", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.Property<string>("SourName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("SOUR_name");
 
                     b.HasKey("Code");
 
-                    b.ToTable("Sourses");
+                    b.ToTable("SOURSE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblCharge", b =>
