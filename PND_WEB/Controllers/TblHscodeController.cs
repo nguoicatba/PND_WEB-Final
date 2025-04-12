@@ -146,6 +146,55 @@ public class TblHscodeController : Controller
         }
         return View(hscode);
     }
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var hscode = testingContext.TblHscodes.FirstOrDefault(x => x.Id == id);
+        if (hscode == null)
+        {
+            return NotFound();
+        }
+
+        return View(hscode);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, TblHscode updatedHscode)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(updatedHscode);
+        }
+
+        var existingHscode = testingContext.TblHscodes.FirstOrDefault(h => h.Id == id);
+        if (existingHscode == null)
+        {
+            return NotFound();
+        }
+
+        testingContext.Entry(existingHscode).CurrentValues.SetValues(updatedHscode);
+        existingHscode.GhiChuKhongDau = RemoveVietnameseAccents(updatedHscode.GhiChu);
+
+        try
+        {
+            testingContext.SaveChanges();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!testingContext.TblHscodes.Any(e => e.Id == updatedHscode.Id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
     public string Cutstring(string s)
     {
         if (string.IsNullOrEmpty(s)) return "";
