@@ -1,42 +1,72 @@
-﻿@model PND_WEB.Models.Agent
+﻿@model PND_WEB.ViewModels.AgentViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin đại lý", SubTitle = "Chi tiết thông tin đại lý" })
 
-<div>
-    <h4>Agent</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AgentName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AgentName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AgentNamekd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AgentNamekd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AgentAdd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AgentAdd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg bg-info">About agent: @Model.agent.Code</div>
+            <div class="card-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Agent Detail</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="Agent" asp-action="AgentIndex" asp-route-id=@Model.agent.Code>Agent Action Manager</a>
+                        </li>
+                        
+                    </ul>
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        <div>
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentName)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentName)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentNamekd)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentNamekd)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentAdd)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentAdd)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.Note)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.Note)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div>
+                            <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
+                            <a asp-action="Index">Back to List</a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card-->
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Code">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+
+
+

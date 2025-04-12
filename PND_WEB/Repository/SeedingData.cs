@@ -1,0 +1,110 @@
+﻿using Microsoft.EntityFrameworkCore;
+using PND_WEB.Models;
+
+namespace PND_WEB.Repository
+{
+    public class SeedingData
+    {
+        public static void SeedData(DataContext _context)
+        {
+            _context.Database.Migrate();
+            if (!_context.Currencies.Any())
+            {
+                _context.Currencies.AddRange(
+                    new Currency { Code = "USD", CurrName = "dollar Mỹ", Note = "Dollar" },
+                    new Currency { Code = "EUR", CurrName = "Euro", Note = "Euro" },
+                    new Currency { Code = "JPY", CurrName = "Yên nhật", Note = "Yen" },
+                    new Currency { Code = "VND", CurrName = "Việt nam đồng", Note = "VND" },
+                    new Currency { Code = "CNY", CurrName = "Nhân dân tệ", Note = "CNY" },
+                    new Currency { Code = "GBP", CurrName = "Bảng Anh", Note = "Pound" },
+                    new Currency { Code = "AUD", CurrName = "Đô la Úc", Note = "AUD" },
+                    new Currency { Code = "CAD", CurrName = "Đô la Canada", Note = "CAD" }
+
+                );
+
+                _context.SaveChanges();
+            }
+
+            if (!_context.BlTypes.Any())
+            {
+                _context.BlTypes.AddRange(
+                    new BlType { Code = "Copy", BlName = "", Note = ""},
+                    new BlType { Code = "Original", BlName = "", Note = "" },
+                    new BlType { Code = "Draft", BlName = "", Note = "" },
+                    new BlType { Code = "SEWAY BILL", BlName = "", Note = "" },
+                    new BlType { Code = "SURRENDERED", BlName = "", Note = "" },
+                    new BlType { Code = "TELEX", BlName = "", Note = "" }
+                );
+                _context.SaveChanges();
+            }
+
+
+            if (!_context.Units.Any())
+            {   
+                _context.Units.AddRange(
+                    new Unit { Code = "20`DC", UnitName="", Note="" },
+                    new Unit { Code = "20`GP", UnitName = "", Note = "" },
+                    new Unit { Code = "20`OT", UnitName = "", Note = "" },
+                    new Unit { Code = "20`RF", UnitName = "", Note = "" },
+
+                    new Unit { Code = "40`GP", UnitName = "", Note = "" },
+                    new Unit { Code = "40`DC", UnitName = "", Note = "" },
+                    new Unit { Code = "40`HC", UnitName = "", Note = "" },
+                    new Unit { Code = "40`OT", UnitName = "", Note = "" },
+                    new Unit { Code = "40`FR", UnitName = "", Note = "" },
+                    new Unit { Code = "CBM", UnitName = "", Note = "" },
+                    new Unit { Code = "OT", UnitName = "", Note = "" },
+                    new Unit { Code = "SHIPMENT", UnitName = "", Note = "" }
+
+                );
+
+                _context.SaveChanges();
+            }
+
+            if (!_context.GoodsTypes.Any())
+            {
+
+                _context.GoodsTypes.AddRange(
+
+                    new GoodsType { Code = "AI", GtName = "Air Import", Note = "hàng không nhập" },
+                    new GoodsType { Code = "AE", GtName = "Air Export", Note = "hàng không xuất" },
+                    new GoodsType { Code = "FCLI", GtName = "Full Container Load Import", Note = "hàng nhập nguyên công" },
+                    new GoodsType { Code = "FCLE", GtName = "Full Container Load Export", Note = "hàng xuất nguyên công" },
+                    new GoodsType { Code = "LCLI", GtName = "Less-than Container Load Import", Note = "hàng lẻ nhập" },
+                    new GoodsType { Code = "LCLE", GtName = "Less-than Container Load Export", Note = "hàng lẻ xuất" },
+                    new GoodsType { Code = "LGT", GtName = "Logistics", Note = "hàng làm thủ tục hải quan" }
+
+                );
+                _context.SaveChanges();
+            }
+
+            if (!_context.Modes.Any())
+            {
+                _context.Modes.AddRange(
+                    new Mode { Code = "AIR/AIR", Note = "" },
+                    new Mode { Code = "CFS", Note = "" },
+                    new Mode { Code = "CFS/CFS", Note = "" },
+                    new Mode { Code = "CW", Note = "" },
+                    new Mode { Code = "CY/CY", Note = "" }
+                );
+                _context.SaveChanges();
+            }
+
+            if (!_context.Fees.Any())
+            {
+                _context.Fees.AddRange(
+                
+                    new Fee { Code = "ACI", Fee1= "Phí khai hải quan tự động", Unit = "SET", Note = "" },
+                    new Fee { Code = "AFR FEE", Fee1 = "Phí khai hải quan", Unit = "SET", Note = "" },
+                    new Fee { Code = "AFS FEE", Fee1 = "Phí khai sơ lược hàng hóa", Unit = "SET", Note = "" },
+                    new Fee { Code = "AMENDMENT FEE", Fee1 = "Phí sửa vận đơn", Unit = "SET", Note = "" }
+
+
+                );
+                _context.SaveChanges();
+            }
+
+
+        }
+    }
+}

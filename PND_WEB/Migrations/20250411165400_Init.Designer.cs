@@ -12,8 +12,8 @@ using PND_WEB.Repository;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250407154709_Init471046")]
-    partial class Init471046
+    [Migration("20250411165400_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -309,17 +309,23 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.BlType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("BlName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("BL_name");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.HasKey("Code");
 
-                    b.ToTable("BlTypes");
+                    b.ToTable("BL_TYPE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Carrier", b =>
@@ -466,13 +472,19 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.GoodsType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("GtName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("GT_name");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.HasKey("Code");
 
@@ -482,10 +494,14 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.InvoiceType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("Code");
 
                     b.Property<string>("NameType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Name_type");
 
                     b.HasKey("Code");
 
@@ -619,13 +635,19 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.Sourse", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.Property<string>("SourName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("SOUR_name");
 
                     b.HasKey("Code");
 
@@ -1023,7 +1045,8 @@ namespace PND_WEB.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
@@ -1049,71 +1072,97 @@ namespace PND_WEB.Migrations
                         .HasColumnType("float");
 
                     b.Property<string>("ChiTietGiamVat")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("Chi_tiet_giam_VAT");
 
                     b.Property<string>("ChinhSachHangHoa")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("Chinh_sach_hang_hoa");
 
                     b.Property<double?>("Cptpp")
                         .HasColumnType("float");
 
                     b.Property<string>("DonViTinh")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Don_vi_tinh");
 
                     b.Property<double?>("Evfta")
                         .HasColumnType("float");
 
                     b.Property<string>("GhiChu")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Ghi_chu");
 
                     b.Property<string>("GhiChuKhongDau")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Ghi_chu_khong_dau");
 
                     b.Property<string>("GiamVat")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Giam_VAT");
 
                     b.Property<string>("HsCode")
                         .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("HS_CODE");
 
                     b.Property<string>("MoTaHangHoaE")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Mo_ta_hang_hoaE");
 
                     b.Property<string>("MoTaHangHoaV")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Mo_ta_hang_hoaV");
 
                     b.Property<string>("MoTaKhongDau")
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Mo_ta_khong_dau");
 
                     b.Property<double?>("RceptA")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_A");
 
                     b.Property<double?>("RceptB")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_B");
 
                     b.Property<double?>("RceptC")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_C");
 
                     b.Property<double?>("RceptD")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_D");
 
                     b.Property<double?>("RceptE")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_E");
 
                     b.Property<double?>("RceptF")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_F");
 
                     b.Property<string>("ThueBvmt")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Thue_BVMT");
 
                     b.Property<double?>("ThueNkTt")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("Thue_NK_TT");
 
                     b.Property<double?>("ThueNkUd")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("Thue_NK_UD");
 
                     b.Property<string>("ThueVat")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Thue_VAT");
 
                     b.Property<double?>("Ttdb")
                         .HasColumnType("float");
@@ -1131,10 +1180,12 @@ namespace PND_WEB.Migrations
                         .HasColumnType("float");
 
                     b.Property<double?>("VnEaeu")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("VN_EAEU");
 
                     b.Property<double?>("VnLao")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("VN_LAO");
 
                     b.Property<double?>("Vncu")
                         .HasColumnType("float");
@@ -1153,7 +1204,7 @@ namespace PND_WEB.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TblHscodes");
+                    b.ToTable("tbl_HSCODE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblInvoice", b =>
@@ -1431,71 +1482,44 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.TblTutt", b =>
                 {
                     b.Property<string>("SoTutt")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("SoTUTT");
 
                     b.Property<bool?>("Ceo")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("ceo");
 
                     b.Property<string>("GhiChu")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Ghi_chu");
 
                     b.Property<bool?>("Ketoan")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("ketoan");
 
                     b.Property<DateTime?>("Ngay")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Ngay");
 
                     b.Property<string>("NhanvienTutt")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("NhanvienTUTT");
 
                     b.Property<string>("NoiDung")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Noi_dung");
 
                     b.Property<bool?>("xacnhanduyet")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("xacnhanduyet");
 
                     b.HasKey("SoTutt");
 
-                    b.ToTable("TblTutts");
-                });
-
-            modelBuilder.Entity("PND_WEB.Models.TblTuttPhi", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("NghiChu")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SoHoaDon")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("SoTien")
-                        .HasColumnType("float");
-
-                    b.Property<string>("SoTutt")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SoTuttNavigationSoTutt")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("TenPhi")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Tt")
-                        .HasColumnType("bit");
-
-                    b.Property<bool?>("Tu")
-                        .HasColumnType("bit");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SoTuttNavigationSoTutt");
-
-                    b.ToTable("TblTuttsPhi");
+                    b.ToTable("tbl_TUTT");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Unit", b =>
@@ -1518,6 +1542,54 @@ namespace PND_WEB.Migrations
                     b.HasKey("Code");
 
                     b.ToTable("UNIT");
+                });
+
+            modelBuilder.Entity("TblTuttPhi", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("NghiChu")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("GhiChu");
+
+                    b.Property<string>("SoHoaDon")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("SoHoaDon");
+
+                    b.Property<double?>("SoTien")
+                        .HasColumnType("float")
+                        .HasColumnName("SoTien");
+
+                    b.Property<string>("SoTutt")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("SoTUTT");
+
+                    b.Property<string>("TenPhi")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("TenPhi");
+
+                    b.Property<bool?>("Tt")
+                        .HasColumnType("bit")
+                        .HasColumnName("TT");
+
+                    b.Property<bool?>("Tu")
+                        .HasColumnType("bit")
+                        .HasColumnName("TU");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SoTutt");
+
+                    b.ToTable("TblTuttsPhi");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -1691,11 +1763,11 @@ namespace PND_WEB.Migrations
                     b.Navigation("Supplier");
                 });
 
-            modelBuilder.Entity("PND_WEB.Models.TblTuttPhi", b =>
+            modelBuilder.Entity("TblTuttPhi", b =>
                 {
                     b.HasOne("PND_WEB.Models.TblTutt", "SoTuttNavigation")
                         .WithMany("TblTuttPhis")
-                        .HasForeignKey("SoTuttNavigationSoTutt");
+                        .HasForeignKey("SoTutt");
 
                     b.Navigation("SoTuttNavigation");
                 });
