@@ -104,6 +104,38 @@ namespace PND_WEB.Repository
                 _context.SaveChanges();
             }
 
+            if (!_context.TblCustomers.Any())
+            {
+                _context.TblCustomers.AddRange(
+                    new TblCustomer { 
+                        CustomerId= "0108111428", 
+                        CompanyName= "HAI AN FREIGHT FORWARDING JOINT STOCK COMPANY",
+                        CompanyNamekd="",
+                        ComAddress= "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai",
+                        Website = "http://www.haian.com.vn",
+                        DutyPerson = "Nguyễn Văn A",
+                        Contact = "Nguyễn Văn B",
+                        Email="",
+                    },
+                    new TblCustomer
+                    {
+                        CustomerId = "132132",
+                        CompanyName = "DONASCO Logistics - Công Ty TNHH DONASCO",
+                        CompanyNamekd = "",
+                        ComAddress = "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai",
+                        Website = "http://www.haian.com.vn",
+                        DutyPerson = "Nguyễn Văn A",
+                        Contact = "Nguyễn Văn B",
+                        Email = "",
+                    }
+
+
+                );
+                _context.SaveChanges();
+            }
+
+            
+
 
         }
     }

@@ -7,8 +7,10 @@
 @await Component.InvokeAsync("HeaderBody", new { Title = "Tạo tài khoản", SubTitle = "Tạo tài khoản" })
 <div class="row">
     <div class="col-md-4">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" value="0" />
             <div class="form-group">
                 <label asp-for="UserName" class="control-label"></label>
                 <input asp-for="UserName" class="form-control" placeholder="Username" />

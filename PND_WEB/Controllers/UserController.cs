@@ -40,6 +40,7 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(UserModel userModel)
         {
+            @TempData["status"] = "Error: ";
             if (ModelState.IsValid)
             {
                 var user = new AppUserModel()
@@ -56,12 +57,25 @@ namespace PND_WEB.Controllers
                 IdentityResult result = await _userManager.CreateAsync(user, userModel.Password);
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
+                    @TempData["status"] = "Tạo tài khoản thành công";
+                    return RedirectToAction("Index", "User");
                 }
                 foreach (var error in result.Errors)
                 {
-                    ModelState.AddModelError("", error.Description);
+                    @TempData["status"] += error.Description + " ";
+
                 }
+            }
+            else
+            {
+                foreach (var error in ModelState.Values)
+                {
+                    foreach (var subError in error.Errors)
+                    {
+                        @TempData["status"] += subError.ErrorMessage + " ";
+                    }
+                }
+
             }
             return View(userModel);
         }
