@@ -101,7 +101,7 @@
                     }
                 </td>
                 <td>
-                            <a asp-action="EditCharges" asp-route-id="@item.QuotationId" class="btn btn-primary">Edit</a>
+                            <a asp-action="EditCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary">Edit</a>
                     <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>

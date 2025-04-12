@@ -86,17 +86,78 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        public IActionResult EditCharges(QuotationsCharge model)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(quotationsCharge);
-                await _context.SaveChangesAsync();
+                _context.QuotationsCharges.Update(model);
+                _context.SaveChanges();
+                return RedirectToAction("Details", new { id = model.QuotationId });
+            }
+
+            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", model.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", model.Currency);
+
+            return View(model);
+        }
+
+
+
+        public IActionResult EditCharges(string id)
+        {
+            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.QuotationId == id);
+            if (charge == null)
+                return NotFound();
+
+            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", charge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", charge.Currency);
+
+            return View(charge);
+        }
+
+
+        private bool QuotationsChargeExists(int id)
+        {
+            return _context.QuotationsCharges.Any(e => e.ChargeId == id);
+        }
+        // POST: QuotationsCharges/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (id != quotationsCharge.ChargeId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(quotationsCharge);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuotationsChargeExists(quotationsCharge.ChargeId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                // Sau khi sửa xong, quay về chi tiết báo giá
                 return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
             }
+
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
-            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
-            return View(quotationsCharge);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", quotationsCharge.Currency);
+
+            return View("Edit", quotationsCharge); // Đảm bảo dùng đúng View
         }
 
 
