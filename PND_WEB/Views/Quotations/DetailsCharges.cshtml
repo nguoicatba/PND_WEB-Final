@@ -59,23 +59,25 @@
 </table>
 
 <h3>Chi tiết chi phí</h3>
-<p>
-    <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId">Create New</a>
-</p>
-
 @{
     float totalAmount = 0f;
 }
-<table class="table table-striped">
-    <thead>
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="table-primary">
         <tr>
-            <th>Tên phí</th>
-            <th>Số lượng</th>
-            <th>Đơn vị</th>
-            <th>Đơn giá</th>
-            <th>Tiền tệ</th>
-            <th>Ghi chú</th>
-            <th>Thành tiền</th> 
+                    <th class="col-1">Tên phí</th>
+                    <th class="col-1">Số lượng</th>
+                    <th class="col-1">Đơn vị</th>
+                    <th class="col-1">Đơn giá</th>
+                    <th class="col-1">Tiền tệ</th>
+                    <th class="col-1">Ghi chú</th>
+                    <th class="col-1">Thành tiền</th>
+                    <th class="col-1"></th>
         </tr>
     </thead>
     <tbody>
@@ -98,6 +100,10 @@
                         @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
                     }
                 </td>
+                <td>
+                            <a asp-action="EditCharges" asp-route-id="@item.QuotationId" class="btn btn-primary">Edit</a>
+                    <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger">Delete</a>
+                </td>
             </tr>
         }
     </tbody>
@@ -108,5 +114,7 @@
         </tr>
     </tfoot>
 </table>
+</div>
+</div>
 
 <a asp-controller="Quotations" asp-action="Index">Back to List</a>

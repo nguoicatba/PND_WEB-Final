@@ -3,14 +3,22 @@
 @{
     ViewData["Title"] = "Index";
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Quotations", SubTitle = "Danh sách báo giá" })
 
-<h1>Index</h1>
+@if (TempData["Message"] != null)
+{
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+    @await Component.InvokeAsync("Notification", new { Title = "Tạo thành công", status = true })
+    TempData["Message"] = null;
+}
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create">Create New</a>
+        </p>
+
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="table-primary">
         <tr>
             <th>
                 @Html.DisplayNameFor(model => model.Qsatus)
@@ -96,12 +104,14 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Pod)
             </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.QuotationId">Edit</a> |
-                <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.QuotationId">Delete</a>
+                        <td >
+                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-primary">Edit</a>
+                            <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId" class="btn btn-info">Details</a>
+                            <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+</div>
+</div>
