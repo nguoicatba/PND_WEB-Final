@@ -8,30 +8,18 @@
 
 <div class="row">
     <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
         <!-- START card-->
         <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg bg-info">About agent: @Model.agent.Code</div>
+            <div class="card-header bg-success">About Agent: @Model.agent.Code</div>
             <div class="card-body">
-                <div role="tabpanel">
-                    <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Agent Detail</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Agent" asp-action="AgentIndex" asp-route-id=@Model.agent.Code>Agent Action Manager</a>
-                        </li>
-                        
-                    </ul>
-                    <!-- Tab panes-->
-                    <div class="tab-content">
-                        <div>
+
                             <dl class="row">
                                 <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.agent.AgentName)
+                                    @Html.DisplayNameFor(model => model.agent.AgentName) :
                                 </dt>
                                 <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.agent.AgentName)
+                                    @Html.DisplayFor(model => model.agent.AgentName) :
                                 </dd>
                                 <dt class="col-sm-2">
                                     @Html.DisplayNameFor(model => model.agent.AgentNamekd)
@@ -52,21 +40,84 @@
                                     @Html.DisplayFor(model => model.agent.Note)
                                 </dd>
                             </dl>
-                        </div>
-                        <div>
-                            <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
-                            <a asp-action="Index">Back to List</a>
-                        </div>
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
+                                    <a asp-action="Index">Back to List</a>
+                                </div>
+              </div>
+                    
 
-                    </div>
-                </div>
-            </div>
         </div>
         <!-- END card-->
     </div>
 </div>
 
 
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Agent Infor Manager:</div>
+    <div class="card-body">
+                <p>
+                    <a asp-action="AgentCreate" asp-route-id=@Model.agent.Code class="btn btn-primary btn-xs">Create New</a>
+                </p>
+
+                <table class="table table-striped my-4 w-100" id="datatable3">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Action</th>
+                            <th data-priority="1">@Html.DisplayNameFor(model => model.agentActions[0].Id)</th>
+                            <th>@Html.DisplayNameFor(model => model.agentActions[0].PersonInCharge)</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.agentActions[0].PhoneNumber)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.agentActions[0].Email)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.agentActions[0].Note)
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.agentActions)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="AgentEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Id)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PersonInCharge)
+
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Email)
+                                </td>
+
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Note)
+                                </td>
+
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+           
+    </div>
+</div>
 
 
 

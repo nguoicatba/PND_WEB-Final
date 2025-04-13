@@ -139,11 +139,27 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var carrerAction = await _context.CarrierActions
+           .Where(a => a.Code == id)
+           .ToListAsync();
+            if (carrerAction != null)
+            {
+                foreach (var item in carrerAction)
+                {
+                    _context.CarrierActions.Remove(item);
+                }
+            }
             var carrier = await _context.Carriers.FindAsync(id);
             if (carrier != null)
             {
                 _context.Carriers.Remove(carrier);
             }
+
+       
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

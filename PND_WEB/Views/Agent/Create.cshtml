@@ -4,10 +4,8 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới thông tin đại lý", SubTitle = "Thêm mới thông tin đại lý" })
 
-<h4>Agent</h4>
-<hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Create">

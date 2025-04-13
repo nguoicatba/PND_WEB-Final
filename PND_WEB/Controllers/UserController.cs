@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using PND_WEB.ViewModels;
 
+
 namespace PND_WEB.Controllers
 {
     public class UserController : Controller
@@ -21,7 +22,7 @@ namespace PND_WEB.Controllers
 
         }
 
-
+        
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.OrderByDescending(p => p.Id).ToListAsync();

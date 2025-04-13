@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using PND_WEB.Models;
 
+
 namespace PND_WEB.Controllers
 {
     public class HomeController : Controller
@@ -12,7 +13,7 @@ namespace PND_WEB.Controllers
         {
             _logger = logger;
         }
-
+       
         public IActionResult Index()
         {
             return View();

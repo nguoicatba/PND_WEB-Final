@@ -43,6 +43,9 @@ namespace WebApplication4.Controllers
 
             AgentViewModel agentViewModel = new AgentViewModel();
             agentViewModel.agent = agent;
+            agentViewModel.agentActions = await _context.AgentActions
+                .Where(a => a.Code == id)
+                .ToListAsync();
 
             return View(agentViewModel);
         }
@@ -143,6 +146,21 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var agentAction = await _context.AgentActions
+                .Where(a => a.Code == id)
+                .ToListAsync();
+            if (agentAction != null)
+            {
+                foreach (var item in agentAction)
+                {
+                    _context.AgentActions.Remove(item);
+                }
+
+            }
             var agent = await _context.Agents.FindAsync(id);
             if (agent != null)
             {
@@ -158,26 +176,94 @@ namespace WebApplication4.Controllers
             return _context.Agents.Any(e => e.Code == id);
         }
 
-        public async Task<IActionResult> AgentIndex(string id)
+
+        [HttpGet]
+        public async Task<IActionResult> AgentCreate(string id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-            var agent = await _context.Agents.FirstOrDefaultAsync(m => m.Code == id);
+            var agent = await _context.Agents.FindAsync(id);
             if (agent == null)
             {
                 return NotFound();
             }
-            AgentViewModel agentViewModel = new AgentViewModel();
-            agentViewModel.agent = agent;
-            agentViewModel.agentActions = await _context.AgentActions
-                .Where(a => a.Code == id)
-                .ToListAsync();
-
+            AgentEditModel agentViewModel = new();
+            agentViewModel.id = id;
+            agentViewModel.agentAction = new AgentAction();
             return View(agentViewModel);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgentCreate(AgentEditModel agentEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var agent = await _context.Agents.FindAsync(agentEdit.id);
+                if (agent == null)
+                {
+                    return NotFound();
+                }
+                agentEdit.agentAction.Code = agentEdit.id;
+                _context.AgentActions.Add(agentEdit.agentAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Thêm thành công";
+                return RedirectToAction("Details", new { id = agentEdit.id });
+            }
+            else
+            {
+                TempData["status"] += "Thêm không thành công";
+            }
+            return View(agentEdit);
+
         }
 
-     
+        [HttpGet]
+        public async Task<IActionResult> AgentEdit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var agentAction = await _context.AgentActions.FindAsync(id);
+            if (agentAction == null)
+            {
+                return NotFound();
+            }
+            AgentEditModel agentEditModel = new();
+            agentEditModel.agentAction = agentAction;
+            return View(agentEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgentEdit(AgentEditModel agentEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var agentAction = await _context.AgentActions.FindAsync(agentEdit.agentAction.Id);
+                if (agentAction == null)
+                {
+                    return NotFound();
+                }
+                agentAction.PersonInCharge = agentEdit.agentAction.PersonInCharge;
+                agentAction.PhoneNumber = agentEdit.agentAction.PhoneNumber;
+                agentAction.Email = agentEdit.agentAction.Email;
+                agentAction.Note = agentEdit.agentAction.Note;
+                _context.Update(agentAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Sửa thành công";
+                return RedirectToAction("Details", new { id = agentEdit.agentAction.Code });
+            }
+            else
+            {
+                TempData["status"] += "Sửa không thành công";
+            }
+            return View(agentEdit);
+        }
     }
 }

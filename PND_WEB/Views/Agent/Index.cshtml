@@ -9,12 +9,13 @@
 
 <div class="card">
     <div class="card-body">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
 
         <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+            <thead class="">
                 <tr>
                     <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>

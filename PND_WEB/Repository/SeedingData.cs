@@ -134,7 +134,63 @@ namespace PND_WEB.Repository
                 _context.SaveChanges();
             }
 
+           // Agent
+           if (!_context.Agents.Any())
+            {
+                _context.Agents.AddRange(
+                    new Agent
+                    {
+                        Code = "APM",
+                        AgentName = "APM - SAIGON SHIPPING CO.LTD",
+                        AgentNamekd = "",
+                        AgentAdd = "Lầu 7, Landmark Building, 5B Tôn Đức Thắng, Quận 1",
+                        Note = "",
+                    },
+                    new Agent
+                    {
+                        Code = "Agent2",
+                        AgentName = "CNC, CONTSHIP, KIEN HUNG & VIETFRACHT",
+                        AgentNamekd = "",
+                        AgentAdd = " Lầu 1, Saigon Port Building, 3 Nguyễn Tất Thành, Quận 4",
+                        Note = "",
+                    }
+
+
+                );
+                _context.SaveChanges();
+
+            }
+            // AgentAction
+
+            if (!_context.AgentActions.Any())
+            {
+                
             
+                _context.AgentActions.AddRange(
+                    new AgentAction
+                    {
+                        Code="Agent2",
+                        PersonInCharge= "Mr. Y.S.Chung",
+                        PhoneNumber = "8267446",
+                        Email="",
+                        Note = "",
+
+                    },
+                    new AgentAction
+                    {
+                        Code = "Agent2",
+                        PersonInCharge = "Mr. Tom Chung",
+                        PhoneNumber = "8267446",
+                        Email = "",
+                        Note = "",
+
+                    }
+                   );
+                _context.SaveChanges();
+            }
+
+
+
 
 
         }

@@ -10,7 +10,7 @@
     <div class="col-xl-12">
         <!-- START card-->
         <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg-info">About job: @Model.JobId</div>
+            <div class="card-header bg-success">About job: @Model.JobId</div>
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
@@ -22,11 +22,9 @@
                             <a class="nav-link" asp-controller="Hbls" asp-action="Index" asp-route-id=@Model.JobId>List HBL</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a>
+                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Phân quyền Job</a>
                         </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a>
-                        </li>
+                       
                     </ul>
                     <!-- Tab panes-->
                     <div class="tab-content">

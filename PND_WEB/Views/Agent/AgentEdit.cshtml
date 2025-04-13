@@ -1,18 +1,18 @@
 ﻿@model PND_WEB.ViewModels.AgentEditModel
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới", SubTitle = "Thêm mới" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa", SubTitle = "Chỉnh sửa" })
 
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Tạo khách hàng</div>
+            <div class="card-header">Chỉnh sửa agent</div>
             <div class="card-body">
-                <form asp-action="AgentCreate">
+                <form asp-action="AgentEdit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <div class="form-row">
@@ -48,7 +48,7 @@
                         </div>
                     </div>
 
-                   
+
 
                     <div class="form-group">
                         <input type="submit" value="AgentCreate" class="btn btn-primary" />
