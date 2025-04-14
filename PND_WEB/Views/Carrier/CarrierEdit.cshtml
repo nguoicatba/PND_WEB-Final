@@ -12,9 +12,9 @@
         <div class="card card-default">
             <div class="card-header">Chỉnh sửa carrier</div>
             <div class="card-body">
-                <form asp-action="CarrierEdit">
+                <form asp-action="CarrierEdit" asp-route-id=@Model.carrierAction.Id>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
+                    <input type="hidden" asp-for="carrierAction.Id" />
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="carrierAction.Code" class="control-label"></label>

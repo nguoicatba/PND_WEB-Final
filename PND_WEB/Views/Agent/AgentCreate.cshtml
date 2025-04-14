@@ -18,7 +18,7 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="agentAction.Code" class="control-label"></label>
-                            <input asp-for="agentAction.Code" class="form-control" value=id readonly="readonly" />
+                            <input asp-for="agentAction.Code" class="form-control" value=@Model.id readonly="readonly" />
                             <span asp-validation-for="agentAction.Code" class="text-danger"></span>
                         </div>
 

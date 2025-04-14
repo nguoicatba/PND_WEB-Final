@@ -237,8 +237,12 @@ namespace PND_WEB.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CarrierEdit(CarrierActionEditModel carrierActionEditModel)
+        public async Task<IActionResult> CarrierEdit(int id,CarrierActionEditModel carrierActionEditModel)
         {
+            if (id != carrierActionEditModel.carrierAction.Id)
+            {
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
                 try

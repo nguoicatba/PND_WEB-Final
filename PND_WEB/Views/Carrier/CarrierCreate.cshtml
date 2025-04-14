@@ -19,7 +19,7 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="carrierAction.Code" class="control-label"></label>
-                            <input asp-for="carrierAction.Code" class="form-control" value=id readonly="readonly" />
+                            <input asp-for="carrierAction.Code" class="form-control" value=@Model.id readonly="readonly" />
                             <span asp-validation-for="carrierAction.Code" class="text-danger"></span>
                         </div>
 
