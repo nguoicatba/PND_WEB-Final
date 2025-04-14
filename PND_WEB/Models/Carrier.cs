@@ -18,7 +18,7 @@ public partial class Carrier
     [MaxLength(255)]
     public string? CarrierName { get; set; }
 
-    [Column("Carrier_namekd")]
+    [Column("Carrier_namekd"),DisplayName("Carrier Name khong dau")]
     [MaxLength(255)]
     public string? CarrierNamekd { get; set; }
 

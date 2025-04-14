@@ -1,4 +1,4 @@
-﻿@model PND_WEB.ViewModels.AgentViewModel
+﻿@model PND_WEB.ViewModels.AgentActionViewModel
 
 @{
     ViewData["Title"] = "Details";
@@ -11,7 +11,7 @@
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <!-- START card-->
         <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg-success">About Agent: @Model.agent.Code</div>
+            <div class="card-header bg-success">About Carrier: @Model.agent.Code</div>
             <div class="card-body">
 
                             <dl class="row">

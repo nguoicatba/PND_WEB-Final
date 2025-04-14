@@ -2,7 +2,7 @@
 
 namespace PND_WEB.ViewModels
 {
-    public class AgentEditModel
+    public class AgentActionEditModel
     {
         public  string  ?id { get; set; }
 

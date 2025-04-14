@@ -1,0 +1,84 @@
+﻿@model PND_WEB.ViewModels.CarrierActionEditModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới", SubTitle = "Thêm mới" })
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Tạo thông tin thêm cho carrier</div>
+            <div class="card-body">
+                <form asp-action="CarrierCreate">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.Code" class="control-label"></label>
+                            <input asp-for="carrierAction.Code" class="form-control" value=id readonly="readonly" />
+                            <span asp-validation-for="carrierAction.Code" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.PersonInCharge" class="control-label"></label>
+                            <input asp-for="carrierAction.PersonInCharge" class="form-control" />
+                            <span asp-validation-for="carrierAction.PersonInCharge" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.PhoneNumber" class="control-label"></label>
+                            <input asp-for="carrierAction.PhoneNumber" class="form-control" />
+                            <span asp-validation-for="carrierAction.PhoneNumber" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.Email" class="control-label"></label>
+                            <input asp-for="carrierAction.Email" class="form-control" />
+                            <span asp-validation-for="carrierAction.Email" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.LccFee" class="control-label"></label>
+                            <input asp-for="carrierAction.LccFee" class="form-control" />
+                            <span asp-validation-for="carrierAction.LccFee" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="carrierAction.Note" class="control-label"></label>
+                            @Html.TextArea("carrierAction.Note", "", new { @class = "form-control" })
+                            <span asp-validation-for="carrierAction.Note" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Details" asp-route-id=@Model.id>Back to List</a>
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

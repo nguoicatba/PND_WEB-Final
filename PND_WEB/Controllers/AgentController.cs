@@ -41,7 +41,7 @@ namespace WebApplication4.Controllers
                 return NotFound();
             }
 
-            AgentViewModel agentViewModel = new AgentViewModel();
+            AgentActionViewModel agentViewModel = new AgentActionViewModel();
             agentViewModel.agent = agent;
             agentViewModel.agentActions = await _context.AgentActions
                 .Where(a => a.Code == id)
@@ -189,7 +189,7 @@ namespace WebApplication4.Controllers
             {
                 return NotFound();
             }
-            AgentEditModel agentViewModel = new();
+            AgentActionEditModel agentViewModel = new();
             agentViewModel.id = id;
             agentViewModel.agentAction = new AgentAction();
             return View(agentViewModel);
@@ -197,7 +197,7 @@ namespace WebApplication4.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgentCreate(AgentEditModel agentEdit)
+        public async Task<IActionResult> AgentCreate(AgentActionEditModel agentEdit)
         {
             TempData["status"] = "Error: ";
             if (ModelState.IsValid)
@@ -222,7 +222,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AgentEdit(string id)
+        public async Task<IActionResult> AgentEdit(int id)
         {
             if (id == null)
             {
@@ -233,14 +233,18 @@ namespace WebApplication4.Controllers
             {
                 return NotFound();
             }
-            AgentEditModel agentEditModel = new();
-            agentEditModel.agentAction = agentAction;
+           var agentEditModel = new AgentActionEditModel
+           {
+               agentAction = agentAction,
+               id = agentAction.Code
+           };
+
             return View(agentEditModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgentEdit(AgentEditModel agentEdit)
+        public async Task<IActionResult> AgentEdit(AgentActionEditModel agentEdit)
         {
             TempData["status"] = "Error: ";
             if (ModelState.IsValid)
