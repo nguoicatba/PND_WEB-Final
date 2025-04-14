@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PND_WEB.Models;
 using PND_WEB.ViewModels;
@@ -51,8 +52,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
-        
-
+        [Authorize]
         public async Task<IActionResult> ChangePassword(string name)
         {
             if (name == null)
@@ -117,6 +117,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         public async Task<IActionResult> UpdateAccount(string name)
         {
             if (string.IsNullOrEmpty(name))
@@ -143,6 +144,7 @@ namespace PND_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> UpdateAccount(AppUserModel model)
         {
             TempData["status"] = "Error: \n";

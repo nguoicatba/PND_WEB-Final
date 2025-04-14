@@ -25,6 +25,25 @@ namespace PND_WEB.Repository
                 _context.SaveChanges();
             }
 
+            //Port
+            if (!_context.Cports.Any())
+            {
+                _context.Cports.AddRange(
+                    new Cport { Code = "VNATH", PortName = "CANG AN THOI" },
+                    new Cport { Code = "VNBAI", PortName = "CUA KHAU BAC DAI" },
+                    new Cport { Code = "VNBAN", PortName = "CANG BA NGOI (K.HOA)" },
+                    new Cport { Code = "VNBDA", PortName = "DONG TAU BACH DANG" },
+                    new Cport { Code = "VNBDC", PortName = "CANG BINH DUC (LA)" },
+                    new Cport { Code = "VNBDM", PortName = "CANG BEN DAM (VT)" },
+                    new Cport { Code = "VNBDU", PortName = "CANG TONG HOP BDUONG" },
+                    new Cport { Code = "VNBLG", PortName = "CANG BINH LONG" }
+
+                );
+
+                _context.SaveChanges();
+            }
+
+            // BLType
             if (!_context.BlTypes.Any())
             {
                 _context.BlTypes.AddRange(
@@ -188,6 +207,9 @@ namespace PND_WEB.Repository
                    );
                 _context.SaveChanges();
             }
+
+            
+
 
 
 
