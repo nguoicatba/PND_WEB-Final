@@ -55,9 +55,9 @@
         </dd>
     </dl>
 
-    <form asp-action="Delete">
+    <form asp-action="DeleteCharges">
         <input type="hidden" asp-for="ChargeId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
+        <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> |
+        <a asp-action="DetailsCharges" asp-route-id="@Model.QuotationId">Back to List</a>
     </form>
 </div>

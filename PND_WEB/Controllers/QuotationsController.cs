@@ -87,7 +87,7 @@ namespace PND_WEB.Controllers
             {
                 _context.Add(quotationsCharge);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
             }
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
             return View(quotationsCharge);
@@ -155,6 +155,39 @@ namespace PND_WEB.Controllers
         }
 
 
+
+        public async Task<IActionResult> DeleteCharges(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotationsCharge = await _context.QuotationsCharges
+                .Include(q => q.Quotation)
+                .FirstOrDefaultAsync(m => m.ChargeId == id);
+            if (quotationsCharge == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotationsCharge);
+        }
+
+        // POST: QuotationsCharges/Delete/5
+        [HttpPost, ActionName("DeleteCharges")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteChargesConfirmed(int id)
+        {
+            var quotationsCharge = await _context.QuotationsCharges.FindAsync(id);
+            if (quotationsCharge != null)
+            {
+                _context.QuotationsCharges.Remove(quotationsCharge);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+        }
         // GET: Quotations/Create
         public IActionResult Create()
         {
