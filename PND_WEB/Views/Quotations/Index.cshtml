@@ -5,72 +5,65 @@
 }
 @await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Quotations", SubTitle = "Danh sách báo giá" })
 
-@if (TempData["Message"] != null)
-{
-
-    @await Component.InvokeAsync("Notification", new { Title = "Tạo thành công", status = true })
-    TempData["Message"] = null;
-}
 <div class="card">
     <div class="card-body">
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-
-        <table class="table nowrap border" id="mytable">
+        <table class="table nowrap border" id="datatable1">
             <thead class="bg bg-secondary">
-        <tr>
-
-                    <th></th>
+                <tr>
+                    <th>Action</th>
                     <th>
                         @Html.DisplayNameFor(model => model.QuotationId)
                     </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Qsatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StaffName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Contact)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Qdate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CusTo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CusContact)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Valid)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Term)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Vol)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Commodity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pol)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Adds)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Pod)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Qsatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StaffName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Qdate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CusTo)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CusContact)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Valid)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Term)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Vol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Commodity)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Adds)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pod)
+                    </th>
+                </tr>
+            </thead>
+                <tbody>
+            @foreach (var item in Model) 
+                {
+                    <tr>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             
                             <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
@@ -78,49 +71,50 @@
                             <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>
                             
                         </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Qsatus)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.StaffName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Contact)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Qdate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CusTo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CusContact)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Valid)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Term)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Vol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Commodity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pol)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Adds)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Pod)
-            </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qsatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contact)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qdate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CusTo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CusContact)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Valid)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Term)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Vol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Commodity)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Adds)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pod)
+                        </td>
                         
-        </tr>
-}
-    </tbody>
-</table>
+                    </tr>
+                }
+                </tbody>
+        </table>
+    </div>
 </div>
-</div>
+
