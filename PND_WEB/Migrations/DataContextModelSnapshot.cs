@@ -469,30 +469,40 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.GoodsType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("GtName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("GT_name");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.HasKey("Code");
 
-                    b.ToTable("GoodsTypes");
+                    b.ToTable("GOODS_TYPE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.InvoiceType", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("Code");
 
                     b.Property<string>("NameType")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Name_type");
 
                     b.HasKey("Code");
 
-                    b.ToTable("InvoiceTypes");
+                    b.ToTable("INVOICE_TYPE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Kindofpackage", b =>
@@ -622,17 +632,23 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.Sourse", b =>
                 {
                     b.Property<string>("Code")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar")
+                        .HasColumnName("CODE");
 
                     b.Property<string>("Note")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Note");
 
                     b.Property<string>("SourName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("SOUR_name");
 
                     b.HasKey("Code");
 
-                    b.ToTable("Sourses");
+                    b.ToTable("SOURSE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblCharge", b =>
@@ -1104,22 +1120,28 @@ namespace PND_WEB.Migrations
                         .HasColumnName("Mo_ta_khong_dau");
 
                     b.Property<double?>("RceptA")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_A");
 
                     b.Property<double?>("RceptB")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_B");
 
                     b.Property<double?>("RceptC")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_C");
 
                     b.Property<double?>("RceptD")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_D");
 
                     b.Property<double?>("RceptE")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_E");
 
                     b.Property<double?>("RceptF")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("RCEPT_F");
 
                     b.Property<string>("ThueBvmt")
                         .HasMaxLength(100)
@@ -1155,10 +1177,12 @@ namespace PND_WEB.Migrations
                         .HasColumnType("float");
 
                     b.Property<double?>("VnEaeu")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("VN_EAEU");
 
                     b.Property<double?>("VnLao")
-                        .HasColumnType("float");
+                        .HasColumnType("float")
+                        .HasColumnName("VN_LAO");
 
                     b.Property<double?>("Vncu")
                         .HasColumnType("float");

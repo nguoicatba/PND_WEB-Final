@@ -8,41 +8,65 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách HSCODE", SubTitle = "" })
 
-<form method="get" asp-action="Search" style="padding: 20px">
-    <select name="matchType">
-        <option value="exact">Chính xác</option>
-        <option value="suggest">Gợi ý</option>
-    </select>
-    <input type="text" name="s" placeholder="Nhập từ khóa" required value="@ViewBag.SearchTerm" />
-    <button type="submit">Tìm kiếm</button>
-</form>
 
-<table class="table table-bordered table-striped">
-    <thead>
-        <tr>
-            <th>HS Code</th>
-            <th>Mô tả hàng hóa (V)</th>
-            <th>Mô tả hàng hóa (E)</th>
-            <th>Chi tiết</th>
-        </tr>
-    </thead>
-    <tbody id="data-container">
-        @foreach (var item in Model)
-        {
-            <tr style="color: @(GetTextColor(item.MoTaHangHoaV))">
-                <td>@item.HsCode</td>
-                <td>@item.MoTaHangHoaV</td>
-                <td>@item.MoTaHangHoaE</td>
-                <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Chi tiết</a></td>
-            </tr>
-        }
-    </tbody>
-</table>
 
-<!-- Loader -->
-<div id="loading" style="display: none; text-align: center;">
-    <img src="~/images/loader.gif" alt="Loading..." />
+<div class="card">
+   <div class="card-header">
+       Tìm kiếm HSCODE
+   </div>
+        <form method="get" asp-action="Search" style="padding: 20px">
+            <select name="matchType">
+                <option value="exact">Chính xác</option>
+                <option value="suggest">Gợi ý</option>
+            </select>
+            <input type="text" name="s" placeholder="Nhập từ khóa" required value="@ViewBag.SearchTerm" />
+        <button type="submit" class="btn btn-primary btn-xs">Tìm kiếm</button>
+        </form>
+
+    
 </div>
+
+
+<div class="card">
+    <div class="card-header">Bảng HSCODE</div>
+    <div class="card-body">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>  @Html.DisplayNameFor(model => model[0].HsCode)</th>
+                    <th>  @Html.DisplayNameFor(model => model[0].MoTaHangHoaV)</th>
+                    <th>  @Html.DisplayNameFor(model => model[0].MoTaHangHoaE)</th>
+                    <th>  @Html.DisplayNameFor(model => model[0].DonViTinh)</th>
+                    <th>  @Html.DisplayNameFor(model => model[0].ChinhSachHangHoa)</th>
+                    <th>Chi tiết</th>
+                </tr>
+            </thead>
+            <tbody id="data-container">
+                @foreach (var item in Model)
+                {
+                    <tr style="color: @(GetTextColor(item.MoTaHangHoaV))">
+                        <td>@item.HsCode</td>
+                        <td>@item.MoTaHangHoaV</td>
+                        <td>@item.MoTaHangHoaE</td>
+                        <td>@item.DonViTinh</td>
+                        <td>@item.ChinhSachHangHoa</td>
+                        <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs">Chi tiết</a></td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <!-- Loader -->
+        <div id="loading" style="display: none; text-align: center;">
+            <img src="~/images/loader.gif" alt="Loading..." />
+        </div>
+
+    </div>
+</div>
+
+
+
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -100,7 +124,9 @@
                                     <td>${item.hsCode}</td>
                                     <td>${item.moTaHangHoaV}</td>
                                     <td>${item.moTaHangHoaE}</td>
-                                    <td><a href="/TblHscode/Details/${item.id}" class="btn btn-info">Chi tiết</a></td>
+                                    <td>${item.donViTinh}</td>
+                                    <td>${item.chinhSachHangHoa}</td>
+                                    <td><a href="/TblHscode/Details/${item.id}" class="btn btn-primary btn-xs">Chi tiết</a></td>
                                 </tr>
                             `);
                             $("#data-container").append(row);

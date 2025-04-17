@@ -4084,10 +4084,11 @@
             'ordering': true, // Column ordering
             'info': true, // Bottom left status text
             responsive: true,
+
             // Text translation options
             // Note the required keywords between underscores (e.g _MENU_)
             oLanguage: {
-                sSearch: '<em class="ion-search"></em>',
+                sSearch: '<em class="fa fa-search"></em>',
                 sLengthMenu: '_MENU_ records per page',
                 info: 'Showing page _PAGE_ of _PAGES_',
                 zeroRecords: 'Nothing found - sorry',
@@ -4138,7 +4139,7 @@
             'ordering': true, // Column ordering
             'info': true, // Bottom left status text
             responsive: true,
-            
+
             // Text translation options
             // Note the required keywords between underscores (e.g _MENU_)
             oLanguage: {
@@ -4179,6 +4180,30 @@
             // Datatable key setup
             keys: true
         });
+
+
+        $('#mytable').DataTable({
+            scrollX: true,
+            paging: true,
+            ordering: true,
+            info: true,
+
+            language: {
+                search: '<em class="fa fa-search me-1"></em>',
+                lengthMenu: '_MENU_ records per page',
+                info: 'Showing page _PAGE_ of _PAGES_',
+                zeroRecords: 'Nothing found - sorry',
+                infoEmpty: 'No records available',
+                infoFiltered: '(filtered from _MAX_ total records)',
+                paginate: {
+                    next: '<em class="fa fa-caret-right"></em>',
+                    previous: '<em class="fa fa-caret-left"></em>'
+                }
+            }
+        });
+
+   
+      
 
 
 

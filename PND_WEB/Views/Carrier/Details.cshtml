@@ -1,42 +1,130 @@
-﻿@model PND_WEB.Models.Carrier
+﻿@model PND_WEB.ViewModels.CarrierActionViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết carrier", SubTitle = "Chi tiết carrier" })
 
-<div>
-    <h4>Carrier</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CarrierName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CarrierName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CarrierNamekd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CarrierNamekd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CarierAdd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CarierAdd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About Agent: @Model.carrier.Code</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.carrier.CarrierName)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.carrier.CarrierName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.carrier.CarrierNamekd)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.carrier.CarrierNamekd)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.carrier.CarierAdd)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.carrier.CarierAdd)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.carrier.Note)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.carrier.Note)
+                    </dd>
+                </dl>
+
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.carrier?.Code">Edit</a> |
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- END card-->
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.Code">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Carrier Infor Manager:</div>
+    <div class="card-body">
+        <p>
+            <a asp-action="CarrierCreate" asp-route-id=@Model.carrier.Code class="btn btn-primary btn-xs">Create New</a>
+        </p>
+
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.carrierActions[0].Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.carrierActions[0].PersonInCharge)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.carrierActions[0].PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.carrierActions[0].Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.carrierActions[0].LccFee)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.carrierActions[0].Note)
+                    </th>
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.carrierActions)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="CarrierEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PersonInCharge)
+
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.LccFee)
+                        </td>
+
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+
+    </div>
 </div>
+
+
+
+

@@ -28,23 +28,28 @@ namespace PND_WEB.Models
         public DateTime? OnBoardDateH { get; set; }
 
         [Column("Customer_ID")]
-        [MaxLength(20)]  
+        [MaxLength(20)]
+        [Display(Name = "Customer ID")]
         public string? CustomerId { get; set; }
 
         [Column("Shipper")]
-        [MaxLength(255)]  
+        [MaxLength(255)]
+        [Display(Name = "Shipper")]
         public string? Shipper { get; set; }
 
         [Column("CNEE")]
-        [MaxLength(255)]  
+        [MaxLength(255)]
+        [Display(Name = "Consignee")]
         public string? Cnee { get; set; }
 
         [Column("Notify_party")]
-        [MaxLength(255)]  
+        [MaxLength(255)]
+        [Display(Name = "Notify Party")]
         public string? NotifyParty { get; set; }
 
         [Column("BL_type")]
         [MaxLength(100)] 
+
         public string? BlType { get; set; }
 
         [Column("Nom_Free")]

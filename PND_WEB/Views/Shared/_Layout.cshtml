@@ -24,6 +24,18 @@
     <link rel="stylesheet" href="~/app/vendor/datatables.net-bs4/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="~/app/vendor/datatables.net-keytable-bs/css/keyTable.bootstrap.css">
     <link rel="stylesheet" href="~/app/vendor/datatables.net-responsive-bs/css/responsive.bootstrap.css">
+    <!-- TAGS INPUT-->
+    <link rel="stylesheet" href="~/app/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.css">
+    <!-- SLIDER CTRL-->
+    <link rel="stylesheet" href="~/app/vendor/bootstrap-slider/dist/css/bootstrap-slider.css">
+    <!-- CHOSEN-->
+    <link rel="stylesheet" href="~/app/vendor/chosen-js/chosen.css">
+    <!-- DATETIMEPICKER-->
+    <link rel="stylesheet" href="~/app/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
+    <!-- COLORPICKER-->
+    <link rel="stylesheet" href="~/app/vendor/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css">
+    <!-- WYSIWYG-->
+    <link rel="stylesheet" href="~app/vendor/bootstrap-wysiwyg/css/style.css">
     <!-- =============== BOOTSTRAP STYLES ===============-->
     <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
     <!-- =============== APP STYLES ===============-->
@@ -77,7 +89,7 @@
                                 <div class="list-group">
                                     <!-- list item-->
                                     <div class="list-group-item list-group-item-action">
-                                        <a href="template.html">
+                                        <a asp-controller="Account" asp-action="UpdateAccount" asp-route-name="@User.Identity.Name">
                                             <div class="media">
                                                 <div class="align-self-start mr-2">
                                                     <em class="fa fa-user text-primary"></em>
@@ -91,7 +103,7 @@
                                     </div>
                                     <!-- list item-->
                                     <div class="list-group-item list-group-item-action">
-                                        <a href="template.html">
+                                        <a asp-controller="Account" asp-action="ChangePassword" asp-route-name=@User.Identity.Name>
                                             <div class="media">
                                                 <div class="align-self-start mr-2">
                                                     <em class="fa fa-lock text-success"></em>
@@ -178,8 +190,9 @@
                                 <li class="sidebar-subnav-header">Báo giá khách hàng</li>
 
                                 <li class=" ">
-                                    <a asp-controller="Quotations" asp-action="Index">
-                                        <span>Báo giá</span>
+
+                                    <a asp-controller="Customer" asp-action="Index">
+                                        <span>Customer</span>
                                     </a>
                                 </li>
 
@@ -336,6 +349,11 @@
                                         <span>Cập nhật tài khoản</span>
                                     </a>
                                 </li>
+                                <li class=" ">
+                                    <a asp-controller="Role" asp-action="Index">
+                                        <span>Quản lý quyền</span>
+                                    </a>
+                                </li>
 
 
                             </ul>
@@ -391,6 +409,7 @@
     <!-- LOCALIZE-->
     <script src="~/app/vendor/jquery-localize/dist/jquery.localize.js"></script>
     <!-- =============== PAGE VENDOR SCRIPTS ===============-->
+    <!-- Data table-->
     <script src="~/app/vendor/datatables.net/js/jquery.dataTables.js"></script>
     <script src="~/app/vendor/datatables.net-bs4/js/dataTables.bootstrap4.js"></script>
     <script src="~/app/vendor/datatables.net-buttons/js/dataTables.buttons.js"></script>
@@ -405,6 +424,26 @@
     <script src="~/app/vendor/jszip/dist/jszip.js"></script>
     <script src="~/app/vendor/pdfmake/build/pdfmake.js"></script>
     <script src="~/app/vendor/pdfmake/build/vfs_fonts.js"></script>
+    <!-- FILESTYLE-->
+    <script src="~/app/vendor/bootstrap-filestyle/src/bootstrap-filestyle.js"></script>
+    <!-- TAGS INPUT-->
+    <script src="~/app/vendor/bootstrap-tagsinput/dist/bootstrap-tagsinput.js"></script>
+    <!-- CHOSEN-->
+    <script src="~/app/vendor/chosen-js/chosen.jquery.js"></script>
+    <!-- SLIDER CTRL-->
+    <script src="~/app/vendor/bootstrap-slider/dist/bootstrap-slider.js"></script>
+    <!-- INPUT MASK-->
+    <script src="~/app/vendor/inputmask/dist/jquery.inputmask.bundle.js"></script>
+    <!-- WYSIWYG-->
+    <script src="~/app/vendor/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+    <!-- MOMENT JS-->
+    <script src="~/app/vendor/moment/min/moment-with-locales.js"></script>
+    <!-- DATETIMEPICKER-->
+    <script src="~/app/vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.js"></script>
+    <!-- COLORPICKER-->
+    <script src="~/app/vendor/bootstrap-colorpicker/dist/js/bootstrap-colorpicker.js"></script>
+    <!-- SELECT2-->
+    <script src="~/app/vendor/select2/dist/js/select2.full.js"></script>
     <!-- =============== APP SCRIPTS ===============-->
     <script src="~/app/js/app.js"></script>
 

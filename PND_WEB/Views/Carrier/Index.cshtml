@@ -11,29 +11,28 @@
 
 <div class="card">
     <div class="card-body">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
         <table class="table table-striped my-4 w-100" id="datatable3">
             <thead class="table-primary">
                 <tr>
-                    
-                    <th data-priority="1">
-                        Carrier Code
-                    </th>
-                    <th>
-                        Carrier Name
-                    </th>
-                    <th>
-                        Carrier Name không dấu
-                    </th>
-                    <th>
-                       Địa chỉ
-                    </th>
-                    <th>
-                        Ghi chú
-                    </th>
+
                     <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
+                    
+                    <th>@Html.DisplayNameFor(model => model.CarrierName)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CarrierNamekd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CarierAdd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+                 
                     @* <th class="sort-numeric">Engine version</th> *@
                     @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
                 </tr>
@@ -43,8 +42,14 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Code)
+                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+
                         </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Code"> @Html.DisplayFor(modelItem => item.Code) </a>
+                        </td>
+                      
 
                         <td>
                             @Html.DisplayFor(modelItem => item.CarrierName)
@@ -58,12 +63,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Note)
                         </td>
-                        <td class ="col-1 text-nowrap" style="text-align: right; padding-right: 20px">
-                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-primary">Edit</a>
-
-                        @* <a asp-action="Details" asp-route-id="@item.Code">Details</a> | *@
-                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger">Delete</a>
-                        </td>
+                       
                     </tr>
                 }
 

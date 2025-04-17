@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Repository;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -39,8 +40,15 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+            var carrierViewModel = new CarrierActionViewModel
+            {
+                carrier = carrier,
+                carrierActions = await _context.CarrierActions
+                    .Where(a => a.Code == id)
+                    .ToListAsync()
+            };
 
-            return View(carrier);
+            return View(carrierViewModel);
         }
 
         // GET: Carrier/Create
@@ -139,11 +147,27 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var carrerAction = await _context.CarrierActions
+           .Where(a => a.Code == id)
+           .ToListAsync();
+            if (carrerAction != null)
+            {
+                foreach (var item in carrerAction)
+                {
+                    _context.CarrierActions.Remove(item);
+                }
+            }
             var carrier = await _context.Carriers.FindAsync(id);
             if (carrier != null)
             {
                 _context.Carriers.Remove(carrier);
             }
+
+
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -153,5 +177,95 @@ namespace PND_WEB.Controllers
         {
             return _context.Carriers.Any(e => e.Code == id);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> CarrierCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var carrier = await _context.Carriers.FindAsync(id);
+            if (carrier == null)
+            {
+                return NotFound();
+            }
+            var carrierActionEditModel = new CarrierActionEditModel
+            {
+                id = carrier.Code,
+                carrierAction = new CarrierAction()
+            };
+            return View(carrierActionEditModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CarrierCreate(CarrierActionEditModel carrierActionEditModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var carrier = await _context.Carriers.FindAsync(carrierActionEditModel.id);
+                if (carrier == null)
+                {
+                    return NotFound();
+                }
+                carrierActionEditModel.carrierAction.Code = carrier.Code;
+                _context.Add(carrierActionEditModel.carrierAction);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = carrierActionEditModel.id });
+            }
+            return View(carrierActionEditModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CarrierEdit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var carrierAction = await _context.CarrierActions.FindAsync(id);
+            if (carrierAction == null)
+            {
+                return NotFound();
+            }
+            var carrierActionEditModel = new CarrierActionEditModel
+            {
+                carrierAction = carrierAction,
+                id=carrierAction.Code
+            };
+            return View(carrierActionEditModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CarrierEdit(int id,CarrierActionEditModel carrierActionEditModel)
+        {
+            if (id != carrierActionEditModel.carrierAction.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(carrierActionEditModel.carrierAction);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!CarrierExists(carrierActionEditModel.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = carrierActionEditModel.carrierAction.Code });
+            }
+            return View(carrierActionEditModel);
+        }
+
     }
+      
 }

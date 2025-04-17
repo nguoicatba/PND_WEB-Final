@@ -42,7 +42,13 @@ public class TblHscodeController : Controller
         int pageNumber = page ?? 1;
         int pageSize = 20;
 
-        var data = testingContext.TblHscodes
+       
+        var pagedRawData = testingContext.TblHscodes
+            .OrderBy(h => h.Id)  
+            .ToPagedList(pageNumber, pageSize);
+
+     
+        var mappedList = pagedRawData
             .AsEnumerable()
             .Select(h => new TblHscode
             {
@@ -50,11 +56,14 @@ public class TblHscodeController : Controller
                 HsCode = !string.IsNullOrEmpty(h.HsCode) && h.HsCode.All(char.IsDigit) ? h.HsCode : "",
                 MoTaHangHoaV = Cutstring(h.MoTaHangHoaV ?? string.Empty),
                 MoTaHangHoaE = Cutstring(h.MoTaHangHoaE ?? string.Empty),
-              
-            })
-            .ToPagedList(pageNumber, pageSize);
+                DonViTinh = h.DonViTinh,
+                ChinhSachHangHoa = h.ChinhSachHangHoa,
+            }).ToList();
 
-        // If it's an AJAX request, return JSON instead of full page
+        
+        var data = new StaticPagedList<TblHscode>(mappedList, pagedRawData.GetMetaData());
+
+     
         if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
         {
             return Json(new
@@ -64,13 +73,17 @@ public class TblHscodeController : Controller
                     x.Id,
                     x.HsCode,
                     x.MoTaHangHoaV,
-                    x.MoTaHangHoaE
+                    x.MoTaHangHoaE,
+                    x.DonViTinh,
+                    x.ChinhSachHangHoa
+
                 }),
                 hasNextPage = data.HasNextPage
             });
         }
 
         return View(data);
+
     }
 
     public IActionResult Search(string s, int? page, string matchType)
@@ -96,6 +109,8 @@ public class TblHscodeController : Controller
                     HsCode = !string.IsNullOrEmpty(h.HsCode) && h.HsCode.All(char.IsDigit) ? h.HsCode : "",
                     MoTaHangHoaV = Cutstring(h.MoTaHangHoaV),
                     MoTaHangHoaE = Cutstring(h.MoTaHangHoaE),
+                    DonViTinh = h.DonViTinh,
+                    ChinhSachHangHoa = h.ChinhSachHangHoa,
                 })
                 .ToPagedList(pageNumber, pageSize);
             }
@@ -110,6 +125,8 @@ public class TblHscodeController : Controller
                     HsCode = !string.IsNullOrEmpty(h.HsCode) && h.HsCode.All(char.IsDigit) ? h.HsCode : "",
                     MoTaHangHoaV = Cutstring(h.MoTaHangHoaV),
                     MoTaHangHoaE = Cutstring(h.MoTaHangHoaE),
+                    DonViTinh = h.DonViTinh,
+                    ChinhSachHangHoa = h.ChinhSachHangHoa,
                 })
                 .ToPagedList(pageNumber, pageSize);
             }
@@ -124,6 +141,9 @@ public class TblHscodeController : Controller
                     HsCode = !string.IsNullOrEmpty(h.HsCode) && h.HsCode.All(char.IsDigit) ? h.HsCode : "",
                     MoTaHangHoaV = Cutstring(h.MoTaHangHoaV),
                     MoTaHangHoaE = Cutstring(h.MoTaHangHoaE),
+                    DonViTinh = h.DonViTinh,
+                    ChinhSachHangHoa = h.ChinhSachHangHoa,
+
                 })
                 .ToPagedList(pageNumber, pageSize);
             }
@@ -146,6 +166,55 @@ public class TblHscodeController : Controller
         }
         return View(hscode);
     }
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        var hscode = testingContext.TblHscodes.FirstOrDefault(x => x.Id == id);
+        if (hscode == null)
+        {
+            return NotFound();
+        }
+
+        return View(hscode);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(int id, TblHscode updatedHscode)
+    {
+        if (!ModelState.IsValid)
+        {
+            return View(updatedHscode);
+        }
+
+        var existingHscode = testingContext.TblHscodes.FirstOrDefault(h => h.Id == id);
+        if (existingHscode == null)
+        {
+            return NotFound();
+        }
+
+        testingContext.Entry(existingHscode).CurrentValues.SetValues(updatedHscode);
+        existingHscode.GhiChuKhongDau = RemoveVietnameseAccents(updatedHscode.GhiChu);
+
+        try
+        {
+            testingContext.SaveChanges();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!testingContext.TblHscodes.Any(e => e.Id == updatedHscode.Id))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return RedirectToAction(nameof(Index));
+    }
+
     public string Cutstring(string s)
     {
         if (string.IsNullOrEmpty(s)) return "";

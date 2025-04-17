@@ -2,4 +2,4 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div>kien</div>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "" })

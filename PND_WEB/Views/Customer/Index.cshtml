@@ -1,0 +1,94 @@
+﻿@model IEnumerable<PND_WEB.Models.TblCustomer>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách khách hàng", SubTitle = "Danh sách chứa các thông tin liên quan tới khách hàng" })
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table nowrap border"  id="mytable">
+            <thead class="bg bg-secondary">
+                <tr>
+                    <th>Action</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyNamekd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ComAddress)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ComAddresskd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Website)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.DutyPerson)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.CustomerId" class="btn btn-success btn-xs"><i class="fa fa-edit" ></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.CustomerId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.CustomerId"> @Html.DisplayFor(modelItem => item.CustomerId) </a>
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CompanyNamekd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComAddress)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ComAddresskd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Website)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DutyPerson)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contact)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+
+                    </tr>
+                }
+               
+            </tbody>
+        </table>
+    </div>
+</div>
+
