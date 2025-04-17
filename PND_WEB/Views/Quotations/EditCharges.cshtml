@@ -11,16 +11,13 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditCharges">
-            <div class="form-group">
-                <label asp-for="ChargeId" class="control-label"></label>
-                <select asp-for="ChargeId" class="form-control" asp-items="ViewBag.ChargeId"></select>
-                <span asp-validation-for="ChargeId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="QuotationId" class="control-label"></label>
-                <select asp-for="QuotationId" class="form-control" asp-items="ViewBag.QuotationId"></select>
-                <span asp-validation-for="QuotationId" class="text-danger"></span>
-            </div>
+            <label asp-for="ChargeId" class="control-label"></label>
+            <input asp-for="ChargeId" class="form-control" readonly />
+            <input type="hidden" asp-for="ChargeId" />
+            <label asp-for="QuotationId" class="control-label"></label>
+            <input asp-for="QuotationId" class="form-control" readonly />
+            <input type="hidden" asp-for="QuotationId" />
+
             <div class="form-group">
                 <label asp-for="ChargeName" class="control-label"></label>
                 <input asp-for="ChargeName" class="form-control" />

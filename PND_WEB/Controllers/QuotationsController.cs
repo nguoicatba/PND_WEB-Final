@@ -96,28 +96,10 @@ namespace PND_WEB.Controllers
         // POST: QuotationsCharges/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult EditCharges(QuotationsCharge model)
+
+        public IActionResult EditCharges(int id)
         {
-            if (ModelState.IsValid)
-            {
-                _context.QuotationsCharges.Update(model);
-                _context.SaveChanges();
-                return RedirectToAction("Details", new { id = model.QuotationId });
-            }
-
-            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", model.QuotationId);
-            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", model.Currency);
-
-            return View(model);
-        }
-
-
-
-        public IActionResult EditCharges(string id)
-        {
-            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.QuotationId == id);
+            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
             if (charge == null)
                 return NotFound();
 
