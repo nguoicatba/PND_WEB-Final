@@ -17,9 +17,14 @@
             <a asp-action="Create">Create New</a>
         </p>
 
-        <table class="table table-striped my-4 w-100" id="datatable1">
-            <thead class="table-primary">
+        <table class="table nowrap border" id="mytable">
+            <thead class="bg bg-secondary">
         <tr>
+
+                    <th></th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.QuotationId)
+                    </th>
             <th>
                 @Html.DisplayNameFor(model => model.Qsatus)
             </th>
@@ -59,12 +64,20 @@
             <th>
                 @Html.DisplayNameFor(model => model.Pod)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            
+                            <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>
+                            
+                        </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Qsatus)
             </td>
@@ -104,11 +117,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Pod)
             </td>
-                        <td >
-                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-primary">Edit</a>
-                            <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId" class="btn btn-info">Details</a>
-                            <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger">Delete</a>
-            </td>
+                        
         </tr>
 }
     </tbody>
