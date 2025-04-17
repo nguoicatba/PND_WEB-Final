@@ -65,10 +65,10 @@
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId">Create New</a>
+            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" btn btn-primary btn-xs>Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable1">
-            <thead class="table-primary">
+        <table class="table nowrap border" id="mytable">
+            <thead class="bg bg-secondary">
         <tr>
                     <th class="col-1">Tên phí</th>
                     <th class="col-1">Số lượng</th>
