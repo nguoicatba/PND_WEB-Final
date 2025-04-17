@@ -65,11 +65,12 @@
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" btn btn-primary btn-xs>Create New</a>
+            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
         </p>
         <table class="table nowrap border" id="mytable">
             <thead class="bg bg-secondary">
-        <tr>
+                <tr>
+                    <th class="col-1"></th>
                     <th class="col-1">Tên phí</th>
                     <th class="col-1">Số lượng</th>
                     <th class="col-1">Đơn vị</th>
@@ -77,7 +78,6 @@
                     <th class="col-1">Tiền tệ</th>
                     <th class="col-1">Ghi chú</th>
                     <th class="col-1">Thành tiền</th>
-                    <th class="col-1"></th>
         </tr>
     </thead>
     <tbody>
@@ -88,6 +88,11 @@
             float amount = quantity * rate;
             totalAmount += amount;
             <tr>
+
+                        <td>
+                            <a asp-action="EditCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
                 <td>@item.ChargeName</td>
                 <td>@item.Quantity</td>
                 <td>@item.Unit</td>
@@ -99,10 +104,6 @@
                     {
                         @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
                     }
-                </td>
-                <td>
-                            <a asp-action="EditCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary">Edit</a>
-                    <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }
