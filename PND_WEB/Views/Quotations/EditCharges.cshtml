@@ -11,10 +11,10 @@
 <div class="row">
     <div class="col-md-4">
         <form asp-action="EditCharges">
-            <label asp-for="ChargeId" class="control-label"></label>
-            <input asp-for="ChargeId" class="form-control" readonly />
+            <label asp-for="ChargeId" class="control-label" style="display:none"></label>
+            <input asp-for="ChargeId" style="display:none" class="form-control"  />
             <input type="hidden" asp-for="ChargeId" />
-            <label asp-for="QuotationId" class="control-label"></label>
+            <label asp-for="QuotationId" class="control-label" readonly></label>
             <input asp-for="QuotationId" class="form-control" readonly />
             <input type="hidden" asp-for="QuotationId" />
 
