@@ -53,7 +53,7 @@ namespace PND_WEB.Controllers
             if (quotation == null)
                 return NotFound();
 
-            var viewModel = new QuotationsAIOController
+            var viewModel = new QuotationsEditDeleteDetailController
             {
                 Quotation = quotation,
                 QuotationsCharges = quotation.QuotationsCharges.ToList()

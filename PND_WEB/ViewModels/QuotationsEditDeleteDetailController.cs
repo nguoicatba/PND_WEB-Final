@@ -3,7 +3,7 @@ using PND_WEB.Models;
 
 namespace PND_WEB.ViewModels
 {
-    public class QuotationsAIOController
+    public class QuotationsEditDeleteDetailController
     {
         public required Quotation Quotation { get; set; }
         public required List<QuotationsCharge> QuotationsCharges { get; set; }
