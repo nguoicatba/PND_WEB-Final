@@ -91,11 +91,11 @@
             <tr>
 
                         <td>
-                            <a asp-action="EditCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            <a asp-action="EditCharges" asp-route-id="@item.ChargeId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="DeleteCharges" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
 
-                        <td> <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@item.ChargeId</a></td>
+                        <td> <a asp-action="DetailsCharges" asp-route-id="@item.ChargeId">@item.ChargeId</a></td>
                 <td>@item.ChargeName</td>
                 <td>@item.Quantity</td>
                 <td>@item.Unit</td>
@@ -113,7 +113,7 @@
     </tbody>
     <tfoot>
         <tr>
-            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+            <td colspan="8" class="text-end"><strong>Tổng cộng:</strong></td>
             <td><strong>@totalAmount.ToString("N2")</strong></td>
         </tr>
     </tfoot>
