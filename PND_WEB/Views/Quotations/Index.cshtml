@@ -10,7 +10,7 @@
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table nowrap border" id="mytable">
+        <table class="table nowrap border" id="datatable1">
             <thead class="bg bg-secondary">
                 <tr>
                     <th>Action</th>
@@ -63,7 +63,7 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             
                             <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
