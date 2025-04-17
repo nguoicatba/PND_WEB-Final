@@ -71,6 +71,7 @@
             <thead class="bg bg-secondary">
                 <tr>
                     <th class="col-1"></th>
+                    <th class="col-1">Số thứ tự</th>
                     <th class="col-1">Tên phí</th>
                     <th class="col-1">Số lượng</th>
                     <th class="col-1">Đơn vị</th>
@@ -93,6 +94,8 @@
                             <a asp-action="EditCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
                             <a asp-action="DeleteCharges" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
+
+                        <td> <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@item.ChargeId</a></td>
                 <td>@item.ChargeName</td>
                 <td>@item.Quantity</td>
                 <td>@item.Unit</td>

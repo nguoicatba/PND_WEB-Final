@@ -79,7 +79,19 @@ namespace PND_WEB.Controllers
             return View(model);
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(quotationsCharge);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            return View(quotationsCharge);
+        }
 
         // POST: QuotationsCharges/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
