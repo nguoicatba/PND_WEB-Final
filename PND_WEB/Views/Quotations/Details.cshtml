@@ -1,0 +1,100 @@
+﻿@model PND_WEB.Models.Quotation
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Quotation</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Qsatus)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Qsatus)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StaffName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StaffName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Contact)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Contact)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Qdate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Qdate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CusTo)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CusTo)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.CusContact)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.CusContact)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Valid)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Valid)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Term)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Term)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Vol)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Vol)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Commodity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Commodity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pol)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pol)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Adds)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Adds)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Pod)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Pod)
+        </dd>
+    </dl>
+</div>
+
+
+
+
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.QuotationId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

@@ -1,0 +1,65 @@
+﻿@model PND_WEB.Models.QuotationsCharge
+@Html.HiddenFor(model => model.QuotationId)
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>QuotationsCharge</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateCharges">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="QuotationId" class="control-label"></label>
+                <select asp-for="QuotationId" class="form-control" style="" asp-items="ViewBag.QuotationId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ChargeName" class="control-label"></label>
+                <input asp-for="ChargeName" class="form-control" />
+                <span asp-validation-for="ChargeName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Quantity" class="control-label"></label>
+                <input asp-for="Quantity" class="form-control" />
+                <span asp-validation-for="Quantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Unit" class="control-label"></label>
+                <input asp-for="Unit" class="form-control" />
+                <span asp-validation-for="Unit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Rate" class="control-label"></label>
+                <input asp-for="Rate" class="form-control" />
+                <span asp-validation-for="Rate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Currency" class="control-label">Tiền tệ</label>
+                @Html.DropDownListFor(model => model.Currency, (SelectList)ViewBag.CurrencyList, "-- Chọn tiền tệ --", new { @class = "form-control" })
+                <span asp-validation-for="Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Notes" class="control-label"></label>
+                <input asp-for="Notes" class="form-control" />
+                <span asp-validation-for="Notes" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="DetailsCharges" asp-route-id="@Model.QuotationId">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
