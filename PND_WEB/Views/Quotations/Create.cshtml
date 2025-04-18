@@ -38,13 +38,13 @@
                 <span asp-validation-for="Qdate" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="CusTo" class="control-label"></label>
-                <input asp-for="CusTo" class="form-control" />
+                <label asp-for="CusTo"  class="control-label"></label>
+                <input asp-for="CusTo" id="custo" class="form-control" />
                 <span asp-validation-for="CusTo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CusContact" class="control-label"></label>
-                <input asp-for="CusContact" class="form-control" />
+                <input asp-for="CusContact" id="cuscontact" class="form-control" />
                 <span asp-validation-for="CusContact" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -74,12 +74,12 @@
                 </div>
             <div class="form-group">
                 <label asp-for="Adds" class="control-label"></label>
-                <input asp-for="Adds" class="form-control" />
+                <input asp-for="Adds" id="adds" class="form-control" />
                 <span asp-validation-for="Adds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pod" class="control-label"></label>
-                <input asp-for="Pod" class="form-control" />
+                <input asp-for="Pod" id="pod" class="form-control" />
                 <span asp-validation-for="Pod" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -105,7 +105,7 @@
             $("#pol").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoComplete/',
+                        url: '/Quotations/AutoCompleteCports/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {
@@ -123,6 +123,83 @@
                 },
                 select: function (e, i) {
                     $("#pol").val(i.item.label);
+                },
+                minLength: 1
+            });
+
+            $("#pod").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Quotations/AutoCompleteCports/',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#pod").val(i.item.label);
+                },
+                minLength: 1
+            });
+
+            $("#adds").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Quotations/AutoCompleteCports/',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#adds").val(i.item.label);
+                },
+                minLength: 1
+            });
+
+
+            $("#custo").autocomplete({
+                source: function (request, response) {
+                    $.ajax({
+                        url: '/Quotations/AutoCompleteCustomers/',
+                        data: { "prefix": request.term },
+                        type: "POST",
+                        success: function (data) {
+                            response($.map(data, function (item) {
+                                return item;
+                            }))
+                        },
+                        error: function (response) {
+                            alert(response.responseText);
+                        },
+                        failure: function (response) {
+                            alert(response.responseText);
+                        }
+                    });
+                },
+                select: function (e, i) {
+                    $("#custo").val(i.item.label);
+                    $("#cuscontact").val(i.item.label2);
                 },
                 minLength: 1
             });

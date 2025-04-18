@@ -300,17 +300,31 @@ namespace PND_WEB.Controllers
         }
 
         [HttpPost]
-        public JsonResult AutoComplete(string prefix)
+        public JsonResult AutoCompleteCports(string prefix)
         {
-            var cports = (from customer in this._context.Cports
-                             where customer.PortName.StartsWith(prefix)
+            var cports = (from cport in this._context.Cports
+                             where cport.PortName.StartsWith(prefix)
                              select new
                              {
-                                 label = customer.PortName,
-                                 val = customer.Code
+                                 label = cport.PortName,
+                                 val = cport.Code
                              }).ToList();
 
             return Json(cports);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteCustomers(string prefix)
+        {
+            var customer = (from customers in this._context.TblCustomers
+                          where customers.DutyPerson.StartsWith(prefix)
+                          select new
+                          {
+                              label = customers.DutyPerson,
+                              label2 = customers.Contact
+                          }).ToList();
+
+            return Json(customer);
         }
     }
 }
