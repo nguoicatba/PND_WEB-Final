@@ -303,7 +303,7 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteCports(string prefix)
         {
             var cports = (from cport in this._context.Cports
-                             where cport.PortName.StartsWith(prefix)
+                             where cport.PortName.Contains(prefix)
                              select new
                              {
                                  label = cport.PortName,
@@ -317,7 +317,7 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteCustomers(string prefix)
         {
             var customer = (from customers in this._context.TblCustomers
-                          where customers.DutyPerson.StartsWith(prefix)
+                          where customers.DutyPerson.Contains(prefix)
                           select new
                           {
                               label = customers.DutyPerson,
@@ -326,5 +326,20 @@ namespace PND_WEB.Controllers
 
             return Json(customer);
         }
+
+        [HttpPost]
+        public JsonResult AutoCompleteFees(string prefix)
+        {
+            var fees = (from fee in this._context.Fees
+                            where fee.Fee1.Contains(prefix)
+                            select new
+                            {
+                                label = fee.Fee1,
+                                val = fee.Code
+                            }).ToList();
+
+            return Json(fees);
+        }
+
     }
 }
