@@ -298,5 +298,19 @@ namespace PND_WEB.Controllers
         {
             return _context.Quotations.Any(e => e.QuotationId == id);
         }
+
+        [HttpPost]
+        public JsonResult AutoComplete(string prefix)
+        {
+            var cports = (from customer in this._context.Cports
+                             where customer.PortName.StartsWith(prefix)
+                             select new
+                             {
+                                 label = customer.PortName,
+                                 val = customer.Code
+                             }).ToList();
+
+            return Json(cports);
+        }
     }
 }

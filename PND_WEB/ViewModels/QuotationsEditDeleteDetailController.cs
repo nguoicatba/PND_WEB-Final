@@ -9,5 +9,7 @@ namespace PND_WEB.ViewModels
         public required List<QuotationsCharge> QuotationsCharges { get; set; }
 
         public Currency? Currency { get; set; }
+
+        public  List<Cport> Cports { get; set; }
     }
 }
