@@ -191,7 +191,11 @@ namespace PND_WEB.Controllers
         // GET: Quotations/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new Quotation
+            {
+                Qsatus = "Đang đàm phán" // Hiển thị cho người dùng
+            };
+            return View(model);
         }
 
         // POST: Quotations/Create
