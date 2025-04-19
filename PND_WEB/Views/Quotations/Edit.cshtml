@@ -4,6 +4,16 @@
     ViewData["Title"] = "Edit";
 }
 
+@{
+    bool isReadOnly = Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy";
+}
+
+@{
+    var staffNameAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
+}
+
 <h1>Edit</h1>
 
 <h4>Quotation</h4>
@@ -14,68 +24,80 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="QuotationId" />
             <div class="form-group">
-                <label asp-for="Qsatus" class="control-label"></label>
-                <input asp-for="Qsatus" class="form-control" />
+                <div class="form-group">
+                    <label asp-for="Qsatus" class="control-label"></label>
+                    @if (isReadOnly)
+                    {
+                        @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                 new { @class = "form-control", disabled = "disabled" })
+                        @Html.HiddenFor(model => model.Qsatus)
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                 new { @class = "form-control" })
+                    }
+                </div>
                 <span asp-validation-for="Qsatus" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="StaffName" class="control-label"></label>
-                <input asp-for="StaffName" class="form-control" />
+                @Html.TextBoxFor(model => model.StaffName, staffNameAttr)
                 <span asp-validation-for="StaffName" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Contact" class="control-label"></label>
-                <input asp-for="Contact" class="form-control" />
+                @Html.TextBoxFor(model => model.Contact, staffNameAttr)
                 <span asp-validation-for="Contact" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Qdate" class="control-label"></label>
-                <input asp-for="Qdate" class="form-control" />
+                @Html.TextBoxFor(model => model.Qdate, staffNameAttr)
                 <span asp-validation-for="Qdate" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CusTo" class="control-label"></label>
-                <input asp-for="CusTo" class="form-control" />
+                @Html.TextBoxFor(model => model.CusTo, staffNameAttr)
                 <span asp-validation-for="CusTo" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="CusContact" class="control-label"></label>
-                <input asp-for="CusContact" class="form-control" />
+                @Html.TextBoxFor(model => model.CusContact, staffNameAttr)
                 <span asp-validation-for="CusContact" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Valid" class="control-label"></label>
-                <input asp-for="Valid" class="form-control" />
+                @Html.TextBoxFor(model => model.Valid, staffNameAttr)
                 <span asp-validation-for="Valid" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Term" class="control-label"></label>
-                <input asp-for="Term" class="form-control" />
+                @Html.TextBoxFor(model => model.Term, staffNameAttr)
                 <span asp-validation-for="Term" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Vol" class="control-label"></label>
-                <input asp-for="Vol" class="form-control" />
+                @Html.TextBoxFor(model => model.Vol, staffNameAttr)
                 <span asp-validation-for="Vol" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Commodity" class="control-label"></label>
-                <input asp-for="Commodity" class="form-control" />
+                @Html.TextBoxFor(model => model.Commodity, staffNameAttr)
                 <span asp-validation-for="Commodity" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pol" class="control-label"></label>
-                <input asp-for="Pol" class="form-control" />
+                @Html.TextBoxFor(model => model.Pol, staffNameAttr)
                 <span asp-validation-for="Pol" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Adds" class="control-label"></label>
-                <input asp-for="Adds" class="form-control" />
+                @Html.TextBoxFor(model => model.Adds, staffNameAttr)
                 <span asp-validation-for="Adds" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Pod" class="control-label"></label>
-                <input asp-for="Pod" class="form-control" />
+                @Html.TextBoxFor(model => model.Pod, staffNameAttr)
                 <span asp-validation-for="Pod" class="text-danger"></span>
             </div>
             <div class="form-group">

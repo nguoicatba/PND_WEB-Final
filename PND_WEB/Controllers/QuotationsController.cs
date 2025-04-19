@@ -227,6 +227,14 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+            ViewBag.QsatusList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
+                new SelectListItem { Value = "Đã chốt, chưa vận chuyển", Text = "Đã chốt, chưa vận chuyển" },
+                new SelectListItem { Value = "Đang vận chuyển", Text = "Đang vận chuyển" },
+                new SelectListItem { Value = "Đã hủy", Text = "Đã hủy" },
+                new SelectListItem { Value = "Hoàn thành", Text = "Hoàn thành" }
+            };
             return View(quotation);
         }
 
