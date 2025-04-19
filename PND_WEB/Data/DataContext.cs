@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 
-namespace PND_WEB.Repository
+namespace PND_WEB.Data
 {
     public class DataContext :IdentityDbContext<AppUserModel>
 

@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
-using PND_WEB.Repository;
+using PND_WEB.Data;
 using PND_WEB.ViewModels;
 
 namespace WebApplication4.Controllers

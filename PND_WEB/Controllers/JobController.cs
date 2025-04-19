@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using PND_WEB.Repository;
+using PND_WEB.Data;
 using PND_WEB.Models;
 
 namespace PND_WEB.Controllers
