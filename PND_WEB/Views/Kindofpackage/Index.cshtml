@@ -10,9 +10,10 @@
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="Create">Create New</a>
+            <button class="btn btn-primary btn-xs" id="create">Create</button>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
+        
+        <table class="table table-striped" id="datatable1" style="width:100%">
             <thead class="table-primary">
                 <tr>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
@@ -42,9 +43,8 @@
                             @Html.DisplayFor(modelItem => item.PackagesDescription)
                         </td>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
+                            <button class="btn btn-success btn-xs edit-btn" data-id=@item.Code><i class="fa fa-edit"></i></button>
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -54,5 +54,23 @@
     </div>
 </div>
 
+@section Modal {
+    <div id="get_modal"></div>
+   
+    @{
+        
+        await Html.RenderPartialAsync("_Create",new Kindofpackage() );
+    }
+
+}
 
 
+
+@section Scripts {
+    <script src="~/js/components/Kindofpackage.js"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    
+    
+}

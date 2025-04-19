@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Repository;
@@ -13,11 +15,16 @@ namespace PND_WEB.Controllers
     public class KindofpackageController : Controller
     {
         private readonly DataContext _context;
+        
 
         public KindofpackageController(DataContext context)
         {
             _context = context;
+            
+
         }
+
+       
 
         // GET: Kindofpackage
         public async Task<IActionResult> Index()
@@ -43,11 +50,6 @@ namespace PND_WEB.Controllers
             return View(kindofpackage);
         }
 
-        // GET: Kindofpackage/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         // POST: Kindofpackage/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
@@ -58,11 +60,20 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+               if (KindofpackageExists(kindofpackage.Code))
+                {
+
+                    return Json(new {success = false,message="Bị trùng mã"});
+                }
+
                 _context.Add(kindofpackage);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                return Json(new {success=true,message="thành công"});
             }
-            return View(kindofpackage);
+
+            return Json(new { success = false, message = "thất bại" });
+
         }
 
         // GET: Kindofpackage/Edit/5
@@ -78,7 +89,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            return View(kindofpackage);
+            return PartialView("_Edit",kindofpackage);
         }
 
         // POST: Kindofpackage/Edit/5
@@ -86,13 +97,12 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,PackageName,PackagesDescription")] Kindofpackage kindofpackage)
+        public async Task<IActionResult> Edit([Bind("Code,PackageName,PackagesDescription")] Kindofpackage kindofpackage)
         {
-            if (id != kindofpackage.Code)
-            {
-                return NotFound();
-            }
+            Console.WriteLine(kindofpackage.Code);
+            Console.WriteLine(kindofpackage.PackageName);
 
+            
             if (ModelState.IsValid)
             {
                 try
@@ -111,9 +121,18 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return Json(new { success = true, message = "" });
             }
-            return View(kindofpackage);
+
+            foreach (var error in ModelState.Values)
+            {
+                foreach (var subError in error.Errors)
+                {
+                    Console.WriteLine(subError.ErrorMessage);
+                }
+            }
+
+            return Json(new { success = false, message = "" });
         }
 
         // GET: Kindofpackage/Delete/5
