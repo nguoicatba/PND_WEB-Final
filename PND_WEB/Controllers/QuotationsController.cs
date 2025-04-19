@@ -191,7 +191,11 @@ namespace PND_WEB.Controllers
         // GET: Quotations/Create
         public IActionResult Create()
         {
-            return View();
+            var model = new Quotation
+            {
+                Qsatus = "Đang đàm phán" // Hiển thị cho người dùng
+            };
+            return View(model);
         }
 
         // POST: Quotations/Create
@@ -223,6 +227,14 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+            ViewBag.QsatusList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
+                new SelectListItem { Value = "Đã chốt, chưa vận chuyển", Text = "Đã chốt, chưa vận chuyển" },
+                new SelectListItem { Value = "Đang vận chuyển", Text = "Đang vận chuyển" },
+                new SelectListItem { Value = "Đã hủy", Text = "Đã hủy" },
+                new SelectListItem { Value = "Hoàn thành", Text = "Hoàn thành" }
+            };
             return View(quotation);
         }
 
@@ -298,5 +310,48 @@ namespace PND_WEB.Controllers
         {
             return _context.Quotations.Any(e => e.QuotationId == id);
         }
+
+        [HttpPost]
+        public JsonResult AutoCompleteCports(string prefix)
+        {
+            var cports = (from cport in this._context.Cports
+                             where cport.PortName.Contains(prefix)
+                             select new
+                             {
+                                 label = cport.PortName,
+                                 val = cport.Code
+                             }).ToList();
+
+            return Json(cports);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteCustomers(string prefix)
+        {
+            var customer = (from customers in this._context.TblCustomers
+                          where customers.DutyPerson.Contains(prefix)
+                          select new
+                          {
+                              label = customers.DutyPerson,
+                              label2 = customers.Contact
+                          }).ToList();
+
+            return Json(customer);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteFees(string prefix)
+        {
+            var fees = (from fee in this._context.Fees
+                            where fee.Fee1.Contains(prefix)
+                            select new
+                            {
+                                label = fee.Fee1,
+                                val = fee.Code
+                            }).ToList();
+
+            return Json(fees);
+        }
+
     }
 }

@@ -4,17 +4,18 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Shipper", SubTitle = "Danh sách Shipper " })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Shipper", SubTitle = "Danh sách Shipper " })
 
 
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table nowrap border" id="datatable1">
+            <thead class="bg bg-secondary">
                 <tr>
+                    <th>Action</th>
                     <th>
                         @Html.DisplayNameFor(model => model.Shipper)
                     </th>
@@ -30,12 +31,15 @@
                     <th>
                         @Html.DisplayNameFor(model => model.TaxId)
                     </th>
-                    <th></th>
                 </tr>
     </thead>
     <tbody>
             @foreach (var item in Model) {
                  <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Shipper" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Shipper" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Shipper)
                         </td>
@@ -50,11 +54,6 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TaxId)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Shipper">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Shipper">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Shipper">Delete</a>
                         </td>
             
         </tr>
