@@ -13,131 +13,142 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="QuotationId" />
-            <div class="form-group">
-                <div class="form-group">
-                    <label asp-for="Qsatus" class="control-label"></label>
-                    @if (isReadOnly)
-                    {
-                        @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
-                                 new { @class = "form-control", disabled = "disabled" })
-                        @Html.HiddenFor(model => model.Qsatus)
-                    }
-                    else
-                    {
-                        @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
-                                 new { @class = "form-control" })
-                    }
-                </div>
-                <span asp-validation-for="Qsatus" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT QUOTATIONS</b></div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="QuotationId" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Qsatus" class="control-label"></label>
+                                @if (isReadOnly)
+                                {
+                                    @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                        new { @class = "form-control", disabled = "disabled" })
+                                    @Html.HiddenFor(model => model.Qsatus)
+                                }
+                                else
+                                {
+                                    @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                        new { @class = "form-control" })
+                                }
+                            <span asp-validation-for="Qsatus" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="StaffName" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.StaffName, commonAttr)
+                            <span asp-validation-for="StaffName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Contact" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Contact, commonAttr)
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="Qdate" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Qdate, dateAttr)
+                            <span asp-validation-for="Qdate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CusTo" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.CusTo, isReadOnly
+                                     ? new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "readonly", "readonly" }
+                            }
+                                     : new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "id", "custos" }
+                            })
+                            <span asp-validation-for="CusTo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CusContact" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.CusContact, isReadOnly
+                                     ? new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "readonly", "readonly" }
+                            }
+                                     : new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "id", "cuscontacts" }
+                            })
+                            <span asp-validation-for="CusContact" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Valid" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Valid, dateAttr)
+                            <span asp-validation-for="Valid" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Term" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Term, commonAttr)
+                            <span asp-validation-for="Term" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Vol" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Vol, commonAttr)
+                            <span asp-validation-for="Vol" class="text-danger"></span>
+                        </div>
+                        <div class="form-grou col-4">
+                            <label asp-for="Commodity" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Commodity, commonAttr)
+                            <span asp-validation-for="Commodity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Pol" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Pol, isReadOnly
+                                     ? new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "readonly", "readonly" }
+                            }
+                                     : new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "id", "pols" }
+                            })
+                            <span asp-validation-for="Pol" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Adds" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Adds, isReadOnly
+                                     ? new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "readonly", "readonly" }
+                            }
+                                     : new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "id", "add" }
+                            })
+                            <span asp-validation-for="Adds" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Pod" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Pod, isReadOnly
+                                     ? new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "readonly", "readonly" }
+                            }
+                                     : new Dictionary<string, object> {
+                            { "class", "form-control" },
+                            { "id", "pods" }
+                            })
+                            <span asp-validation-for="Pod" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="StaffName" class="control-label"></label>
-                @Html.TextBoxFor(model => model.StaffName, commonAttr)
-                <span asp-validation-for="StaffName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contact" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Contact, commonAttr)
-                <span asp-validation-for="Contact" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Qdate" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Qdate, dateAttr)
-                <span asp-validation-for="Qdate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CusTo" class="control-label"></label>
-                @Html.TextBoxFor(model => model.CusTo, isReadOnly
-                         ? new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "readonly", "readonly" }
-                }
-                         : new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "id", "custos" }
-                })
-                <span asp-validation-for="CusTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CusContact" class="control-label"></label>
-                @Html.TextBoxFor(model => model.CusContact, isReadOnly
-                         ? new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "readonly", "readonly" }
-                }
-                         : new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "id", "cuscontacts" }
-                })
-                <span asp-validation-for="CusContact" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Valid" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Valid, dateAttr)
-                <span asp-validation-for="Valid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Term" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Term, commonAttr)
-                <span asp-validation-for="Term" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Vol" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Vol, commonAttr)
-                <span asp-validation-for="Vol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Commodity" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Commodity, commonAttr)
-                <span asp-validation-for="Commodity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pol" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Pol, isReadOnly
-                         ? new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "readonly", "readonly" }
-                }
-                         : new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "id", "pols" }
-                })
-                <span asp-validation-for="Pol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Adds" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Adds, isReadOnly
-                         ? new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "readonly", "readonly" }
-                }
-                         : new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "id", "add" }
-                })
-                <span asp-validation-for="Adds" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pod" class="control-label"></label>
-                @Html.TextBoxFor(model => model.Pod, isReadOnly
-                         ? new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "readonly", "readonly" }
-                }
-                         : new Dictionary<string, object> {
-                { "class", "form-control" },
-                { "id", "pods" }
-                })
-                <span asp-validation-for="Pod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
