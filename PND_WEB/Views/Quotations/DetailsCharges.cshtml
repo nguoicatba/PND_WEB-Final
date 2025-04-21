@@ -3,12 +3,8 @@
 
 @{
     ViewData["Title"] = "Details";
-}
-@{
-    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
-}
 
-@{
+    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
     var staffNameAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
@@ -73,17 +69,17 @@
 <div class="card">
     <div class="card-body">
         @if (!isReadOnly)
-           {
-        <p>
-            <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
-        </p>
+        {
+            <p>
+                <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
+            </p>
         }
         <table class="table nowrap border" id="datatable1">
             <thead class="bg bg-secondary">
                 <tr>
                     @if (!isReadOnly)
                     {
-                    <th></th>
+                        <th></th>
                     }
                     <th>Tên phí</th>
                     <th>Số lượng</th>
@@ -92,41 +88,48 @@
                     <th>Tiền tệ</th>
                     <th>Ghi chú</th>
                     <th>Thành tiền</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model.QuotationsCharges)
-        {
-            float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-            float quantity = (float)item.Quantity;
-            float amount = quantity * rate;
-            totalAmount += amount;
-            <tr>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuotationsCharges)
+                {
+                    float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+                    float quantity = (float)item.Quantity;
+                    float amount = quantity * rate;
+                    totalAmount += amount;
+                    <tr>
                         @if (!isReadOnly)
                         {
-                        <td>
-                            <a asp-action="EditCharges" asp-route-id="@item.ChargeId" class="btn btn-primary btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="DeleteCharges" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                        </td>
+                            <td>
+                                <a asp-action="EditCharges" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-action="DeleteCharges" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            </td>
                         }
-                <td>@item.ChargeName</td>
-                <td>@item.Quantity</td>
-                <td>@item.Unit</td>
-                <td>@item.Rate?.ToString("N2")</td>
-                <td>@item.Currency</td>
-                <td>@item.Notes</td>
-                <td>
-                    @if (item.Rate.HasValue)
+                        <td>@item.ChargeName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Rate?.ToString("N2")</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.Rate.HasValue)
+                            {
+                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    @if (!isReadOnly)
                     {
-                        @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
+                        <td colspan="7" class="text-end"><strong>Tổng cộng:</strong></td>
                     }
-                </td>
-            </tr>
-        }
-    </tbody>
-    <tfoot>
-        <tr>
-            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                    else
+                    {
+                        <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                    }
             <td><strong>@totalAmount.ToString("N2")</strong></td>
         </tr>
     </tfoot>
