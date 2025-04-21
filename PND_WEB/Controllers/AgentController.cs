@@ -178,6 +178,7 @@ namespace WebApplication4.Controllers
 
 
         [HttpGet]
+        [Route("Agent/AgentCreate/{id}")]
         public async Task<IActionResult> AgentCreate(string id)
         {
             if (id == null)
