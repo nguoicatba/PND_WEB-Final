@@ -298,6 +298,8 @@ namespace PND_WEB.Controllers
             var quotation = await _context.Quotations.FindAsync(id);
             if (quotation != null)
             {
+                var relatedCharges = _context.QuotationsCharges.Where(qc => qc.QuotationId == id);
+                _context.QuotationsCharges.RemoveRange(relatedCharges);
                 _context.Quotations.Remove(quotation);
             }
 
