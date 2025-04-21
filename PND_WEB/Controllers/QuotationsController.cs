@@ -73,7 +73,6 @@ namespace PND_WEB.Controllers
                 QuotationId = id
             };
 
-            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", id);
             ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
 
             return View(model);
@@ -353,5 +352,17 @@ namespace PND_WEB.Controllers
             return Json(fees);
         }
 
+        [HttpPost]
+        public JsonResult AutoCompleteUnits(string prefix)
+        {
+            var units = (from unit in this._context.Units
+                        where unit.Code.Contains(prefix)
+                        select new
+                        {
+                            label = unit.Code,
+                        }).ToList();
+
+            return Json(units);
+        }
     }
 }
