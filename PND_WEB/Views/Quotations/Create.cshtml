@@ -4,88 +4,97 @@
     ViewData["Title"] = "Create";
 }
 
-<h1>Create</h1>
-
-<h4>Quotation</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="QuotationId" class="control-label"></label>
-                <input asp-for="QuotationId" class="form-control" />
-                <span asp-validation-for="QuotationId" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>CREATE QUOTATIONS</b></div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="QuotationId" class="control-label"></label>
+                            <input asp-for="QuotationId" class="form-control" />
+                            <span asp-validation-for="QuotationId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Qsatus" class="control-label"></label>
+                            <input asp-for="Qsatus" class="form-control" readonly />
+                            <span asp-validation-for="Qsatus" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="StaffName" class="control-label"></label>
+                            <input asp-for="StaffName" class="form-control" readonly />
+                            <span asp-validation-for="StaffName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Contact" class="control-label"></label>
+                            <input asp-for="Contact" class="form-control" readonly />
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="Qdate" class="control-label"></label>
+                            <input asp-for="Qdate" class="form-control" />
+                            <span asp-validation-for="Qdate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CusTo"  class="control-label"></label>
+                            <input asp-for="CusTo" id="custo" class="form-control" />
+                            <span asp-validation-for="CusTo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CusContact" class="control-label"></label>
+                            <input asp-for="CusContact" id="cuscontact" class="form-control" />
+                            <span asp-validation-for="CusContact" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Valid" class="control-label"></label>
+                            <input asp-for="Valid" class="form-control" />
+                            <span asp-validation-for="Valid" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Term" class="control-label"></label>
+                            <input asp-for="Term" class="form-control" />
+                            <span asp-validation-for="Term" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Vol" class="control-label"></label>
+                            <input asp-for="Vol" class="form-control" />
+                            <span asp-validation-for="Vol" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Commodity" class="control-label"></label>
+                            <input asp-for="Commodity" class="form-control" />
+                            <span asp-validation-for="Commodity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                                <label asp-for="Pol"  class="control-label"></label>
+                                <input asp-for="Pol" id="pol" class="form-control" />
+                                <span asp-validation-for="Pol" class="text-danger"></span>
+                            </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Adds" class="control-label"></label>
+                            <input asp-for="Adds" id="adds" class="form-control" />
+                            <span asp-validation-for="Adds" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Pod" class="control-label"></label>
+                            <input asp-for="Pod" id="pod" class="form-control" />
+                            <span asp-validation-for="Pod" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Create" class="btn btn-primary" />
+                        </div>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Qsatus" class="control-label"></label>
-                <input asp-for="Qsatus" class="form-control" readonly />
-                <span asp-validation-for="Qsatus" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="StaffName" class="control-label"></label>
-                <input asp-for="StaffName" class="form-control" readonly />
-                <span asp-validation-for="StaffName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Contact" class="control-label"></label>
-                <input asp-for="Contact" class="form-control" readonly />
-                <span asp-validation-for="Contact" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Qdate" class="control-label"></label>
-                <input asp-for="Qdate" class="form-control" />
-                <span asp-validation-for="Qdate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CusTo"  class="control-label"></label>
-                <input asp-for="CusTo" id="custo" class="form-control" />
-                <span asp-validation-for="CusTo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="CusContact" class="control-label"></label>
-                <input asp-for="CusContact" id="cuscontact" class="form-control" />
-                <span asp-validation-for="CusContact" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Valid" class="control-label"></label>
-                <input asp-for="Valid" class="form-control" />
-                <span asp-validation-for="Valid" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Term" class="control-label"></label>
-                <input asp-for="Term" class="form-control" />
-                <span asp-validation-for="Term" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Vol" class="control-label"></label>
-                <input asp-for="Vol" class="form-control" />
-                <span asp-validation-for="Vol" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Commodity" class="control-label"></label>
-                <input asp-for="Commodity" class="form-control" />
-                <span asp-validation-for="Commodity" class="text-danger"></span>
-            </div>
-                <div class="form-group">
-                    <label asp-for="Pol"  class="control-label"></label>
-                    <input asp-for="Pol" id="pol" class="form-control" />
-                    <span asp-validation-for="Pol" class="text-danger"></span>
-                </div>
-            <div class="form-group">
-                <label asp-for="Adds" class="control-label"></label>
-                <input asp-for="Adds" id="adds" class="form-control" />
-                <span asp-validation-for="Adds" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Pod" class="control-label"></label>
-                <input asp-for="Pod" id="pod" class="form-control" />
-                <span asp-validation-for="Pod" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 

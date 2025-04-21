@@ -4,54 +4,62 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-
-<h4>QuotationsCharge</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="EditCharges">
-            <label asp-for="ChargeId" class="control-label" style="display:none"></label>
-            <input asp-for="ChargeId" style="display:none" class="form-control"  />
-            <input type="hidden" asp-for="ChargeId" />
-            <label asp-for="QuotationId" class="control-label" readonly></label>
-            <input asp-for="QuotationId" class="form-control" readonly />
-            <input type="hidden" asp-for="QuotationId" />
-
-            <div class="form-group">
-                <label asp-for="ChargeName" class="control-label"></label>
-                <input asp-for="ChargeName" class="form-control" />
-                <span asp-validation-for="ChargeName" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT QUOTATIONSCHARGE</b></div>
+            <div class="card-body">
+                <form asp-action="EditCharges">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="ChargeId" class="control-label" style="display:none"></label>
+                            <input asp-for="ChargeId" style="display:none" class="form-control"  />
+                            <input type="hidden" asp-for="ChargeId" />
+                            <label asp-for="QuotationId" class="control-label" readonly></label>
+                            <input asp-for="QuotationId" class="form-control" readonly />
+                            <input type="hidden" asp-for="QuotationId" />
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="ChargeName" class="control-label"></label>
+                            <input asp-for="ChargeName" class="form-control" />
+                            <span asp-validation-for="ChargeName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Quantity" class="control-label"></label>
+                            <input asp-for="Quantity" class="form-control" />
+                            <span asp-validation-for="Quantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Unit" class="control-label"></label>
+                            <input asp-for="Unit" class="form-control" />
+                            <span asp-validation-for="Unit" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Rate" class="control-label"></label>
+                            <input asp-for="Rate" class="form-control" />
+                            <span asp-validation-for="Rate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Currency" class="control-label">Tiền tệ</label>
+                            @Html.DropDownListFor(model => model.Currency, (SelectList)ViewBag.CurrencyList, "-- Chọn tiền tệ --", new { @class = "form-control" })
+                            <span asp-validation-for="Currency" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="Notes" class="control-label"></label>
+                            <input asp-for="Notes" class="form-control" />
+                            <span asp-validation-for="Notes" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Quantity" class="control-label"></label>
-                <input asp-for="Quantity" class="form-control" />
-                <span asp-validation-for="Quantity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Unit" class="control-label"></label>
-                <input asp-for="Unit" class="form-control" />
-                <span asp-validation-for="Unit" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Rate" class="control-label"></label>
-                <input asp-for="Rate" class="form-control" />
-                <span asp-validation-for="Rate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Currency" class="control-label">Tiền tệ</label>
-                @Html.DropDownListFor(model => model.Currency, (SelectList)ViewBag.CurrencyList, "-- Chọn tiền tệ --", new { @class = "form-control" })
-                <span asp-validation-for="Currency" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Notes" class="control-label"></label>
-                <input asp-for="Notes" class="form-control" />
-                <span asp-validation-for="Notes" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
