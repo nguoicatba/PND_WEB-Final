@@ -1,84 +1,176 @@
-﻿@model PND_WEB.ViewModels.QuotationsEditDeleteDetailController
+﻿@using PND_WEB.ViewModels
+@model QuotationsEditDeleteDetailController
 
 @{
-    Layout = null; // Khuyến nghị để PDF không bị ảnh hưởng bởi layout ngoài
-
-    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
-    float totalAmount = 0f;
+    Layout = null; // PDF nên không dùng layout
+    var quotation = Model.Quotation;
+    var charges = Model.QuotationsCharges;
+    float totalAmount = 0;
 }
 
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Export PDF - Báo giá</title>
     <style>
-        body { font-family: Arial; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { border: 1px solid #000; padding: 5px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        h1, h3 { margin-bottom: 5px; }
+        body {
+            font-family: Arial;
+            font-size: 12px;
+            margin: 30px;
+        }
+
+        .header, .footer {
+            text-align: center;
+        }
+
+        .logo {
+            height: 50px;
+        }
+
+        .title {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        td, th {
+            border: 1px solid #000;
+            padding: 5px;
+        }
+
+        .no-border {
+            border: none;
+        }
+
+        .remark {
+            font-size: 11px;
+            margin-top: 10px;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
+    <div class="header">
+        <img src="https://pnd-logistics.com/images/logo.png" alt="PND Logo" class="logo" />
+        <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+        <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+        <p>TEL: __________________ EMAIL: __________________</p>
+        <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+    </div>
 
-    <h1>Chi tiết báo giá</h1>
+    <div class="title text-center">QUOTATION</div>
 
     <table>
-        <tr><th>Mã báo giá</th><td>@Model.Quotation.QuotationId</td></tr>
-        <tr><th>Trạng thái</th><td>@Model.Quotation.Qsatus</td></tr>
-        <tr><th>Nhân viên</th><td>@Model.Quotation.StaffName</td></tr>
-        <tr><th>Khách hàng</th><td>@Model.Quotation.CusTo</td></tr>
-        <tr><th>Liên hệ khách</th><td>@Model.Quotation.CusContact</td></tr>
-        <tr><th>Ngày tạo</th><td>@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</td></tr>
-        <tr><th>Hiệu lực</th><td>@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</td></tr>
-        <tr><th>Điều khoản</th><td>@Model.Quotation.Term</td></tr>
-        <tr><th>Hàng hóa</th><td>@Model.Quotation.Commodity</td></tr>
-        <tr><th>Khối lượng</th><td>@Model.Quotation.Vol</td></tr>
-        <tr><th>Điểm đi (POL)</th><td>@Model.Quotation.Pol</td></tr>
-        <tr><th>Điểm đến (POD)</th><td>@Model.Quotation.Pod</td></tr>
+        <tr>
+            <td class="no-border">FROM</td>
+            <td class="no-border">TO</td>
+            <td class="no-border text-right">Quotation No:</td>
+            <td>@quotation.QuotationId</td>
+        </tr>
+        <tr>
+            <td>@quotation.Qdate?.ToString("dd/MM/yyyy")</td>
+            <td>@quotation.Valid?.ToString("dd/MM/yyyy")</td>
+            <td class="no-border">Contact:</td>
+            <td>@quotation.CusContact</td>
+        </tr>
     </table>
 
-    <h3>Chi tiết chi phí</h3>
+    <p>
+        Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
+        Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
+    </p>
+
+    <p>
+        <strong>
+            We sincerely appreciate your company’s interest in our services.<br />
+            Please refer to our best rate for your inquiry as below:
+        </strong>
+    </p>
+
+    <table>
+        <tr>
+            <td><strong>Place of receipt</strong></td>
+            <td>@quotation.Pol</td>
+            <td><strong>POL</strong></td>
+            <td>@quotation.Pol</td>
+        </tr>
+        <tr>
+            <td><strong>Place of delivery</strong></td>
+            <td>@quotation.Pod</td>
+            <td><strong>POD</strong></td>
+            <td>@quotation.Pod</td>
+        </tr>
+        <tr>
+            <td><strong>Commodity</strong></td>
+            <td>@quotation.Commodity</td>
+            <td><strong>Volume/Term</strong></td>
+            <td>@quotation.Vol</td>
+        </tr>
+    </table>
 
     <table>
         <thead>
-            <tr>
-                <th>Tên phí</th>
-                <th>Số lượng</th>
-                <th>Đơn vị</th>
-                <th>Đơn giá</th>
-                <th>Tiền tệ</th>
-                <th>Ghi chú</th>
-                <th>Thành tiền</th>
+            <tr class="text-center">
+                <th>ITEMS</th>
+                <th>CUR.</th>
+                <th>UNIT</th>
+                <th>QUANT</th>
+                <th>PRICE</th>
+                <th>TOTAL</th>
+                <th>NOTE</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model.QuotationsCharges)
+            @foreach (var item in charges)
             {
-                float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-                float quantity = (float)item.Quantity;
-                float amount = quantity * rate;
+                float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
                 totalAmount += amount;
-
                 <tr>
                     <td>@item.ChargeName</td>
-                    <td>@item.Quantity</td>
-                    <td>@item.Unit</td>
-                    <td>@item.Rate?.ToString("N2")</td>
                     <td>@item.Currency</td>
+                    <td>@item.Unit</td>
+                    <td class="text-right">@item.Quantity</td>
+                    <td class="text-right">@item.Rate?.ToString("N2")</td>
+                    <td class="text-right">@amount.ToString("N2")</td>
                     <td>@item.Notes</td>
-                    <td>@amount.ToString("N2")</td>
                 </tr>
             }
         </tbody>
         <tfoot>
             <tr>
-                <td colspan="6" style="text-align:right;"><strong>Tổng cộng:</strong></td>
-                <td><strong>@totalAmount.ToString("N2")</strong></td>
+                <td colspan="5" class="text-right bold">TOTAL</td>
+                <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                <td></td>
             </tr>
         </tfoot>
     </table>
 
+    <div class="remark">
+        <p><strong>REMARK</strong></p>
+        <ul>
+            <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0%</li>
+            <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm…</li>
+            <li>Báo giá không áp dụng cho hàng hóa nguy hiểm, dễ cháy nổ, quá tải, quá khổ… - Tỉ giá TCB bank ngày xuất hóa đơn</li>
+        </ul>
+        <p><strong>Thanks & Best regards</strong></p>
+        <p>We are member of</p>
+    </div>
 </body>
 </html>
