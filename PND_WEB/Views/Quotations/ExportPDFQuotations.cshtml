@@ -15,162 +15,187 @@
     <style>
         body {
             font-family: Arial;
-            font-size: 12px;
+            font-size: 16px;
             margin: 30px;
         }
 
-        .header, .footer {
-            text-align: center;
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 0.6fr 1.3fr 1fr 1fr 1fr 1fr 1fr;
+            grid-auto-columns: 1fr;
+            gap: 0px 0px;
+            grid-auto-flow: row;
+            grid-template-areas:
+                "left-header right-header"
+                "title title"
+                "infor1 infor2"
+                "infor3 infor3"
+                "infor4 infor5"
+                "table table"
+                "table table"
+                "infor6 infor6";
         }
 
-        .logo {
-            height: 50px;
+        .left-header {
+            grid-area: left-header;
+            height: 150px;
+        }
+
+        .right-header {
+            grid-area: right-header;
+            height: 150px;
+        }
+
+        .infor1 {
+            grid-area: infor1;
+            height: 150px;
+        }
+
+        .infor2 {
+            grid-area: infor2;
+            height: 150px;
+        }
+
+        .infor3 {
+            grid-area: infor3;
+        }
+
+        .infor4 {
+            grid-area: infor4;
+            height: 150px;
+        }
+
+        .infor5 {
+            grid-area: infor5;
+            height: 150px;
+        }
+
+        .table {
+            grid-area: table;
+        }
+
+        .infor6 {
+            grid-area: infor6;
         }
 
         .title {
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 10px;
+            grid-area: title;
+            height: 100px;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        td, th {
-            border: 1px solid #000;
-            padding: 5px;
-        }
-
-        .no-border {
-            border: none;
-        }
-
-        .remark {
-            font-size: 11px;
-            margin-top: 10px;
-        }
-
-        .bold {
-            font-weight: bold;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .text-center {
-            text-align: center;
-        }
     </style>
 </head>
 <body>
-    <div class="header">
-        <img src="https://pnd-logistics.com/images/logo.png" alt="PND Logo" class="logo" />
-        <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-        <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
-        <p>TEL: __________________ EMAIL: __________________</p>
-        <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+    <div class="container">
+        <div class="left-header">
+            <img src="https://pnd-logistics.com/images/logo.png" alt="PND Logo" class="logo" />
+        </div>
+        <div class="right-header">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+            <p>TEL: __________________ EMAIL: __________________</p>
+            <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+        </div>
+
+        <div class="title">
+            <h1>QUOTATION</h1>
+            <div style="float:right">
+                Quotation No: @quotation.QuotationId
+            </div>
+        </div>
+
+        <div class="infor1">
+            FROM  @quotation.Qdate?.ToString("dd/MM/yyyy")
+        </div>
+        <div class="infor2">
+            FROM  @quotation.Qdate?.ToString("dd/MM/yyyy")
+        </div>
+        <div class="infor3">
+            <div>
+                Contact:  @quotation.CusContact
+            </div>
+
+            <p>
+                Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
+                Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
+            </p>
+
+            <p>
+                <strong>
+                    We sincerely appreciate your company’s interest in our services.<br />
+                    Please refer to our best rate for your inquiry as below:
+                </strong>
+            </p>
+        </div>
+
+        <div class="infor4">
+            <strong>Place of receipt</strong> @quotation.Pol
+            <br />
+            <strong>Place of delivery</strong> @quotation.Pod
+            <br />
+            <strong>Commodity</strong> @quotation.Commodity
+        </div>
+
+        <div class="infor5">
+            <strong>POL</strong> @quotation.Pol
+            <br />
+            <strong>POD</strong> @quotation.Pod
+            <br />
+            <strong>Volume/Term</strong> @quotation.Vol
+        </div>
+
+        <div class="table">
+            <table>
+                <thead>
+                    <tr class="text-center">
+                        <th>ITEMS</th>
+                        <th>CUR.</th>
+                        <th>UNIT</th>
+                        <th>QUANT</th>
+                        <th>PRICE</th>
+                        <th>TOTAL</th>
+                        <th>NOTE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in charges)
+                    {
+                        float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
+                        totalAmount += amount;
+                        <tr>
+                            <td>@item.ChargeName</td>
+                            <td>@item.Currency</td>
+                            <td>@item.Unit</td>
+                            <td class="text-right">@item.Quantity</td>
+                            <td class="text-right">@item.Rate?.ToString("N2")</td>
+                            <td class="text-right">@amount.ToString("N2")</td>
+                            <td>@item.Notes</td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="5" class="text-right bold">TOTAL</td>
+                        <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class="infor6">
+            <p><strong>REMARK</strong></p>
+            <ul>
+                <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0%</li>
+                <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm…</li>
+                <li>Báo giá không áp dụng cho hàng hóa nguy hiểm, dễ cháy nổ, quá tải, quá khổ… - Tỉ giá TCB bank ngày xuất hóa đơn</li>
+            </ul>
+            <p><strong>Thanks & Best regards</strong></p>
+            <p>We are member of</p>
+        </div>
+        
     </div>
 
-    <div class="title text-center">QUOTATION</div>
-
-    <table>
-        <tr>
-            <td class="no-border">FROM</td>
-            <td class="no-border">TO</td>
-            <td class="no-border text-right">Quotation No:</td>
-            <td>@quotation.QuotationId</td>
-        </tr>
-        <tr>
-            <td>@quotation.Qdate?.ToString("dd/MM/yyyy")</td>
-            <td>@quotation.Valid?.ToString("dd/MM/yyyy")</td>
-            <td class="no-border">Contact:</td>
-            <td>@quotation.CusContact</td>
-        </tr>
-    </table>
-
-    <p>
-        Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
-        Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
-    </p>
-
-    <p>
-        <strong>
-            We sincerely appreciate your company’s interest in our services.<br />
-            Please refer to our best rate for your inquiry as below:
-        </strong>
-    </p>
-
-    <table>
-        <tr>
-            <td><strong>Place of receipt</strong></td>
-            <td>@quotation.Pol</td>
-            <td><strong>POL</strong></td>
-            <td>@quotation.Pol</td>
-        </tr>
-        <tr>
-            <td><strong>Place of delivery</strong></td>
-            <td>@quotation.Pod</td>
-            <td><strong>POD</strong></td>
-            <td>@quotation.Pod</td>
-        </tr>
-        <tr>
-            <td><strong>Commodity</strong></td>
-            <td>@quotation.Commodity</td>
-            <td><strong>Volume/Term</strong></td>
-            <td>@quotation.Vol</td>
-        </tr>
-    </table>
-
-    <table>
-        <thead>
-            <tr class="text-center">
-                <th>ITEMS</th>
-                <th>CUR.</th>
-                <th>UNIT</th>
-                <th>QUANT</th>
-                <th>PRICE</th>
-                <th>TOTAL</th>
-                <th>NOTE</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in charges)
-            {
-                float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
-                totalAmount += amount;
-                <tr>
-                    <td>@item.ChargeName</td>
-                    <td>@item.Currency</td>
-                    <td>@item.Unit</td>
-                    <td class="text-right">@item.Quantity</td>
-                    <td class="text-right">@item.Rate?.ToString("N2")</td>
-                    <td class="text-right">@amount.ToString("N2")</td>
-                    <td>@item.Notes</td>
-                </tr>
-            }
-        </tbody>
-        <tfoot>
-            <tr>
-                <td colspan="5" class="text-right bold">TOTAL</td>
-                <td class="text-right bold">@totalAmount.ToString("N2")</td>
-                <td></td>
-            </tr>
-        </tfoot>
-    </table>
-
-    <div class="remark">
-        <p><strong>REMARK</strong></p>
-        <ul>
-            <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0%</li>
-            <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm…</li>
-            <li>Báo giá không áp dụng cho hàng hóa nguy hiểm, dễ cháy nổ, quá tải, quá khổ… - Tỉ giá TCB bank ngày xuất hóa đơn</li>
-        </ul>
-        <p><strong>Thanks & Best regards</strong></p>
-        <p>We are member of</p>
-    </div>
 </body>
 </html>
