@@ -49,9 +49,29 @@ namespace PND_WEB.Controllers
         // GET: Job/Create
         public IActionResult Create()
         {
-            ViewData["GoodsType"]= new SelectList(_context.GoodsTypes,"Code","Code");
-            ViewData["Agent"] = new SelectList(_context.Agents, "Code", "Code");
-            ViewData["Carrier"] = new SelectList(_context.Carriers, "Code", "Code");
+            var goodsTypes = _context.GoodsTypes.Select(g => new { 
+                
+                Code=g.Code,
+                Name =g.Code + "|   " + g.GtName
+
+            }).ToList();
+            var agent= _context.Agents.Select(a => new
+            {
+
+                Code = a.Code,
+                Name = a.Code + "|   " + a.AgentName
+            }).ToList();
+
+            var carrier = _context.Carriers.Select(c => new
+            {
+                Code = c.Code,
+                Name = c.Code + "|   " + c.CarrierName
+            }).ToList();
+
+
+            ViewData["GoodsType"] = new SelectList(goodsTypes, "Code", "Name");
+            ViewData["Agent"] = new SelectList(agent, "Code", "Name");
+            ViewData["Carrier"] = new SelectList(carrier, "Code", "Name");
             return View();
         }
 
