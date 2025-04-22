@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Repository;
 using PND_WEB.ViewModels;
+using Rotativa.AspNetCore;
 
 namespace PND_WEB.Controllers
 {
@@ -364,5 +365,28 @@ namespace PND_WEB.Controllers
 
             return Json(units);
         }
+
+
+
+
+        //ExportPDF
+        public async Task<IActionResult> ExportPDFQuotations(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return new ViewAsPdf("ExportPDFQuotations", viewModel);
+        }
+
     }
 }
