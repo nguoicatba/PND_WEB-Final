@@ -1,10 +1,9 @@
-﻿@model PND_WEB.Models.Quotation
+﻿@using PND_WEB.ViewModels
+@model QuotationsEditDeleteDetailController
 
 @{
     ViewData["Title"] = "Delete";
 }
-
-<h1>Delete</h1>
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
@@ -12,87 +11,139 @@
     <hr />
     <dl class="row">
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Qsatus)
+            @Html.DisplayNameFor(model => model.Quotation.Qsatus)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Qsatus)
+            @Html.DisplayFor(model => model.Quotation.Qsatus)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StaffName)
+            @Html.DisplayNameFor(model => model.Quotation.StaffName)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StaffName)
+            @Html.DisplayFor(model => model.Quotation.StaffName)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact)
+            @Html.DisplayNameFor(model => model.Quotation.Contact)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contact)
+            @Html.DisplayFor(model => model.Quotation.Contact)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Qdate)
+            @Html.DisplayNameFor(model => model.Quotation.Qdate)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Qdate)
+            @Html.DisplayFor(model => model.Quotation.Qdate)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CusTo)
+            @Html.DisplayNameFor(model => model.Quotation.CusTo)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CusTo)
+            @Html.DisplayFor(model => model.Quotation.CusTo)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CusContact)
+            @Html.DisplayNameFor(model => model.Quotation.CusContact)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CusContact)
+            @Html.DisplayFor(model => model.Quotation.CusContact)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Valid)
+            @Html.DisplayNameFor(model => model.Quotation.Valid)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Valid)
+            @Html.DisplayFor(model => model.Quotation.Valid)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Term)
+            @Html.DisplayNameFor(model => model.Quotation.Term)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Term)
+            @Html.DisplayFor(model => model.Quotation.Term)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vol)
+            @Html.DisplayNameFor(model => model.Quotation.Vol)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vol)
+            @Html.DisplayFor(model => model.Quotation.Vol)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Commodity)
+            @Html.DisplayNameFor(model => model.Quotation.Commodity)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Commodity)
+            @Html.DisplayFor(model => model.Quotation.Commodity)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pol)
+            @Html.DisplayNameFor(model => model.Quotation.Pol)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pol)
+            @Html.DisplayFor(model => model.Quotation.Pol)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adds)
+            @Html.DisplayNameFor(model => model.Quotation.Adds)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adds)
+            @Html.DisplayFor(model => model.Quotation.Adds)
         </dd>
         <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pod)
+            @Html.DisplayNameFor(model => model.Quotation.Pod)
         </dt>
         <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pod)
+            @Html.DisplayFor(model => model.Quotation.Pod)
         </dd>
-    </dl>
-    
+    </dl><h3>Chi tiết chi phí</h3>
+    @{
+        float totalAmount = 0f;
+    }
+    <div class="card">
+        <div class="card-body">
+
+            <table class="table nowrap border" id="datatable1">
+                <thead class="bg bg-secondary">
+                    <tr>
+                        <th>Tên phí</th>
+                        <th>Số lượng</th>
+                        <th>Đơn vị</th>
+                        <th>Đơn giá</th>
+                        <th>Tiền tệ</th>
+                        <th>Ghi chú</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.QuotationsCharges)
+                    {
+                        float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+                        float quantity = (float)item.Quantity;
+                        float amount = quantity * rate;
+                        totalAmount += amount;
+                        <tr>
+                            <td>@item.ChargeName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Unit</td>
+                            <td>@item.Rate?.ToString("N2")</td>
+                            <td>@item.Currency</td>
+                            <td>@item.Notes</td>
+                            <td>
+                                @if (item.Rate.HasValue)
+                                {
+                                    @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                    ;
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
+
+                            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+
+                        <td><strong>@totalAmount.ToString("N2")</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="QuotationId" />
+        <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

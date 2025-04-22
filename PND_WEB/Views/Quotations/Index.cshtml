@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Quotations", SubTitle = "Danh sách báo giá" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Quotations", SubTitle = "Danh sách báo giá" })
 
 <div class="card">
     <div class="card-body">
@@ -64,12 +64,10 @@
                     <tr>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            
                             <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                         <td>
-                            <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>
-                            
+                            <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>  
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Qsatus)
@@ -110,7 +108,6 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Pod)
                         </td>
-                        
                     </tr>
                 }
                 </tbody>

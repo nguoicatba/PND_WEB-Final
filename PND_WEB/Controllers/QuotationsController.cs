@@ -26,180 +26,16 @@ namespace PND_WEB.Controllers
             return View(await _context.Quotations.ToListAsync());
         }
 
-        // GET: Quotations/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var quotation = await _context.Quotations
-                .FirstOrDefaultAsync(m => m.QuotationId == id);
-            if (quotation == null)
-            {
-                return NotFound();
-            }
-
-            return View(quotation);
-        }
-
-        public async Task<IActionResult> DetailsCharges(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
-
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            return View(viewModel);
-        }
-
-        public IActionResult CreateCharges(string id)
-        {
-            var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
-            if (quotation == null)
-                return NotFound();
-
-            var model = new QuotationsCharge
-            {
-                QuotationId = id
-            };
-
-            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
-
-            return View(model);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(quotationsCharge);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
-            }
-            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
-            return View(quotationsCharge);
-        }
-
-        // POST: QuotationsCharges/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-
-        public IActionResult EditCharges(int id)
-        {
-            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
-            if (charge == null)
-                return NotFound();
-
-            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", charge.QuotationId);
-            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", charge.Currency);
-
-            return View(charge);
-        }
-
-
-        private bool QuotationsChargeExists(int id)
-        {
-            return _context.QuotationsCharges.Any(e => e.ChargeId == id);
-        }
-        // POST: QuotationsCharges/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
-        {
-            if (id != quotationsCharge.ChargeId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(quotationsCharge);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!QuotationsChargeExists(quotationsCharge.ChargeId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                // Sau khi sửa xong, quay về chi tiết báo giá
-                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
-            }
-
-            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
-            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", quotationsCharge.Currency);
-
-            return View("Edit", quotationsCharge); // Đảm bảo dùng đúng View
-        }
-
-
-
-        public async Task<IActionResult> DeleteCharges(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var quotationsCharge = await _context.QuotationsCharges
-                .Include(q => q.Quotation)
-                .FirstOrDefaultAsync(m => m.ChargeId == id);
-            if (quotationsCharge == null)
-            {
-                return NotFound();
-            }
-
-            return View(quotationsCharge);
-        }
-
-        // POST: QuotationsCharges/Delete/5
-        [HttpPost, ActionName("DeleteCharges")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteChargesConfirmed(int id)
-        {
-            var quotationsCharge = await _context.QuotationsCharges.FindAsync(id);
-            if (quotationsCharge != null)
-            {
-                _context.QuotationsCharges.Remove(quotationsCharge);
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
-        }
-        // GET: Quotations/Create
+        //Quotations
         public IActionResult Create()
         {
             var model = new Quotation
             {
-                Qsatus = "Đang đàm phán" // Hiển thị cho người dùng
+                Qsatus = "Đang đàm phán"
             };
             return View(model);
         }
 
-        // POST: Quotations/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
@@ -213,7 +49,6 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
-        // GET: Quotations/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -237,9 +72,6 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
-        // POST: Quotations/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string id, [Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
@@ -272,7 +104,7 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
-        // GET: Quotations/Delete/5
+
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -281,16 +113,22 @@ namespace PND_WEB.Controllers
             }
 
             var quotation = await _context.Quotations
-                .FirstOrDefaultAsync(m => m.QuotationId == id);
-            if (quotation == null)
-            {
-                return NotFound();
-            }
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
 
-            return View(quotation);
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return View(viewModel);
+
         }
 
-        // POST: Quotations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -311,6 +149,166 @@ namespace PND_WEB.Controllers
         {
             return _context.Quotations.Any(e => e.QuotationId == id);
         }
+
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotation = await _context.Quotations
+                .FirstOrDefaultAsync(m => m.QuotationId == id);
+            if (quotation == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotation);
+        }
+
+
+
+
+        //QuotationCharges
+
+        public IActionResult CreateCharges(string id)
+        {
+            var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
+            if (quotation == null)
+                return NotFound();
+
+            var model = new QuotationsCharge
+            {
+                QuotationId = id
+            };
+
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(quotationsCharge);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+            }
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            return View(quotationsCharge);
+        }
+
+        public IActionResult EditCharges(int id)
+        {
+            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
+            if (charge == null)
+                return NotFound();
+
+            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", charge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", charge.Currency);
+
+            return View(charge);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (id != quotationsCharge.ChargeId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(quotationsCharge);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuotationsChargeExists(quotationsCharge.ChargeId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+            }
+
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", quotationsCharge.Currency);
+
+            return View("Edit", quotationsCharge);
+        }
+
+        public async Task<IActionResult> DeleteCharges(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotationsCharge = await _context.QuotationsCharges
+                .Include(q => q.Quotation)
+                .FirstOrDefaultAsync(m => m.ChargeId == id);
+            if (quotationsCharge == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotationsCharge);
+        }
+
+        [HttpPost, ActionName("DeleteCharges")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteChargesConfirmed(int id)
+        {
+            var quotationsCharge = await _context.QuotationsCharges.FindAsync(id);
+            if (quotationsCharge != null)
+            {
+                _context.QuotationsCharges.Remove(quotationsCharge);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+        }
+
+        private bool QuotationsChargeExists(int id)
+        {
+            return _context.QuotationsCharges.Any(e => e.ChargeId == id);
+        }
+
+        public async Task<IActionResult> DetailsCharges(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+
+
+
+        //AutoComplete 
 
         [HttpPost]
         public JsonResult AutoCompleteCports(string prefix)
