@@ -1,98 +1,159 @@
-﻿@model PND_WEB.Models.Quotation
+﻿@using PND_WEB.ViewModels
+@model QuotationsEditDeleteDetailController
 
 @{
     ViewData["Title"] = "Delete";
 }
+<center><h1>DELETE QUOTATION</h1></center>
+<h3>Chi tiết báo giá</h3>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Mã báo giá:.
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Trạng thái:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên lạc nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên hệ khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Ngày tạo:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hiệu lực:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điều khoản:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hàng hóa:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Khối lượng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đi (POL):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đến (POD):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+    <h3>Chi tiết chi phí</h3>
+    @{
+        float totalAmount = 0f;
+    }
+    <div class="card">
+        <div class="card-body">
 
-<h1>Delete</h1>
+            <table class="table nowrap border" id="datatable1">
+                <thead class="bg bg-secondary">
+                    <tr>
+                        <th>Tên phí</th>
+                        <th>Số lượng</th>
+                        <th>Đơn vị</th>
+                        <th>Đơn giá</th>
+                        <th>Tiền tệ</th>
+                        <th>Ghi chú</th>
+                        <th>Thành tiền</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.QuotationsCharges)
+                    {
+                        float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+                        float quantity = (float)item.Quantity;
+                        float amount = quantity * rate;
+                        totalAmount += amount;
+                        <tr>
+                            <td>@item.ChargeName</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Unit</td>
+                            <td>@item.Rate?.ToString("N2")</td>
+                            <td>@item.Currency</td>
+                            <td>@item.Notes</td>
+                            <td>
+                                @if (item.Rate.HasValue)
+                                {
+                                    @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                    ;
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Quotation</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Qsatus)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Qsatus)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.StaffName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.StaffName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Contact)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Contact)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Qdate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Qdate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CusTo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CusTo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CusContact)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CusContact)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Valid)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Valid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Term)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Term)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Vol)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Vol)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Commodity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Commodity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pol)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pol)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Adds)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Adds)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pod)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pod)
-        </dd>
-    </dl>
-    
+                            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+
+                        <td><strong>@totalAmount.ToString("N2")</strong></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
     <form asp-action="Delete">
-        <input type="hidden" asp-for="QuotationId" />
+        <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
         <input type="submit" value="Delete" class="btn btn-danger" /> |
         <a asp-action="Index">Back to List</a>
     </form>

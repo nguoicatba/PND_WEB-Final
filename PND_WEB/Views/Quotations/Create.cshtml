@@ -14,7 +14,7 @@
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="QuotationId" class="control-label"></label>
-                            <input asp-for="QuotationId" class="form-control" />
+                            <input asp-for="QuotationId" class="form-control" readonly />
                             <span asp-validation-for="QuotationId" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
@@ -89,7 +89,7 @@
                             <span asp-validation-for="Pod" class="text-danger"></span>
                         </div>
                         <div class="form-group">
-                            <input type="submit" value="Create" class="btn btn-primary" />
+                            <input type="submit" value="Create" class="btn btn-primary  btn-xs" />
                         </div>
                     </div>
                 </form>

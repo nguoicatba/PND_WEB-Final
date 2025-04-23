@@ -11,7 +11,5 @@ namespace PND_WEB.ViewModels
 
         public Currency? Currency { get; set; }
 
-        
-
     }
 }

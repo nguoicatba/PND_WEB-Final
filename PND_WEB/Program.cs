@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
+using Rotativa.AspNetCore;
 
 namespace PND_WEB
 {
@@ -56,6 +57,9 @@ namespace PND_WEB
                 app.UseHsts();
                 builderRazor.AddRazorRuntimeCompilation();
             }
+
+            var env = builder.Environment;
+            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

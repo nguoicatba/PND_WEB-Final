@@ -9,60 +9,102 @@
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
 }
-<h1>Details</h1>
 
-<table class="table table-bordered">
-    <tr>
-        <th>Mã báo giá:</th>
-        <td>@Model.Quotation.QuotationId</td>
-    </tr>
-    <tr>
-        <th>Trạng thái:</th>
-        <td>@Model.Quotation.Qsatus</td>
-    </tr>
-    <tr>
-        <th>Nhân viên:</th>
-        <td>@Model.Quotation.StaffName</td>
-    </tr>
-    <tr>
-        <th>Khách hàng:</th>
-        <td>@Model.Quotation.CusTo</td>
-    </tr>
-    <tr>
-        <th>Liên hệ khách:</th>
-        <td>@Model.Quotation.CusContact</td>
-    </tr>
-    <tr>
-        <th>Ngày tạo:</th>
-        <td>@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</td>
-    </tr>
-    <tr>
-        <th>Hiệu lực:</th>
-        <td>@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</td>
-    </tr>
-    <tr>
-        <th>Điều khoản:</th>
-        <td>@Model.Quotation.Term</td>
-    </tr>
-    <tr>
-        <th>Hàng hóa:</th>
-        <td>@Model.Quotation.Commodity</td>
-    </tr>
-    <tr>
-        <th>Khối lượng:</th>
-        <td>@Model.Quotation.Vol</td>
-    </tr>
-    <tr>
-        <th>Điểm đi (POL):</th>
-        <td>@Model.Quotation.Pol</td>
-    </tr>
-    <tr>
-        <th>Điểm đến (POD):</th>
-        <td>@Model.Quotation.Pod</td>
-    </tr>
-</table>
+<h1>Chi tiết báo giá</h1>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Mã báo giá:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Trạng thái:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên lạc nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên hệ khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Ngày tạo:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hiệu lực:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điều khoản:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hàng hóa:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Khối lượng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đi (POL):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đến (POD):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
 
-<h3>Chi tiết chi phí</h3>
+<h3>Thông tin phí</h3>
 @{
     float totalAmount = 0f;
 }
@@ -84,7 +126,7 @@
                     <th>Tên phí</th>
                     <th>Số lượng</th>
                     <th>Đơn vị</th>
-                    <th>Đơn giá</th>
+                    <th>Giá</th>
                     <th>Tiền tệ</th>
                     <th>Ghi chú</th>
                     <th>Thành tiền</th>
@@ -94,7 +136,7 @@
                 @foreach (var item in Model.QuotationsCharges)
                 {
                     float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-                    float quantity = (float)item.Quantity;
+                    float quantity = item.Quantity.HasValue ? (float)item.Quantity : 0f;
                     float amount = quantity * rate;
                     totalAmount += amount;
                     <tr>
