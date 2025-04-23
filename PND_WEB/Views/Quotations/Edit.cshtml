@@ -4,6 +4,9 @@
     ViewData["Title"] = "Edit";
 
     bool isReadOnly = Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy";
+    var staffAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
     var commonAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
@@ -15,7 +18,7 @@
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header"><b>EDIT QUOTATIONS</b></div>
+            <div class="card-header"><b>EDIT QUOTATIONS: @Model.QuotationId</td></b></div>
             <div class="card-body">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -38,12 +41,12 @@
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="StaffName" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.StaffName, commonAttr)
+                            @Html.TextBoxFor(model => model.StaffName, staffAttr)
                             <span asp-validation-for="StaffName" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="Contact" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.Contact, commonAttr)
+                            @Html.TextBoxFor(model => model.Contact, staffAttr)
                             <span asp-validation-for="Contact" class="text-danger"></span>
                         </div>
                     </div>

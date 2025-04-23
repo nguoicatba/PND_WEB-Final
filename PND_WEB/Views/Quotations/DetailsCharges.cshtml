@@ -94,7 +94,7 @@
                 @foreach (var item in Model.QuotationsCharges)
                 {
                     float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-                    float quantity = (float)item.Quantity;
+                    float quantity = item.Quantity.HasValue ? (float)item.Quantity : 0f;
                     float amount = quantity * rate;
                     totalAmount += amount;
                     <tr>

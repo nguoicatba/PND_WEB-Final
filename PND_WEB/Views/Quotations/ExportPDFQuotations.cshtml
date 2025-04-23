@@ -47,12 +47,12 @@
 </head>
 <body>
 
-    <table style="width: 100%; margin-bottom: 20px; border: 1px solid #FFF">
+    <table style="width: 100%; margin-bottom: 20px; border: #FFF">
         <tr>
-            <td style="width: 50%; vertical-align: top; border: 1px solid #FFF">
-                <img src="https://pnd-logistics.com/images/logo.png" alt="PND Logo" class="logo" />
+            <td style="width: 50%; vertical-align: top; border: #FFF">
+                <img src="" alt="PND Logo" class="logo" />
             </td>
-            <td style="width: 50%; vertical-align: top; border: 1px solid #FFF">
+            <td style="width: 50%; vertical-align: top; border: #FFF">
                 <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
                 <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
                 <p>TEL: __________________ EMAIL: __________________</p>
@@ -66,16 +66,16 @@
         <div>Quotation No: @quotation.QuotationId</div>
     </div>
 
-    <table style="width: 100%; margin-bottom: 20px; border: 1px solid #FFF">
+    <table style="border: #FFF">
         <tr>
-            <td style="width: 50%; border: 1px solid #FFF">
+            <td style="border: #FFF">
                 FROM 
-                
+                <br />
                 @quotation.Qdate?.ToString("dd/MM/yyyy")
             </td>
-            <td style="width: 50%; border: 1px solid #FFF">
+            <td style="border: #FFF">
                 TO 
-                
+                <br />
                 @quotation.Valid?.ToString("dd/MM/yyyy")
             </td>
         </tr>
@@ -95,17 +95,17 @@
         </p>
     </div>
 
-    <table style="width: 100%; margin-bottom: 20px;  border: 1px solid #FFF">
+    <table style="border: #FFF">
         <tr>
-            <td style="width: 50%; vertical-align: top;  border: 1px solid #FFF">
-                <strong>Place of receipt:</strong> @quotation.Pol<br />
-                <strong>Place of delivery:</strong> @quotation.Pod<br />
-                <strong>Commodity:</strong> @quotation.Commodity
+            <td style="border: #FFF">
+                <strong>Place of receipt:</strong> @quotation.Pol<br /><br />
+                <strong>Place of delivery:</strong> @quotation.Pod<br /><br />
+                <strong>Commodity:</strong> @quotation.Commodity<br />
             </td>
-            <td style="width: 50%; vertical-align: top;  border: 1px solid #FFF">
-                <strong>POL:</strong> @quotation.Pol<br />
-                <strong>POD:</strong> @quotation.Pod<br />
-                <strong>Volume/Term:</strong> @quotation.Vol
+            <td style=" border: #FFF">
+                <strong>POL:</strong> @quotation.Pol<br /><br />
+                <strong>POD:</strong> @quotation.Pod<br /><br />
+                <strong>Volume/Term:</strong> @quotation.Vol<br />
             </td>
         </tr>
     </table>

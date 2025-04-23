@@ -27,15 +27,47 @@ namespace PND_WEB.Controllers
             return View(await _context.Quotations.ToListAsync());
         }
 
+        public async Task<string> CreateQuotationCode()
+        {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"QTN{datePart}";
+
+            using (var transaction = await _context.Database.BeginTransactionAsync())
+            {
+                try
+                {
+                    int countThisMonth = await _context.Quotations
+                        .Where(q => q.QuotationId.StartsWith(prefix))
+                        .CountAsync();
+
+                    int nextNumber = countThisMonth + 1;
+
+                    string quotationCode = $"{prefix}{nextNumber}";
+
+                    await transaction.CommitAsync();
+                    return quotationCode;
+                }
+                catch (Exception)
+                {
+                    await transaction.RollbackAsync();
+                    throw;
+                }
+            }
+        }
+
         //Quotations
-        public IActionResult Create()
+
+        public async Task<IActionResult> Create()
         {
             var model = new Quotation
             {
+                QuotationId = await CreateQuotationCode(),
                 Qsatus = "Đang đàm phán"
             };
             return View(model);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -181,7 +213,10 @@ namespace PND_WEB.Controllers
 
             var model = new QuotationsCharge
             {
-                QuotationId = id
+                QuotationId = id,
+
+                Quantity = 0,
+                Rate =0,
             };
 
             ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
@@ -365,8 +400,6 @@ namespace PND_WEB.Controllers
 
             return Json(units);
         }
-
-
 
 
         //ExportPDF
