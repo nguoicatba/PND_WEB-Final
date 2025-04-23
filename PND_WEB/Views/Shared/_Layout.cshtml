@@ -34,8 +34,11 @@
     <link rel="stylesheet" href="~/app/vendor/bootstrap-datepicker/dist/css/bootstrap-datepicker.css">
     <!-- COLORPICKER-->
     <link rel="stylesheet" href="~/app/vendor/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.css">
+    <!-- SELECT2-->
+    <link rel="stylesheet" href="~/app/vendor/select2/dist/css/select2.css">
+    <link rel="stylesheet" href="~/app/vendor/ttskch/select2-bootstrap4-theme/dist/select2-bootstrap4.css">
     <!-- WYSIWYG-->
-    <link rel="stylesheet" href="~app/vendor/bootstrap-wysiwyg/css/style.css">
+    <link rel="stylesheet" href="~/app/vendor/bootstrap-wysiwyg/css/style.css">
     <!-- =============== BOOTSTRAP STYLES ===============-->
     <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
     <!-- =============== APP STYLES ===============-->
@@ -455,5 +458,6 @@
     @* <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> *@
     @* <script src="~/js/site.js" asp-append-version="true"></script> *@
     @await RenderSectionAsync("Scripts", required: false)
+    @await RenderSectionAsync("Modal", required: false)
 </body>
 </html>

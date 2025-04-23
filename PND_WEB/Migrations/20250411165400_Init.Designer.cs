@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PND_WEB.Repository;
+using PND_WEB.Data;   
 
-#nullable disable
+#nullable disable   
 
 namespace PND_WEB.Migrations
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using PND_WEB.Data;
 using PND_WEB.Models;
-using PND_WEB.Repository;
 using Rotativa.AspNetCore;
 
 namespace PND_WEB
@@ -16,13 +16,13 @@ namespace PND_WEB
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            builder.Services.AddDbContext<Repository.DataContext>(options =>
+            builder.Services.AddDbContext<Data.DataContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 
 
             builder.Services.AddIdentity<AppUserModel,IdentityRole>()
-    .AddEntityFrameworkStores<Repository.DataContext>().AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<Data.DataContext>().AddDefaultTokenProviders();
            
 
             builder.Services.Configure<IdentityOptions>(options =>
@@ -46,6 +46,8 @@ namespace PND_WEB
             });
 
             var app = builder.Build();
+
+            app.UseStatusCodePagesWithRedirects("/Home/Error/?statuscode={0}");
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
@@ -71,7 +73,7 @@ namespace PND_WEB
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Repository.DataContext>();
+            var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Data.DataContext>();
             SeedingData.SeedData(context);
             
             // run code

@@ -1,0 +1,66 @@
+﻿@model PND_WEB.Models.Kindofpackage
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="modal fade" id="myModalLargeEdit" tabindex="-1" role="dialog" data-backdrop="static" aria-labelledby="myModalLabelLarge" aria-hidden="true">
+    <form method="post" asp-action="Edit" asp-controller="Kindofpackage" asp-antiforgery="true" id="editform">
+        <div class="modal-dialog modal-lg">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabelLarge">Kind of package Edit</h4>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <form asp-action="Edit">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <div class="form-group">
+                                    <label asp-for="Code" class="control-label"></label>
+                                    <input asp-for="Code" class="form-control" readonly="readonly"/>
+                                    <span asp-validation-for="Code" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PackageName" class="control-label"></label>
+                                    <input asp-for="PackageName" class="form-control" />
+                                    <span asp-validation-for="PackageName" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="PackagesDescription" class="control-label"></label>
+                                    <input asp-for="PackagesDescription" class="form-control" />
+                                    <span asp-validation-for="PackagesDescription" class="text-danger"></span>
+                                </div>
+                               
+                            </form>
+                        </div>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Close</button>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                </div>
+
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+
+
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

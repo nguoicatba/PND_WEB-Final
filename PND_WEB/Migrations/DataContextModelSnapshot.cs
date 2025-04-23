@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using PND_WEB.Repository;
+using PND_WEB.Data;
 
 #nullable disable
 
@@ -655,54 +655,71 @@ namespace PND_WEB.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("int")
+                        .HasColumnName("ID");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool?>("Buy")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Buy");
 
                     b.Property<bool?>("Checked")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Checked");
 
                     b.Property<bool?>("Cont")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Cont");
 
                     b.Property<string>("Currency")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Currency");
 
                     b.Property<string>("DebitId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Debit_ID");
 
                     b.Property<float?>("ExchangeRate")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("Exchange_rate");
 
                     b.Property<float?>("MVat")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("M_VAT");
 
                     b.Property<bool?>("Sell")
-                        .HasColumnType("bit");
+                        .HasColumnType("bit")
+                        .HasColumnName("Sell");
 
                     b.Property<string>("SerName")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Ser_Name");
 
                     b.Property<float?>("SerPrice")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Price");
 
                     b.Property<float?>("SerQuantity")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Quantity");
 
                     b.Property<string>("SerUnit")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Ser_Unit");
 
                     b.Property<float?>("SerVat")
-                        .HasColumnType("real");
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_VAT");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DebitId");
 
-                    b.ToTable("TblCharges");
+                    b.ToTable("tbl_CHARGES");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblCnee", b =>
@@ -1207,40 +1224,57 @@ namespace PND_WEB.Migrations
             modelBuilder.Entity("PND_WEB.Models.TblInvoice", b =>
                 {
                     b.Property<string>("DebitId")
-                        .HasColumnType("nvarchar(450)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Debit_ID");
 
                     b.Property<DateTime?>("DebitDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Debit_date");
 
-                    b.Property<string>("Hbl")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("HblNavigationHbl")
+                    b.Property<string>("HBL")
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<string>("Hbl")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("HBL");
+
                     b.Property<DateTime?>("InvoiceDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Invoice_date");
 
                     b.Property<string>("InvoiceNo")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Invoice_No");
 
                     b.Property<string>("InvoiceType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("Invoice_type");
 
                     b.Property<DateTime?>("PaymentDate")
-                        .HasColumnType("datetime2");
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Payment_date");
 
                     b.Property<string>("SupplierId")
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("Supplier_ID");
 
                     b.HasKey("DebitId");
 
-                    b.HasIndex("HblNavigationHbl");
+                    b.HasIndex("HBL");
 
                     b.HasIndex("SupplierId");
 
-                    b.ToTable("TblInvoices");
+                    b.ToTable("tbl_INVOICE", t =>
+                        {
+                            t.Property("HBL")
+                                .HasColumnName("HBL1");
+                        });
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblJob", b =>
@@ -1725,7 +1759,7 @@ namespace PND_WEB.Migrations
                 {
                     b.HasOne("PND_WEB.Models.TblHbl", "HblNavigation")
                         .WithMany("TblInvoices")
-                        .HasForeignKey("HblNavigationHbl");
+                        .HasForeignKey("HBL");
 
                     b.HasOne("PND_WEB.Models.TblSupplier", "Supplier")
                         .WithMany("TblInvoices")

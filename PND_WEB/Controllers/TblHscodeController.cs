@@ -6,7 +6,7 @@ using System.Text;
 using PND_WEB.Models;
 using X.PagedList;
 using X.PagedList.Extensions;
-using PND_WEB.Repository;
+using PND_WEB.Data;
 namespace Demo_HScode.Controllers;
 
 public class TblHscodeController : Controller

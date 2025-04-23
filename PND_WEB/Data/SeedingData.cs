@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 
-namespace PND_WEB.Repository
+
+namespace PND_WEB.Data
 {
     public class SeedingData
     {
@@ -47,7 +48,7 @@ namespace PND_WEB.Repository
             if (!_context.BlTypes.Any())
             {
                 _context.BlTypes.AddRange(
-                    new BlType { Code = "Copy", BlName = "", Note = ""},
+                    new BlType { Code = "Copy", BlName = "", Note = "" },
                     new BlType { Code = "Original", BlName = "", Note = "" },
                     new BlType { Code = "Draft", BlName = "", Note = "" },
                     new BlType { Code = "SEWAY BILL", BlName = "", Note = "" },
@@ -59,9 +60,9 @@ namespace PND_WEB.Repository
 
 
             if (!_context.Units.Any())
-            {   
+            {
                 _context.Units.AddRange(
-                    new Unit { Code = "20`DC", UnitName="", Note="" },
+                    new Unit { Code = "20`DC", UnitName = "", Note = "" },
                     new Unit { Code = "20`GP", UnitName = "", Note = "" },
                     new Unit { Code = "20`OT", UnitName = "", Note = "" },
                     new Unit { Code = "20`RF", UnitName = "", Note = "" },
@@ -112,8 +113,8 @@ namespace PND_WEB.Repository
             if (!_context.Fees.Any())
             {
                 _context.Fees.AddRange(
-                
-                    new Fee { Code = "ACI", Fee1= "Phí khai hải quan tự động", Unit = "SET", Note = "" },
+
+                    new Fee { Code = "ACI", Fee1 = "Phí khai hải quan tự động", Unit = "SET", Note = "" },
                     new Fee { Code = "AFR FEE", Fee1 = "Phí khai hải quan", Unit = "SET", Note = "" },
                     new Fee { Code = "AFS FEE", Fee1 = "Phí khai sơ lược hàng hóa", Unit = "SET", Note = "" },
                     new Fee { Code = "AMENDMENT FEE", Fee1 = "Phí sửa vận đơn", Unit = "SET", Note = "" }
@@ -126,15 +127,16 @@ namespace PND_WEB.Repository
             if (!_context.TblCustomers.Any())
             {
                 _context.TblCustomers.AddRange(
-                    new TblCustomer { 
-                        CustomerId= "0108111428", 
-                        CompanyName= "HAI AN FREIGHT FORWARDING JOINT STOCK COMPANY",
-                        CompanyNamekd="",
-                        ComAddress= "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai",
+                    new TblCustomer
+                    {
+                        CustomerId = "0108111428",
+                        CompanyName = "HAI AN FREIGHT FORWARDING JOINT STOCK COMPANY",
+                        CompanyNamekd = "",
+                        ComAddress = "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai",
                         Website = "http://www.haian.com.vn",
                         DutyPerson = "Nguyễn Văn A",
                         Contact = "Nguyễn Văn B",
-                        Email="",
+                        Email = "",
                     },
                     new TblCustomer
                     {
@@ -153,8 +155,8 @@ namespace PND_WEB.Repository
                 _context.SaveChanges();
             }
 
-           // Agent
-           if (!_context.Agents.Any())
+            // Agent
+            if (!_context.Agents.Any())
             {
                 _context.Agents.AddRange(
                     new Agent
@@ -183,15 +185,15 @@ namespace PND_WEB.Repository
 
             if (!_context.AgentActions.Any())
             {
-                
-            
+
+
                 _context.AgentActions.AddRange(
                     new AgentAction
                     {
-                        Code="Agent2",
-                        PersonInCharge= "Mr. Y.S.Chung",
+                        Code = "Agent2",
+                        PersonInCharge = "Mr. Y.S.Chung",
                         PhoneNumber = "8267446",
-                        Email="",
+                        Email = "",
                         Note = "",
 
                     },
@@ -208,7 +210,7 @@ namespace PND_WEB.Repository
                 _context.SaveChanges();
             }
 
-            
+
 
 
 
