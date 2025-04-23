@@ -1,0 +1,83 @@
+﻿@model IEnumerable<PND_WEB.Models.TblConth>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ContNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hbl)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ContType)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SealNo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GrossWeight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Cmb)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodsQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodsDepcription)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hbl)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ContType)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SealNo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GrossWeight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cmb)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoodsQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.GoodsDepcription)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

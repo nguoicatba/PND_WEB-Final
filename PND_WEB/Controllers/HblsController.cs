@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
+using System.ComponentModel;
+using System.Diagnostics;
+using PND_WEB.ViewModels;
 
 
 namespace PND_WEB.Controllers
@@ -20,12 +23,46 @@ namespace PND_WEB.Controllers
             _context = context;
         }
 
-        // GET: Hbls
+        public async Task<bool> CheckJobExists(string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            var job = await _context.TblJobs.FindAsync(id);
+            return job != null;
+        }
+
+        public async Task<bool> CheckHblExists(string id)
+        {  
+            if (id == null)
+            {
+                return false;
+            }
+            var hbl = await _context.TblHbls.FindAsync(id);
+            return hbl != null;
+        }
+
+     
         public async Task<IActionResult> Index(string id)
         {
-            TblJob tblJob = _context.TblJobs.Find(id);
-            tblJob.TblHbls = _context.TblHbls.Where(h => h.RequestId == id).ToList();   
-            return View(tblJob);
+            //if (await CheckJobExists(id) == false)
+            //{
+            //    return NotFound();
+            //}
+
+            HblJobViewModel hblJobViewModel = new HblJobViewModel();
+            hblJobViewModel.Job_Id = id;
+            hblJobViewModel.Hbls = await _context.TblHbls
+                .Include(t => t.CneeNavigation)
+                .Include(t => t.Customer)
+                .Include(t => t.Request)
+                .Include(t => t.ShipperNavigation)
+                .Where(h => h.RequestId == id)
+                .ToListAsync();
+
+
+            return View(hblJobViewModel);
         }
 
         // GET: Hbls/Details/5
@@ -51,13 +88,17 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Hbls/Create
-        public IActionResult Create()
+        public IActionResult Create(string id)
         {
             ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee");
             ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId");
-            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId");
             ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper");
-            return View();
+
+            HblJobEditModel hblJobEditModel = new HblJobEditModel();
+            hblJobEditModel.Job_ID = id;
+            hblJobEditModel.Hbl = new TblHbl();
+            hblJobEditModel.Hbl.RequestId = id;
+            return View(hblJobEditModel);
         }
 
         // POST: Hbls/Create
@@ -65,14 +106,15 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(TblHbl tblHbl)
+        public async Task<IActionResult> Create(HblJobEditModel hblJobEditModel)
         {   
             
             if (ModelState.IsValid)
             {
-                _context.Add(tblHbl);
+                _context.Add(hblJobEditModel.Hbl);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index),new { id = tblHbl.RequestId });
+                Console.WriteLine(hblJobEditModel.Job_ID);
+                return RedirectToAction("Index","Hbls",new {id=hblJobEditModel.Hbl.RequestId});
             }
             else
             {
@@ -90,30 +132,38 @@ namespace PND_WEB.Controllers
                 
 
             }
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", tblHbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", tblHbl.CustomerId);
-            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId", tblHbl.RequestId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", tblHbl.Shipper);
-            return View(tblHbl);
+            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
+            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
+            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
+            return View(hblJobEditModel);
         }
 
         // GET: Hbls/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string JobId, string HblId)
         {
-            if (id == null)
+            if (await CheckJobExists(JobId) == false)
             {
                 return NotFound();
             }
 
-            var tblHbl = await _context.TblHbls.FindAsync(id);
-            if (tblHbl == null)
+            if (await CheckHblExists(HblId) == false)
             {
                 return NotFound();
             }
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", tblHbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", tblHbl.CustomerId);
-            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId", tblHbl.RequestId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", tblHbl.Shipper);
+            var tblHbl = await _context.TblHbls
+                .Include(t => t.CneeNavigation)
+                .Include(t => t.Customer)
+                .Include(t => t.Request)
+                .Include(t => t.ShipperNavigation)
+                .FirstOrDefaultAsync(m => m.Hbl == HblId);
+
+            HblJobEditModel hblJobEditModel = new HblJobEditModel();
+            hblJobEditModel.Job_ID = JobId;
+            hblJobEditModel.Hbl = tblHbl;
+
+            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
+            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
+            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
             return View(tblHbl);
         }
 

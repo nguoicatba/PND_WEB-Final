@@ -1,0 +1,73 @@
+﻿@model PND_WEB.Models.TblConth
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TblConth</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ContNo" class="control-label"></label>
+                <input asp-for="ContNo" class="form-control" />
+                <span asp-validation-for="ContNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Hbl" class="control-label"></label>
+                <input asp-for="Hbl" class="form-control" />
+                <span asp-validation-for="Hbl" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContQuantity" class="control-label"></label>
+                <input asp-for="ContQuantity" class="form-control" />
+                <span asp-validation-for="ContQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ContType" class="control-label"></label>
+                <input asp-for="ContType" class="form-control" />
+                <span asp-validation-for="ContType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="SealNo" class="control-label"></label>
+                <input asp-for="SealNo" class="form-control" />
+                <span asp-validation-for="SealNo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GrossWeight" class="control-label"></label>
+                <input asp-for="GrossWeight" class="form-control" />
+                <span asp-validation-for="GrossWeight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cmb" class="control-label"></label>
+                <input asp-for="Cmb" class="form-control" />
+                <span asp-validation-for="Cmb" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GoodsQuantity" class="control-label"></label>
+                <input asp-for="GoodsQuantity" class="form-control" />
+                <span asp-validation-for="GoodsQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GoodsDepcription" class="control-label"></label>
+                <input asp-for="GoodsDepcription" class="form-control" />
+                <span asp-validation-for="GoodsDepcription" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
