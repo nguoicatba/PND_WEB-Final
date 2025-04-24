@@ -183,22 +183,6 @@ namespace PND_WEB.Controllers
             return _context.Quotations.Any(e => e.QuotationId == id);
         }
 
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var quotation = await _context.Quotations
-                .FirstOrDefaultAsync(m => m.QuotationId == id);
-            if (quotation == null)
-            {
-                return NotFound();
-            }
-
-            return View(quotation);
-        }
 
 
 
