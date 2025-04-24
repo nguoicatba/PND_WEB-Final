@@ -97,10 +97,12 @@ namespace PND_WEB.Controllers
 
         public async Task<IActionResult> Create()
         {
+            //var username = User.Identity.Name;
             var model = new Quotation
             {
                 QuotationId = await PredictQuotationCode(),
-                Qsatus = "Đang đàm phán"
+                Qsatus = "Đang đàm phán",
+                StaffName = username,
             };
             return View(model);
         }
@@ -112,12 +114,32 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Đảm bảo QuotationId không trùng lặp trước khi lưu vào CSDL
+                var existingQuotation = await _context.Quotations
+                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
 
-                quotation.QuotationId = await GenerateQuotationCode();
-                _context.Add(quotation);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (existingQuotation != null)
+                {
+                    quotation.QuotationId = await GenerateQuotationCode();
+                }
+
+                using (var transaction = await _context.Database.BeginTransactionAsync())
+                {
+                    try
+                    {
+                        _context.Add(quotation);
+                        await _context.SaveChangesAsync();
+                        await transaction.CommitAsync();
+                        return RedirectToAction(nameof(Index));
+                    }
+                    catch (Exception)
+                    {
+                        await transaction.RollbackAsync();
+                        ModelState.AddModelError(string.Empty, "Đã xảy ra lỗi trùng mã khi tạo. Vui lòng ấn lại create lần nữa. Mã số mới sẽ là mã số mới nhất");
+                    }
+                }
             }
+
             quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
