@@ -6,5 +6,13 @@ namespace PND_WEB.ViewModels
     {
         public string? Job_ID { get; set; }
         public TblHbl Hbl { get; set; }
+
+        public bool FreightCharge { get; set; }
+
+
+        public bool Prepaid { get; set; }
+
+
+        public bool Collect { get; set; }
     }
 }

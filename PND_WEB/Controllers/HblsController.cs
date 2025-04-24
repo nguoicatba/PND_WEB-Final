@@ -93,6 +93,8 @@ namespace PND_WEB.Controllers
             ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee");
             ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId");
             ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper");
+            ViewData["Mode"]= new SelectList(_context.Modes, "Code", "Code");
+            ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code");
 
             HblJobEditModel hblJobEditModel = new HblJobEditModel();
             hblJobEditModel.Job_ID = id;
@@ -110,10 +112,14 @@ namespace PND_WEB.Controllers
         {   
             
             if (ModelState.IsValid)
-            {
+            {   
+                hblJobEditModel.Hbl.Collect = hblJobEditModel.Collect;
+                hblJobEditModel.Hbl.Prepaid = hblJobEditModel.Prepaid;
+                hblJobEditModel.Hbl.FreightCharge = hblJobEditModel.FreightCharge;
+                
                 _context.Add(hblJobEditModel.Hbl);
                 await _context.SaveChangesAsync();
-                Console.WriteLine(hblJobEditModel.Job_ID);
+               
                 return RedirectToAction("Index","Hbls",new {id=hblJobEditModel.Hbl.RequestId});
             }
             else

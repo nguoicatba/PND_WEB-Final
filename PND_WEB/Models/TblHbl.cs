@@ -27,6 +27,7 @@ namespace PND_WEB.Models
         [Column("OnBoard_dateH")]
         public DateTime? OnBoardDateH { get; set; }
 
+
         [Column("Customer_ID")]
         [MaxLength(20)]
         [Display(Name = "Customer ID")]

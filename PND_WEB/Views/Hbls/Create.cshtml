@@ -14,136 +14,208 @@
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                   
+                    <input type="hidden" asp-for="Hbl.RequestId" value=@Model.Hbl.RequestId />
 
                     <div class="form-row">
-                        <div class="form-group col-3">
+                        <div class="form-group col-2">
                             <label asp-for="Hbl.Hbl"></label>
-                            <input asp-for="Hbl.Hbl" class="form-control" />
+                            <input asp-for="Hbl.Hbl" class="form-control"/>
                             <span asp-validation-for="Hbl.Hbl" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.RequestId"></label>
-                            <input asp-for="Hbl.RequestId" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="Hbl.RequestId" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.IssuePlaceH"></label>
-                            <input asp-for="Hbl.IssuePlaceH" class="form-control" />
-                            <span asp-validation-for="Hbl.IssuePlaceH" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-3">
+                       
+                       
+                        <div class="form-group col-auto">
                             <label asp-for="Hbl.IssueDateH"></label>
-                            <input asp-for="Hbl.IssueDateH" class="form-control" />
+                            <input asp-for="Hbl.IssueDateH" class="form-control" type="date" />
                             <span asp-validation-for="Hbl.IssueDateH" class="text-danger"></span>
                         </div>
+
+                        <div class="form-group col-auto">
+                            <label asp-for="Hbl.OnBoardDateH"></label>
+                            <input asp-for="Hbl.OnBoardDateH" class="form-control" type="date" />
+                            <span asp-validation-for="Hbl.OnBoardDateH" class="text-danger"></span>
+
+                        </div>
+
+                        <div class="form-group col-auto">
+                            <label asp-for="Hbl.BlType"></label>
+                            <select asp-for="Hbl.BlType" class="form-control" asp-items="ViewBag.Bl_Type"></select>
+                            <span asp-validation-for="Hbl.BlType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-auto">
+                            <label asp-for="Hbl.NomFree"></label>
+                            <select asp-for="Hbl.NomFree" class="form-control" asp-items="ViewBag.Mode"></select>
+                            <span asp-validation-for="Hbl.NomFree" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-check form-check-inline col-auto">
+                            <input class="form-check-input" type="checkbox" asp-for="FreightCharge" />
+                            <label class="form-check-label" asp-for="FreightCharge"></label>
+                        </div>
+
+                        <div class="form-check form-check-inline col-auto">
+                            <input class="form-check-input" type="checkbox" asp-for="Prepaid" />
+                            <label class="form-check-label" asp-for="Prepaid"></label>
+                        </div>
+
+                        <div class="form-check form-check-inline col-auto">
+                            <input class="form-check-input" type="checkbox" asp-for="Collect" />
+                            <label class="form-check-label" asp-for="Collect"></label>
+                        </div>
+
+                        <script>
+                            document.querySelectorAll('.form-check-input').forEach(cb => {
+                                cb.addEventListener('change', function () {
+                                    if (this.checked) {
+                                        document.querySelectorAll('.form-check-input').forEach(other => {
+                                            if (other !== this) other.checked = false;
+                                        });
+                                    }
+                                });
+                            });
+                        </script>
+
+
+
+
+
+                        
+
+
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.OnBoardDateH"></label>
-                            <input asp-for="Hbl.OnBoardDateH" class="form-control" />
-                            <span asp-validation-for="Hbl.OnBoardDateH" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.CustomerId"></label>
-                            <select asp-for="Hbl.CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
-                        </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-5">
                             <label asp-for="Hbl.Shipper"></label>
                             <select asp-for="Hbl.Shipper" class="form-control" asp-items="ViewBag.Shipper"></select>
                         </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.Cnee"></label>
-                            <select asp-for="Hbl.Cnee" class="form-control" asp-items="ViewBag.Cnee"></select>
-                        </div>
-                    </div>
 
-                    <div class="form-row">
-                        <div class="form-group col-4">
-                            <label asp-for="Hbl.NotifyParty"></label>
-                            <input asp-for="Hbl.NotifyParty" class="form-control" />
-                            <span asp-validation-for="Hbl.NotifyParty" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-4">
-                            <label asp-for="Hbl.BlType"></label>
-                            <input asp-for="Hbl.BlType" class="form-control" />
-                            <span asp-validation-for="Hbl.BlType" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-4">
-                            <label asp-for="Hbl.NomFree"></label>
-                            <input asp-for="Hbl.NomFree" class="form-control" />
-                            <span asp-validation-for="Hbl.NomFree" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-3">
+                        <div class="form-group col-5">
                             <label asp-for="Hbl.ContSealNo"></label>
                             <input asp-for="Hbl.ContSealNo" class="form-control" />
                             <span asp-validation-for="Hbl.ContSealNo" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.MarkNos"></label>
+                            <input asp-for="Hbl.MarkNos" class="form-control" />
+                            <span asp-validation-for="Hbl.MarkNos" class="text-danger"></span>
+                        </div>
+                     
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-5">
+                            <label asp-for="Hbl.Cnee"></label>
+                            <select asp-for="Hbl.Cnee" class="form-control" asp-items="ViewBag.Cnee"></select>
+                        </div>
+
+                        <div class="form-group col-5">
+                            <label asp-for="Hbl.GoodsDesciption"></label>
+                            <input asp-for="Hbl.GoodsDesciption" class="form-control" />
+                            <span asp-validation-for="Hbl.GoodsDesciption" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.IssuePlaceH"></label>
+                            <input asp-for="Hbl.IssuePlaceH" class="form-control" />
+                            <span asp-validation-for="Hbl.IssuePlaceH" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label asp-for="Hbl.NotifyParty"></label>
+                            <input asp-for="Hbl.NotifyParty" class="form-control" />
+                            <span asp-validation-for="Hbl.NotifyParty" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group col-2">
                             <label asp-for="Hbl.Volume"></label>
                             <input asp-for="Hbl.Volume" class="form-control" />
                             <span asp-validation-for="Hbl.Volume" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-3">
+
+                     
+                        <div class="form-group col-2">
                             <label asp-for="Hbl.Quantity"></label>
                             <input asp-for="Hbl.Quantity" class="form-control" />
                             <span asp-validation-for="Hbl.Quantity" class="text-danger"></span>
                         </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.GrossWeight"></label>
+                            <input asp-for="Hbl.GrossWeight" class="form-control" />
+                            <span asp-validation-for="Hbl.GrossWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-1">
+                            <label asp-for="Hbl.Pic"></label>
+                            <input asp-for="Hbl.Pic" class="form-control" />
+                            <span asp-validation-for="Hbl.Pic" class="text-danger"></span>
+                        </div>
+
+
+
+                    </div>
+
+                    <div class="form-row">
+
+                        <div class="form-group col-5">
+                            <label asp-for="Hbl.CustomerId"></label>
+                            <select asp-for="Hbl.CustomerId" class="form-control" asp-items="ViewBag.CustomerId"></select>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.Tonnage"></label>
+                            <input asp-for="Hbl.Tonnage" class="form-control" />
+                            <span asp-validation-for="Hbl.Tonnage" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.NumberofOrigins"></label>
+                            <input asp-for="Hbl.NumberofOrigins" class="form-control" />
+                            <span asp-validation-for="Hbl.NumberofOrigins" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-2">
+                            <label asp-for="Hbl.FreightPayable"></label>
+                            <input asp-for="Hbl.FreightPayable" class="form-control" />
+                            <span asp-validation-for="Hbl.FreightPayable" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col">
+                            <label asp-for="Hbl.PicPhone"></label>
+                            <input asp-for="Hbl.PicPhone" class="form-control" />
+                            <span asp-validation-for="Hbl.PicPhone" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="Hbl.CustomsDeclarationNo"></label>
                             <input asp-for="Hbl.CustomsDeclarationNo" class="form-control" />
                             <span asp-validation-for="Hbl.CustomsDeclarationNo" class="text-danger"></span>
                         </div>
-                    </div>
-
-                    <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="Hbl.InvoiceNo"></label>
                             <input asp-for="Hbl.InvoiceNo" class="form-control" />
                             <span asp-validation-for="Hbl.InvoiceNo" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
-                            <label asp-for="Hbl.NumberofOrigins"></label>
-                            <input asp-for="Hbl.NumberofOrigins" class="form-control" />
-                            <span asp-validation-for="Hbl.NumberofOrigins" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.FreightPayable"></label>
-                            <input asp-for="Hbl.FreightPayable" class="form-control" />
-                            <span asp-validation-for="Hbl.FreightPayable" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.MarkNos"></label>
-                            <input asp-for="Hbl.MarkNos" class="form-control" />
-                            <span asp-validation-for="Hbl.MarkNos" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-3">
                             <label asp-for="Hbl.SiNo"></label>
                             <input asp-for="Hbl.SiNo" class="form-control" />
                             <span asp-validation-for="Hbl.SiNo" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.Pic"></label>
-                            <input asp-for="Hbl.Pic" class="form-control" />
-                            <span asp-validation-for="Hbl.Pic" class="text-danger"></span>
-                        </div>
+
                         <div class="form-group col-3">
                             <label asp-for="Hbl.DoDate"></label>
-                            <input asp-for="Hbl.DoDate" class="form-control" />
+                            <input asp-for="Hbl.DoDate" class="form-control" type="date" />
                             <span asp-validation-for="Hbl.DoDate" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-3">
-                            <label asp-for="Hbl.PicPhone"></label>
-                            <input asp-for="Hbl.PicPhone" class="form-control" />
-                            <span asp-validation-for="Hbl.PicPhone" class="text-danger"></span>
-                        </div>
+
                     </div>
+
+                  
 
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
