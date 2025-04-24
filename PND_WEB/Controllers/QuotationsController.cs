@@ -9,23 +9,36 @@ using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
     {
         private readonly DataContext _context;
+        private readonly UserManager<AppUserModel> _userManager;
 
-        public QuotationsController(DataContext context)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
+
+
 
         // GET: Quotations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Quotations.ToListAsync());
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+            var quotations = await _context.Quotations
+                .Where(q => q.StaffName == user.Staff_Name)
+                .ToListAsync();
+
+            return View(quotations);
         }
+
+        // FUNCTIONS
         public async Task<string> PredictQuotationCode()
         {
             var today = DateTime.UtcNow.Date;
@@ -97,12 +110,18 @@ namespace PND_WEB.Controllers
 
         public async Task<IActionResult> Create()
         {
-            //var username = User.Identity.Name;
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return RedirectToAction("Error");
+            }
+            var predictedCode = await PredictQuotationCode();
             var model = new Quotation
             {
-                QuotationId = await PredictQuotationCode(),
+                QuotationId = predictedCode,
                 Qsatus = "Đang đàm phán",
-                //StaffName = username,
+                StaffName = user.Staff_Name, // Gán Staff_Name ở đây
             };
             return View(model);
         }
