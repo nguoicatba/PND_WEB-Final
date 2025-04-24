@@ -37,7 +37,7 @@ namespace PND_WEB.Controllers
             return View(quotations);
         }
 
-        //
+        // FUNCTIONS
         public async Task<string> PredictQuotationCode()
         {
             var today = DateTime.UtcNow.Date;
@@ -129,6 +129,9 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Đảm bảo QuotationId không trùng lặp trước khi lưu vào CSDL
+                var existingQuotation = await _context.Quotations
+                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
 
                 quotation.QuotationId = await GenerateQuotationCode();
                 _context.Add(quotation);

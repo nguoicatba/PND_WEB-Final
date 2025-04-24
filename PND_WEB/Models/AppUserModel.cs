@@ -10,7 +10,7 @@ namespace PND_WEB.Models
         public string? Staff_Name { get; set; }
 
         [DisplayName("Status")]
-        public string? Status { get; set; }
+        public string? Status { get; set; } 
 
         [DisplayName("Date of birth")]
         public DateTime? DOB { get; set; }
