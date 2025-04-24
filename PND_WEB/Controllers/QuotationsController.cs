@@ -9,23 +9,35 @@ using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
     {
         private readonly DataContext _context;
+        private readonly UserManager<AppUserModel> _userManager;
 
-        public QuotationsController(DataContext context)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;   
         }
 
         // GET: Quotations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Quotations.ToListAsync());
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
+            var quotations = await _context.Quotations
+                .Where(q => q.StaffName == user.Staff_Name)
+                .ToListAsync();
+
+            return View(quotations);
         }
+
+        //
         public async Task<string> PredictQuotationCode()
         {
             var today = DateTime.UtcNow.Date;
@@ -37,7 +49,7 @@ namespace PND_WEB.Controllers
 
             int nextNumber = (sequence?.LastNumber ?? 0) + 1;
 
-            return $"{prefix}{nextNumber}";
+            return $"{prefix}{nextNumber:D3}";
         }
 
 
@@ -81,7 +93,7 @@ namespace PND_WEB.Controllers
                 await _context.SaveChangesAsync(); 
                 await transaction.CommitAsync();  
 
-                return $"{prefix}{nextNumber}"; 
+                return $"{prefix}{nextNumber:D3}"; 
             }
             catch (Exception ex)
             {
@@ -97,10 +109,15 @@ namespace PND_WEB.Controllers
 
         public async Task<IActionResult> Create()
         {
+            var username = User.Identity.Name;
+
+            // Truy vấn AppUserModel theo username
+            var user = await _userManager.FindByNameAsync(username);
             var model = new Quotation
             {
                 QuotationId = await PredictQuotationCode(),
-                Qsatus = "Đang đàm phán"
+                Qsatus = "Đang đàm phán",
+                StaffName = user.Staff_Name,
             };
             return View(model);
         }
