@@ -64,25 +64,6 @@
                             <label class="form-check-label" asp-for="Collect"></label>
                         </div>
 
-                        <script>
-                            document.querySelectorAll('.form-check-input').forEach(cb => {
-                                cb.addEventListener('change', function () {
-                                    if (this.checked) {
-                                        document.querySelectorAll('.form-check-input').forEach(other => {
-                                            if (other !== this) other.checked = false;
-                                        });
-                                    }
-                                });
-                            });
-                        </script>
-
-
-
-
-
-                        
-
-
                     </div>
 
                     <div class="form-row">
@@ -234,5 +215,8 @@
 
 
 @section Scripts {
+
+    <script src="~/js/components/HblEditForm.js"></script>
+   
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

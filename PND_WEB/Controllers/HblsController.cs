@@ -145,14 +145,18 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Hbls/Edit/5
-        public async Task<IActionResult> Edit(string JobId, string HblId)
+        [HttpGet]
+        [ActionName("Edit")]
+     
+        public async Task<IActionResult> Edit(string jobid, string hblid)
         {
-            if (await CheckJobExists(JobId) == false)
+
+            if (await CheckJobExists(jobid) == false)
             {
                 return NotFound();
             }
 
-            if (await CheckHblExists(HblId) == false)
+            if (await CheckHblExists(hblid) == false)
             {
                 return NotFound();
             }
@@ -161,16 +165,22 @@ namespace PND_WEB.Controllers
                 .Include(t => t.Customer)
                 .Include(t => t.Request)
                 .Include(t => t.ShipperNavigation)
-                .FirstOrDefaultAsync(m => m.Hbl == HblId);
+                .FirstOrDefaultAsync(m => m.Hbl == hblid);
 
             HblJobEditModel hblJobEditModel = new HblJobEditModel();
-            hblJobEditModel.Job_ID = JobId;
+            hblJobEditModel.Job_ID = jobid;
             hblJobEditModel.Hbl = tblHbl;
+            hblJobEditModel.FreightCharge = tblHbl.FreightCharge ?? false;
+            hblJobEditModel.Prepaid = tblHbl.Prepaid ?? false;
+            hblJobEditModel.Collect = tblHbl.Collect ?? false;
+
 
             ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
             ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
             ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
-            return View(tblHbl);
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code", hblJobEditModel.Hbl.NomFree);
+            ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code", hblJobEditModel.Hbl.BlType);
+            return View(hblJobEditModel);
         }
 
         // POST: Hbls/Edit/5
@@ -178,9 +188,9 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Hbl,RequestId,IssuePlaceH,IssueDateH,OnBoardDateH,CustomerId,Shipper,Cnee,NotifyParty,BlType,NomFree,ContSealNo,Volume,Quantity,GoodsDesciption,GrossWeight,Tonnage,CustomsDeclarationNo,InvoiceNo,NumberofOrigins,FreightPayable,MarkNos,FreightCharge,Prepaid,Collect,SiNo,Pic,DoDate,PicPhone")] TblHbl tblHbl)
+        public async Task<IActionResult> Edit(string id,HblJobEditModel hblJobEditModel)
         {
-            if (id != tblHbl.Hbl)
+            if (id != hblJobEditModel.Hbl.Hbl)
             {
                 return NotFound();
             }
@@ -189,12 +199,15 @@ namespace PND_WEB.Controllers
             {
                 try
                 {
-                    _context.Update(tblHbl);
+                    hblJobEditModel.Hbl.Collect = hblJobEditModel.Collect;
+                    hblJobEditModel.Hbl.Prepaid = hblJobEditModel.Prepaid;
+                    hblJobEditModel.Hbl.FreightCharge = hblJobEditModel.FreightCharge;
+                    _context.Update(hblJobEditModel.Hbl);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblHblExists(tblHbl.Hbl))
+                    if (!TblHblExists(hblJobEditModel.Hbl.Hbl))
                     {
                         return NotFound();
                     }
@@ -203,13 +216,16 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Hbls", new { id = hblJobEditModel.Hbl.RequestId });
+
             }
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", tblHbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", tblHbl.CustomerId);
-            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId", tblHbl.RequestId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", tblHbl.Shipper);
-            return View(tblHbl);
+            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
+            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
+            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId", hblJobEditModel.Hbl.RequestId);
+            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code", hblJobEditModel.Hbl.NomFree);
+            ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code", hblJobEditModel.Hbl.BlType);
+            return View(hblJobEditModel);
         }
 
         // GET: Hbls/Delete/5
