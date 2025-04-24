@@ -26,35 +26,72 @@ namespace PND_WEB.Controllers
         {
             return View(await _context.Quotations.ToListAsync());
         }
-
-        public async Task<string> CreateQuotationCode()
+        public async Task<string> PredictQuotationCode()
         {
             var today = DateTime.UtcNow.Date;
             string datePart = today.ToString("yyyyMM");
             string prefix = $"QTN{datePart}";
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            var sequence = await _context.QuotationSequences
+                .FirstOrDefaultAsync(s => s.Prefix == prefix);
+
+            int nextNumber = (sequence?.LastNumber ?? 0) + 1;
+
+            return $"{prefix}{nextNumber}";
+        }
+
+
+        public async Task<string> GenerateQuotationCode()
+        {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"QTN{datePart}";
+
+            using var transaction = await _context.Database.BeginTransactionAsync();
+
+            try
             {
-                try
+                var sequence = await _context.QuotationSequences
+                    .FirstOrDefaultAsync(s => s.Prefix == prefix);
+
+                int nextNumber;
+
+                if (sequence == null)
                 {
-                    int countThisMonth = await _context.Quotations
-                        .Where(q => q.QuotationId.StartsWith(prefix))
-                        .CountAsync();
+                    nextNumber = 1;
 
-                    int nextNumber = countThisMonth + 1;
+                    sequence = new QuotationSequence
+                    {
+                        Prefix = prefix,
+                        LastNumber = nextNumber,
+                        LastUpdated = today
+                    };
 
-                    string quotationCode = $"{prefix}{nextNumber}";
-
-                    await transaction.CommitAsync();
-                    return quotationCode;
+                    _context.QuotationSequences.Add(sequence);
                 }
-                catch (Exception)
+                else
                 {
-                    await transaction.RollbackAsync();
-                    throw;
+                    nextNumber = sequence.LastNumber + 1;
+                    sequence.LastNumber = nextNumber;
+                    sequence.LastUpdated = today;
+
+                    _context.QuotationSequences.Update(sequence);
                 }
+
+                await _context.SaveChangesAsync(); 
+                await transaction.CommitAsync();  
+
+                return $"{prefix}{nextNumber}"; 
+            }
+            catch (Exception ex)
+            {
+                await transaction.RollbackAsync(); 
+                throw new Exception("Error generating quotation code", ex);
             }
         }
+
+
+
 
         //Quotations
 
@@ -62,7 +99,7 @@ namespace PND_WEB.Controllers
         {
             var model = new Quotation
             {
-                QuotationId = await CreateQuotationCode(),
+                QuotationId = await PredictQuotationCode(),
                 Qsatus = "Đang đàm phán"
             };
             return View(model);
@@ -75,10 +112,13 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                quotation.QuotationId = await GenerateQuotationCode();
                 _context.Add(quotation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
 
