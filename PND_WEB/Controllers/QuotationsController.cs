@@ -116,10 +116,9 @@ namespace PND_WEB.Controllers
             {
                 return RedirectToAction("Error");
             }
-            var predictedCode = await PredictQuotationCode();
             var model = new Quotation
             {
-                QuotationId = predictedCode,
+                QuotationId = await PredictQuotationCode(),
                 Qsatus = "Đang đàm phán",
                 StaffName = user.Staff_Name, // Gán Staff_Name ở đây
             };
