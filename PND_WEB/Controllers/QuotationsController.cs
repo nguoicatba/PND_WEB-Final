@@ -44,13 +44,27 @@ namespace PND_WEB.Controllers
             string datePart = today.ToString("yyyyMM");
             string prefix = $"QTN{datePart}";
 
-            var sequence = await _context.QuotationSequences
-                .FirstOrDefaultAsync(s => s.Prefix == prefix);
+            var quotationsWithPrefix = await _context.Quotations
+                .Where(q => q.QuotationId.StartsWith(prefix))
+                .Select(q => q.QuotationId)
+                .ToListAsync();
 
-            int nextNumber = (sequence?.LastNumber ?? 0) + 1;
+            int maxNumber = 0;
+            foreach (var quotationId in quotationsWithPrefix)
+            {
+                if (quotationId.Length >= prefix.Length + 3 &&
+                    int.TryParse(quotationId.Substring(prefix.Length, 3), out int number))
+                {
+                    if (number > maxNumber)
+                        maxNumber = number;
+                }
+            }
+
+            int nextNumber = maxNumber + 1;
 
             return $"{prefix}{nextNumber:D3}";
         }
+
 
 
         public async Task<string> GenerateQuotationCode()
@@ -59,49 +73,26 @@ namespace PND_WEB.Controllers
             string datePart = today.ToString("yyyyMM");
             string prefix = $"QTN{datePart}";
 
-            using var transaction = await _context.Database.BeginTransactionAsync();
+            var quotationsWithPrefix = await _context.Quotations
+                .Where(q => q.QuotationId.StartsWith(prefix))
+                .Select(q => q.QuotationId)
+                .ToListAsync();
 
-            try
+            int maxNumber = 0;
+            foreach (var quotationId in quotationsWithPrefix)
             {
-                var sequence = await _context.QuotationSequences
-                    .FirstOrDefaultAsync(s => s.Prefix == prefix);
-
-                int nextNumber;
-
-                if (sequence == null)
+                if (quotationId.Length >= prefix.Length + 3 &&
+                    int.TryParse(quotationId.Substring(prefix.Length, 3), out int number))
                 {
-                    nextNumber = 1;
-
-                    sequence = new QuotationSequence
-                    {
-                        Prefix = prefix,
-                        LastNumber = nextNumber,
-                        LastUpdated = today
-                    };
-
-                    _context.QuotationSequences.Add(sequence);
+                    if (number > maxNumber)
+                        maxNumber = number;
                 }
-                else
-                {
-                    nextNumber = sequence.LastNumber + 1;
-                    sequence.LastNumber = nextNumber;
-                    sequence.LastUpdated = today;
-
-                    _context.QuotationSequences.Update(sequence);
-                }
-
-                await _context.SaveChangesAsync(); 
-                await transaction.CommitAsync();  
-
-                return $"{prefix}{nextNumber:D3}"; 
             }
-            catch (Exception ex)
-            {
-                await transaction.RollbackAsync(); 
-                throw new Exception("Error generating quotation code", ex);
-            }
+
+            int nextNumber = maxNumber + 1;
+
+            return $"{prefix}{nextNumber:D3}";
         }
-
 
 
 
@@ -129,11 +120,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Đảm bảo QuotationId không trùng lặp trước khi lưu vào CSDL
                 var existingQuotation = await _context.Quotations
                     .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
 
                 quotation.QuotationId = await GenerateQuotationCode();
+
                 _context.Add(quotation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

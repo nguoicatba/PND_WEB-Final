@@ -39,8 +39,6 @@ namespace PND_WEB.Data
 
         public DbSet<QuotationsCharge> QuotationsCharges { get; set; }
 
-        public DbSet<QuotationSequence> QuotationSequences { get; set; }
-
         public DbSet<Sourse> Sourses { get; set; }
 
         public DbSet<TblCharge> TblCharges { get; set; }
