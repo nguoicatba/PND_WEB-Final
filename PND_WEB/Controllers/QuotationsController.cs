@@ -109,6 +109,7 @@ namespace PND_WEB.Controllers
                 QuotationId = await PredictQuotationCode(),
                 Qsatus = "Đang đàm phán",
                 StaffName = user.Staff_Name,
+                Qdate = DateTime.Now,
             };
             return View(model);
         }
