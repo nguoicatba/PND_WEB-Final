@@ -4,7 +4,7 @@
     ViewData["Title"] = "Edit User";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = " tài khoản", SubTitle = "Sửa tài khoản" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Đổi mật khẩu", SubTitle = "Reset mật khẩu" })
 <div class="row">
     <div class="col-md-4">
         <form asp-action="ResetPW">
@@ -22,17 +22,22 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="DOB" class="control-label"></label>z
+                <label asp-for="DOB" class="control-label"></label>
                 <input asp-for="DOB" class="form-control" readonly />
                 <span asp-validation-for="DOB" class="text-danger"></span>
             </div>
             
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control"/>
+                <label asp-for="Password" class="control-label">New password</label>
+                <input asp-for="Password" id="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
+            <div class="form-group">
+                <label for="ConfirmPassword" class="control-label">Confirm password</label>
+                <input type="password" id="ConfirmPassword" class="form-control" />
+                <span id="confirm-password-error" class="text-danger"></span>
+            </div>
 
             <div class="form-group">
                 <input type="submit" value="Reset Password" class="btn btn-primary" />
@@ -44,3 +49,21 @@
 <div>
     <a asp-action="Index">Back to List</a>
 </div>
+
+
+@section Scripts {
+    <script>
+        document.querySelector("form").addEventListener("submit", function (e) {
+            var password = document.getElementById("Password").value;
+            var confirmPassword = document.getElementById("ConfirmPassword").value;
+            var errorSpan = document.getElementById("confirm-password-error");
+
+            if (password !== confirmPassword) {
+                e.preventDefault();
+                errorSpan.textContent = "Mật khẩu nhập lại không khớp.";
+            } else {
+                errorSpan.textContent = "";
+            }
+        });
+    </script>
+}
