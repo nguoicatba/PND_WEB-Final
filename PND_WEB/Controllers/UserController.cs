@@ -155,6 +155,30 @@ namespace PND_WEB.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ResetPW(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, "123456a@B");
+
+            if (result.Succeeded)
+            {
+                TempData["Success"] = "Mật khẩu đã được đặt lại về mặc định: 123456a@B";
+            }
+            else
+            {
+                TempData["Error"] = "Lỗi khi đặt lại mật khẩu: " + string.Join(", ", result.Errors.Select(e => e.Description));
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
     }
 }

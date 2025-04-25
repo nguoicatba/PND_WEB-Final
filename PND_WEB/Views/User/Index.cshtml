@@ -69,7 +69,10 @@
 
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="ResetPW" asp-route-id="@item.Id" class="btn btn-primary btn-xs"><i class="fa fa-key"></i></a>
+                            <a asp-action="ResetPW" asp-route-id="@item.Id" class="btn btn-primary btn-xs"
+                               onclick="return confirm('Bạn có chắc muốn đặt lại mật khẩu cho tài khoản này không?')">
+                                <i class="fa fa-key"></i>
+                            </a>
                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
