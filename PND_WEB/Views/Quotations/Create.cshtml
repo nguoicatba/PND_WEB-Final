@@ -1,4 +1,5 @@
 ﻿@model PND_WEB.Models.Quotation
+@using System.Globalization
 
 @{
     ViewData["Title"] = "Create";
@@ -36,7 +37,8 @@
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="Qdate" class="control-label"></label>
-                            <input asp-for="Qdate" class="form-control" readonly />
+                            <input class="form-control" readonly
+                                   value="@(Model.Qdate.HasValue ? Model.Qdate.Value.ToString("dd/MM/yyyy hh:mm tt", CultureInfo.InvariantCulture) : "")" />
                             <span asp-validation-for="Qdate" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
