@@ -593,29 +593,6 @@ namespace PND_WEB.Migrations
                     b.ToTable("Quotations");
                 });
 
-            modelBuilder.Entity("PND_WEB.Models.QuotationSequence", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("LastNumber")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("LastUpdated")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Prefix")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("QuotationSequences");
-                });
-
             modelBuilder.Entity("PND_WEB.Models.QuotationsCharge", b =>
                 {
                     b.Property<int>("ChargeId")
