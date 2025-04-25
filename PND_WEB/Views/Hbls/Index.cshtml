@@ -33,13 +33,23 @@
                         <table class="table table-striped my-4 w-100" id="datatable3">
                             <thead class="table-primary">
                                 <tr>
-                                    <th>HBL</th>
-                                    <th> Shipper</th>
-                                    <th> Cnee</th>
-                                    <th> Notify Party</th>
-                                    <th> Bl Type</th>
-                                    <th> Nom Free</th>
                                     <th>Action</th>
+
+                                    <th>@Html.DisplayNameFor(model=>model.Hbls[0].Hbl)</th>
+                                  
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].IssueDateH)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].OnBoardDateH)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].Shipper)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].Cnee)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].NotifyParty)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].BlType)</th>
+
+                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].NomFree)</th> 
                                 </tr>
                             </thead>
                             <tbody>
@@ -47,13 +57,24 @@
                                 {
                                     <tr>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Hbl)
+                                            <a asp-action="Edit" asp-route-id="@item.Hbl" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                             
+                                            <a asp-action="Delete" asp-route-id="@item.Hbl" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.ShipperNavigation.Shipper)
+                                            <a asp-action="Details" asp-route-id="@item.Hbl">   @Html.DisplayFor(modelItem => item.Hbl) </a>
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.CneeNavigation.Cnee)
+                                            @Html.DisplayFor(modelItem => item.IssueDateH)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.OnBoardDateH)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Shipper)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Cnee)
                                         </td>
                                         
                                         <td>
@@ -66,11 +87,7 @@
                                             @Html.DisplayFor(modelItem => item.NomFree)
                                         </td>   
    
-                                        <td>
-                                            <a asp-action="Edit" asp-route-jobid="@item.RequestId" asp-route-hblid="@item.Hbl">Edit</a> |
-                                            <a asp-action="Details" asp-route-id="@item.Hbl">Details</a> |
-                                            <a asp-action="Delete" asp-route-id="@item.Hbl">Delete</a>
-                                        </td>
+                                       
                                     </tr>
                                 }
                             </tbody>

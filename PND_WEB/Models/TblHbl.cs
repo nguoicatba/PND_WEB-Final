@@ -22,9 +22,11 @@ namespace PND_WEB.Models
         public string? IssuePlaceH { get; set; }
 
         [Column("Issue_dateH")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? IssueDateH { get; set; }
 
         [Column("OnBoard_dateH")]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? OnBoardDateH { get; set; }
 
 
