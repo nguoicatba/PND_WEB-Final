@@ -9,61 +9,107 @@ using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
 using Rotativa.AspNetCore;
+using Microsoft.AspNetCore.Identity;
 
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
     {
         private readonly DataContext _context;
+        private readonly UserManager<AppUserModel> _userManager;
 
-        public QuotationsController(DataContext context)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager)
         {
             _context = context;
+            _userManager = userManager;   
         }
 
         // GET: Quotations
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Quotations.ToListAsync());
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
+            var quotations = await _context.Quotations
+                .Where(q => q.StaffName == user.Staff_Name)
+                .ToListAsync();
+
+            return View(quotations);
         }
 
-        public async Task<string> CreateQuotationCode()
+        // FUNCTIONS
+        public async Task<string> PredictQuotationCode()
         {
             var today = DateTime.UtcNow.Date;
             string datePart = today.ToString("yyyyMM");
             string prefix = $"QTN{datePart}";
 
-            using (var transaction = await _context.Database.BeginTransactionAsync())
+            var quotationsWithPrefix = await _context.Quotations
+                .Where(q => q.QuotationId.StartsWith(prefix))
+                .Select(q => q.QuotationId)
+                .ToListAsync();
+
+            int maxNumber = 0;
+            foreach (var quotationId in quotationsWithPrefix)
             {
-                try
+                if (quotationId.Length >= prefix.Length + 3 &&
+                    int.TryParse(quotationId.Substring(prefix.Length, 3), out int number))
                 {
-                    int countThisMonth = await _context.Quotations
-                        .Where(q => q.QuotationId.StartsWith(prefix))
-                        .CountAsync();
-
-                    int nextNumber = countThisMonth + 1;
-
-                    string quotationCode = $"{prefix}{nextNumber}";
-
-                    await transaction.CommitAsync();
-                    return quotationCode;
-                }
-                catch (Exception)
-                {
-                    await transaction.RollbackAsync();
-                    throw;
+                    if (number > maxNumber)
+                        maxNumber = number;
                 }
             }
+
+            int nextNumber = maxNumber + 1;
+
+            return $"{prefix}{nextNumber:D3}";
         }
+
+
+
+        public async Task<string> GenerateQuotationCode()
+        {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"QTN{datePart}";
+
+            var quotationsWithPrefix = await _context.Quotations
+                .Where(q => q.QuotationId.StartsWith(prefix))
+                .Select(q => q.QuotationId)
+                .ToListAsync();
+
+            int maxNumber = 0;
+            foreach (var quotationId in quotationsWithPrefix)
+            {
+                if (quotationId.Length >= prefix.Length + 3 &&
+                    int.TryParse(quotationId.Substring(prefix.Length, 3), out int number))
+                {
+                    if (number > maxNumber)
+                        maxNumber = number;
+                }
+            }
+
+            int nextNumber = maxNumber + 1;
+
+            return $"{prefix}{nextNumber:D3}";
+        }
+
+
 
         //Quotations
 
         public async Task<IActionResult> Create()
         {
+            var username = User.Identity.Name;
+
+            // Truy vấn AppUserModel theo username
+            var user = await _userManager.FindByNameAsync(username);
             var model = new Quotation
             {
-                QuotationId = await CreateQuotationCode(),
-                Qsatus = "Đang đàm phán"
+                QuotationId = await PredictQuotationCode(),
+                Qsatus = "Đang đàm phán",
+                StaffName = user.Staff_Name,
+                Qdate = DateTime.Now,
             };
             return View(model);
         }
@@ -75,10 +121,16 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var existingQuotation = await _context.Quotations
+                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
+
+                quotation.QuotationId = await GenerateQuotationCode();
+
                 _context.Add(quotation);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
 
@@ -183,22 +235,6 @@ namespace PND_WEB.Controllers
             return _context.Quotations.Any(e => e.QuotationId == id);
         }
 
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var quotation = await _context.Quotations
-                .FirstOrDefaultAsync(m => m.QuotationId == id);
-            if (quotation == null)
-            {
-                return NotFound();
-            }
-
-            return View(quotation);
-        }
 
 
 

@@ -15,6 +15,8 @@ public partial class Quotation
 
     public string? Contact { get; set; }
 
+
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? Qdate { get; set; }
 
     public string? CusTo { get; set; }
