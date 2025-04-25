@@ -128,48 +128,32 @@ namespace PND_WEB.Controllers
             return View(userModel);
         }
 
-        [HttpGet]
         public async Task<IActionResult> Delete(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
-            {
                 return NotFound();
-            }
-            
-            var userModel = new UserModel()
-            {
-                UserName = user.UserName,
-                Staff_Name = user.Staff_Name,
-                DOB = user.DOB,
-         
-            };
-            return View(userModel);
+
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(string id, UserModel userModel)
+        public async Task<IActionResult> Delete(AppUserModel user)
         {
-            if (ModelState.IsValid)
-            {
-                var user = await _userManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                IdentityResult result = await _userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "User");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
-            }
-            return View(userModel);
+            var userInDb = await _userManager.FindByIdAsync(user.Id);
+            if (userInDb == null)
+                return NotFound();
 
+            var result = await _userManager.DeleteAsync(userInDb);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View(user);
         }
+
     }
 }
