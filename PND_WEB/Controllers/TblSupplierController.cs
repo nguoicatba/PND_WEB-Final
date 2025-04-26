@@ -256,5 +256,48 @@ namespace PND_WEB.Controllers
             }
             return View(supplierEdit);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> SupplierDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var supplierAction = await _context.TblSupplierActions.FindAsync(id);
+            if (supplierAction == null)
+            {
+                return NotFound();
+            }
+            var supplierEditModel = new SupplierActionEditModel
+            {
+                supplierAction = supplierAction,
+                id = supplierAction.SupplierId,
+            };
+            return View(supplierEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SupplierDelete(SupplierActionEditModel supplierEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (supplierEdit.supplierAction == null)
+            {
+                return NotFound();
+            }
+            var supplierAction = await _context.TblSupplierActions.FindAsync(supplierEdit.supplierAction.Id);
+            var Code = supplierAction.SupplierId;
+            if (supplierAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblSupplierActions.Remove(supplierAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
+        }
     }
 }

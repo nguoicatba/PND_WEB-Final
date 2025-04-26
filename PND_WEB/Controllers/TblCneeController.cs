@@ -257,6 +257,49 @@ namespace WebApplication4.Controllers
             }
             return View(cneeEdit);
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CneeAddDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var cneeaddAction = await _context.TblCneeAdds.FindAsync(id);
+            if (cneeaddAction == null)
+            {
+                return NotFound();
+            }
+            var cneeadddEditModel = new CneeEditModel
+            {
+                CneeAdd = cneeaddAction,
+                id = cneeaddAction.Cnee
+            };
+            return View(cneeadddEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CneeAddDelete(CneeEditModel cneeEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (cneeEdit.CneeAdd == null)
+            {
+                return NotFound();
+            }
+            var cneeaddAction = await _context.TblCneeAdds.FindAsync(cneeEdit.CneeAdd.Id);
+            var Code = cneeaddAction.Cnee;
+            if (cneeaddAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblCneeAdds.Remove(cneeaddAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
+        }
     }
 }
 
