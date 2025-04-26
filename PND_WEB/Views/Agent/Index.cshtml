@@ -12,7 +12,6 @@
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-
         <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
             <thead class="">
                 <tr>
@@ -22,12 +21,12 @@
                     <th>@Html.DisplayNameFor(model => model.AgentNamekd)</th>
                     <th>@Html.DisplayNameFor(model => model.AgentAdd)</th>
                     <th>@Html.DisplayNameFor(model => model.Note)</th>
-                    
-        </tr>
-    </thead>
-    <tbody>
-            @foreach (var item in Model) {
-             <tr>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) 
+                {
+                     <tr>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
@@ -52,9 +51,9 @@
                             @Html.DisplayFor(modelItem => item.Note)
                         </td>
                 
-        </tr>
-}
-    </tbody>
-</table>
-</div>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

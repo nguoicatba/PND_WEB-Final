@@ -1,48 +1,112 @@
-﻿@model PND_WEB.Models.TblSupplier
+﻿@model PND_WEB.ViewModels.SupplierActionViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin nhà cung cấp", SubTitle = "Chi tiết thông tin nhà cung cấp" })
 
-<div>
-    <h4>TblSupplier</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NameSup)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NameSup)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Typer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Typer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AddressSup)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AddressSup)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LccFee)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LccFee)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About Carrier: @Model.supplier.SupplierId</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.supplier.NameSup) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.supplier.NameSup) :
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.supplier.Typer)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.supplier.Typer)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.supplier.AddressSup)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.supplier.AddressSup)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.supplier.LccFee)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.supplier.LccFee)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.supplier.Note)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.supplier.Note)
+                    </dd>
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.supplier?.SupplierId">Edit</a> |
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.SupplierId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Supplier Infor Manager:</div>
+    <div class="card-body">
+        <p>
+            <a asp-action="SupplierCreate" asp-route-id=@Model.supplier.SupplierId class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.supplierActions[0].Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.supplierActions[0].PersonInCharge)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.supplierActions[0].PhoneNumber)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.supplierActions[0].Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.supplierActions[0].Note)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.supplierActions)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="SupplierEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PersonInCharge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PhoneNumber)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>
+
+
+
