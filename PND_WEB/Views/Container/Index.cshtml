@@ -1,83 +1,89 @@
-﻿@model IEnumerable<PND_WEB.Models.TblConth>
+﻿@model PND_WEB.ViewModels.ContainerViewModel
 
 @{
-    ViewData["Title"] = "Index";
-}
+    ViewData["Title"] = "Container";
 
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ContNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Hbl)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ContType)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SealNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GrossWeight)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Cmb)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GoodsQuantity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.GoodsDepcription)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Hbl)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ContType)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SealNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GrossWeight)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Cmb)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GoodsQuantity)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.GoodsDepcription)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
 }
-    </tbody>
-</table>
+@await Component.InvokeAsync("HeaderBody", new { Title = "About Container", SubTitle = "About job" })
+
+<div class="row">
+    <div class="col-xl-12">
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About Container: @Model.HBL_ID</div>
+            <div class="card-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="Hbls" asp-action="Details" asp-route-id=@Model.HBL_ID>Chi tiết HBL</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active">Container Info</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Phân quyền job</a>
+                        </li>
+
+                    </ul>
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        <p>
+                            <a asp-action="Create" asp-route-id=@Model.HBL_ID class="btn btn-primary btn-xs">Create New</a>
+                        </p>
+                        <table class="table table-striped my-4 w-100" id="datatable1">
+                            <thead class="table-primary">
+                                <tr>
+                                    <th>Action</th>
+                           
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].ContNo)</th>
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].SealNo)</th>
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].ContType)</th>
+                                 
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].ContQuantity)</th>
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].GrossWeight)</th>
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].Cmb)</th>
+    
+                                    <th>@Html.DisplayNameFor(model => model.containers[0].GoodsDepcription)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                @foreach (var item in Model.containers)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                        <td>@item.ContNo</td>
+                                   
+                                        <td>@item.SealNo</td>
+                                        <td>@item.ContType</td>
+                                        <td>@item.ContQuantity</td>
+                                        <td>@item.GrossWeight</td>
+                                        <td>@item.Cmb</td>
+                                        <td>@item.GoodsDepcription</td>
+                                    </tr>
+                                }
+                                <tr>
+                                    <td>Total:</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>@Model.totalGrossWeight</td>
+                                    <td>@Model.totalCbm</td>
+                                    <td></td>
+                                </tr>
+                              
+                                
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+

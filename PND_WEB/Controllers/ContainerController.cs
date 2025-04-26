@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -19,10 +21,41 @@ namespace PND_WEB.Controllers
             _context = context;
         }
 
-        // GET: Container
-        public async Task<IActionResult> Index()
+        public async Task<double> GetTotalGrossWeight(List<TblConth> conths)
         {
-            return View(await _context.TblConths.ToListAsync());
+
+            double totalGrossWeight = 0;
+            foreach (var conth in conths)
+            {
+                totalGrossWeight += (double)conth.GrossWeight;
+            }
+
+            return totalGrossWeight;
+
+        }
+        public async Task<double> GetTotalCbm(List<TblConth> conths)
+        {
+            double totalCbm = 0;
+            foreach (var conth in conths)
+            {
+                totalCbm += (double)conth.Cmb;
+            }
+            return totalCbm;
+        }
+
+        // GET: Container
+        public async Task<IActionResult> Index(string id)
+        {
+            ContainerViewModel containerViewModel = new ContainerViewModel();
+            containerViewModel.HBL_ID = id;
+            containerViewModel.containers = await _context.TblConths
+                .Where(c => c.Hbl == id)
+                .ToListAsync();
+
+            containerViewModel.totalGrossWeight = GetTotalGrossWeight(containerViewModel.containers).Result;
+            containerViewModel.totalCbm = GetTotalGrossWeight(containerViewModel.containers).Result;
+            return View(containerViewModel);
+
         }
 
         // GET: Container/Details/5
@@ -44,41 +77,60 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Container/Create
-        public IActionResult Create()
+        [HttpGet]
+        public IActionResult Create(string id)
         {
-            return View();
+            ContainerEditModel containerEditModel = new ContainerEditModel();
+            containerEditModel.HBL_ID = id;
+            containerEditModel.container = new TblConth();
+            containerEditModel.container.Hbl = id;
+            return View(containerEditModel);
         }
+      
 
         // POST: Container/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,ContNo,Hbl,ContQuantity,ContType,SealNo,GrossWeight,Cmb,GoodsQuantity,GoodsDepcription")] TblConth tblConth)
+        public async Task<IActionResult> Create(ContainerEditModel containerEditModel)
         {
+            if (containerEditModel.container.Hbl ==null)
+            {
+
+                return NotFound();
+            }
             if (ModelState.IsValid)
             {
+                var tblConth = containerEditModel.container;
+               
                 _context.Add(tblConth);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = containerEditModel.container.Hbl });
             }
-            return View(tblConth);
+            return View(containerEditModel);
+
+
         }
 
+
         // GET: Container/Edit/5
+
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
-
             var tblConth = await _context.TblConths.FindAsync(id);
             if (tblConth == null)
             {
                 return NotFound();
             }
-            return View(tblConth);
+            ContainerEditModel containerEditModel = new ContainerEditModel();
+            containerEditModel.HBL_ID = tblConth.Hbl;
+            containerEditModel.container = tblConth;
+            return View(containerEditModel);
         }
 
         // POST: Container/Edit/5
@@ -86,23 +138,25 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,ContNo,Hbl,ContQuantity,ContType,SealNo,GrossWeight,Cmb,GoodsQuantity,GoodsDepcription")] TblConth tblConth)
+
+        public async Task<IActionResult> Edit(int id, ContainerEditModel containerEditModel)
         {
-            if (id != tblConth.Id)
+            if (id != containerEditModel.container.Id)
             {
                 return NotFound();
             }
-
             if (ModelState.IsValid)
             {
                 try
                 {
+                    var tblConth = containerEditModel.container;
+                    tblConth.Hbl = containerEditModel.HBL_ID;
                     _context.Update(tblConth);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!TblConthExists(tblConth.Id))
+                    if (!TblConthExists(containerEditModel.container.Id))
                     {
                         return NotFound();
                     }
@@ -111,9 +165,9 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { id = containerEditModel.HBL_ID });
             }
-            return View(tblConth);
+            return View(containerEditModel);
         }
 
         // GET: Container/Delete/5
@@ -137,6 +191,7 @@ namespace PND_WEB.Controllers
         // POST: Container/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var tblConth = await _context.TblConths.FindAsync(id);
@@ -144,9 +199,8 @@ namespace PND_WEB.Controllers
             {
                 _context.TblConths.Remove(tblConth);
             }
-
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { id = tblConth.Hbl });
         }
 
         private bool TblConthExists(int id)
