@@ -239,6 +239,66 @@ namespace WebApplication4.Controllers
                 agentAction = agentAction,
                 id = agentAction.Code
             };
+
+            return View(agentEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AgentDelete(AgentActionEditModel agentEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (agentEdit.agentAction == null)
+            {
+
+                return NotFound();
+
+                var agentAction = await _context.AgentActions.FindAsync(agentEdit.agentAction.Id);
+                if (agentAction == null)
+                {
+                    return NotFound();
+                }
+
+                agentAction.PersonInCharge = agentEdit.agentAction.PersonInCharge;
+                agentAction.PhoneNumber = agentEdit.agentAction.PhoneNumber;
+                agentAction.Email = agentEdit.agentAction.Email;
+                agentAction.Note = agentEdit.agentAction.Note;
+                _context.Update(agentAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Sửa thành công";
+                return RedirectToAction("Details", new { id = agentEdit.agentAction.Code });
+
+            }
+            var agentAction = await _context.AgentActions.FindAsync(agentEdit.agentAction.Id);
+            var Code = agentAction.Code;
+            if (agentAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.AgentActions.Remove(agentAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AgentDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var agentAction = await _context.AgentActions.FindAsync(id);
+            if (agentAction == null)
+            {
+                return NotFound();
+            }
+            var agentEditModel = new AgentActionEditModel
+            {
+                agentAction = agentAction,
+                id = agentAction.Code
+            };
             return View(agentEditModel);
         }
 

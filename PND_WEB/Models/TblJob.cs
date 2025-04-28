@@ -67,9 +67,13 @@ public partial class TblJob
     public string? PreCariageBy { get; set; }
 
     [Column("ETD")]
+    [Display(Name = "ETD")]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime Etd { get; set; }
 
     [Column("ETA")]
+    [Display(Name = "ETA")]
+    [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
     public DateTime Eta { get; set; }
 
     [Column("Mode")]

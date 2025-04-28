@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
+using System.Collections.Generic;
 
 
 namespace PND_WEB.Data
@@ -9,6 +10,21 @@ namespace PND_WEB.Data
         public static void SeedData(DataContext _context)
         {
             _context.Database.Migrate();
+
+            if (!_context.Sourses.Any())
+            {
+                
+
+                _context.Sourses.AddRange(
+
+                    new Sourse { Code = "FREEHAND", SourName = "FREEHAND", Note = "" },
+                    new Sourse { Code = "NOMI", SourName = "NOMI", Note = "" }
+                );
+                _context.SaveChanges();
+
+            }
+
+
             if (!_context.Currencies.Any())
             {
                 _context.Currencies.AddRange(

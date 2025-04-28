@@ -1,0 +1,11 @@
+
+
+Job
+Index: thiếu import excel
+Create: thiếu auto compelete
+Edit: thiếu auto complete, chỉnh sửa select list erea
+Details: thiếu phân quyền job
+Hbl
+Index: thiếu import excel, xuat hbl file
+create : thiếu auto complete
+Edit : thieu auto complete
