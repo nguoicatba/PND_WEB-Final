@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -22,8 +23,19 @@ namespace PND_WEB.Controllers
         // GET: TamUngThanhToan
         public async Task<IActionResult> Index()
         {
-            return View(await _context.TblTutts.ToListAsync());
+            TuttViewModel tuttViewModel = new TuttViewModel();
+
+            tuttViewModel.tutt = await _context.TblTutts
+                .Where(a => a.Ketoan == null && a.Ceo == null)
+                .ToListAsync();
+
+            tuttViewModel.tuttcheck = await _context.TblTutts
+                .Where(a => a.Ketoan != null || a.Ceo != null)
+                .ToListAsync();
+
+            return View(tuttViewModel);
         }
+
 
         // GET: TamUngThanhToan/Details/5
         public async Task<IActionResult> Details(string id)

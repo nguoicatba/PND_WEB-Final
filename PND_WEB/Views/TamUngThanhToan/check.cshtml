@@ -24,34 +24,29 @@
                     </ul>
                     <!-- Tab panes-->
                     <div class="tab-content">
-                        <p>
-                            <a asp-action="Create" class="btn btn-primary btn-xs">Tạo tạm ứng mới</a>
-                        </p>
-
-                        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
-                            <thead class="">
+                        <table class="table table-striped my-4 w-100" id="datatable1">
+                            <thead class="table-primary">
                                 <tr>
-                                    <th>Action</th>
                                     <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().SoTutt)</th>
                                     <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NhanvienTutt)</th>
                                     <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NoiDung)</th>
                                     <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ngay)</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model.tutt)
                                 {
                                     <tr>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.SoTutt" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                            <a asp-action="Delete" asp-route-id="@item.SoTutt" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                                        </td>
-                                        <td>
-                                            <a asp-action="Details" asp-route-id="@item.SoTutt"> @Html.DisplayFor(modelItem => item.SoTutt) </a>
-                                        </td>
+                                        <td>@Html.DisplayFor(modelItem => item.SoTutt)</td>
                                         <td>@Html.DisplayFor(modelItem => item.NhanvienTutt)</td>
                                         <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                         <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.SoTutt">Edit</a> |
+                                            <a asp-action="Details" asp-route-id="@item.SoTutt">Details</a> |
+                                            <a asp-action="Delete" asp-route-id="@item.SoTutt">Delete</a>
+                                        </td>
                                     </tr>
                                 }
                             </tbody>
@@ -73,10 +68,9 @@
             <div class="card-header bg-success">Đã đề nghị duyệt</div>
             <div class="card-body">
 
-                <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
-                    <thead class="">
+                <table class="table table-striped my-4 w-100" id="datatable4">
+                    <thead class="table-primary">
                         <tr>
-                            <th>Action</th>
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().SoTutt)</th>
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NhanvienTutt)</th>
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NoiDung)</th>
@@ -84,19 +78,13 @@
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ketoan)</th>
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ceo)</th>
                             <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().GhiChu)</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var item in Model.tuttcheck)
                         {
                             <tr>
-                                <td>
-                                    <a asp-action="Edit" asp-route-id="@item.SoTutt" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                    <a asp-action="Delete" asp-route-id="@item.SoTutt" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                                </td>
-                                <td>
-                                    <a asp-action="Details" asp-route-id="@item.SoTutt"> @Html.DisplayFor(modelItem => item.SoTutt) </a>
-                                </td>
                                 <td>@Html.DisplayFor(modelItem => item.SoTutt)</td>
                                 <td>@Html.DisplayFor(modelItem => item.NhanvienTutt)</td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
@@ -104,6 +92,11 @@
                                 <td>@Html.DisplayFor(modelItem => item.Ketoan)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ceo)</td>
                                 <td>@Html.DisplayFor(modelItem => item.GhiChu)</td>
+                                <td>
+                                    <a asp-action="Edit" asp-route-id="@item.SoTutt">Edit</a> |
+                                    <a asp-action="Details" asp-route-id="@item.SoTutt">Details</a> |
+                                    <a asp-action="Delete" asp-route-id="@item.SoTutt">Delete</a>
+                                </td>
                             </tr>
                         }
                     </tbody>
@@ -111,6 +104,5 @@
 
             </div>
         </div>
-        <!-- END card-->
     </div>
 </div>
