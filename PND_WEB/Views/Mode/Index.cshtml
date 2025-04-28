@@ -11,16 +11,16 @@
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
+                    <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
                     <th>
                         @Html.DisplayNameFor(model => model.Note)
                     </th>
-                    <th>Action</th>
 
                     @* <th class="sort-numeric">Engine version</th> *@
                     @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
@@ -31,15 +31,15 @@
                 {
                     <tr>
                         <td>
+                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            @* <a asp-action="Details" asp-route-id="@item.Code">Details</a> *@
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Code)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Note)
-                        </td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Code">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Code">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Code">Delete</a>
                         </td>
                     </tr>
                 }
@@ -48,6 +48,3 @@
         </table>
     </div>
 </div>
-
-
-

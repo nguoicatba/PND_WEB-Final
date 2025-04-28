@@ -12,8 +12,8 @@
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table nowrap border" id="datatable1">
-            <thead class="bg bg-secondary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
                     <th>Action</th>
                     <th>
@@ -32,10 +32,10 @@
                         @Html.DisplayNameFor(model => model.TaxId)
                     </th>
                 </tr>
-    </thead>
-    <tbody>
-            @foreach (var item in Model) {
-                 <tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model) {
+                     <tr>
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.Shipper" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.Shipper" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
@@ -55,15 +55,10 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.TaxId)
                         </td>
-            
-        </tr>
-}
-    </tbody>
+                     </tr>
+                }
+            </tbody>
+        </table>
 
+    </div>
 </div>
-</div>
-
-
-
-
-

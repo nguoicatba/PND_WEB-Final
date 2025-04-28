@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -33,14 +34,18 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var tblSupplier = await _context.TblSuppliers
+            var tblsupplier = await _context.TblSuppliers
                 .FirstOrDefaultAsync(m => m.SupplierId == id);
-            if (tblSupplier == null)
+            if (tblsupplier == null)
             {
                 return NotFound();
             }
 
-            return View(tblSupplier);
+            SupplierActionViewModel supplierViewModel = new SupplierActionViewModel();
+            supplierViewModel.supplierActions = await _context.TblSupplierActions.Where(c => c.SupplierId == id).ToListAsync();
+            supplierViewModel.supplier = tblsupplier;
+
+            return View(supplierViewModel);
         }
 
         // GET: TblSupplier/Create
@@ -152,6 +157,147 @@ namespace PND_WEB.Controllers
         private bool TblSupplierExists(string id)
         {
             return _context.TblSuppliers.Any(e => e.SupplierId == id);
+        }
+
+
+
+        //supplieractions
+
+        [HttpGet]
+        [Route("TblSupplier/SupplierCreate/{id}")]
+        public async Task<IActionResult> SupplierCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var supplier = await _context.TblSuppliers.FindAsync(id);
+            if (supplier == null)
+            {
+                return NotFound();
+            }
+            SupplierActionEditModel supplierViewModel = new();
+            supplierViewModel.id = id;
+            supplierViewModel.supplierAction = new TblSupplierAction();
+            return View(supplierViewModel);
+
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SupplierCreate(SupplierActionEditModel supplierEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var supplier = await _context.TblSuppliers.FindAsync(supplierEdit.id);
+                if (supplier == null)
+                {
+                    return NotFound();
+                }
+                supplierEdit.supplierAction.SupplierId = supplierEdit.id;
+                _context.TblSupplierActions.Add(supplierEdit.supplierAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Thêm thành công";
+                return RedirectToAction("Details", new { id = supplierEdit.id });
+            }
+            else
+            {
+                TempData["status"] += "Thêm không thành công";
+            }
+            return View(supplierEdit);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SupplierEdit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var supplierAction = await _context.TblSupplierActions.FindAsync(id);
+            if (supplierAction == null)
+            {
+                return NotFound();
+            }
+            var supplierEditModel = new SupplierActionEditModel
+            {
+                supplierAction = supplierAction,
+                id = supplierAction.SupplierId,
+            };
+
+            return View(supplierEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SupplierEdit(SupplierActionEditModel supplierEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var supplierAction = await _context.TblSupplierActions.FindAsync(supplierEdit.supplierAction.Id);
+                if (supplierAction == null)
+                {
+                    return NotFound();
+                }
+
+                supplierAction.PersonInCharge = supplierEdit.supplierAction.PersonInCharge;
+                supplierAction.PhoneNumber = supplierEdit.supplierAction.PhoneNumber;
+                supplierAction.Email = supplierEdit.supplierAction.Email;
+                supplierAction.Note = supplierEdit.supplierAction.Note;
+                _context.Update(supplierAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Sửa thành công";
+                return RedirectToAction("Details", new { id = supplierEdit.supplierAction.SupplierId });
+            }
+            else
+            {
+                TempData["status"] += "Sửa không thành công";
+            }
+            return View(supplierEdit);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> SupplierDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var supplierAction = await _context.TblSupplierActions.FindAsync(id);
+            if (supplierAction == null)
+            {
+                return NotFound();
+            }
+            var supplierEditModel = new SupplierActionEditModel
+            {
+                supplierAction = supplierAction,
+                id = supplierAction.SupplierId,
+            };
+            return View(supplierEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SupplierDelete(SupplierActionEditModel supplierEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (supplierEdit.supplierAction == null)
+            {
+                return NotFound();
+            }
+            var supplierAction = await _context.TblSupplierActions.FindAsync(supplierEdit.supplierAction.Id);
+            var Code = supplierAction.SupplierId;
+            if (supplierAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblSupplierActions.Remove(supplierAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
         }
     }
 }

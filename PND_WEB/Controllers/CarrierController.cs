@@ -231,13 +231,13 @@ namespace PND_WEB.Controllers
             var carrierActionEditModel = new CarrierActionEditModel
             {
                 carrierAction = carrierAction,
-                id=carrierAction.Code
+                id = carrierAction.Code
             };
             return View(carrierActionEditModel);
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CarrierEdit(int id,CarrierActionEditModel carrierActionEditModel)
+        public async Task<IActionResult> CarrierEdit(int id, CarrierActionEditModel carrierActionEditModel)
         {
             if (id != carrierActionEditModel.carrierAction.Id)
             {
@@ -308,6 +308,7 @@ namespace PND_WEB.Controllers
             TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
             return RedirectToAction("Details", new { id = Code });
         }
+
     }
-      
+
 }

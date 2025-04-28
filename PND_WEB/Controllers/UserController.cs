@@ -22,7 +22,7 @@ namespace PND_WEB.Controllers
 
         }
 
-        
+
         public async Task<IActionResult> Index()
         {
             var users = await _userManager.Users.OrderByDescending(p => p.Id).ToListAsync();
@@ -53,7 +53,7 @@ namespace PND_WEB.Controllers
                     DOB = userModel.DOB,
                 };
 
-              
+
 
                 IdentityResult result = await _userManager.CreateAsync(user, userModel.Password);
                 if (result.Succeeded)
@@ -89,7 +89,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-        
+
             var userModel = new UserModel()
             {
                 UserName = user.UserName,
@@ -114,7 +114,7 @@ namespace PND_WEB.Controllers
                 user.UserName = userModel.UserName;
                 user.Staff_Name = userModel.Staff_Name;
                 user.DOB = userModel.DOB;
-              
+
                 IdentityResult result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
                 {
@@ -128,48 +128,57 @@ namespace PND_WEB.Controllers
             return View(userModel);
         }
 
-        [HttpGet]
         public async Task<IActionResult> Delete(string id)
+        {
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+                return NotFound();
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(AppUserModel user)
+        {
+            var userInDb = await _userManager.FindByIdAsync(user.Id);
+            if (userInDb == null)
+                return NotFound();
+
+            var result = await _userManager.DeleteAsync(userInDb);
+            if (result.Succeeded)
+                return RedirectToAction("Index");
+
+            foreach (var error in result.Errors)
+                ModelState.AddModelError("", error.Description);
+
+            return View(user);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ResetPW(string id)
         {
             var user = await _userManager.FindByIdAsync(id);
             if (user == null)
             {
                 return NotFound();
             }
-            
-            var userModel = new UserModel()
-            {
-                UserName = user.UserName,
-                Staff_Name = user.Staff_Name,
-                DOB = user.DOB,
-         
-            };
-            return View(userModel);
-        }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(string id, UserModel userModel)
-        {
-            if (ModelState.IsValid)
+            var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, token, "123456a@B");
+
+            if (result.Succeeded)
             {
-                var user = await _userManager.FindByIdAsync(id);
-                if (user == null)
-                {
-                    return NotFound();
-                }
-                IdentityResult result = await _userManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index", "User");
-                }
-                foreach (var error in result.Errors)
-                {
-                    ModelState.AddModelError("", error.Description);
-                }
+                TempData["Success"] = "Mật khẩu đã được đặt lại về mặc định: 123456a@B";
             }
-            return View(userModel);
+            else
+            {
+                TempData["Error"] = "Lỗi khi đặt lại mật khẩu: " + string.Join(", ", result.Errors.Select(e => e.Description));
+            }
 
+            return RedirectToAction("Index");
         }
+
+
     }
 }
