@@ -1,60 +1,124 @@
-﻿@model PND_WEB.Models.TblTutt
+﻿@model PND_WEB.ViewModels.TuttPhiViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin phí tạm ứng thanh toán", SubTitle = "Chi tiết thông tin phí tạm ứng thanh toán" })
 
-<div>
-    <h4>TblTutt</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ngay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ngay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NhanvienTutt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NhanvienTutt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.xacnhanduyet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.xacnhanduyet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ketoan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ketoan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ceo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ceo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChu)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About TUTT: @Model.tutt.SoTutt</div>
+                <div class="card-body">
+                    <dl class="row">
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ngay)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.Ngay)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.NhanvienTutt)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.NhanvienTutt)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.NoiDung)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.NoiDung)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.xacnhanduyet)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.xacnhanduyet)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ketoan)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.Ketoan)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ceo)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.Ceo)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.GhiChu)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.GhiChu)
+                    </dd>
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model?.tutt.SoTutt">Edit</a> 
+                    <a asp-action="Index">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.SoTutt">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Agent Infor Manager:</div>
+    <div class="card-body">
+        <p>
+            <a asp-action="TuttCreate" asp-route-id=@Model.tutt.SoTutt class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].Tu)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].Tt)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].SoTien)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].NghiChu)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.tuttphi)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="AgentEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="AgentDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tu)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Tt)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoTien)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.NghiChu)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

@@ -223,7 +223,7 @@ namespace WebApplication4.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AgentEdit(int id)
+        public async Task<IActionResult> AgentDelete(int id)
         {
             if (id == null)
             {
@@ -245,11 +245,14 @@ namespace WebApplication4.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AgentEdit(AgentActionEditModel agentEdit)
+        public async Task<IActionResult> AgentDelete(AgentActionEditModel agentEdit)
         {
             TempData["status"] = "Error: ";
-            if (ModelState.IsValid)
+            if (agentEdit.agentAction == null)
             {
+
+                return NotFound();
+
                 var agentAction = await _context.AgentActions.FindAsync(agentEdit.agentAction.Id);
                 if (agentAction == null)
                 {
@@ -264,12 +267,19 @@ namespace WebApplication4.Controllers
                 await _context.SaveChangesAsync();
                 TempData["status"] = "Sửa thành công";
                 return RedirectToAction("Details", new { id = agentEdit.agentAction.Code });
+
             }
-            else
+            var agentAction = await _context.AgentActions.FindAsync(agentEdit.agentAction.Id);
+            var Code = agentAction.Code;
+            if (agentAction == null)
             {
-                TempData["status"] += "Sửa không thành công";
+                return NotFound();
             }
-            return View(agentEdit);
+
+            _context.AgentActions.Remove(agentAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
         }
 
         [HttpGet]

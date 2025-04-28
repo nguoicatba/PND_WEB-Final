@@ -1,4 +1,4 @@
-﻿@model PND_WEB.ViewModels.AgentActionEditModel
+﻿@model PND_WEB.ViewModels.CneeEditModel
 
 @{
     ViewData["Title"] = "Delete";
@@ -11,42 +11,39 @@
 <div class="row">
     <div class="col">
         <div class="card card-default">
-
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.Code)
+                        @Html.DisplayNameFor(model => model.CneeAdd.Cnee)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.Code)
+                        @Html.DisplayFor(model => model.CneeAdd.Cnee)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.PersonInCharge)
+                        @Html.DisplayNameFor(model => model.CneeAdd.Adds)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.PersonInCharge)
+                        @Html.DisplayFor(model => model.CneeAdd.Adds)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.PhoneNumber)
+                        @Html.DisplayNameFor(model => model.CneeAdd.Place)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.PhoneNumber)
+                        @Html.DisplayFor(model => model.CneeAdd.Place)
                     </dd>
                     <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.Email)
+                        @Html.DisplayNameFor(model => model.CneeAdd.PersonInCharge)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.Email)
+                        @Html.DisplayFor(model => model.CneeAdd.PersonInCharge)
                     </dd>
                 </dl>
-                <form asp-action="AgentDelete">
-                    <input type="hidden" asp-for="@Model.agentAction.Id" />
+                <form asp-action="CneeAddDelete">
+                    <input type="hidden" asp-for="@Model.CneeAdd.Id" />
                     <input type="submit" value="Delete" class="btn btn-danger" />
                     <a asp-action="Index" class="btn btn-primary">Back to List</a>
                 </form>
             </div>
-
-
         </div>
     </div>
 </div>
