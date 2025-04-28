@@ -13,10 +13,9 @@
             <button class="btn btn-primary btn-xs" id="create">Create</button>
         </p>
         
-        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
-            <thead class="">
+        <table class="table table-striped" id="datatable1" style="width:100%">
+            <thead class="table-primary">
                 <tr>
-                    <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
                     <th>
                         @Html.DisplayNameFor(model => model.PackageName)
@@ -24,6 +23,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.PackagesDescription)
                     </th>
+                    <th>Action</th>
 
                     @* <th class="sort-numeric">Engine version</th> *@
                     @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
@@ -34,10 +34,6 @@
                 {
                     <tr>
                         <td>
-                            <button class="btn btn-success btn-xs edit-btn" data-id=@item.Code><i class="fa fa-edit"></i></button>
-                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.Code)
                         </td>
                         <td>
@@ -45,6 +41,10 @@
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.PackagesDescription)
+                        </td>
+                        <td>
+                            <button class="btn btn-success btn-xs edit-btn" data-id=@item.Code><i class="fa fa-edit"></i></button>
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 }

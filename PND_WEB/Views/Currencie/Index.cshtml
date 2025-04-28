@@ -19,32 +19,28 @@
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
-            <thead class="">
-                <tr>
-                    <th>
-                        Action
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Code)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CurrName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.Note)
-                    </th>
-           
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                        </td>
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="table-primary">
+        <tr>
+
+            <th class="col-1">
+                @Html.DisplayNameFor(model => model.Code)
+            </th>
+            <th class="col-4">
+                @Html.DisplayNameFor(model => model.CurrName)
+            </th>
+            <th class="col-6">
+                @Html.DisplayNameFor(model => model.Note)
+            </th>
+            <th class="col">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
                         <td>
                             @Html.DisplayFor(modelItem => item.Code)
                         </td>
@@ -54,9 +50,15 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Note)
                         </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+
+                        </td>
+
+            </tr>
+        }
+    </tbody>
+</table>
+</div>
 </div>
