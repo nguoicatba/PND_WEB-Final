@@ -4,9 +4,6 @@
     ViewData["Title"] = "Index";
 }
 
-
-
-
 @await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Carrier", SubTitle = "Danh sách thông tin hãng tàu" })
 
 <div class="card">
@@ -15,8 +12,8 @@
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
 
                     <th>Action</th>
@@ -71,5 +68,3 @@
         </table>
     </div>
 </div>
-
-

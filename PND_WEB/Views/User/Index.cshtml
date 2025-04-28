@@ -11,10 +11,10 @@
     <div class="card-body">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table nowrap border display" id="mytable" width="100%">
+            <thead class="bg bg-secondary">
                 <tr>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Id)</th>
                     <th>
@@ -35,13 +35,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.createDate)
                     </th>
-
-                    
-
                     <th>Action</th>
-
-                    @* <th class="sort-numeric">Engine version</th> *@
-                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
                 </tr>
             </thead>
             <tbody>
@@ -74,9 +68,12 @@
                         </td>
 
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="ResetPW" asp-route-id="@item.Id" class="btn btn-primary btn-xs"
+                               onclick="return confirm('Bạn có chắc muốn đặt lại mật khẩu cho tài khoản này không?')">
+                                <i class="fa fa-key"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                     </tr>
                 }
@@ -85,6 +82,3 @@
         </table>
     </div>
 </div>
-
-
-

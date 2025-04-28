@@ -41,7 +41,7 @@ namespace WebApplication4.Controllers
                 return NotFound();
             }
 
-            CneeViewModel  cneeViewModel = new CneeViewModel();
+            CneeViewModel cneeViewModel = new CneeViewModel();
             cneeViewModel.CneeAdds = await _context.TblCneeAdds.Where(c => c.Cnee == id).ToListAsync();
             cneeViewModel.Cnee = tblCnee;
 
@@ -121,7 +121,6 @@ namespace WebApplication4.Controllers
             return View(tblCnee);
         }
 
-        // GET: TblCnee/Delete/5
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -139,7 +138,6 @@ namespace WebApplication4.Controllers
             return View(tblCnee);
         }
 
-        // POST: TblCnee/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
@@ -157,6 +155,150 @@ namespace WebApplication4.Controllers
         private bool TblCneeExists(string id)
         {
             return _context.TblCnees.Any(e => e.Cnee == id);
+        }
+
+
+
+
+
+        //
+        [HttpGet]
+        [Route("TblCnee/CneeAddCreate/{id}")]
+        public async Task<IActionResult> CneeAddCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var cnee = await _context.TblCnees.FindAsync(id);
+            if (cnee == null)
+            {
+                return NotFound();
+            }
+            CneeEditModel cneeViewModel = new();
+            cneeViewModel.id = id;
+            cneeViewModel.CneeAdd = new TblCneeAdd();
+            return View(cneeViewModel);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CneeAddCreate(CneeEditModel cneeEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var cnee = await _context.TblCnees.FindAsync(cneeEdit.id);
+                if (cnee == null)
+                {
+                    return NotFound();
+                }
+                cneeEdit.CneeAdd.Cnee = cneeEdit.id;
+                _context.TblCneeAdds.Add(cneeEdit.CneeAdd);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Thêm thành công";
+                return RedirectToAction("Details", new { id = cneeEdit.id });
+            }
+            else
+            {
+                TempData["status"] += "Thêm không thành công";
+            }
+            return View(cneeEdit);
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> CneeAddEdit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var cneeadd = await _context.TblCneeAdds.FindAsync(id);
+            if (cneeadd == null)
+            {
+                return NotFound();
+            }
+            var cneeEditModel = new CneeEditModel
+            {
+                id = cneeadd.Cnee,
+                CneeAdd = cneeadd,
+            };
+
+            return View(cneeEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CneeAddEdit(CneeEditModel cneeEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (ModelState.IsValid)
+            {
+                var CneeAddAction = await _context.TblCneeAdds.FindAsync(cneeEdit.CneeAdd.Id);
+                if (CneeAddAction == null)
+                {
+                    return NotFound();
+                }
+
+                CneeAddAction.Adds = cneeEdit.CneeAdd.Adds;
+                CneeAddAction.PersonInCharge = cneeEdit.CneeAdd.PersonInCharge;
+                CneeAddAction.Place = cneeEdit.CneeAdd.Place;
+                CneeAddAction.Id = cneeEdit.CneeAdd.Id;
+                _context.Update(CneeAddAction);
+                await _context.SaveChangesAsync();
+                TempData["status"] = "Sửa thành công";
+                return RedirectToAction("Details", new { id = cneeEdit.CneeAdd.Cnee });
+            }
+            else
+            {
+                TempData["status"] += "Sửa không thành công";
+            }
+            return View(cneeEdit);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> CneeAddDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var cneeaddAction = await _context.TblCneeAdds.FindAsync(id);
+            if (cneeaddAction == null)
+            {
+                return NotFound();
+            }
+            var cneeadddEditModel = new CneeEditModel
+            {
+                CneeAdd = cneeaddAction,
+                id = cneeaddAction.Cnee
+            };
+            return View(cneeadddEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CneeAddDelete(CneeEditModel cneeEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (cneeEdit.CneeAdd == null)
+            {
+                return NotFound();
+            }
+            var cneeaddAction = await _context.TblCneeAdds.FindAsync(cneeEdit.CneeAdd.Id);
+            var Code = cneeaddAction.Cnee;
+            if (cneeaddAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblCneeAdds.Remove(cneeaddAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
         }
     }
 }

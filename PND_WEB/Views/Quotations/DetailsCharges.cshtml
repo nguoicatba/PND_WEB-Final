@@ -9,9 +9,10 @@
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin báo giá", SubTitle = "Chi tiết thông tin báo giá" })
 
-<h1>Chi tiết báo giá</h1>
-<div class="card">
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">About Quotation:</div>
     <div class="card-body">
         <table class="table table-bordered">
             <tr>
@@ -104,11 +105,11 @@
     </div>
 </div>
 
-<h3>Thông tin phí</h3>
 @{
     float totalAmount = 0f;
 }
-<div class="card">
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">About QuotationCharges:</div>
     <div class="card-body">
         @if (!isReadOnly)
         {
@@ -116,8 +117,8 @@
                 <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
             </p>
         }
-        <table class="table table-striped my-4 w-100" id="datatable1">
-            <thead class="bg bg-secondary">
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
                 <tr>
                     @if (!isReadOnly)
                     {
@@ -156,7 +157,8 @@
                         <td>
                             @if (item.Rate.HasValue)
                             {
-                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"));
+                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                ;
                             }
                         </td>
                     </tr>
@@ -172,11 +174,11 @@
                     {
                         <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
                     }
-            <td><strong>@totalAmount.ToString("N2")</strong></td>
-        </tr>
-    </tfoot>
-</table>
-</div>
+                    <td><strong>@totalAmount.ToString("N2")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 </div>
 
 <a asp-controller="Quotations" asp-action="Index">Back to List</a>

@@ -9,15 +9,17 @@
 <div class="card">
     <div class="card-body">
         <p>
-            <a asp-action="Create">Create New</a>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
+                    <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Cnee)</th>
-                    <th class="col-3 text-nowrap">@Html.DisplayNameFor(model => model.Caddress)</th>
-                    <th class="col-3 text-nowrap">@Html.DisplayNameFor(model => model.Ccity)</th>
-                    <th class="col-1 text-nowrap"></th>
+                    <th>@Html.DisplayNameFor(model => model.Caddress)</th>
+                    <th>@Html.DisplayNameFor(model => model.Ccity)</th>
+                    <th>@Html.DisplayNameFor(model => model.CpersonInCharge)</th>
+                    <th>@Html.DisplayNameFor(model => model.TaxId)</th>
 
                     @* <th class="sort-numeric">Engine version</th> *@
                     @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
@@ -27,9 +29,12 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        
                         <td>
-                            @Html.DisplayFor(modelItem => item.Cnee)
+                            <a asp-action="Edit" asp-route-id="@item.Cnee" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="Delete" asp-route-id="@item.Cnee" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.Cnee"> @Html.DisplayFor(modelItem => item.Cnee) </a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Caddress)
@@ -37,19 +42,11 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Ccity)
                         </td>
-                        <td class="col-1 text-nowrap" style="text-align: right; padding-right: 20px ">
-                            <div class="btn-group">
-                                <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Action
-                                </button>
-                                <div class="dropdown-menu">
-                                    <a class="dropdown-item" asp-action="Edit" asp-route-id="@item.Cnee">Sửa</a>
-                                    <a class="dropdown-item" asp-action="Details" asp-route-id="@item.Cnee">Chi tiết CNEE</a>
-                                    <a class="dropdown-item" asp-action="Delete" asp-route-id="@item.Cnee">Xóa</a>
-                                    <a class="dropdown-item" asp-controller="TblCneeAdd" asp-action="Index" asp-route-id="@item.Cnee">Cập nhật thêm cho CNEE</a>
-
-                                </div>
-                            </div>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CpersonInCharge)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TaxId)
                         </td>
                     </tr>
                 }
@@ -58,10 +55,3 @@
         </table>
     </div>
 </div>
-
-
-
-
-
-
-

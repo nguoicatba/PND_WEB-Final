@@ -98,63 +98,63 @@
         </table>
     </div>
 </div>
-    <h3>Chi tiết chi phí</h3>
-    @{
-        float totalAmount = 0f;
-    }
-    <div class="card">
-        <div class="card-body">
+<h3>Chi tiết chi phí</h3>
+@{
+    float totalAmount = 0f;
+}
+<div class="card">
+    <div class="card-body">
 
-            <table class="table nowrap border" id="datatable1">
-                <thead class="bg bg-secondary">
+        <table class="table nowrap border" id="datatable1">
+            <thead class="bg bg-secondary">
+                <tr>
+                    <th>Tên phí</th>
+                    <th>Số lượng</th>
+                    <th>Đơn vị</th>
+                    <th>Đơn giá</th>
+                    <th>Tiền tệ</th>
+                    <th>Ghi chú</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuotationsCharges)
+                {
+                    float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+                    float quantity = (float)item.Quantity;
+                    float amount = quantity * rate;
+                    totalAmount += amount;
                     <tr>
-                        <th>Tên phí</th>
-                        <th>Số lượng</th>
-                        <th>Đơn vị</th>
-                        <th>Đơn giá</th>
-                        <th>Tiền tệ</th>
-                        <th>Ghi chú</th>
-                        <th>Thành tiền</th>
+                        <td>@item.ChargeName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Rate?.ToString("N2")</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.Rate.HasValue)
+                            {
+                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                ;
+                            }
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model.QuotationsCharges)
-                    {
-                        float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-                        float quantity = (float)item.Quantity;
-                        float amount = quantity * rate;
-                        totalAmount += amount;
-                        <tr>
-                            <td>@item.ChargeName</td>
-                            <td>@item.Quantity</td>
-                            <td>@item.Unit</td>
-                            <td>@item.Rate?.ToString("N2")</td>
-                            <td>@item.Currency</td>
-                            <td>@item.Notes</td>
-                            <td>
-                                @if (item.Rate.HasValue)
-                                {
-                                    @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
-                                    ;
-                                }
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-                <tfoot>
-                    <tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
 
-                            <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                    <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
 
-                        <td><strong>@totalAmount.ToString("N2")</strong></td>
-                    </tr>
-                </tfoot>
-            </table>
-        </div>
+                    <td><strong>@totalAmount.ToString("N2")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
     </div>
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+</div>
+<form asp-action="Delete">
+    <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
+    <input type="submit" value="Delete" class="btn btn-danger" /> |
+    <a asp-action="Index">Back to List</a>
+</form>
 </div>
