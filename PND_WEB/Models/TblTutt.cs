@@ -41,6 +41,13 @@ public partial class TblTutt
     [DisplayName("CEO xác nhận")]
     public bool? Ceo { get; set; }
 
+    [Column("TU")]
+    public bool? Tu { get; set; } = false;
+
+    [Column("TT")]
+    public bool? Tt { get; set; } = false;
+
+
     [Column("Ghi_chu")]
     [MaxLength(255)]
     [DisplayName("Ghi chú")]

@@ -54,17 +54,7 @@ public partial class TblCharge
     [Column("M_VAT")]
     public float? MVat { get; set; }
 
-    [Column("Buy")]
-    [Display(Name = "Buy")]
-
-    public bool? Buy { get; set; }
-
-    [Column("Sell")]
-    public bool? Sell { get; set; }
-
-    [Column("Cont")]
-    public bool? Cont { get; set; }
-
+    
     [Column("Checked")]
     public bool? Checked { get; set; }
 

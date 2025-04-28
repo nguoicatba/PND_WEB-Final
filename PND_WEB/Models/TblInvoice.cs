@@ -45,6 +45,18 @@ public partial class TblInvoice
     [Display(Name = "Supplier ID")]
     public string? SupplierId { get; set; }
 
+    [Column("Buy")]
+    [Display(Name = "Buy")]
+
+    public bool? Buy { get; set; }
+
+    [Column("Sell")]
+    public bool? Sell { get; set; }
+
+    [Column("Cont")]
+    public bool? Cont { get; set; }
+
+
     [Column("HBL")]
     [MaxLength(50)]
     [Display(Name = "HBL")]

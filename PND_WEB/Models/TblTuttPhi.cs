@@ -17,18 +17,13 @@ public partial class TblTuttPhi
     [MaxLength(255)]
     public string? TenPhi { get; set; }
 
-    [Column("TU")]
-    public bool? Tu { get; set; } = false;
-
-    [Column("TT")]
-    public bool? Tt { get; set; } = false;
 
     [Column("SoTien")]
     public double? SoTien { get; set; } = 0;
 
     [Column("GhiChu")]
     [MaxLength(255)]
-    public string? NghiChu { get; set; }
+    public string? GhiChu { get; set; }
 
     [Column("SoTUTT")]
     [MaxLength(50)]
