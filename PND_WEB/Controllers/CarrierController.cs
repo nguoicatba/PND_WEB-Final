@@ -266,49 +266,6 @@ namespace PND_WEB.Controllers
             return View(carrierActionEditModel);
         }
 
-
-        [HttpGet]
-        public async Task<IActionResult> CarrierDelete(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var carrierAction = await _context.CarrierActions.FindAsync(id);
-            if (carrierAction == null)
-            {
-                return NotFound();
-            }
-            var carrierEditModel = new CarrierActionEditModel
-            {
-                carrierAction = carrierAction,
-                id = carrierAction.Code
-            };
-            return View(carrierEditModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CarrierDelete(CarrierActionEditModel carrierEdit)
-        {
-            TempData["status"] = "Error: ";
-            if (carrierEdit.carrierAction == null)
-            {
-                return NotFound();
-            }
-            var carrierAction = await _context.CarrierActions.FindAsync(carrierEdit.carrierAction.Id);
-            var Code = carrierAction.Code;
-            if (carrierAction == null)
-            {
-                return NotFound();
-            }
-
-            _context.CarrierActions.Remove(carrierAction);
-            await _context.SaveChangesAsync();
-            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
-            return RedirectToAction("Details", new { id = Code });
-        }
-
     }
       
 }

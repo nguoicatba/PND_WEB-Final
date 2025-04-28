@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
-using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -23,18 +22,7 @@ namespace PND_WEB.Controllers
         // GET: TamUngThanhToan
         public async Task<IActionResult> Index()
         {
-
-            TuttViewModel tuttViewModel = new TuttViewModel();
-            tuttViewModel.tutt = await _context.TblTutts
-                .Where(a => a.Ketoan == null && a.Ceo == null)
-                .ToListAsync();
-
-            tuttViewModel.tuttcheck = await _context.TblTutts
-                .Where(b => b.Ketoan != null || b.Ceo != null)
-                .ToListAsync();
-
-            return View(tuttViewModel);
-            //return View(await _context.TblTutts.ToListAsync());
+            return View(await _context.TblTutts.ToListAsync());
         }
 
         // GET: TamUngThanhToan/Details/5
@@ -45,20 +33,14 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var tutt = await _context.TblTutts
+            var tblTutt = await _context.TblTutts
                 .FirstOrDefaultAsync(m => m.SoTutt == id);
-            if (tutt == null)
+            if (tblTutt == null)
             {
                 return NotFound();
             }
 
-            TuttPhiViewModel tuttphiViewModel = new TuttPhiViewModel();
-            tuttphiViewModel.tutt = tutt;
-            tuttphiViewModel.tuttphi = await _context.TblTuttsPhi
-                .Where(a => a.SoTutt == id)
-                .ToListAsync();
-
-            return View(tuttphiViewModel);
+            return View(tblTutt);
         }
 
         // GET: TamUngThanhToan/Create

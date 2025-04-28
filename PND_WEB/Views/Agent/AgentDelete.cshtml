@@ -13,40 +13,41 @@
         <div class="card card-default">
 
             <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.Code)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.Code)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.PersonInCharge)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.PersonInCharge)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.PhoneNumber)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.PhoneNumber)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.agentAction.Email)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.agentAction.Email)
-                    </dd>
-                </dl>
-                <form asp-action="AgentDelete">
-                    <input type="hidden" asp-for="@Model.agentAction.Id" />
-                    <input type="submit" value="Delete" class="btn btn-danger" />
-                    <a asp-action="Index" class="btn btn-primary">Back to List</a>
-                </form>
-            </div>
+               
+                    <dl class="row">
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.agentAction.Code)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.agentAction.Code)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.agentAction.PersonInCharge)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.agentAction.PersonInCharge)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.agentAction.PhoneNumber)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.agentAction.PhoneNumber)
+                        </dd>
+                        <dt class="col-sm-2">
+                            @Html.DisplayNameFor(model => model.agentAction.Email)
+                        </dt>
+                        <dd class="col-sm-10">
+                            @Html.DisplayFor(model => model.agentAction.Email)
+                        </dd>
+                    </dl>
 
 
+                    <form asp-action="AgentDelete">
+                        <input type="hidden" asp-for="@Model.agentAction.Id" />
+                        <input type="submit" value="Delete" class="btn btn-danger" /> |
+                    <a asp-action="Details" class="btn btn-primary">Back to List</a>
+                    </form>
+             </div>
         </div>
     </div>
 </div>

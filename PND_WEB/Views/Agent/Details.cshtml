@@ -12,39 +12,43 @@
         <!-- START card-->
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About Carrier: @Model.agent.Code</div>
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.agent.AgentName) :
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.agent.AgentName) :
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.agent.AgentNamekd)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.agent.AgentNamekd)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.agent.AgentAdd)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.agent.AgentAdd)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.agent.Note)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.agent.Note)
-                        </dd>
-                    </dl>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
-                        <a asp-action="Index">Back to List</a>
-                    </div>
-                </div>
+            <div class="card-body">
+
+                            <dl class="row">
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentName) :
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentName) :
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentNamekd)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentNamekd)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.AgentAdd)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.AgentAdd)
+                                </dd>
+                                <dt class="col-sm-2">
+                                    @Html.DisplayNameFor(model => model.agent.Note)
+                                </dt>
+                                <dd class="col-sm-10">
+                                    @Html.DisplayFor(model => model.agent.Note)
+                                </dd>
+                            </dl>
+                                <div>
+                                    <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
+                                    <a asp-action="Index">Back to List</a>
+                                </div>
+              </div>
+                    
+
         </div>
+        <!-- END card-->
     </div>
 </div>
 
@@ -55,6 +59,7 @@
                 <p>
                     <a asp-action="AgentCreate" asp-route-id=@Model.agent.Code class="btn btn-primary btn-xs">Create New</a>
                 </p>
+
                 <table class="table table-striped my-4 w-100" id="datatable3">
                     <thead class="table-primary">
                         <tr>
@@ -70,6 +75,8 @@
                             <th>
                                 @Html.DisplayNameFor(model => model.agentActions[0].Note)
                             </th>
+
+
                         </tr>
                     </thead>
                     <tbody>
@@ -84,22 +91,31 @@
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Id)
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PersonInCharge)
+
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.PhoneNumber)
                                 </td>
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Email)
                                 </td>
+
+
                                 <td>
                                     @Html.DisplayFor(modelItem => item.Note)
                                 </td>
+
                             </tr>
                         }
                     </tbody>
                 </table>
+
+           
     </div>
 </div>
 

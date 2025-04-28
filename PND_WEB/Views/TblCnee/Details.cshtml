@@ -7,115 +7,69 @@
 @await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết Cnee", SubTitle = "" })
 
 
-<div class="row">
-    <div class="col-xl-12">
-        <partial name="_StatusMessage" model="@TempData["status"]" />
-        <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg-success">About Carrier: @Model.Cnee.Cnee</div>
-                <div class="card-body">
-                    <dl class="row">
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Cnee)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Cnee)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Vcnee)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Vcnee)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Caddress)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Caddress)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Vaddress)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Vaddress)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Ccity)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Ccity)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.CpersonInCharge)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.CpersonInCharge)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.TaxId)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.TaxId)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Cnee.Haddress)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Cnee.Haddress)
-                        </dd>
-                    </dl>
-                    <div>
-                        <a asp-action="Edit" asp-route-id="@Model.Cnee.Cnee">Edit</a> 
-                        <a asp-action="Index">Back to List</a>
-                    </div>
-                </div>
+<div class="card">
+    <div class="card-header">
+        <div class="card-title">Chi tiết Cnee</div>
+    </div>
+
+    <div class="card-body">
+        
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Cnee)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Cnee)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Vcnee)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Vcnee)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Caddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Caddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Vaddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Vaddress)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Ccity)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Ccity)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.CpersonInCharge)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.CpersonInCharge)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.TaxId)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.TaxId)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Cnee.Haddress)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Cnee.Haddress)
+            </dd>
+        </dl>
+        <div>
+            <a asp-action="Edit" asp-route-id="@Model.Cnee.Cnee">Edit</a> |
+            <a asp-action="Index">Back to List</a>
         </div>
     </div>
 </div>
 
-<div class="card card-default" id="cardDemo14">
-    <div class="card-header bg-success">Cnee Infor CneeAdd:</div>
-    <div class="card-body">
-        <p>
-            <a asp-action="CneeAddCreate" asp-route-id=@Model.Cnee.Cnee class="btn btn-primary btn-xs">Create New</a>
-        </p>
 
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
-                <tr>
-                    <th>Action</th>
-                    <th data-priority="1">@Html.DisplayNameFor(model => model.CneeAdds[0].Id)</th>
-                    <th>@Html.DisplayNameFor(model => model.CneeAdds[0].Adds)</th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CneeAdds[0].Place)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.CneeAdds[0].PersonInCharge)
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.CneeAdds)
-                {
-                    <tr>
-                        <td>
-                            <a asp-action="CneeAddEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="CneeAddDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Adds)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Place)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.PersonInCharge)
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-</div>
