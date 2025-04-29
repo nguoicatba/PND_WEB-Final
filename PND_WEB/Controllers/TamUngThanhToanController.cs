@@ -45,14 +45,21 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var tblTutt = await _context.TblTutts
+            var tutt = await _context.TblTutts
                 .FirstOrDefaultAsync(m => m.SoTutt == id);
-            if (tblTutt == null)
+            if (tutt == null)
             {
                 return NotFound();
             }
+            var tuttViewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = await _context.TblTuttsPhi
+                    .Where(a => a.SoTutt == id)
+                    .ToListAsync()
+            };
 
-            return View(tblTutt);
+            return View(tuttViewModel);
         }
 
         // GET: TamUngThanhToan/Create
@@ -66,7 +73,7 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu")] TblTutt tblTutt)
+        public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
         {
             if (ModelState.IsValid)
             {

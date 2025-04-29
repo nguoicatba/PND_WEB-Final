@@ -38,6 +38,14 @@
                 <span asp-validation-for="GhiChu" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <input type="checkbox" id="Tu" name="Tu" class="form-check-input control-label" value="true" @(Model != null && Model.Tu == true ? "checked" : "") />
+                <label for="Tu" class="form-check-label">Tạm Ứng (TU)</label>
+            </div>
+            <div class="form-group">
+                <input type="checkbox" id="Tt" name="Tt" class="form-check-input control-label" value="true" @(Model != null && Model.Tt == true ? "checked" : "") />
+                <label for="Tt" class="form-check-label">Thanh Toán (TT)</label>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
@@ -50,4 +58,21 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        const tuCheckbox = document.getElementById('TuCheckbox');
+        const ttCheckbox = document.getElementById('TtCheckbox');
+
+        tuCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                ttCheckbox.checked = false;
+            }
+        });
+
+        ttCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                tuCheckbox.checked = false;
+            }
+        });
+    </script>
 }
