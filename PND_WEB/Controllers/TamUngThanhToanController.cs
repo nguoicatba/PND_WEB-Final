@@ -26,11 +26,11 @@ namespace PND_WEB.Controllers
             TuttViewModel tuttViewModel = new TuttViewModel();
 
             tuttViewModel.tutt = await _context.TblTutts
-                .Where(a => a.Ketoan == null && a.Ceo == null)
+                .Where(a => a.xacnhanduyet == null)
                 .ToListAsync();
 
             tuttViewModel.tuttcheck = await _context.TblTutts
-                .Where(a => a.Ketoan != null || a.Ceo != null)
+                .Where(a => a.xacnhanduyet != null )
                 .ToListAsync();
 
             return View(tuttViewModel);

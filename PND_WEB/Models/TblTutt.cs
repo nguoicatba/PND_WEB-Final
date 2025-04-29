@@ -34,17 +34,19 @@ public partial class TblTutt
     public bool? xacnhanduyet { get; set; }
 
     [Column("ketoan")]
-    [DisplayName("Kế toán xác nhận")]
+    [DisplayName("Kế toán")]
     public bool? Ketoan { get; set; }
 
     [Column("ceo")]
-    [DisplayName("CEO xác nhận")]
+    [DisplayName("CEO")]
     public bool? Ceo { get; set; }
 
     [Column("TU")]
+    [DisplayName("Tạm ứng")]
     public bool? Tu { get; set; } = false;
 
     [Column("TT")]
+    [DisplayName("Thanh toán")]
     public bool? Tt { get; set; } = false;
 
 
