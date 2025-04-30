@@ -172,5 +172,141 @@ namespace PND_WEB.Controllers
         {
             return _context.TblTutts.Any(e => e.SoTutt == id);
         }
+
+
+
+        //TuttCreate
+
+        [HttpGet]
+        public async Task<IActionResult> TuttCreate(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var tutt = await _context.TblTutts.FindAsync(id);
+            if (tutt == null)
+            {
+                return NotFound();
+            }
+            var tuttphiActionEditModel = new TuttEditModel
+            {
+                id = tutt.SoTutt,
+                tuttphi = new TblTuttPhi()
+            };
+            return View(tuttphiActionEditModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
+                if (tutt == null)
+                {
+                    return NotFound();
+                }
+                tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
+                _context.Add(tuttEditModel.tuttphi);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Details), new { id = tuttEditModel.id });
+            }
+            return View(tuttEditModel);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> TuttEdit(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var tuttphi = await _context.TblTuttsPhi.FindAsync(id);
+            if (tuttphi == null)
+            {
+                return NotFound();
+            }
+            var tuttEditModel = new TuttEditModel
+            {
+                tuttphi = tuttphi,
+                id = tuttphi.SoTutt
+            };
+            return View(tuttEditModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TuttEdit(int id, TuttEditModel tuttEditModel)
+        {
+            if (id != tuttEditModel.tuttphi.Id)
+            {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(tuttEditModel.tuttphi);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TblTuttExists(tuttEditModel.id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Details), new { id = tuttEditModel.tuttphi.SoTutt });
+            }
+            return View(tuttEditModel);
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> TuttDelete(int id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var tuttphi = await _context.TblTuttsPhi.FindAsync(id);
+            if (tuttphi == null)
+            {
+                return NotFound();
+            }
+            var tuttEditModel = new TuttEditModel
+            {
+                tuttphi = tuttphi,
+                id = tuttphi.SoTutt
+            };
+            return View(tuttEditModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> TuttDelete(TuttEditModel tuttEdit)
+        {
+            TempData["status"] = "Error: ";
+            if (tuttEdit.tuttphi == null)
+            {
+                return NotFound();
+            }
+            var tuttAction = await _context.TblTuttsPhi.FindAsync(tuttEdit.tuttphi.Id);
+            var Code = tuttAction.SoTutt;
+            if (tuttAction == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblTuttsPhi.Remove(tuttAction);
+            await _context.SaveChangesAsync();
+            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            return RedirectToAction("Details", new { id = Code });
+        }
     }
 }
