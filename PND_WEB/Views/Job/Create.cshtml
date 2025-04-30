@@ -21,8 +21,8 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="GoodsType" class="control-label">Kiểu hàng hóa</label>
-                            <select asp-for="GoodsType" class="form-control" asp-items="ViewBag.GoodsType">
-                                <optgroup label="Code|   Name"></optgroup>
+                            <select asp-for="GoodsType" class="form-control select2-not-tag" data-url="@Url.Action("GoodsTypeGet", "Job")">
+                           
                             </select>
                             <span asp-validation-for="GoodsType" class="text-danger"></span>
                         </div>
@@ -40,14 +40,15 @@
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label asp-for="Agent" class="control-label"></label>
-                            <select asp-for="Agent" class="form-control select2_test" asp-items="ViewBag.Agent">
-                                <optgroup label="Agent Code|   Agent Name"></optgroup>
+                            <select asp-for="Agent" class="form-control select2-not-tag" data-url="@Url.Action("AgentGet", "Job")">
+                                
+                             
                             </select>
                         </div>
                         <div class="form-group col-6">
                             <label asp-for="Carrier" class="control-label"></label>
-                            <select asp-for="Carrier" class="form-control select2_test" asp-items="ViewBag.Carrier">
-                                <optgroup label="Carrier Code|  Carrier Name"></optgroup>
+                            <select asp-for="Carrier" class="form-control select2-not-tag" data-url="@Url.Action("CarrierGet", "Job")">
+                                
                             </select>
                         </div>
                     </div>
@@ -81,15 +82,6 @@
 @section Scripts {
     
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-            $(document).ready(function () {
-                $('.select2_test').select2({
-                    
-                    placeholder: "Chọn",
-                    allowClear: true,
-                    width: '100%',
-                    
-                });
-            });
-    </script>
+    <script src="~/js/components/SelectList.js"></script>
+ 
 }

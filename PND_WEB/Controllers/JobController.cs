@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace PND_WEB.Controllers
 {
@@ -49,29 +51,7 @@ namespace PND_WEB.Controllers
         // GET: Job/Create
         public IActionResult Create()
         {
-            var goodsTypes = _context.GoodsTypes.Select(g => new { 
-                
-                Code=g.Code,
-                Name =g.Code + "|   " + g.GtName
 
-            }).ToList();
-            var agent= _context.Agents.Select(a => new
-            {
-
-                Code = a.Code,
-                Name = a.Code + "|   " + a.AgentName
-            }).ToList();
-
-            var carrier = _context.Carriers.Select(c => new
-            {
-                Code = c.Code,
-                Name = c.Code + "|   " + c.CarrierName
-            }).ToList();
-
-
-            ViewData["GoodsType"] = new SelectList(goodsTypes, "Code", "Name");
-            ViewData["Agent"] = new SelectList(agent, "Code", "Name");
-            ViewData["Carrier"] = new SelectList(carrier, "Code", "Name");
             return View();
         }
 
@@ -81,7 +61,7 @@ namespace PND_WEB.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("JobId,GoodsType,JobDate,Mbl,IssueDateM,OnBoardDateM,VesselName,VoyageName,Pol,Pod,Podel,Podis,PlaceofReceipt,PlaceofDelivery,PreCariageBy,Etd,Eta,Mode,Agent,Carrier,Ycompany,Link,YunLock,UseTime")] TblJob tblJob)
-        {   
+        {
             tblJob.JobDate = DateTime.Now.Date;
             tblJob.JobId = tblJob.GoodsType + "HP" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             tblJob.YunLock = 15;
@@ -104,9 +84,8 @@ namespace PND_WEB.Controllers
                     }
                 }
             }
-       
-            ViewData["Agent"] = new SelectList(_context.Agents, "Code", "Code", tblJob.Agent);
-            ViewData["Carrier"] = new SelectList(_context.Carriers, "Code", "Code", tblJob.Carrier);
+
+
             return View(tblJob);
         }
 
@@ -123,9 +102,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            ViewData["GoodsType"] = new SelectList(_context.GoodsTypes, "Code", "Code");
-            ViewData["Agent"] = new SelectList(_context.Agents, "Code", "Code", tblJob.Agent);
-            ViewData["Carrier"] = new SelectList(_context.Carriers, "Code", "Code", tblJob.Carrier);
+
             return View(tblJob);
         }
 
@@ -161,8 +138,7 @@ namespace PND_WEB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Agent"] = new SelectList(_context.Agents, "Code", "Code", tblJob.Agent);
-            ViewData["Carrier"] = new SelectList(_context.Carriers, "Code", "Code", tblJob.Carrier);
+
             return View(tblJob);
         }
 
@@ -204,6 +180,62 @@ namespace PND_WEB.Controllers
         private bool TblJobExists(string id)
         {
             return _context.TblJobs.Any(e => e.JobId == id);
+        }
+
+        public async Task<JsonResult> GoodsTypeGet(string q, int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.GoodsTypes.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.GtName.Contains(q.ToLower()));
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+
+            return Json(new
+            {
+                items = paginatedData.Select(data => new
+                {
+                    id = data.Code,
+                    text = data.GtName
+                }).ToList(),
+                total_count = totalCount
+
+            });
+        }
+
+        public async Task<JsonResult> AgentGet(string q, int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Agents.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.AgentName.ToLower().Contains(q.ToLower()));
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Json(new
+            {
+                items = paginatedData.Select(data => new
+                {
+                    id = data.Code,
+                    text = data.AgentName
+                }).ToList(),
+                total_count = totalCount
+            });
+        }
+
+        public async Task<JsonResult> CarrierGet(string q, int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Carriers.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CarrierName.ToLower().Contains(q.ToLower()));
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Json(new
+            {
+                items = paginatedData.Select(data => new
+                {
+                    id = data.Code,
+                    text = data.CarrierName
+                }).ToList(),
+                total_count = totalCount
+            });
         }
     }
 }
