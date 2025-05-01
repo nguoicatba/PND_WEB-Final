@@ -10,8 +10,6 @@
     );
     return $state;
 }
-// Function to format the state
-
 
 function formatState(state) {
 
@@ -24,7 +22,8 @@ function formatState(state) {
     );
     return $state;
 }
-// Initialize Select2
+
+// General select2 not tag 
 $('.select2-not-tag').each(function () {
     const $select = $(this);
     const url = $select.data('url');
@@ -41,7 +40,7 @@ $('.select2-not-tag').each(function () {
             },
             processResults: function (data, params) {
                 params.page = params.page || 1;
-
+                $select.data('select2Header', data.header); 
                 return {
                     results: data.items,
                     pagination: {
@@ -58,9 +57,14 @@ $('.select2-not-tag').each(function () {
         allowClear: true,
         theme: 'bootstrap4',
     });
+    
 });
 
-$('.select2-tag').each(function () {
+
+
+
+// Select in port by NguyenKien
+$('.select-port').each(function () {
     const $select = $(this);
     const url = $select.data('url');
 
@@ -86,11 +90,38 @@ $('.select2-tag').each(function () {
             },
             cache: true
         },
+       
         minimumInputLength: 1,
-        templateResult: formatState2,
-        templateSelection: formatState,
+        templateResult: formatPort,
+        templateSelection: SelectPort,
         placeholder: 'Select an option Code - Name',
         allowClear: true,
         theme: 'bootstrap4',
     });
 });
+
+
+function SelectPort(state) {
+
+    if (!state.code) {
+        return state.text;
+    }
+    var $state = $(
+        '<span>' + state.text + '</span>'
+
+    );
+    return $state;
+}
+
+function formatPort(state) {
+    if (!state.code) {
+        return state.text;
+    }
+    var $state = $(
+        '<div class="row">' +
+        '<div class="col-6">' + state.code+ '</div>' +
+        '<div class="col-6">' + state.text + '</div>' +
+        '</div>'
+    );
+    return $state;
+}

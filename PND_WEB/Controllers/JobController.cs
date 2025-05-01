@@ -51,7 +51,7 @@ namespace PND_WEB.Controllers
         // GET: Job/Create
         public IActionResult Create()
         {
-
+            
             return View();
         }
 
@@ -98,10 +98,13 @@ namespace PND_WEB.Controllers
             }
 
             var tblJob = await _context.TblJobs.FindAsync(id);
+            
             if (tblJob == null)
             {
                 return NotFound();
             }
+            tblJob.AgentNavigation = await _context.Agents.FirstOrDefaultAsync(m => m.Code == tblJob.Agent);
+            tblJob.CarrierNavigation = await _context.Carriers.FirstOrDefaultAsync(m => m.Code == tblJob.Carrier);
 
             return View(tblJob);
         }
@@ -198,6 +201,7 @@ namespace PND_WEB.Controllers
                     text = data.GtName
                 }).ToList(),
                 total_count = totalCount
+           
 
             });
         }
@@ -217,6 +221,7 @@ namespace PND_WEB.Controllers
                     text = data.AgentName
                 }).ToList(),
                 total_count = totalCount
+              
             });
         }
 
@@ -235,6 +240,29 @@ namespace PND_WEB.Controllers
                     text = data.CarrierName
                 }).ToList(),
                 total_count = totalCount
+             
+            });
+        }
+
+        // GET: Job/PortGet
+        //search port template by NguyenKien to save PortName not Code
+        public async Task<JsonResult> PortGet(string q, int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Cports.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.PortName.ToLower().Contains(q.ToLower()));
+            var totalCount = query.Count();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            return Json(new
+            {
+                items = paginatedData.Select(data => new
+                {
+                    id = data.PortName,
+                    text = data.PortName,
+                    code = data.Code,
+                }).ToList(),
+                total_count = totalCount
+
             });
         }
     }
