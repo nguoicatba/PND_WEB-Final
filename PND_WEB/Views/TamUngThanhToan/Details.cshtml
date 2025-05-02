@@ -38,9 +38,9 @@
                     <dd class="col-sm-10">
                         @{
                             bool? daDuyet = Model.tutt.xacnhanduyet;
-                            string trangThai = daDuyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Không duyệt"
-                            : "Chưa xác nhận";
+                            string trangThai = daDuyet == true ? "Đã duyệt"
+                            : daDuyet == false ? "Cần duyệt"
+                            : "Chưa duyệt";
                         }
                         <span>@trangThai</span>
                     </dd>
@@ -51,8 +51,8 @@
                         @{
                             bool? ketoanduyet = Model.tutt.Ketoan;
                             string ketquaduyetketoan = ketoanduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Không duyệt"
-                            : "Chưa xác nhận";
+                            : daDuyet == false ? "Hủy"
+                            : "Chưa duyệt";
                         }
                         <span>@ketquaduyetketoan</span>
                     </dd>
@@ -63,8 +63,8 @@
                         @{
                             bool? ceoduyet = Model.tutt.Ceo;
                             string ketquaduyetceo = ceoduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Không duyệt"
-                            : "Chưa xác nhận";
+                            : daDuyet == false ? "Hủy"
+                            : "Chưa duyệt";
                         }
                         <span>@ketquaduyetceo</span>
                     </dd>

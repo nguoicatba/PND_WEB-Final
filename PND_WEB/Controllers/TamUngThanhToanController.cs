@@ -97,8 +97,16 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.DuyetList = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Chưa duyệt", Value = "", Selected = (tblTutt.xacnhanduyet == null) },
+                new SelectListItem { Text = "Đã duyệt", Value = "true", Selected = (tblTutt.xacnhanduyet == true) },
+                new SelectListItem { Text = "Cần duyệt", Value = "false", Selected = (tblTutt.xacnhanduyet == false) }
+            };
             return View(tblTutt);
         }
+
 
         // POST: TamUngThanhToan/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
