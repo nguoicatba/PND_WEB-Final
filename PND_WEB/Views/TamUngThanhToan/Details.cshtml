@@ -51,7 +51,7 @@
                         @{
                             bool? ketoanduyet = Model.tutt.Ketoan;
                             string ketquaduyetketoan = ketoanduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Hủy"
+                            : daDuyet == false ? "Chưa duyệt"
                             : "Chưa duyệt";
                         }
                         <span>@ketquaduyetketoan</span>
@@ -63,7 +63,7 @@
                         @{
                             bool? ceoduyet = Model.tutt.Ceo;
                             string ketquaduyetceo = ceoduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Hủy"
+                            : daDuyet == false ? "Chưa duyệt"
                             : "Chưa duyệt";
                         }
                         <span>@ketquaduyetceo</span>

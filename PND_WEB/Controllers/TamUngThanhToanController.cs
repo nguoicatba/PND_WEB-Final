@@ -101,7 +101,6 @@ namespace PND_WEB.Controllers
             ViewBag.DuyetList = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Chưa duyệt", Value = "", Selected = (tblTutt.xacnhanduyet == null) },
-                new SelectListItem { Text = "Đã duyệt", Value = "true", Selected = (tblTutt.xacnhanduyet == true) },
                 new SelectListItem { Text = "Cần duyệt", Value = "false", Selected = (tblTutt.xacnhanduyet == false) }
             };
             return View(tblTutt);
@@ -124,8 +123,20 @@ namespace PND_WEB.Controllers
             {
                 try
                 {
-                    _context.Update(tblTutt);
+                    var existingTutt = await _context.TblTutts.FindAsync(id);
+                    if (existingTutt == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingTutt.Ngay = tblTutt.Ngay;
+                    existingTutt.NhanvienTutt = tblTutt.NhanvienTutt;
+                    existingTutt.NoiDung = tblTutt.NoiDung;
+                    existingTutt.xacnhanduyet = tblTutt.xacnhanduyet;
+                    existingTutt.GhiChu = tblTutt.GhiChu;
+
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -138,10 +149,11 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
             }
+
             return View(tblTutt);
         }
+
 
         // GET: TamUngThanhToan/Delete/5
         public async Task<IActionResult> Delete(string id)
@@ -166,6 +178,12 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
+            var tuttphi = _context.TblTuttsPhi.Where(p => p.SoTutt == id);
+            if (tuttphi != null)
+            {
+                _context.TblTuttsPhi.RemoveRange(tuttphi);
+            }
+
             var tblTutt = await _context.TblTutts.FindAsync(id);
             if (tblTutt != null)
             {
