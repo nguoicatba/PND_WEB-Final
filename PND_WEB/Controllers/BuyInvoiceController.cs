@@ -47,24 +47,103 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var invoice = new TblInvoice
+                if (invoiceEditModel.invoice != null) // Ensure invoice is not null  
                 {
-                    Hbl = invoiceEditModel.HBL_ID,
-                    InvoiceType = invoiceEditModel.invoice.InvoiceType,
-                    DebitDate = invoiceEditModel.invoice.DebitDate == null ? DateTime.Now : invoiceEditModel.invoice.DebitDate,
-                    PaymentDate = invoiceEditModel.invoice.PaymentDate,
-                    InvoiceNo = invoiceEditModel.invoice.InvoiceNo,
-                    InvoiceDate = invoiceEditModel.invoice.InvoiceDate,
-                    SupplierId = invoiceEditModel.invoice.SupplierId,
-                    Buy = true,
-                    Sell = false,
-                    Cont = false
-                };
-                _context.TblInvoices.Add(invoice);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { id = invoice.Hbl });
+                    var invoice = new TblInvoice
+                    {
+                        DebitId = invoiceEditModel.invoice.DebitId,
+                        Hbl = invoiceEditModel.HBL_ID,
+                        InvoiceType = invoiceEditModel.invoice.InvoiceType,
+                        DebitDate = invoiceEditModel.invoice.DebitDate ?? DateTime.Now,
+                        PaymentDate = invoiceEditModel.invoice.PaymentDate,
+                        InvoiceNo = invoiceEditModel.invoice.InvoiceNo,
+                        InvoiceDate = invoiceEditModel.invoice.InvoiceDate,
+                        SupplierId = invoiceEditModel.invoice.SupplierId,
+                        Buy = true,
+                        Sell = false,
+                        Cont = false
+                    };
+                    _context.TblInvoices.Add(invoice);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", new { id = invoice.Hbl });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invoice data is required.");
+                }
             }
             return View(invoiceEditModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(string id)
+        {
+            var invoice = await _context.TblInvoices.FindAsync(id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+            var invoiceEditModel = new InvoiceEditModel
+            {
+                HBL_ID = invoice.Hbl,
+                invoice = invoice
+            };
+            return View(invoiceEditModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(InvoiceEditModel invoiceEditModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (invoiceEditModel.invoice?.DebitId != null) 
+                {
+                    var invoice = await _context.TblInvoices.FindAsync(invoiceEditModel.invoice.DebitId);
+                    if (invoice != null)
+                    {
+                        invoice.InvoiceType = invoiceEditModel.invoice.InvoiceType;
+                        invoice.DebitDate = invoiceEditModel.invoice.DebitDate;
+                        invoice.PaymentDate = invoiceEditModel.invoice.PaymentDate;
+                        invoice.InvoiceNo = invoiceEditModel.invoice.InvoiceNo;
+                        invoice.InvoiceDate = invoiceEditModel.invoice.InvoiceDate;
+                        invoice.SupplierId = invoiceEditModel.invoice.SupplierId;
+                        await _context.SaveChangesAsync();
+                        return RedirectToAction("Index", new { id = invoice.Hbl });
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Invoice or DebitId is required.");
+                }
+            }
+            return View(invoiceEditModel);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var invoice = await _context.TblInvoices.FindAsync(id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+            var invoiceEditModel = new InvoiceEditModel
+            {
+                HBL_ID = invoice.Hbl,
+                invoice = invoice
+            };
+            return View(invoiceEditModel);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var invoice = await _context.TblInvoices.FindAsync(id);
+            if (invoice != null)
+            {
+                _context.TblInvoices.Remove(invoice);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index", new { id = invoice.Hbl });
         }
 
 

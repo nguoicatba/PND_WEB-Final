@@ -49,7 +49,8 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
-            {
+            { 
+           
                 return NotFound();
             }
 
