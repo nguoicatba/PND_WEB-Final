@@ -22,8 +22,17 @@
                             <a class="nav-link active">Container Info</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Phân quyền job</a>
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn mua</a>
                         </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn bán</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Cược công</a>
+                        </li>
+
 
                     </ul>
                     <!-- Tab panes-->

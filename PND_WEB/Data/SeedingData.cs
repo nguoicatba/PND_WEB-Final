@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using NuGet.Protocol;
 using PND_WEB.Models;
 using System.Collections.Generic;
+using System.Diagnostics.Metrics;
 
 
 namespace PND_WEB.Data
@@ -13,7 +15,7 @@ namespace PND_WEB.Data
 
             if (!_context.Sourses.Any())
             {
-                
+
 
                 _context.Sourses.AddRange(
 
@@ -226,13 +228,56 @@ namespace PND_WEB.Data
                 _context.SaveChanges();
             }
 
+            // Invoice Type
 
+            if (!_context.InvoiceTypes.Any())
+            {
+                _context.InvoiceTypes.AddRange(
+                    new InvoiceType { Code = "A", NameType = "Agent" },
+                    new InvoiceType { Code = "C", NameType = "CNEE" },
+                    new InvoiceType { Code = "S", NameType = "Shipper" },
+                    new InvoiceType { Code = "O", NameType = "Others" },
+                    new InvoiceType { Code = "V", NameType = "Vendor" }
+                );
+                _context.SaveChanges();
+            }
+            // Supplier
+            if (!_context.TblSuppliers.Any())
+            {
+                _context.TblSuppliers.AddRange(
+                    new TblSupplier
+                    {
+                        SupplierId = "SUP001",
+                        NameSup = "Công ty TNHH ABC Logistics",
+                        Typer = "Local Charges",
+                        AddressSup = "123 Lê Lợi, Q1, HCM",
+                        LccFee = "Giao hàng nội địa",
+                        Note = ""
+                    },
+                    new TblSupplier
+                    {
+                        SupplierId = "SUP002",
+                        NameSup = "CTCP Vận Tải Biển XYZ",
+                        Typer = "Shipping Line",
+                        AddressSup = "789 Trần Hưng Đạo, HN",
+                        LccFee = "Hỗ trợ thủ tục hải quan",
+                        Note = ""
+                    },
+                    new TblSupplier
+                    {
+                        SupplierId = "SUP003",
+                        NameSup = "DNTN Kim Ngân Forwarder",
+                        Typer = "Handling Fee",
+                        AddressSup = "56 Nguyễn Huệ, Đà Nẵng",
+                        LccFee = "Giao hàng quốc tế",
+                        Note = ""
+                    }
 
+                    );
 
-
-
-
-
+                _context.SaveChanges();
+            }
         }
     }
+
 }

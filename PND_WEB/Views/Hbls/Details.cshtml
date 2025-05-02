@@ -20,7 +20,15 @@
                             <a class="nav-link" asp-controller="Container" asp-action="Index" asp-route-id=@Model.Hbl>List HBL</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Phân quyền Job</a>
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn mua</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn bán</a>
+                        </li>
+
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Cược công</a>
                         </li>
 
                     </ul>
