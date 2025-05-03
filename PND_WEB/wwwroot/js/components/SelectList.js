@@ -56,6 +56,7 @@ $('.select2-not-tag').each(function () {
         placeholder: 'Select an option Code - Name',
         allowClear: true,
         theme: 'bootstrap4',
+        width: '100%',
     });
     
 });
@@ -90,13 +91,14 @@ $('.select-port').each(function () {
             },
             cache: true
         },
-       
+        
         minimumInputLength: 1,
         templateResult: formatPort,
         templateSelection: SelectPort,
-        placeholder: 'Select an option Code - Name',
+        placeholder: 'Select Port:  Code - Name',
         allowClear: true,
         theme: 'bootstrap4',
+        width: '100%',
     });
 });
 
