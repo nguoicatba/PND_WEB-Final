@@ -65,7 +65,13 @@ namespace PND_WEB.Controllers
         // GET: TamUngThanhToan/Create
         public IActionResult Create()
         {
-            return View();
+            var tblTutt = new TblTutt
+            {
+                Ngay = DateTime.Now,
+                Tu = true
+            };
+
+            return View(tblTutt);
         }
 
         // POST: TamUngThanhToan/Create
@@ -129,7 +135,6 @@ namespace PND_WEB.Controllers
                         return NotFound();
                     }
 
-                    existingTutt.Ngay = tblTutt.Ngay;
                     existingTutt.NhanvienTutt = tblTutt.NhanvienTutt;
                     existingTutt.NoiDung = tblTutt.NoiDung;
                     existingTutt.xacnhanduyet = tblTutt.xacnhanduyet;

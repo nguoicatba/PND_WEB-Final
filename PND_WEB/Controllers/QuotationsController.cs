@@ -102,7 +102,6 @@ namespace PND_WEB.Controllers
         {
             var username = User.Identity.Name;
 
-            // Truy vấn AppUserModel theo username
             var user = await _userManager.FindByNameAsync(username);
             var model = new Quotation
             {
