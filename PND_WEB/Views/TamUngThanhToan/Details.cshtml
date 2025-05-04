@@ -9,7 +9,6 @@
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
-
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About TUTT: @Model.tutt.SoTutt</div>
             <div class="card-body">
@@ -118,10 +117,12 @@
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">Tutt phí:</div>
     <div class="card-body">
-        <p>
-            <a asp-action="TuttCreate" asp-route-id=@Model.tutt.SoTutt class="btn btn-primary btn-xs">Create New</a>
-        </p>
-
+        @if ((Model.tutt.Ceo == false || Model.tutt.Ceo == null) && (Model.tutt.Ketoan == false || Model.tutt.Ketoan == null))
+        {
+            <p>
+                <a asp-action="TuttCreate" asp-route-id="@Model.tutt.SoTutt" class="btn btn-primary btn-xs">Create New</a>
+            </p>
+        }
         <table class="table table-striped my-4 w-100" id="datatable3">
             <thead class="table-primary">
                 <tr>
@@ -150,16 +151,12 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.SoHoaDon)
-
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.TenPhi)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.SoTien)
                         </td>
@@ -168,6 +165,13 @@
                         </td>
                     </tr>
                 }
+                <tr class="fw-bold table">
+                    <td colspan="4" class="text-end">Tổng tiền:</td>
+                    <td>
+                        @String.Format("{0:N0}", Model.tuttphi.Sum(x => x.SoTien))
+                    </td>
+                    <td></td>
+                </tr>
             </tbody>
         </table>
     </div>

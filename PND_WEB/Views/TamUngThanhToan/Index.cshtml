@@ -104,8 +104,12 @@
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Ketoan)</td>
-                                <td>@Html.DisplayFor(modelItem => item.Ceo)</td>
+                                <td>
+                                    @(item.Ketoan == true ? "Đã duyệt" : "Chưa duyệt")
+                                </td>
+                                <td>
+                                    @(item.Ceo == true ? "Đã duyệt" : "Chưa duyệt")
+                                </td>
                             </tr>
                         }
                     </tbody>

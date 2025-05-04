@@ -36,6 +36,16 @@ namespace PND_WEB.Controllers
             return View(tuttViewModel);
         }
 
+        public async Task<IActionResult> Check()
+        {
+            TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
+            tuttViewModel2.tuttcheck = await _context.TblTutts
+                .Where(a => a.xacnhanduyet == true)
+                .ToListAsync();
+
+            return View(tuttViewModel2);
+        }
+
 
         // GET: TamUngThanhToan/Details/5
         public async Task<IActionResult> Details(string id)
@@ -107,7 +117,7 @@ namespace PND_WEB.Controllers
             ViewBag.DuyetList = new List<SelectListItem>
             {
                 new SelectListItem { Text = "Chưa duyệt", Value = "", Selected = (tblTutt.xacnhanduyet == null) },
-                new SelectListItem { Text = "Cần duyệt", Value = "false", Selected = (tblTutt.xacnhanduyet == false) }
+                new SelectListItem { Text = "Cần duyệt", Value = "true", Selected = (tblTutt.xacnhanduyet == true) }
             };
             return View(tblTutt);
         }
