@@ -36,7 +36,7 @@
                             @Html.DropDownListFor(
                                      model => model.xacnhanduyet,
                                      (List<SelectListItem>)ViewBag.DuyetList,
-                                     new { @class = "form-control", @disabled = (Model.Ceo == null ? null : "disabled") }
+                                     new { @class = "form-control"}
                                      )
                             <span asp-validation-for="xacnhanduyet" class="text-danger"></span>
                         </div>
