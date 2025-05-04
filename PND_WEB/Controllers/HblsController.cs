@@ -177,9 +177,7 @@ namespace PND_WEB.Controllers
                     hblJobEditModel.Hbl.Collect = hblJobEditModel.Collect;
                     hblJobEditModel.Hbl.Prepaid = hblJobEditModel.Prepaid;
                     hblJobEditModel.Hbl.FreightCharge = hblJobEditModel.FreightCharge;
-                    Console.WriteLine(hblJobEditModel.Hbl.Cnee);
-                    Console.WriteLine(hblJobEditModel.Hbl.Shipper);
-                    Console.WriteLine(hblJobEditModel.Hbl.CustomerId);
+                  
                     _context.Update(hblJobEditModel.Hbl);
                     await _context.SaveChangesAsync();
                 }

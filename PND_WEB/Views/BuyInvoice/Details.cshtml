@@ -1,0 +1,135 @@
+﻿@model PND_WEB.ViewModels.InvoiceChargeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết hóa đơn mua", SubTitle = "Chi tiết hóa đơn mua" })
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About Buy Invoice: @Model.Invoice.DebitId</div>
+            <div class="card-body">
+
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.DebitId) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.DebitId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.SupplierId) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.SupplierId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.DebitDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.DebitDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceNo) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceNo)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceType) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceType)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.PaymentDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.PaymentDate)
+                    </dd>
+
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Invoice.DebitId">Edit</a> |
+                    <a asp-action="Index" asp-route-id="@Model.HBL_ID">Back to List</a>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Charge List:</div>
+    <div class="card-body">
+        <p>
+            <a asp-action="AgentCreate"  class="btn btn-primary btn-xs">Create New</a>
+        </p>
+
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="table-primary">
+                <tr>
+
+                   
+
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model._Charges[0].SerName)</th>
+                    <th data-priority="2">@Html.DisplayNameFor(model => model._Charges[0].SerUnit)</th>
+                    <th data-priority="3">@Html.DisplayNameFor(model => model._Charges[0].SerQuantity)</th>
+                    <th data-priority="4">@Html.DisplayNameFor(model => model._Charges[0].SerPrice)</th>
+                    <th data-priority="5">@Html.DisplayNameFor(model => model._Charges[0].Currency)</th>
+                    <th data-priority="6">@Html.DisplayNameFor(model => model._Charges[0].ExchangeRate)</th>
+                    <th data-priority="7">@Html.DisplayNameFor(model => model._Charges[0].SerVat)</th>
+                    <th data-priority="8">@Html.DisplayNameFor(model => model._Charges[0].MVat)</th>
+                    <th data-priority="9">@Html.DisplayNameFor(model => model._Charges[0].Checked)</th>
+                    <th data-priority="10">Amount</th>
+            
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model._Charges)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="AgentEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="AgentDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+
+                        </td>
+
+                        <td>@item.SerName</td>
+                        <td>@item.SerUnit</td>
+                        <td>@item.SerQuantity</td>
+                        <td>@item.SerPrice</td>
+                        <td>@item.Currency</td>
+                        <td>@item.ExchangeRate</td>
+                        <td>@item.SerVat</td>
+                        <td>@item.MVat</td>
+                        <td>@item.Checked</td>
+                        <td>@Model.Amount(@item)</td>
+                        
+                    </tr>
+                }
+                <tr>
+                    <td colspan="10" class="text-right">Total:</td>
+                    <td>@Model.TotalAmount</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+    </div>
+</div>
+

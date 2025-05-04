@@ -64,7 +64,7 @@
                                             <a asp-action="Edit" asp-route-id="@item.DebitId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                                             <a asp-action="Delete" asp-route-id="@item.DebitId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                         </td>
-                                        <td>@item.DebitId</td>
+                                        <td> <a asp-action="Details" asp-route-id="@item.DebitId">@item.DebitId</a></td> 
                                         <td>@item.DebitDate</td>
                                         <td>@item.InvoiceNo</td>
                                         <td>@item.InvoiceDate</td>
@@ -81,6 +81,6 @@
                 </div>
             </div>
         </div>
-        <!-- END card-->
+     
     </div>
 </div>

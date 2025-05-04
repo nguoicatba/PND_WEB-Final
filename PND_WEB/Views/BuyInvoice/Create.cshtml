@@ -13,6 +13,8 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <input type="hidden" asp-for="invoice.Hbl" value=@Model.invoice.Hbl />
+                    <input type="hidden" asp-for="HBL_ID" value=@Model.invoice.Hbl/>
+
 
                     <div class="form-group">
                         <label asp-for="invoice.DebitId" class="control-label"></label>

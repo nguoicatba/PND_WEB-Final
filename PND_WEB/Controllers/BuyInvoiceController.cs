@@ -49,6 +49,7 @@ namespace PND_WEB.Controllers
             {
                 if (invoiceEditModel.invoice != null) // Ensure invoice is not null  
                 {
+                   
                     var invoice = new TblInvoice
                     {
                         DebitId = invoiceEditModel.invoice.DebitId,
@@ -144,6 +145,32 @@ namespace PND_WEB.Controllers
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index", new { id = invoice.Hbl });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(string id)
+        {
+            var invoice = await _context.TblInvoices
+                .Include(i => i.HblNavigation)
+                .FirstOrDefaultAsync(i => i.DebitId == id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+            
+            var invoiceChargeViewModel = new InvoiceChargeViewModel
+            {
+                HBL_ID = invoice.Hbl,
+                Invoice = invoice,
+                _Charges = await _context.TblCharges
+                    .Where(c => c.DebitId == id)
+                    .ToListAsync(),
+                TotalAmount = await _context.TblCharges
+                    .Where(c => c.DebitId == id)
+                    .SumAsync(c => (c.SerPrice ?? 0) * (c.SerQuantity ?? 0) * (c.ExchangeRate ?? 1) * (1 + (c.SerVat ?? 0) / 100) + (c.MVat ?? 0))
+
+            };
+            return View(invoiceChargeViewModel);
         }
 
 

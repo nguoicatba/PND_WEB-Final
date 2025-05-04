@@ -7,8 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace PND_WEB.Models;
 
 
-
-
 [Table("tbl_CHARGES")]
 public partial class TblCharge
 {
@@ -19,32 +17,38 @@ public partial class TblCharge
 
     public string? DebitId { get; set; }
 
-    [Column("Exchange_rate")]
-
-    public float? ExchangeRate { get; set; }
-
-    [Column("Currency")]
-    [MaxLength(20)]
-    [Display(Name = "Currency")]
-    public string? Currency { get; set; }
 
     [Column("Ser_Name")]
     [MaxLength(255)]
     [Display(Name = "Service Name")]
     public string? SerName { get; set; }
 
-    [Column("Ser_Price")]
-    [Display(Name = "Service Price")]
-    
-    public float? SerPrice { get; set; }
+
+    [Column("Ser_Unit")]
+    [MaxLength(100)]
+    public string? SerUnit { get; set; }
 
     [Column("Ser_Quantity")]
     [Display(Name = "Service Quantity")]
     public float? SerQuantity { get; set; }
 
-    [Column("Ser_Unit")]
-    [MaxLength(100)]
-    public string? SerUnit { get; set; }
+
+    [Column("Ser_Price")]
+    [Display(Name = "Service Price")]
+
+    public float? SerPrice { get; set; }
+
+
+    [Column("Currency")]
+    [MaxLength(20)]
+    [Display(Name = "Currency")]
+    public string? Currency { get; set; }
+
+
+
+    [Column("Exchange_rate")]
+    [Display(Name = "Exchange Rate")]
+    public float? ExchangeRate { get; set; }
 
     [Column("Ser_VAT")]
     [Display(Name = "Service VAT")]
@@ -60,4 +64,6 @@ public partial class TblCharge
 
     [ForeignKey("DebitId")]
     public virtual TblInvoice? Debit { get; set; }
+
+   
 }
