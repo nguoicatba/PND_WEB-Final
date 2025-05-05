@@ -178,23 +178,31 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var tblTutt = await _context.TblTutts
+            var tutt = await _context.TblTutts
                 .FirstOrDefaultAsync(m => m.SoTutt == id);
-            if (tblTutt == null)
+            if (tutt == null)
             {
                 return NotFound();
             }
+            var tuttViewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = await _context.TblTuttsPhi
+                    .Where(a => a.SoTutt == id)
+                    .ToListAsync()
+            };
 
-            return View(tblTutt);
+            return View(tuttViewModel);
         }
 
-        // POST: TamUngThanhToan/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string id)
         {
-            var tuttphi = _context.TblTuttsPhi.Where(p => p.SoTutt == id);
-            if (tuttphi != null)
+            var tuttphi = await _context.TblTuttsPhi
+                .Where(p => p.SoTutt == id)
+                .ToListAsync();
+            if (tuttphi.Any())
             {
                 _context.TblTuttsPhi.RemoveRange(tuttphi);
             }
@@ -349,5 +357,80 @@ namespace PND_WEB.Controllers
             TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
             return RedirectToAction("Details", new { id = Code });
         }
+
+
+        public async Task<IActionResult> CheckEdit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tblTutt = await _context.TblTutts.FindAsync(id);
+            if (tblTutt == null)
+            {
+                return NotFound();
+            }
+            ViewBag.CeoOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Chưa duyệt", Value = "" },
+                new SelectListItem { Text = "Đã duyệt", Value = "true" },
+                new SelectListItem { Text = "Huỷ", Value = "false" }
+            };
+            ViewBag.KetoanOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Chưa duyệt", Value = "" },
+                new SelectListItem { Text = "Đã duyệt", Value = "true" },
+                new SelectListItem { Text = "Huỷ", Value = "false" }
+            };
+            return View(tblTutt);
+        }
+
+
+        // POST: TamUngThanhToan/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckEdit(string id, [Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu")] TblTutt tblTutt)
+        {
+            if (id != tblTutt.SoTutt)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var existingTutt = await _context.TblTutts.FindAsync(id);
+                    if (existingTutt == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingTutt.Ceo = tblTutt.Ceo;
+                    existingTutt.Ketoan = tblTutt.Ketoan    ;
+                    existingTutt.GhiChu = tblTutt.GhiChu;
+
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Check));
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TblTuttExists(tblTutt.SoTutt))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+            }
+
+            return View(tblTutt);
+        }
+
     }
 }

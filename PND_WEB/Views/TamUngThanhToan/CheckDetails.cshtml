@@ -100,7 +100,14 @@
                         @Html.DisplayFor(model => model.tutt.GhiChu)
                     </dd>
                 </dl>
+
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.tutt?.SoTutt">Edit</a>
+                    <a asp-action="Index">Back to List</a>
+                </div>
             </div>
+
+
         </div>
         <!-- END card-->
     </div>
@@ -110,9 +117,16 @@
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">Tutt phí:</div>
     <div class="card-body">
+        @if ((Model.tutt.Ceo == false || Model.tutt.Ceo == null) && (Model.tutt.Ketoan == false || Model.tutt.Ketoan == null))
+        {
+            <p>
+                <a asp-action="TuttCreate" asp-route-id="@Model.tutt.SoTutt" class="btn btn-primary btn-xs">Create New</a>
+            </p>
+        }
         <table class="table table-striped my-4 w-100" id="datatable3">
             <thead class="table-primary">
                 <tr>
+                    <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
                     <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
                     <th>
@@ -131,6 +145,10 @@
                 {
                     <tr>
                         <td>
+                            <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
@@ -148,7 +166,7 @@
                     </tr>
                 }
                 <tr class="fw-bold table">
-                    <td colspan="3" class="text-end">Tổng tiền:</td>
+                    <td colspan="4" class="text-end">Tổng tiền:</td>
                     <td>
                         @String.Format("{0:N0}", Model.tuttphi.Sum(x => x.SoTien))
                     </td>
@@ -157,14 +175,4 @@
             </tbody>
         </table>
     </div>
-</div>
-<div class="d-inline-flex gap-3">
-    @if ((Model.tutt.Ceo == false || Model.tutt.Ceo == null) && (Model.tutt.Ketoan == false || Model.tutt.Ketoan == null))
-    {
-        <form asp-action="Delete" method="post" class="d-inline">
-            <input type="hidden" name="id" value="@Model.tutt.SoTutt" />
-            <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
-        </form>
-    }
-    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
 </div>
