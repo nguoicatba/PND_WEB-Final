@@ -17,7 +17,8 @@ public partial class TblJob
     [Column("Goods_type")]
     [MaxLength(20)]
     [Display(Name = "Goods Type")]
-    public string? GoodsType { get; set; }
+    [Required(ErrorMessage = "Goods Type is required")]
+    public string  ?GoodsType { get; set; }
 
     [Column("Job_date")]
     [Display(Name = "Job Date")]
@@ -100,10 +101,14 @@ public partial class TblJob
 
     [Column("Agent")]
     [MaxLength(20)]
+    [Display(Name = "Agent")]
+    [Required(ErrorMessage = "Agent is required")]
     public required string Agent { get; set; }
 
     [Column("Carrier")]
     [MaxLength(20)]
+    [Display(Name = "Carrier")]
+    [Required(ErrorMessage = "Carrier is required")]
     public required string Carrier { get; set; }
 
     [Column("Ycompany")]

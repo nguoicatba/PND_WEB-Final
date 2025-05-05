@@ -51,7 +51,7 @@ namespace PND_WEB.Controllers
         // GET: Job/Create
         public IActionResult Create()
         {
-            
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code");
             return View();
         }
 
@@ -85,6 +85,7 @@ namespace PND_WEB.Controllers
                 }
             }
 
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code", tblJob.Mode);
 
             return View(tblJob);
         }
@@ -106,6 +107,7 @@ namespace PND_WEB.Controllers
             tblJob.AgentNavigation = await _context.Agents.FirstOrDefaultAsync(m => m.Code == tblJob.Agent);
             tblJob.CarrierNavigation = await _context.Carriers.FirstOrDefaultAsync(m => m.Code == tblJob.Carrier);
 
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code", tblJob.Mode);
             return View(tblJob);
         }
 
@@ -142,6 +144,7 @@ namespace PND_WEB.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
+            ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code", tblJob.Mode);
             return View(tblJob);
         }
 
@@ -185,84 +188,157 @@ namespace PND_WEB.Controllers
             return _context.TblJobs.Any(e => e.JobId == id);
         }
 
-        public async Task<JsonResult> GoodsTypeGet(string q, int page = 1)
+        public async Task<JsonResult> GoodsTypeGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.GoodsTypes.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.GtName.Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q== "" ? _context.GoodsTypes : _context.GoodsTypes.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.GtName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-
-            return Json(new
+            var items =  paginatedData.Select(data => new
             {
-                items = paginatedData.Select(data => new
+                id = data.Code,
+                text = data.GtName,
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new
                 {
-                    id = data.Code,
-                    text = data.GtName
-                }).ToList(),
-                total_count = totalCount
+                    id = "-1",
+                    text = "Select Goods Type",
+                    disabled = true
+                });
+            }
            
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                
+                header= new
+                {
+                    header_code = "Code",
+                    header_name = "Goods Type"
+                }
+            });
+
+
+        }
+
+        public async Task<JsonResult> AgentGet(string q="", int page = 1)
+        {
+            int pageSize = 10;
+            var query = q == "" ? _context.Agents : _context.Agents.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.AgentName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Code,
+                text = data.AgentName,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Agent",
+                    disabled = true
+                });
+            }
+
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Agent Name"
+                }
 
             });
         }
 
-        public async Task<JsonResult> AgentGet(string q, int page = 1)
+        public async Task<JsonResult> CarrierGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.Agents.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.AgentName.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q == "" ? _context.Carriers : _context.Carriers.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CarrierName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Code,
+                text = data.CarrierName,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Carrier",
+                    disabled = true
+                });
+            }
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+            
+                header = new
                 {
-                    id = data.Code,
-                    text = data.AgentName
-                }).ToList(),
-                total_count = totalCount
-              
+                    header_code = "Code",
+                    header_name = "Carrier Name"
+                }
             });
-        }
 
-        public async Task<JsonResult> CarrierGet(string q, int page = 1)
-        {
-            int pageSize = 10;
-            var query = _context.Carriers.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CarrierName.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            return Json(new
-            {
-                items = paginatedData.Select(data => new
-                {
-                    id = data.Code,
-                    text = data.CarrierName
-                }).ToList(),
-                total_count = totalCount
-             
-            });
+
         }
 
         // GET: Job/PortGet
         //search port template by NguyenKien to save PortName not Code
-        public async Task<JsonResult> PortGet(string q, int page = 1)
+        public async Task<JsonResult> PortGet(string q="", int page = 1)
         {
             int pageSize = 10;
             var query = _context.Cports.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.PortName.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.PortName,
+                text = data.PortName,
+                code = data.Code,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Port",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+             
+                header = new
                 {
-                    id = data.PortName,
-                    text = data.PortName,
-                    code = data.Code,
-                }).ToList(),
-                total_count = totalCount
-
+                    header_code = "Code",
+                    header_name = "Port Name"
+                }
             });
         }
     }

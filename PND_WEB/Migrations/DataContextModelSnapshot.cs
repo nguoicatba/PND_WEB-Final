@@ -1285,11 +1285,13 @@ namespace PND_WEB.Migrations
                         .HasColumnName("Job_ID");
 
                     b.Property<string>("Agent")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("Agent");
 
                     b.Property<string>("Carrier")
+                        .IsRequired()
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)")
                         .HasColumnName("Carrier");
@@ -1774,11 +1776,15 @@ namespace PND_WEB.Migrations
                 {
                     b.HasOne("PND_WEB.Models.Agent", "AgentNavigation")
                         .WithMany("TblJobs")
-                        .HasForeignKey("Agent");
+                        .HasForeignKey("Agent")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PND_WEB.Models.Carrier", "CarrierNavigation")
                         .WithMany("TblJobs")
-                        .HasForeignKey("Carrier");
+                        .HasForeignKey("Carrier")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("AgentNavigation");
 

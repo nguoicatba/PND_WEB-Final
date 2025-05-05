@@ -33,11 +33,11 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Create(string id)
         {
 
-            InvoiceEditModel invoiceEditModel = new InvoiceEditModel
-            {
-                HBL_ID = id,
-                invoice = new TblInvoice()
-            };
+            InvoiceEditModel invoiceEditModel = new InvoiceEditModel();
+            invoiceEditModel.HBL_ID = id;
+            invoiceEditModel.invoice = new TblInvoice();
+            invoiceEditModel.invoice.Hbl=id;
+
             return View(invoiceEditModel);
 
         }
@@ -175,47 +175,78 @@ namespace PND_WEB.Controllers
 
 
 
-        public async Task<JsonResult> InvoiceTypeGet(string q, int page = 1)
+        public async Task<JsonResult> InvoiceTypeGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.InvoiceTypes
-                .Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.NameType.Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q == "" ? _context.InvoiceTypes : _context.InvoiceTypes
+                .Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.NameType.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Code,
+                text = data.NameType,
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new { id = "-1", text = "Select Invoice Type", disabled = true });
+            }
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+                header = new
                 {
-                    id = data.Code,
-                    text = data.NameType
-                }).ToList(),
-                total_count = totalCount
+                    header_code = "Code",
+                    header_name = "Invoice Type"
+                }
             });
+
+
+
         }
 
-        public async Task<JsonResult> SupplierGet(string q, int page = 1)
+        public async Task<JsonResult> SupplierGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.TblSuppliers
+            var query = q == "" ? _context.TblSuppliers : _context.TblSuppliers
                 .Where(data => data.SupplierId.ToLower().Contains(q.ToLower()) || data.NameSup.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.SupplierId,
+                text = data.NameSup,
+
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new { id = "-1", text = "Select Supplier", disabled = true });
+            }
+
+
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+                header = new
                 {
-                    id = data.SupplierId,
-                    text = data.NameSup
-                }).ToList(),
-                total_count = totalCount
+                    header_code = "Supplier Code",
+                    header_name = "Supplier Name"
+                }
+
             });
         }
     }

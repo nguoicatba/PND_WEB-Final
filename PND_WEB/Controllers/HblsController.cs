@@ -258,58 +258,110 @@ namespace PND_WEB.Controllers
 
         }
 
-        public async Task<JsonResult> CneeGet(string q, int page = 1)
+        public async Task<JsonResult> CneeGet(string q = "", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.TblCnees.Where(data => data.Cnee.ToLower().Contains(q.ToLower()) || data.Cnee.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q == "" ? _context.TblCnees : _context.TblCnees.Where(data => data.Cnee.ToLower().Contains(q.ToLower()) || data.Cnee.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Cnee,
+                text = data.Cnee,
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Cnee",
+                    disabled = true
+                });
+            }
+        
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+                header = new
                 {
-                    id = data.Cnee,
-                    text = data.Cnee
-                }).ToList(),
-                total_count = totalCount
+                    header_code = "Cnee Code",
+                    header_name = "Cnee Name"
+                }
+
             });
         }
 
-        public async Task<JsonResult> ShipperGet(string q, int page = 1)
+        public async Task<JsonResult> ShipperGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.TblShippers.Where(data => data.Shipper.ToLower().Contains(q.ToLower()) || data.Shipper.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q=="" ? _context.TblShippers : _context.TblShippers.Where(data => data.Shipper.ToLower().Contains(q.ToLower()) || data.Shipper.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Shipper,
+                text = data.Shipper,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Shipper",
+                    disabled = true
+                });
+            }
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+                header = new
                 {
-                    id = data.Shipper,
-                    text = data.Shipper
-                }).ToList(),
-                total_count = totalCount
+                    header_code = "Shipper Code",
+                    header_name = "Shipper Name"
+                }
+
             });
         }
 
-        public async Task<JsonResult> CustomerGet(string q, int page = 1)
+        public async Task<JsonResult> CustomerGet(string q="", int page = 1)
         {
             int pageSize = 10;
-            var query = _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
-            var totalCount = query.Count();
+            var query = q == "" ? _context.TblCustomers : _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.CustomerId,
+                text = data.CompanyName,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Customer",
+                    disabled = true
+                });
+            }
             return Json(new
             {
-                items = paginatedData.Select(data => new
+                items = items,
+                total_count = totalCount,
+                header = new
                 {
-                    id = data.CustomerId,
-                    text = data.CompanyName
+                    header_code = "Customer Code",
+                    header_name = "Customer Name"
+                }
 
-                }).ToList(),
-                total_count = totalCount
             });
         }
 
