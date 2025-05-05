@@ -173,6 +173,26 @@ namespace PND_WEB.Controllers
             return View(invoiceChargeViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> CreateCharge(string id)
+        {
+            var invoice = await _context.TblInvoices.FindAsync(id);
+            if (invoice == null)
+            {
+                return NotFound();
+            }
+            var invoiceChargeEditModel = new InvoiceChargeEditModel();
+
+            invoiceChargeEditModel.HBL_ID = invoice.Hbl;
+            invoiceChargeEditModel.InvoiceID = invoice.DebitId;
+            invoiceChargeEditModel.Charge = new TblCharge();
+            invoiceChargeEditModel.Charge.DebitId = invoice.DebitId;
+           
+            return View(invoiceChargeEditModel);
+        }
+        
+        
+
 
 
         public async Task<JsonResult> InvoiceTypeGet(string q="", int page = 1)

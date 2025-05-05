@@ -76,7 +76,7 @@
     <div class="card-header bg-success">Charge List:</div>
     <div class="card-body">
         <p>
-            <a asp-action="AgentCreate"  class="btn btn-primary btn-xs">Create New</a>
+            <a asp-action="CreateCharge" asp-route-id="@Model.Invoice.DebitId" class="btn btn-primary btn-xs">Create New</a>
         </p>
 
         <table class="table table-striped my-4 w-100" id="datatable1">

@@ -1,11 +1,20 @@
-﻿$(document).ready(function () {
+﻿const { select } = require("d3-selection");
+
+$(document).ready(function () {
     // Select2 for Cport
     select2_cport();
     // Select2 for two columns
     select2_two_columns();
+
+    // Select2 for invoice charge
+    select2_invoice_charge();
    
 
 })
+// Select2 for invoice charge
+function select2_invoice_charge() {
+
+} 
 
 // select2_two_columns code _ name 
 function select2_two_columns() {
