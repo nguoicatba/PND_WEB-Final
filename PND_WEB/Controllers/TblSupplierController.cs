@@ -296,7 +296,7 @@ namespace PND_WEB.Controllers
 
             _context.TblSupplierActions.Remove(supplierAction);
             await _context.SaveChangesAsync();
-            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            TempData["status"] = "Xóa thành công";
             return RedirectToAction("Details", new { id = Code });
         }
     }
