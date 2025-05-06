@@ -41,7 +41,7 @@ function select2_fee() {
             return state.text;
         }
         var $state = $(
-            '<span>' + state.text + '</span>'
+            '<span>' + state.id + '</span>'
         );
         return $state;
     }
@@ -127,7 +127,7 @@ function select2_two_columns() {
             return state.text;
         }
         var $state = $(
-            '<span>' + state.id + '</span>'
+            '<span>' + state.text + '</span>'
 
         );
         return $state;

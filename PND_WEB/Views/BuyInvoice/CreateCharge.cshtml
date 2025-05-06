@@ -40,7 +40,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Charge.Currency" class="control-label"></label>
-                <input asp-for="Charge.Currency" class="form-control" />
+                <select asp-for="Charge.Currency" class="form-control select2-not-tag" data-url="@Url.Action("CurrencyGet", "BuyInvoice")">
+                </select>
                 <span asp-validation-for="Charge.Currency" class="text-danger"></span>
             </div>
             <div class="form-group">
