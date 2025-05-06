@@ -191,8 +191,39 @@ namespace PND_WEB.Controllers
            
             return View(invoiceChargeEditModel);
         }
-        
-        
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateCharge(InvoiceChargeEditModel invoiceChargeEditModel)
+        {
+            if (ModelState.IsValid)
+            {
+                if (invoiceChargeEditModel.Charge != null) // Ensure charge is not null  
+                {
+                    var charge = new TblCharge
+                    {
+                        DebitId = invoiceChargeEditModel.Charge.DebitId,
+                        SerName = invoiceChargeEditModel.Charge.SerName,
+                        SerUnit = invoiceChargeEditModel.Charge.SerUnit,
+                        SerQuantity = invoiceChargeEditModel.Charge.SerQuantity,
+                        SerPrice = invoiceChargeEditModel.Charge.SerPrice,
+                        Currency = invoiceChargeEditModel.Charge.Currency,
+                        ExchangeRate = invoiceChargeEditModel.Charge.ExchangeRate,
+                        SerVat = invoiceChargeEditModel.Charge.SerVat,
+                        MVat = invoiceChargeEditModel.Charge.MVat
+                    };
+                    _context.TblCharges.Add(charge);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Details", new { id = charge.DebitId });
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Charge data is required.");
+                }
+            }
+            return View(invoiceChargeEditModel);
+        }
+
+
 
 
 
