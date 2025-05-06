@@ -1,0 +1,147 @@
+﻿@using PND_WEB.ViewModels
+@model TuttPhiViewModel
+
+@{
+    Layout = null; // PDF nên không dùng layout
+    var tutt = Model.tutt;
+    var tuttphi = Model.tuttphi;
+    float totalAmount = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: Arial;
+            font-size: 16px;
+            margin: 30px;
+        }
+
+        .center {
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <table style="width: 100%; margin-bottom: 20px; border: #FFF">
+        <tr>
+            <td style="width: 50%; vertical-align: top; border: #FFF">
+                <img src="" alt="PND Logo" class="logo" />
+            </td>
+            <td style="width: 50%; vertical-align: top; border: #FFF">
+                <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+                <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+                <p>TEL: __________________ EMAIL: __________________</p>
+                <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+            </td>
+        </tr>
+    </table>
+
+    <div class="center" style="text-align:center;">
+        <h1>Tạm ứng thanh toán</h1>
+        <div>Tạm ứng thanh toán No: @tutt.SoTutt</div>
+    </div>
+
+    <div class="center">
+        Nhân viên thực hiện : @tutt.NhanvienTutt
+    </div>
+    <div class="center">
+        Nội dung : @tutt.NoiDung
+    </div>
+    <table style="border: #FFF">
+        <tr>
+            <td style="border: #FFF">
+                Ngày tạo : @tutt.Ngay?.ToString("dd/MM/yyyy")
+            </td>
+            <td style="border: #FFF">
+                Đến ngày : 
+            </td>
+        </tr>
+    </table>
+
+    <div class="center">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tên phí</th>
+                    <th>Số tiền</th>
+                    <th>Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in tuttphi)
+                {
+                    float amount = (float)item.SoTien;
+                    totalAmount += amount;
+                    <tr>
+                        <td>@item.TenPhi</td>
+                        <td>@item.SoTien</td>
+                        <td>@item.GhiChu</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="2" class="text-right bold"><center>Tổng tiền</center></td>
+                    <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <table style="border: #FFF">
+        <tr>
+            <th style="border: #FFF">
+                THỦ TRƯỜNG ĐƠN VỊ
+            </th>
+            <th style="border: #FFF">
+                KẾ TOÁN
+            </th>
+            <th style="border: #FFF">
+                NGƯỜI ĐỀ NGHỊ
+            </th>
+        </tr>
+        <tr>
+            <td style="border: #FFF">
+
+            </td>
+            <td style="border: #FFF">
+
+            </td>
+            <td style="border: #FFF">
+
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

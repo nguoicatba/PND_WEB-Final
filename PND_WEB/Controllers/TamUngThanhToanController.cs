@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
+using Rotativa.AspNetCore;
 
 namespace PND_WEB.Controllers
 {
@@ -502,6 +503,26 @@ namespace PND_WEB.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Check));
+        }
+
+
+        //xuat
+        public async Task<IActionResult> ExportPDFTutt(string id)
+        {
+            var tutt = await _context.TblTutts
+                                          .Include(q => q.TblTuttPhis)
+                                          .FirstOrDefaultAsync(q => q.SoTutt == id);
+
+            if (tutt == null)
+                return NotFound();
+
+            var viewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = tutt.TblTuttPhis.ToList()
+            };
+
+            return new ViewAsPdf("ExportPDFTutt", viewModel);
         }
     }
 }
