@@ -1,5 +1,4 @@
-﻿const { select } = require("d3-selection");
-
+﻿
 $(document).ready(function () {
     // Select2 for Cport
     select2_cport();
@@ -7,13 +6,93 @@ $(document).ready(function () {
     select2_two_columns();
 
     // Select2 for invoice charge
-    select2_invoice_charge();
+    select2_fee();
    
 
 })
-// Select2 for invoice charge
-function select2_invoice_charge() {
+// Select2 for Fee
+function select2_fee() {
+    let header = null;
+    function formatFee(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        if (state.id == '-1') {
+            var $state = $(
+                '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                '<div class="col-4">' + header.header_code + '</div>' +
+                '<div class="col-4">' + header.header_name + '</div>' +
+                '<div class="col-4">' + header.header_unit + '</div>' +
+                '</div>'
+            );
+            return $state;
+        }
+        var $state = $(
+            '<div class="row px-2 py-1">' +
+            '<div class="col-4">' + state.id + '</div>' +
+            '<div class="col-4">' + state.text + '</div>' +
+            '<div class="col-4">' + state.unit + '</div>' +
+            '</div>'
+        );
+        return $state;
+    }
+    function SelectFee(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+            '<span>' + state.text + '</span>'
+        );
+        return $state;
+    }
+    // Select in Fee by NguyenKien
+    $('.select-fee').each(function () {
+        const $select = $(this);
+        const url = $select.data('url');
+        $select.select2({
+            ajax: {
+                url: url,
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: params.term || '',
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    header = data.header;
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: (params.page * 10) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            tags: true,
+            minimumInputLength: 0,
+            templateResult: formatFee,
+            templateSelection: SelectFee,
+            placeholder: 'Select Fee',
+            allowClear: true,
+            theme: 'bootstrap4',
+            width: '100%',
+        });
+    });
 
+
+    //auto type in unit and quantity
+    $('.select-fee').on('select2:select', function (e) {
+        var data = e.params.data;
+        var cur_unit = $('#Charge_SerUnit').val();
+        var cur_quantity = $('#Charge_SerQuantity').val();
+        $('#Charge_SerUnit').val(data.unit);
+        if (cur_quantity == null || cur_quantity == '') {
+            $('#Charge_SerQuantity').val(1);
+        } 
+    });
 } 
 
 // select2_two_columns code _ name 
@@ -24,7 +103,7 @@ function select2_two_columns() {
             return state.text;
         }
         if (state.id == '-1') {
-            console.log('kien');
+           
             var $state = $(
                 '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
                 '<div class="col-6">' + header.header_code + '</div>' +
@@ -48,7 +127,7 @@ function select2_two_columns() {
             return state.text;
         }
         var $state = $(
-            '<span>' + state.text + '</span>'
+            '<span>' + state.id + '</span>'
 
         );
         return $state;
@@ -93,6 +172,9 @@ function select2_two_columns() {
         });
 
     });
+
+
+
 
 
 

@@ -269,5 +269,44 @@ namespace PND_WEB.Controllers
 
             });
         }
+
+        public async Task<JsonResult> FeeGet (string q="",int page=1)
+        {
+            int pageSize = 10;
+            var query = q == "" ? _context.Fees : _context.Fees
+                .Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.Fee1.ToLower().Contains(q.ToLower())||data.Unit.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Code,
+                text = data.Fee1,
+                unit = data.Unit,
+                disabled = false
+
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new { id = "-1", text = "Select Fee",unit="", disabled = true });
+            }
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Name",
+                    header_unit = "Unit"
+                }
+            });
+
+
+
+        }
     }
 }
