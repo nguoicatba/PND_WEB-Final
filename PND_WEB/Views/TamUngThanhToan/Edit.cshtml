@@ -4,6 +4,9 @@
     ViewData["Title"] = "Edit";
 
     bool readonlyMode = (Model.Ceo == true || Model.Ketoan == true);
+    var htmlAttributes = readonlyMode
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "disabled", "disabled" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
 }
 <div class="row">
     <div class="col">
@@ -36,7 +39,7 @@
                             @Html.DropDownListFor(
                                      model => model.xacnhanduyet,
                                      (List<SelectListItem>)ViewBag.DuyetList,
-                                     new { @class = "form-control"}
+                                     htmlAttributes
                                      )
                             <span asp-validation-for="xacnhanduyet" class="text-danger"></span>
                         </div>
