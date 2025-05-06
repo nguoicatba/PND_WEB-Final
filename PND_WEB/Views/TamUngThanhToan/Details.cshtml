@@ -100,9 +100,6 @@
                         @Html.DisplayFor(model => model.tutt.GhiChu)
                     </dd>
                 </dl>
-                <div>
-                    <a asp-action="Edit" class="btn btn-success btn-xs" asp-route-id="@Model.tutt?.SoTutt">Edit</a>
-                </div>
             </div>
 
 
@@ -143,8 +140,11 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            @if (Model.tutt.Ceo != true && Model.tutt.Ketoan != true)
+                            {
+                                <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
