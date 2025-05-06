@@ -456,5 +456,34 @@ namespace PND_WEB.Controllers
             return new ViewAsPdf("ExportPDFQuotations", viewModel);
         }
 
+
+
+        ///admin
+        ///
+
+        public async Task<IActionResult> AdminView()
+        {
+            var quotations = await _context.Quotations
+                .ToListAsync();
+
+            return View(quotations);
+        }
+        public async Task<IActionResult> AdminViewDetails(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return View(viewModel);
+        }
     }
 }
