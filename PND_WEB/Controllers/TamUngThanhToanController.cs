@@ -354,11 +354,36 @@ namespace PND_WEB.Controllers
 
             _context.TblTuttsPhi.Remove(tuttAction);
             await _context.SaveChangesAsync();
-            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
             return RedirectToAction("Details", new { id = Code });
         }
 
 
+
+        //ceo + ketoan
+
+        public async Task<IActionResult> CheckDetails(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tutt = await _context.TblTutts
+                .FirstOrDefaultAsync(m => m.SoTutt == id);
+            if (tutt == null)
+            {
+                return NotFound();
+            }
+            var tuttViewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = await _context.TblTuttsPhi
+                    .Where(a => a.SoTutt == id)
+                    .ToListAsync()
+            };
+
+            return View(tuttViewModel);
+        }
         public async Task<IActionResult> CheckEdit(string id)
         {
             if (id == null)
@@ -432,5 +457,51 @@ namespace PND_WEB.Controllers
             return View(tblTutt);
         }
 
+
+        public async Task<IActionResult> CheckDelete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var tutt = await _context.TblTutts
+                .FirstOrDefaultAsync(m => m.SoTutt == id);
+            if (tutt == null)
+            {
+                return NotFound();
+            }
+            var tuttViewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = await _context.TblTuttsPhi
+                    .Where(a => a.SoTutt == id)
+                    .ToListAsync()
+            };
+
+            return View(tuttViewModel);
+        }
+
+        [HttpPost, ActionName("CheckDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CheckDeleteConfirmed(string id)
+        {
+            var tuttphi = await _context.TblTuttsPhi
+                .Where(p => p.SoTutt == id)
+                .ToListAsync();
+            if (tuttphi.Any())
+            {
+                _context.TblTuttsPhi.RemoveRange(tuttphi);
+            }
+
+            var tblTutt = await _context.TblTutts.FindAsync(id);
+            if (tblTutt != null)
+            {
+                _context.TblTutts.Remove(tblTutt);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Check));
+        }
     }
 }

@@ -327,12 +327,27 @@
                         <li class="nav-heading">
                             <span>Tạm ứng thanh toán</span>
                         </li>
-                        <li class=" ">
-                            <a asp-controller="TamUngThanhToan" asp-action="Index">
-                                <em class="fa fa-money text-success"></em>
-                                <span>Tạm Ứng và Thanh Toán </span>
-                            </a>
-                        </li>
+                        
+                        @* điều kiện vào check *@
+
+                        @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan") 
+                        {
+                            <li>
+                                <a asp-controller="TamUngThanhToan" asp-action="Check">
+                                    <em class="fa fa-money text-success"></em>
+                                    <span>Tạm Ứng và Thanh Toán</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="TamUngThanhToan" asp-action="Index">
+                                    <em class="fa fa-money text-success"></em>
+                                    <span>Tạm Ứng và Thanh Toán</span>
+                                </a>
+                            </li>
+                        }
 
 
                         <li class="nav-heading">

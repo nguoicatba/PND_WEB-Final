@@ -54,7 +54,14 @@
             </div>
         </div>
         <div>
-            <a asp-action="Details" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+            @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan")
+            {
+                <a asp-action="CheckDetails" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+            }
+            else
+            {
+                <a asp-action="Details" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+            }
         </div>
     </div>
 </div>
