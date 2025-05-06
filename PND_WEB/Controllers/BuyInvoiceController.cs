@@ -26,6 +26,7 @@ namespace PND_WEB.Controllers
             {
                 HBL_ID = id,
                 invoices = invoice
+                
             };
             return View(invoiceViewModel);
         }
@@ -339,7 +340,7 @@ namespace PND_WEB.Controllers
 
            
         }
-
+  
         public async Task<JsonResult> CurrencyGet (string q="",int page = 1)
         {
             int pageSize = 10;

@@ -20,21 +20,22 @@ public partial class TblCharge
 
     [Column("Ser_Name")]
     [MaxLength(255)]
-    [Display(Name = "Service Name")]
+    [Display(Name = "Name Fee")]
     public string? SerName { get; set; }
 
 
     [Column("Ser_Unit")]
     [MaxLength(100)]
+    [Display(Name = "Unit")]
     public string? SerUnit { get; set; }
 
     [Column("Ser_Quantity")]
-    [Display(Name = "Service Quantity")]
+    [Display(Name = "Quantity")]
     public float? SerQuantity { get; set; }
 
 
     [Column("Ser_Price")]
-    [Display(Name = "Service Price")]
+    [Display(Name = "Price")]
 
     public float? SerPrice { get; set; }
 
@@ -51,7 +52,7 @@ public partial class TblCharge
     public float? ExchangeRate { get; set; }
 
     [Column("Ser_VAT")]
-    [Display(Name = "Service VAT")]
+    [Display(Name = "VAT")]
 
     public float? SerVat { get; set; }
 
