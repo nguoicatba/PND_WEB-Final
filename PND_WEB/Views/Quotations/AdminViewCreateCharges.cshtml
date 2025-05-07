@@ -1,23 +1,21 @@
 ﻿@model PND_WEB.Models.QuotationsCharge
 @Html.HiddenFor(model => model.QuotationId)
+
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Create";
 }
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header"><b>EDIT QUOTATIONSCHARGE</b></div>
+            <div class="card-header"><b>CREATE QUOTATIONSCHARGE</b></div>
             <div class="card-body">
-                <form asp-action="EditCharges">
+                <form asp-action="AdminViewCreateCharges">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row">
                         <div class="form-group col-12">
-                            <label asp-for="ChargeId" class="control-label" style="display:none"></label>
-                            <input asp-for="ChargeId" style="display:none" class="form-control"  />
-                            <input type="hidden" asp-for="ChargeId" />
-                            <label asp-for="QuotationId" class="control-label" readonly></label>
+                            <label asp-for="QuotationId" class="control-label"></label>
                             <input asp-for="QuotationId" class="form-control" readonly />
-                            <input type="hidden" asp-for="QuotationId" />
                         </div>
                     </div>
                     <div class="form-row">
@@ -59,7 +57,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary btn-xs" />
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
                     </div>
                 </form>
             </div>
@@ -68,7 +66,7 @@
 </div>
 
 <div>
-    <a asp-action="DetailsCharges" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
+    <a asp-action="AdminViewDetails" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
 </div>
 
 @section Scripts {

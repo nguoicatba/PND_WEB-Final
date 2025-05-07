@@ -2,61 +2,79 @@
 
 @{
     ViewData["Title"] = "Edit";
+
+    bool readonlyMode = (Model.Ceo == true || Model.Ketoan == true);
+    var htmlAttributes = readonlyMode
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "disabled", "disabled" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
 }
-
-<h1>Edit</h1>
-
-<h4>TblTutt</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="SoTutt" />
-            <div class="form-group">
-                <label asp-for="Ngay" class="control-label"></label>
-                <input asp-for="Ngay" class="form-control" />
-                <span asp-validation-for="Ngay" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT TẠM ỨNG / THANH TOÁN: @Model.SoTutt</b></div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="SoTutt" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Ngay" class="control-label"></label>
+                            <input asp-for="Ngay" class="form-control" readonly/>
+                            <span asp-validation-for="Ngay" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="NhanvienTutt" class="control-label"></label>
+                            <input asp-for="NhanvienTutt" class="form-control" readonly="@(readonlyMode ? "readonly" : null)" />
+                            <span asp-validation-for="NhanvienTutt" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="NoiDung" class="control-label"></label>
+                            <input asp-for="NoiDung" class="form-control" readonly="@(readonlyMode ? "readonly" : null)" />
+                            <span asp-validation-for="NoiDung" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="xacnhanduyet" class="control-label"></label>
+                            @Html.DropDownListFor(
+                                     model => model.xacnhanduyet,
+                                     (List<SelectListItem>)ViewBag.DuyetList,
+                                     htmlAttributes
+                                     )
+                            <span asp-validation-for="xacnhanduyet" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="Ceo" class="control-label">CEO duyệt</label>
+                            <input type="text" class="form-control"
+                                   value="@((Model.Ceo == true) ? "Đã duyệt" : (Model.Ceo == false ? "Huỷ" : "Chưa duyệt"))" readonly />
+                            <span asp-validation-for="Ceo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Ketoan" class="control-label">Kế toán duyệt</label>
+                            <input type="text" class="form-control"
+                                   value="@((Model.Ketoan == true) ? "Đã duyệt" : (Model.Ketoan == false ? "Huỷ" : "Chưa duyệt"))" readonly />
+                            <span asp-validation-for="Ketoan" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="GhiChu" class="control-label"></label>
+                            <input asp-for="GhiChu" class="form-control" readonly="@(readonlyMode ? "readonly" : null)" />
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="NhanvienTutt" class="control-label"></label>
-                <input asp-for="NhanvienTutt" class="form-control" />
-                <span asp-validation-for="NhanvienTutt" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NoiDung" class="control-label"></label>
-                <input asp-for="NoiDung" class="form-control" />
-                <span asp-validation-for="NoiDung" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="xacnhanduyet" class="control-label"></label>
-                <input asp-for="xacnhanduyet" class="form-control" />
-                <span asp-validation-for="xacnhanduyet" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ketoan" class="control-label"></label>
-                <input asp-for="Ketoan" class="form-control" />
-                <span asp-validation-for="Ketoan" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Ceo" class="control-label"></label>
-                <input asp-for="Ceo" class="form-control" />
-                <span asp-validation-for="Ceo" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="GhiChu" class="control-label"></label>
-                <input asp-for="GhiChu" class="form-control" />
-                <span asp-validation-for="GhiChu" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
 </div>
 
 @section Scripts {

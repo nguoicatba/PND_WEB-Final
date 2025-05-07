@@ -152,9 +152,13 @@
         </table>
     </div>
 </div>
-<form asp-action="Delete">
-    <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
-    <input type="submit" value="Delete" class="btn btn-danger" /> |
-    <a asp-action="Index">Back to List</a>
-</form>
+<div class="d-inline-flex gap-3">
+    @if (Model.Quotation.Qsatus != "Đã hủy" && Model.Quotation.Qsatus != "Hoàn thành")
+    {
+        <form asp-action="Delete">
+            <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
+            <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
+        </form>
+    }
+    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
 </div>

@@ -159,12 +159,9 @@
     </div>
 </div>
 <div class="d-inline-flex gap-3">
-    @if ((Model.tutt.Ceo == false || Model.tutt.Ceo == null) && (Model.tutt.Ketoan == false || Model.tutt.Ketoan == null))
-    {
-        <form asp-action="Delete" method="post" class="d-inline">
-            <input type="hidden" name="id" value="@Model.tutt.SoTutt" />
-            <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
-        </form>
-    }
-    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
+    <form asp-action="CheckDelete" method="post" class="d-inline">
+        <input type="hidden" name="id" value="@Model.tutt.SoTutt" />
+        <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+    </form>
+    <a asp-action="Check" class="btn btn-primary btn-xs">Back to List</a>
 </div>

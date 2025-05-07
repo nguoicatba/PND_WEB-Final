@@ -297,7 +297,7 @@ namespace WebApplication4.Controllers
 
             _context.TblCneeAdds.Remove(cneeaddAction);
             await _context.SaveChangesAsync();
-            TempData["status"] = "Xóa thành công thông tin thêm cho đại lý";
+            TempData["status"] = "Xóa thành công";
             return RedirectToAction("Details", new { id = Code });
         }
     }

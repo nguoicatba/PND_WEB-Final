@@ -76,7 +76,7 @@
                             <em class="fa fa-navicon"></em>
                         </a>
                     </li>
-               
+
                 </ul>
                 <!-- END Left navbar-->
                 <!-- START Right Navbar-->
@@ -126,7 +126,7 @@
                             </div>
                         </div>
 
-                            <!-- END Dropdown menu-->
+                        <!-- END Dropdown menu-->
                     </li>
 
                     <li class="nav-item">
@@ -137,7 +137,7 @@
 
                 </ul>
                 <!-- END Right Navbar-->
-              
+
             </nav>
             <!-- END Top Navbar-->
         </header>
@@ -148,7 +148,7 @@
                 <nav class="sidebar" data-sidebar-anyclick-close="">
                     <!-- START sidebar nav-->
                     <ul class="sidebar-nav">
-                       
+
                         <!-- Iterates over all sidebar items-->
                         <li class=" ">
                             <a asp-controller="Home" asp-action="Index">
@@ -200,14 +200,22 @@
                                         <span>Customer</span>
                                     </a>
                                 </li>
-
-                                <li class=" ">
-                                    <a asp-controller="Quotations" asp-action="Index">
-                                        <span>Quotaions</span>
-                                    </a>
-                                </li>
-
-
+                                @if (User.Identity.Name == "admin" || User.Identity.Name == "ceo")
+                                {
+                                    <li class=" ">
+                                        <a asp-controller="Quotations" asp-action="AdminView">
+                                            <span>Quotaions</span>
+                                        </a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class=" ">
+                                        <a asp-controller="Quotations" asp-action="Index">
+                                            <span>Quotaions</span>
+                                        </a>
+                                    </li>
+                                }
                             </ul>
                         </li>
 
@@ -329,12 +337,27 @@
                         <li class="nav-heading">
                             <span>Tạm ứng thanh toán</span>
                         </li>
-                        <li class=" ">
-                            <a asp-controller="TamUngThanhToan" asp-action="Index">
-                                <em class="fa fa-money text-success"></em>
-                                <span>Tạm Ứng và Thanh Toán </span>
-                            </a>
-                        </li>
+                        
+                        @* điều kiện vào check *@
+
+                        @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan") 
+                        {
+                            <li>
+                                <a asp-controller="TamUngThanhToan" asp-action="Check">
+                                    <em class="fa fa-money text-success"></em>
+                                    <span>Tạm Ứng và Thanh Toán</span>
+                                </a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a asp-controller="TamUngThanhToan" asp-action="Index">
+                                    <em class="fa fa-money text-success"></em>
+                                    <span>Tạm Ứng và Thanh Toán</span>
+                                </a>
+                            </li>
+                        }
 
 
                         <li class="nav-heading">

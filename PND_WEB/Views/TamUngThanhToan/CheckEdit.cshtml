@@ -1,0 +1,75 @@
+﻿@model PND_WEB.Models.TblTutt
+
+@{
+    ViewData["Title"] = "Edit";
+
+    bool readonlyMode = (Model.Ceo == true || Model.Ketoan == true);
+}
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT TẠM ỨNG / THANH TOÁN: @Model.SoTutt</b></div>
+            <div class="card-body">
+                <form asp-action="CheckEdit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="SoTutt" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Ngay" class="control-label"></label>
+                            <input asp-for="Ngay" class="form-control" readonly />
+                            <span asp-validation-for="Ngay" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="NhanvienTutt" class="control-label"></label>
+                            <input asp-for="NhanvienTutt" class="form-control" readonly />
+                            <span asp-validation-for="NhanvienTutt" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="NoiDung" class="control-label"></label>
+                            <input asp-for="NoiDung" class="form-control" readonly />
+                            <span asp-validation-for="NoiDung" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        @if (User.Identity.Name == "ceo")
+                        {
+                            <div class="form-group col-12">
+                                <label asp-for="Ceo" class="control-label">CEO duyệt</label>
+                                <select asp-for="Ceo" asp-items="ViewBag.CeoOptions" class="form-control"></select>
+                                <span asp-validation-for="Ceo" class="text-danger"></span>
+                            </div>
+                        }
+                        else if (User.Identity.Name == "ketoan")
+                        {
+                            <div class="form-group col-12">
+                                <label asp-for="Ketoan" class="control-label">Kế toán duyệt</label>
+                                <select asp-for="Ketoan" asp-items="ViewBag.KetoanOptions" class="form-control"></select>
+                                <span asp-validation-for="Ketoan" class="text-danger"></span>
+                            </div>
+                        }
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="GhiChu" class="control-label"></label>
+                            <input asp-for="GhiChu" class="form-control"  />
+                            <span asp-validation-for="GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Check">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

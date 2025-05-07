@@ -5,38 +5,38 @@
 
     bool isReadOnly = Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy";
     var staffAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
-        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
+        ? new Dictionary<string, object> { { "class", "form-control" }}
+        : new Dictionary<string, object> { { "class", "form-control" }};
     var commonAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        ? new Dictionary<string, object> { { "class", "form-control" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
     var dateAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "datetime-local" } }
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } }
         : new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } };
 }
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header"><b>EDIT QUOTATIONS: @Model.QuotationId</td></b></div>
+            <div class="card-header"><b>EDIT QUOTATIONS: @Model.QuotationId</b></div>
             <div class="card-body">
-                <form asp-action="Edit">
+                <form asp-action="AdminViewEdit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="QuotationId" />
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="Qsatus" class="control-label"></label>
-                                @if (isReadOnly)
-                                {
-                                    @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
-                                        new { @class = "form-control", disabled = "disabled" })
-                                    @Html.HiddenFor(model => model.Qsatus)
-                                }
-                                else
-                                {
-                                    @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
-                                        new { @class = "form-control" })
-                                }
+                            @if (isReadOnly)
+                            {
+                                @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                         new { @class = "form-control"})
+                                @Html.HiddenFor(model => model.Qsatus)
+                            }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.Qsatus, (IEnumerable<SelectListItem>)ViewBag.QsatusList,
+                                         new { @class = "form-control" })
+                            }
                             <span asp-validation-for="Qsatus" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
@@ -62,7 +62,6 @@
                                 @Html.TextBoxFor(model => model.CusTo, isReadOnly
                                          ? new Dictionary<string, object> {
                                 { "class", "form-control" },
-                                { "readonly", "readonly" }
                                 }
                                          : new Dictionary<string, object> {
                                 { "class", "form-control" },
@@ -76,7 +75,6 @@
                             @Html.TextBoxFor(model => model.CusContact, isReadOnly
                                      ? new Dictionary<string, object> {
                             { "class", "form-control" },
-                            { "readonly", "readonly" }
                             }
                                      : new Dictionary<string, object> {
                             { "class", "form-control" },
@@ -114,7 +112,6 @@
                                 @Html.TextBoxFor(model => model.Pol, isReadOnly
                                          ? new Dictionary<string, object> {
                                 { "class", "form-control" },
-                                { "readonly", "readonly" }
                                 }
                                          : new Dictionary<string, object> {
                                 { "class", "form-control" },
@@ -129,7 +126,6 @@
                                 @Html.TextBoxFor(model => model.Adds, isReadOnly
                                          ? new Dictionary<string, object> {
                                 { "class", "form-control" },
-                                { "readonly", "readonly" }
                                 }
                                          : new Dictionary<string, object> {
                                 { "class", "form-control" },
@@ -144,7 +140,6 @@
                                 @Html.TextBoxFor(model => model.Pod, isReadOnly
                                          ? new Dictionary<string, object> {
                                 { "class", "form-control" },
-                                { "readonly", "readonly" }
                                 }
                                          : new Dictionary<string, object> {
                                 { "class", "form-control" },
@@ -163,7 +158,7 @@
     </div>
 </div>
 <div>
-    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
+    <a asp-action="AdminView" class="btn btn-primary btn-xs">Back to List</a>
 </div>
 
 @section Scripts {

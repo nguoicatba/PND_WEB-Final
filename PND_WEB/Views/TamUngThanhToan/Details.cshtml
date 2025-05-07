@@ -1,60 +1,178 @@
-﻿@model PND_WEB.Models.TblTutt
+﻿@model PND_WEB.ViewModels.TuttPhiViewModel
 
 @{
     ViewData["Title"] = "Details";
 }
 
-<h1>Details</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết tạm ứng thanh toán", SubTitle = "Chi tiết thông tin tạm ứng thanh toán" })
 
-<div>
-    <h4>TblTutt</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ngay)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ngay)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NhanvienTutt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NhanvienTutt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NoiDung)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NoiDung)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.xacnhanduyet)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.xacnhanduyet)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ketoan)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ketoan)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ceo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ceo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GhiChu)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GhiChu)
-        </dd>
-    </dl>
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About TUTT: @Model.tutt.SoTutt</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ngay)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.Ngay)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.NhanvienTutt)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.NhanvienTutt)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.NoiDung)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.NoiDung)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.xacnhanduyet)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @{
+                            bool? daDuyet = Model.tutt.xacnhanduyet;
+                            string trangThai = daDuyet == true ? "Đã duyệt"
+                            : daDuyet == false ? "Cần duyệt"
+                            : "Chưa duyệt";
+                        }
+                        <span>@trangThai</span>
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ketoan)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @{
+                            bool? ketoanduyet = Model.tutt.Ketoan;
+                            string ketquaduyetketoan = ketoanduyet == true ? "Đã duyệt"
+                            : daDuyet == false ? "Chưa duyệt"
+                            : "Chưa duyệt";
+                        }
+                        <span>@ketquaduyetketoan</span>
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Ceo)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @{
+                            bool? ceoduyet = Model.tutt.Ceo;
+                            string ketquaduyetceo = ceoduyet == true ? "Đã duyệt"
+                            : daDuyet == false ? "Chưa duyệt"
+                            : "Chưa duyệt";
+                        }
+                        <span>@ketquaduyetceo</span>
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Tu)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @{
+                            bool? tamung = Model.tutt.Tu;
+                            string ketquatu = tamung == true ? "Tạm ứng"
+                            : daDuyet == false ? "Trống"
+                            : "Trống";
+                            string mau1 = tamung == true ? "text-dark" : "text-white";
+                        }
+                        <span class="@mau1">@ketquatu</span>
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.Tt)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @{
+                            bool? thanhtoan = Model.tutt.Tt;
+                            string ketquatt = thanhtoan == true ? "Thanh toán"
+                            : daDuyet == false ? "Trống"
+                            : "Trống";
+                            string mau2 = thanhtoan == true ? "text-dark" : "text-white";
+                        }
+                        <span class="@mau2">@ketquatt</span>
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.GhiChu)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.GhiChu)
+                    </dd>
+                </dl>
+            </div>
+
+
+        </div>
+        <!-- END card-->
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.SoTutt">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Tutt phí:</div>
+    <div class="card-body">
+        @if ((Model.tutt.Ceo == false || Model.tutt.Ceo == null) && (Model.tutt.Ketoan == false || Model.tutt.Ketoan == null))
+        {
+            <p>
+                <a asp-action="TuttCreate" asp-route-id="@Model.tutt.SoTutt" class="btn btn-primary btn-xs">Create New</a>
+            </p>
+        }
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].SoTien)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.tuttphi[0].GhiChu)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.tuttphi )
+                {
+                    <tr>
+                        <td>
+                            @if (Model.tutt.Ceo != true && Model.tutt.Ketoan != true)
+                            {
+                                <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoHoaDon)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.TenPhi)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SoTien)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GhiChu)
+                        </td>
+                    </tr>
+                }
+                <tr class="fw-bold table">
+                    <td colspan="4" class="text-end">Tổng tiền:</td>
+                    <td>
+                        @String.Format("{0:N0}", Model.tuttphi.Sum(x => x.SoTien))
+                    </td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
+
+<a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>

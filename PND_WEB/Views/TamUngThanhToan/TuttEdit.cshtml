@@ -1,0 +1,72 @@
+﻿@model PND_WEB.ViewModels.TuttEditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa", SubTitle = "Chỉnh sửa" })
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Chỉnh sửa phí tạm ứng / thanh toán </div>
+            <div class="card-body">
+                <form asp-action="TuttEdit" asp-route-id=@Model.tuttphi.Id>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="tuttphi.Id" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="tuttphi.SoTutt" class="control-label"></label>
+                            <input asp-for="tuttphi.SoTutt" class="form-control" value=@Model.id readonly="readonly" />
+                            <span asp-validation-for="tuttphi.SoTutt" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="tuttphi.SoHoaDon" class="control-label"></label>
+                            <input asp-for="tuttphi.SoHoaDon" class="form-control" />
+                            <span asp-validation-for="tuttphi.SoHoaDon" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="tuttphi.TenPhi" class="control-label"></label>
+                            <input asp-for="tuttphi.TenPhi" class="form-control" />
+                            <span asp-validation-for="tuttphi.TenPhi" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="tuttphi.SoTien" class="control-label"></label>
+                            <input asp-for="tuttphi.SoTien" class="form-control" />
+                            <span asp-validation-for="tuttphi.SoTien" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="tuttphi.GhiChu" class="control-label"></label>
+                            <input asp-for="tuttphi.GhiChu" class="form-control" />
+                            <span asp-validation-for="tuttphi.GhiChu" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div>
+            @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan")
+            {
+                <a asp-action="CheckDetails" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+            }
+            else
+            {
+                <a asp-action="Details" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+            }
+        </div>
+    </div>
+</div>
+
+
+
+
+
