@@ -62,7 +62,9 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="AdminViewEdit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            <a asp-controller="Quotations" asp-action="AdminViewEdit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs">
+                                <i class="fa fa-edit"></i>
+                            </a>
                             <a asp-action="AdminViewDelete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                             <a asp-action="AdminViewExportPDFQuotations" asp-route-id="@item.QuotationId" class="btn btn-info btn-xs" target="_blank">
                                 <i class="fa fa-print"></i>

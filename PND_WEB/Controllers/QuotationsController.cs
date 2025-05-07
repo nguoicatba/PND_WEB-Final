@@ -485,5 +485,103 @@ namespace PND_WEB.Controllers
 
             return View(viewModel);
         }
+
+
+        [HttpGet("/Quotations/AdminViewEdit/{id}")]
+        public async Task<IActionResult> AdminViewEdit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotation = await _context.Quotations.FindAsync(id);
+            if (quotation == null)
+            {
+                return NotFound();
+            }
+            ViewBag.QsatusList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
+                new SelectListItem { Value = "Đã chốt, chưa vận chuyển", Text = "Đã chốt, chưa vận chuyển" },
+                new SelectListItem { Value = "Đang vận chuyển", Text = "Đang vận chuyển" },
+                new SelectListItem { Value = "Đã hủy", Text = "Đã hủy" },
+                new SelectListItem { Value = "Hoàn thành", Text = "Hoàn thành" }
+            };
+            return View(quotation);
+        }
+
+        [HttpPost("/Quotations/AdminViewEdit/{id}")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewEdit(string id, [Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
+        {
+            if (id != quotation.QuotationId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(quotation);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuotationExists(quotation.QuotationId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(AdminView));
+            }
+            return View(quotation);
+        }
+
+        [HttpGet("/Quotations/AdminViewDelete/{id}")]
+        public async Task<IActionResult> AdminViewDelete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return View(viewModel);
+
+        }
+
+        [HttpPost, ActionName("AdminViewDelete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewDeleteConfirmed(string id)
+        {
+            var quotation = await _context.Quotations.FindAsync(id);
+            if (quotation != null)
+            {
+                var relatedCharges = _context.QuotationsCharges.Where(qc => qc.QuotationId == id);
+                _context.QuotationsCharges.RemoveRange(relatedCharges);
+                _context.Quotations.Remove(quotation);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(AdminView));
+        }
     }
 }
