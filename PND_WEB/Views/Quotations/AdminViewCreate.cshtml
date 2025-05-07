@@ -9,7 +9,7 @@
         <div class="card card-default">
             <div class="card-header"><b>CREATE QUOTATIONS</b></div>
             <div class="card-body">
-                <form asp-action="Create">
+                <form asp-action="AdminViewCreate">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row">
                         <div class="form-group col-3">
@@ -107,7 +107,7 @@
 </div>
 
 <div>
-    <a asp-action="Index" class="btn btn-primary btn-xs">Back to List</a>
+    <a asp-action="AdminView" class="btn btn-primary btn-xs">Back to List</a>
 </div>
 
 @section Scripts {

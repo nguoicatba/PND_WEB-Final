@@ -50,8 +50,8 @@
         </table>
     </div>
 </div>
-<form asp-action="DeleteCharges">
+<form asp-action="AdminViewDeleteCharges">
     <input type="hidden" asp-for="ChargeId" />
     <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
-    <a asp-action="DetailsCharges" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
+    <a asp-action="AdminViewDetails" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
 </form>

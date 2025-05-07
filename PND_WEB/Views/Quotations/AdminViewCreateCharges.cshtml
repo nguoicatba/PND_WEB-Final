@@ -10,7 +10,7 @@
         <div class="card card-default">
             <div class="card-header"><b>CREATE QUOTATIONSCHARGE</b></div>
             <div class="card-body">
-                <form asp-action="CreateCharges">
+                <form asp-action="AdminViewCreateCharges">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row">
                         <div class="form-group col-12">
@@ -66,7 +66,7 @@
 </div>
 
 <div>
-    <a asp-action="DetailsCharges" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
+    <a asp-action="AdminViewDetails" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
 </div>
 
 @section Scripts {

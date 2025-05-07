@@ -458,7 +458,8 @@ namespace PND_WEB.Controllers
 
 
 
-        ///admin
+
+        ///admin //////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
 
         public async Task<IActionResult> AdminView()
@@ -484,6 +485,41 @@ namespace PND_WEB.Controllers
             };
 
             return View(viewModel);
+        }
+
+        public async Task<IActionResult> AdminViewCreate()
+        {
+            var username = User.Identity.Name;
+
+            var user = await _userManager.FindByNameAsync(username);
+            var model = new Quotation
+            {
+                QuotationId = await PredictQuotationCode(),
+                Qsatus = "Đang đàm phán",
+                StaffName = user.Staff_Name,
+                Qdate = DateTime.Now,
+            };
+            return View(model);
+        }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewCreate([Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingQuotation = await _context.Quotations
+                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
+
+                quotation.QuotationId = await GenerateQuotationCode();
+
+                _context.Add(quotation);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(AdminView));
+            }
+            quotation.QuotationId = await PredictQuotationCode();
+            return View(quotation);
         }
 
 
@@ -582,6 +618,120 @@ namespace PND_WEB.Controllers
 
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(AdminView));
+        }
+
+
+        public IActionResult AdminViewCreateCharges(string id)
+        {
+            var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
+            if (quotation == null)
+                return NotFound();
+
+            var model = new QuotationsCharge
+            {
+                QuotationId = id,
+
+                Quantity = 0,
+                Rate = 0,
+            };
+
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewCreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(quotationsCharge);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
+            }
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            return View(quotationsCharge);
+        }
+
+        public IActionResult AdminViewEditCharges(int id)
+        {
+            var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
+            if (charge == null)
+                return NotFound();
+
+            ViewBag.QuotationId = new SelectList(_context.Quotations, "QuotationId", "QuotationId", charge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", charge.Currency);
+
+            return View(charge);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewEditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        {
+            if (id != quotationsCharge.ChargeId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(quotationsCharge);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!QuotationsChargeExists(quotationsCharge.ChargeId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
+            }
+
+            ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
+            ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code", quotationsCharge.Currency);
+
+            return View("Edit", quotationsCharge);
+        }
+
+        public async Task<IActionResult> AdminViewDeleteCharges(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var quotationsCharge = await _context.QuotationsCharges
+                .Include(q => q.Quotation)
+                .FirstOrDefaultAsync(m => m.ChargeId == id);
+            if (quotationsCharge == null)
+            {
+                return NotFound();
+            }
+
+            return View(quotationsCharge);
+        }
+
+        [HttpPost, ActionName("AdminViewDeleteCharges")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> AdminViewDeleteChargesConfirmed(int id)
+        {
+            var quotationsCharge = await _context.QuotationsCharges.FindAsync(id);
+            if (quotationsCharge != null)
+            {
+                _context.QuotationsCharges.Remove(quotationsCharge);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
         }
     }
 }
