@@ -49,7 +49,8 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
-            {
+            { 
+           
                 return NotFound();
             }
 
@@ -70,9 +71,7 @@ namespace PND_WEB.Controllers
         // GET: Hbls/Create
         public IActionResult Create(string id)
         {
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee");
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId");
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper");
+         
             ViewData["Mode"]= new SelectList(_context.Sourses, "Code", "Code");
             ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code");
 
@@ -80,6 +79,7 @@ namespace PND_WEB.Controllers
             hblJobEditModel.Job_ID = id;
             hblJobEditModel.Hbl = new TblHbl();
             hblJobEditModel.Hbl.RequestId = id;
+          
             return View(hblJobEditModel);
         }
 
@@ -118,9 +118,7 @@ namespace PND_WEB.Controllers
                 
 
             }
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
+    
             ViewData["Mode"] = new SelectList(_context.Sourses, "Code", "Code", hblJobEditModel.Hbl.NomFree);
             ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code", hblJobEditModel.Hbl.BlType);
             return View(hblJobEditModel);
@@ -150,11 +148,11 @@ namespace PND_WEB.Controllers
             hblJobEditModel.FreightCharge = tblHbl.FreightCharge ?? false;
             hblJobEditModel.Prepaid = tblHbl.Prepaid ?? false;
             hblJobEditModel.Collect = tblHbl.Collect ?? false;
+            hblJobEditModel.Hbl.RequestId = tblHbl.RequestId;
+            hblJobEditModel.Hbl.CneeNavigation =_context.TblCnees.FirstOrDefault(c => c.Cnee == tblHbl.Cnee);
+            hblJobEditModel.Hbl.ShipperNavigation = _context.TblShippers.FirstOrDefault(c => c.Shipper == tblHbl.Shipper);
+            hblJobEditModel.Hbl.Customer = _context.TblCustomers.FirstOrDefault(c => c.CustomerId == tblHbl.CustomerId);
 
-
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
             ViewData["Mode"] = new SelectList(_context.Sourses, "Code", "Code", hblJobEditModel.Hbl.NomFree);
             ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code", hblJobEditModel.Hbl.BlType);
             return View(hblJobEditModel);
@@ -179,6 +177,7 @@ namespace PND_WEB.Controllers
                     hblJobEditModel.Hbl.Collect = hblJobEditModel.Collect;
                     hblJobEditModel.Hbl.Prepaid = hblJobEditModel.Prepaid;
                     hblJobEditModel.Hbl.FreightCharge = hblJobEditModel.FreightCharge;
+                  
                     _context.Update(hblJobEditModel.Hbl);
                     await _context.SaveChangesAsync();
                 }
@@ -196,10 +195,7 @@ namespace PND_WEB.Controllers
                 return RedirectToAction("Index", "Hbls", new { id = hblJobEditModel.Hbl.RequestId });
 
             }
-            ViewData["Cnee"] = new SelectList(_context.TblCnees, "Cnee", "Cnee", hblJobEditModel.Hbl.Cnee);
-            ViewData["CustomerId"] = new SelectList(_context.TblCustomers, "CustomerId", "CustomerId", hblJobEditModel.Hbl.CustomerId);
-            ViewData["RequestId"] = new SelectList(_context.TblJobs, "JobId", "JobId", hblJobEditModel.Hbl.RequestId);
-            ViewData["Shipper"] = new SelectList(_context.TblShippers, "Shipper", "Shipper", hblJobEditModel.Hbl.Shipper);
+       
             ViewData["Mode"] = new SelectList(_context.Sourses, "Code", "Code", hblJobEditModel.Hbl.NomFree);
             ViewData["Bl_Type"] = new SelectList(_context.BlTypes, "Code", "Code", hblJobEditModel.Hbl.BlType);
             return View(hblJobEditModel);
@@ -249,8 +245,6 @@ namespace PND_WEB.Controllers
         }
 
 
-
-      
         public async Task<bool> CheckHbl(string id)
         {
 
@@ -262,6 +256,113 @@ namespace PND_WEB.Controllers
             if (job == null) return false;
             return true;
 
+        }
+
+        public async Task<JsonResult> CneeGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = q == "" ? _context.TblCnees : _context.TblCnees.Where(data => data.Cnee.ToLower().Contains(q.ToLower()) || data.Cnee.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Cnee,
+                text = data.Cnee,
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Cnee",
+                    disabled = true
+                });
+            }
+        
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Cnee Code",
+                    header_name = "Cnee Name"
+                }
+
+            });
+        }
+
+        public async Task<JsonResult> ShipperGet(string q="", int page = 1)
+        {
+            int pageSize = 10;
+            var query = q=="" ? _context.TblShippers : _context.TblShippers.Where(data => data.Shipper.ToLower().Contains(q.ToLower()) || data.Shipper.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Shipper,
+                text = data.Shipper,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Shipper",
+                    disabled = true
+                });
+            }
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Shipper Code",
+                    header_name = "Shipper Name"
+                }
+
+            });
+        }
+
+        public async Task<JsonResult> CustomerGet(string q="", int page = 1)
+        {
+            int pageSize = 10;
+            var query = q == "" ? _context.TblCustomers : _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.CustomerId,
+                text = data.CompanyName,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Customer",
+                    disabled = true
+                });
+            }
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Customer Code",
+                    header_name = "Customer Name"
+                }
+
+            });
         }
 
     }

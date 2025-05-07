@@ -27,7 +27,7 @@ namespace PND_WEB.Controllers
             double totalGrossWeight = 0;
             foreach (var conth in conths)
             {
-                totalGrossWeight += (double)conth.GrossWeight;
+                totalGrossWeight += (double)conth.GrossWeight * (double)conth.ContQuantity;
             }
 
             return totalGrossWeight;
@@ -38,7 +38,7 @@ namespace PND_WEB.Controllers
             double totalCbm = 0;
             foreach (var conth in conths)
             {
-                totalCbm += (double)conth.Cmb;
+                totalCbm += (double)conth.Cmb * (double)conth.ContQuantity;
             }
             return totalCbm;
         }
@@ -53,7 +53,7 @@ namespace PND_WEB.Controllers
                 .ToListAsync();
 
             containerViewModel.totalGrossWeight = GetTotalGrossWeight(containerViewModel.containers).Result;
-            containerViewModel.totalCbm = GetTotalGrossWeight(containerViewModel.containers).Result;
+            containerViewModel.totalCbm = GetTotalCbm(containerViewModel.containers).Result;
             return View(containerViewModel);
 
         }
@@ -84,6 +84,9 @@ namespace PND_WEB.Controllers
             containerEditModel.HBL_ID = id;
             containerEditModel.container = new TblConth();
             containerEditModel.container.Hbl = id;
+            containerEditModel.container.ContQuantity = 1;
+            containerEditModel.container.GrossWeight = 0;
+            containerEditModel.container.Cmb = 0;
             return View(containerEditModel);
         }
       
@@ -103,7 +106,10 @@ namespace PND_WEB.Controllers
             if (ModelState.IsValid)
             {
                 var tblConth = containerEditModel.container;
-               
+                tblConth.ContQuantity=tblConth.ContQuantity == null ? 1 : tblConth.ContQuantity;
+                tblConth.GrossWeight = tblConth.GrossWeight == null ? 0 : tblConth.GrossWeight;
+                tblConth.Cmb = tblConth.Cmb == null ? 0 : tblConth.Cmb;
+
                 _context.Add(tblConth);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index), new { id = containerEditModel.container.Hbl });
@@ -116,7 +122,7 @@ namespace PND_WEB.Controllers
 
         // GET: Container/Edit/5
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int ?id)
         {
             if (id == null)
             {
@@ -150,7 +156,10 @@ namespace PND_WEB.Controllers
                 try
                 {
                     var tblConth = containerEditModel.container;
-                    tblConth.Hbl = containerEditModel.HBL_ID;
+                   
+                    tblConth.ContQuantity = tblConth.ContQuantity == null ? 1 : tblConth.ContQuantity;
+                    tblConth.GrossWeight = tblConth.GrossWeight == null ? 0 : tblConth.GrossWeight;
+                    tblConth.Cmb = tblConth.Cmb == null ? 0 : tblConth.Cmb;
                     _context.Update(tblConth);
                     await _context.SaveChangesAsync();
                 }
@@ -165,7 +174,7 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = containerEditModel.HBL_ID });
+                return RedirectToAction(nameof(Index), new { id = containerEditModel.container.Hbl });
             }
             return View(containerEditModel);
         }

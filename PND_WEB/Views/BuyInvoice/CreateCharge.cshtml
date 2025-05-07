@@ -1,0 +1,84 @@
+﻿@model PND_WEB.ViewModels.InvoiceChargeEditModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>TblCharge</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="CreateCharge">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Charge.DebitId" class="control-label"></label>
+                <input asp-for="Charge.DebitId" class="form-control" readonly="readonly" />
+                
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.SerName" class="control-label"></label>
+                <select asp-for="Charge.SerName" class="form-control select-fee" data-url="@Url.Action("FeeGet", "BuyInvoice")">
+                </select>
+                <span asp-validation-for="Charge.SerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.SerUnit" class="control-label"></label>
+                <input asp-for="Charge.SerUnit" class="form-control" />
+                <span asp-validation-for="Charge.SerUnit" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.SerQuantity" class="control-label"></label>
+                <input asp-for="Charge.SerQuantity" class="form-control" />
+                <span asp-validation-for="Charge.SerQuantity" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.SerPrice" class="control-label"></label>
+                <input asp-for="Charge.SerPrice" class="form-control" />
+                <span asp-validation-for="Charge.SerPrice" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.Currency" class="control-label"></label>
+                <select asp-for="Charge.Currency" class="form-control select2-not-tag" data-url="@Url.Action("CurrencyGet", "BuyInvoice")">
+                </select>
+                <span asp-validation-for="Charge.Currency" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.ExchangeRate" class="control-label"></label>
+                <input asp-for="Charge.ExchangeRate" class="form-control" />
+                <span asp-validation-for="Charge.ExchangeRate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.SerVat" class="control-label"></label>
+                <input asp-for="Charge.SerVat" class="form-control" />
+                <span asp-validation-for="Charge.SerVat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.MVat" class="control-label"></label>
+                <input asp-for="Charge.MVat" class="form-control" />
+                <span asp-validation-for="Charge.MVat" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Charge.Checked" class="control-label"></label>
+                <input asp-for="Charge.Checked" class="form-control" />
+                <span asp-validation-for="Charge.Checked" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/components/SelectList.js"></script>
+}

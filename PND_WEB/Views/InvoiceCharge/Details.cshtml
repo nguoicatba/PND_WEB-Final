@@ -1,0 +1,78 @@
+﻿@model PND_WEB.Models.TblCharge
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>TblCharge</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerUnit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerUnit)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerQuantity)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerQuantity)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerPrice)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerPrice)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Currency)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Currency)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ExchangeRate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ExchangeRate)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.SerVat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.SerVat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MVat)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MVat)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Checked)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Checked)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Debit)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Debit.DebitId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

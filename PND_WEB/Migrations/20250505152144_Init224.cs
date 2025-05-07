@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PND_WEB.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class Init224 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -137,7 +137,7 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GoodsTypes",
+                name: "GOODS_TYPE",
                 columns: table => new
                 {
                     CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -146,11 +146,11 @@ namespace PND_WEB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GoodsTypes", x => x.CODE);
+                    table.PrimaryKey("PK_GOODS_TYPE", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
-                name: "InvoiceTypes",
+                name: "INVOICE_TYPE",
                 columns: table => new
                 {
                     Code = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
@@ -158,7 +158,7 @@ namespace PND_WEB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_InvoiceTypes", x => x.Code);
+                    table.PrimaryKey("PK_INVOICE_TYPE", x => x.Code);
                 });
 
             migrationBuilder.CreateTable(
@@ -211,7 +211,7 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sourses",
+                name: "SOURSE",
                 columns: table => new
                 {
                     CODE = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
@@ -220,7 +220,7 @@ namespace PND_WEB.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sourses", x => x.CODE);
+                    table.PrimaryKey("PK_SOURSE", x => x.CODE);
                 });
 
             migrationBuilder.CreateTable(
@@ -355,6 +355,8 @@ namespace PND_WEB.Migrations
                     xacnhanduyet = table.Column<bool>(type: "bit", nullable: true),
                     ketoan = table.Column<bool>(type: "bit", nullable: true),
                     ceo = table.Column<bool>(type: "bit", nullable: true),
+                    TU = table.Column<bool>(type: "bit", nullable: true),
+                    TT = table.Column<bool>(type: "bit", nullable: true),
                     Ghi_chu = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true)
                 },
                 constraints: table =>
@@ -548,8 +550,8 @@ namespace PND_WEB.Migrations
                     ETD = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ETA = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Mode = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    Agent = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
-                    Carrier = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Agent = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
+                    Carrier = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false),
                     Ycompany = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Link = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     YunLock = table.Column<int>(type: "int", nullable: true),
@@ -562,12 +564,14 @@ namespace PND_WEB.Migrations
                         name: "FK_tbl_JOB_AGENT_Agent",
                         column: x => x.Agent,
                         principalTable: "AGENT",
-                        principalColumn: "CODE");
+                        principalColumn: "CODE",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_tbl_JOB_CARRIER_Carrier",
                         column: x => x.Carrier,
                         principalTable: "CARRIER",
-                        principalColumn: "CODE");
+                        principalColumn: "CODE",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -645,8 +649,6 @@ namespace PND_WEB.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     SoHoaDon = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     TenPhi = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    TU = table.Column<bool>(type: "bit", nullable: true),
-                    TT = table.Column<bool>(type: "bit", nullable: true),
                     SoTien = table.Column<double>(type: "float", nullable: true),
                     GhiChu = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     SoTUTT = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
@@ -721,6 +723,38 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "tbl_INVOICE",
+                columns: table => new
+                {
+                    Debit_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Invoice_type = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Debit_date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Payment_date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Invoice_No = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Invoice_date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Supplier_ID = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Buy = table.Column<bool>(type: "bit", nullable: true),
+                    Sell = table.Column<bool>(type: "bit", nullable: true),
+                    Cont = table.Column<bool>(type: "bit", nullable: true),
+                    HBL = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    HBL1 = table.Column<string>(type: "nvarchar(50)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbl_INVOICE", x => x.Debit_ID);
+                    table.ForeignKey(
+                        name: "FK_tbl_INVOICE_tbl_HBL_HBL1",
+                        column: x => x.HBL1,
+                        principalTable: "tbl_HBL",
+                        principalColumn: "HBL");
+                    table.ForeignKey(
+                        name: "FK_tbl_INVOICE_tbl_SUPPLIER_Supplier_ID",
+                        column: x => x.Supplier_ID,
+                        principalTable: "tbl_SUPPLIER",
+                        principalColumn: "Supplier_ID");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TblConths",
                 columns: table => new
                 {
@@ -748,62 +782,30 @@ namespace PND_WEB.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "TblInvoices",
+                name: "tbl_CHARGES",
                 columns: table => new
                 {
-                    DebitId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    InvoiceType = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DebitDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    PaymentDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    InvoiceNo = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    InvoiceDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    SupplierId = table.Column<string>(type: "nvarchar(50)", nullable: true),
-                    Hbl = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HblNavigationHbl = table.Column<string>(type: "nvarchar(50)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TblInvoices", x => x.DebitId);
-                    table.ForeignKey(
-                        name: "FK_TblInvoices_tbl_HBL_HblNavigationHbl",
-                        column: x => x.HblNavigationHbl,
-                        principalTable: "tbl_HBL",
-                        principalColumn: "HBL");
-                    table.ForeignKey(
-                        name: "FK_TblInvoices_tbl_SUPPLIER_SupplierId",
-                        column: x => x.SupplierId,
-                        principalTable: "tbl_SUPPLIER",
-                        principalColumn: "Supplier_ID");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TblCharges",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    ID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DebitId = table.Column<string>(type: "nvarchar(450)", nullable: true),
-                    ExchangeRate = table.Column<float>(type: "real", nullable: true),
-                    Currency = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerPrice = table.Column<float>(type: "real", nullable: true),
-                    SerQuantity = table.Column<float>(type: "real", nullable: true),
-                    SerUnit = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    SerVat = table.Column<float>(type: "real", nullable: true),
-                    MVat = table.Column<float>(type: "real", nullable: true),
-                    Buy = table.Column<bool>(type: "bit", nullable: true),
-                    Sell = table.Column<bool>(type: "bit", nullable: true),
-                    Cont = table.Column<bool>(type: "bit", nullable: true),
+                    Debit_ID = table.Column<string>(type: "nvarchar(50)", nullable: true),
+                    Ser_Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    Ser_Unit = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    Ser_Quantity = table.Column<float>(type: "real", nullable: true),
+                    Ser_Price = table.Column<float>(type: "real", nullable: true),
+                    Currency = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
+                    Exchange_rate = table.Column<float>(type: "real", nullable: true),
+                    Ser_VAT = table.Column<float>(type: "real", nullable: true),
+                    M_VAT = table.Column<float>(type: "real", nullable: true),
                     Checked = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_TblCharges", x => x.Id);
+                    table.PrimaryKey("PK_tbl_CHARGES", x => x.ID);
                     table.ForeignKey(
-                        name: "FK_TblCharges_TblInvoices_DebitId",
-                        column: x => x.DebitId,
-                        principalTable: "TblInvoices",
-                        principalColumn: "DebitId");
+                        name: "FK_tbl_CHARGES_tbl_INVOICE_Debit_ID",
+                        column: x => x.Debit_ID,
+                        principalTable: "tbl_INVOICE",
+                        principalColumn: "Debit_ID");
                 });
 
             migrationBuilder.CreateIndex(
@@ -861,6 +863,11 @@ namespace PND_WEB.Migrations
                 column: "QuotationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_CHARGES_Debit_ID",
+                table: "tbl_CHARGES",
+                column: "Debit_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_CNEE_ADD_CNEE",
                 table: "tbl_CNEE_ADD",
                 column: "CNEE");
@@ -886,6 +893,16 @@ namespace PND_WEB.Migrations
                 column: "Shipper");
 
             migrationBuilder.CreateIndex(
+                name: "IX_tbl_INVOICE_HBL1",
+                table: "tbl_INVOICE",
+                column: "HBL1");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbl_INVOICE_Supplier_ID",
+                table: "tbl_INVOICE",
+                column: "Supplier_ID");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_tbl_JOB_Agent",
                 table: "tbl_JOB",
                 column: "Agent");
@@ -901,24 +918,9 @@ namespace PND_WEB.Migrations
                 column: "Supplier_ID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TblCharges_DebitId",
-                table: "TblCharges",
-                column: "DebitId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TblConths_HblNavigationHbl",
                 table: "TblConths",
                 column: "HblNavigationHbl");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblInvoices_HblNavigationHbl",
-                table: "TblInvoices",
-                column: "HblNavigationHbl");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TblInvoices_SupplierId",
-                table: "TblInvoices",
-                column: "SupplierId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TblTuttsPhi_SoTUTT",
@@ -963,10 +965,10 @@ namespace PND_WEB.Migrations
                 name: "FEE");
 
             migrationBuilder.DropTable(
-                name: "GoodsTypes");
+                name: "GOODS_TYPE");
 
             migrationBuilder.DropTable(
-                name: "InvoiceTypes");
+                name: "INVOICE_TYPE");
 
             migrationBuilder.DropTable(
                 name: "KINDOFPACKAGES");
@@ -978,7 +980,10 @@ namespace PND_WEB.Migrations
                 name: "QuotationsCharges");
 
             migrationBuilder.DropTable(
-                name: "Sourses");
+                name: "SOURSE");
+
+            migrationBuilder.DropTable(
+                name: "tbl_CHARGES");
 
             migrationBuilder.DropTable(
                 name: "tbl_CNEE_ADD");
@@ -988,9 +993,6 @@ namespace PND_WEB.Migrations
 
             migrationBuilder.DropTable(
                 name: "tbl_SUPPLIER_ACTION");
-
-            migrationBuilder.DropTable(
-                name: "TblCharges");
 
             migrationBuilder.DropTable(
                 name: "TblConths");
@@ -1011,7 +1013,7 @@ namespace PND_WEB.Migrations
                 name: "Quotations");
 
             migrationBuilder.DropTable(
-                name: "TblInvoices");
+                name: "tbl_INVOICE");
 
             migrationBuilder.DropTable(
                 name: "tbl_TUTT");

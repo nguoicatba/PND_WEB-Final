@@ -1,0 +1,89 @@
+﻿@model IEnumerable<PND_WEB.Models.TblCharge>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SerName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerUnit)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerQuantity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerPrice)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Currency)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExchangeRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SerVat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MVat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Checked)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Debit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerUnit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerQuantity)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerPrice)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Currency)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ExchangeRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SerVat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MVat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Checked)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Debit.DebitId)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

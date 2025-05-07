@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="~/app/css/bootstrap.css" id="bscss">
     <!-- =============== APP STYLES ===============-->
     <link rel="stylesheet" href="~/app/css/app.css" id="maincss">
+
+    @await RenderSectionAsync("CssFile", required: false)
 </head>
 <body>
     <div class="wrapper">

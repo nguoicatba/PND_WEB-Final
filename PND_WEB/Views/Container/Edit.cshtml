@@ -1,4 +1,4 @@
-﻿@model PND_WEB.Models.TblConth
+﻿@model PND_WEB.ViewModels.ContainerEditModel
 
 @{
     ViewData["Title"] = "Edit";
@@ -12,51 +12,51 @@
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="container.Id" />
             <div class="form-group">
-                <label asp-for="ContNo" class="control-label"></label>
-                <input asp-for="ContNo" class="form-control" />
-                <span asp-validation-for="ContNo" class="text-danger"></span>
+                <label asp-for="container.ContNo" class="control-label"></label>
+                <input asp-for="container.ContNo" class="form-control" />
+                <span asp-validation-for="container.ContNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Hbl" class="control-label"></label>
-                <input asp-for="Hbl" class="form-control" />
-                <span asp-validation-for="Hbl" class="text-danger"></span>
+                <label asp-for="container.Hbl" class="control-label"></label>
+                <input asp-for="container.Hbl" class="form-control" />
+                <span asp-validation-for="container.Hbl" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContQuantity" class="control-label"></label>
-                <input asp-for="ContQuantity" class="form-control" />
-                <span asp-validation-for="ContQuantity" class="text-danger"></span>
+                <label asp-for="container.ContQuantity" class="control-label"></label>
+                <input asp-for="container.ContQuantity" class="form-control" />
+                <span asp-validation-for="container.ContQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="ContType" class="control-label"></label>
-                <input asp-for="ContType" class="form-control" />
-                <span asp-validation-for="ContType" class="text-danger"></span>
+                <label asp-for="container.ContType" class="control-label"></label>
+                <input asp-for="container.ContType" class="form-control" />
+                <span asp-validation-for="container.ContType" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="SealNo" class="control-label"></label>
-                <input asp-for="SealNo" class="form-control" />
-                <span asp-validation-for="SealNo" class="text-danger"></span>
+                <label asp-for="container.SealNo" class="control-label"></label>
+                <input asp-for="container.SealNo" class="form-control" />
+                <span asp-validation-for="container.SealNo" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GrossWeight" class="control-label"></label>
-                <input asp-for="GrossWeight" class="form-control" />
-                <span asp-validation-for="GrossWeight" class="text-danger"></span>
+                <label asp-for="container.GrossWeight" class="control-label"></label>
+                <input asp-for="container.GrossWeight" class="form-control" />
+                <span asp-validation-for="container.GrossWeight" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Cmb" class="control-label"></label>
-                <input asp-for="Cmb" class="form-control" />
-                <span asp-validation-for="Cmb" class="text-danger"></span>
+                <label asp-for="container.Cmb" class="control-label"></label>
+                <input asp-for="container.Cmb" class="form-control" />
+                <span asp-validation-for="container.Cmb" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GoodsQuantity" class="control-label"></label>
-                <input asp-for="GoodsQuantity" class="form-control" />
-                <span asp-validation-for="GoodsQuantity" class="text-danger"></span>
+                <label asp-for="container.GoodsQuantity" class="control-label"></label>
+                <input asp-for="container.GoodsQuantity" class="form-control" />
+                <span asp-validation-for="container.GoodsQuantity" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="GoodsDepcription" class="control-label"></label>
-                <input asp-for="GoodsDepcription" class="form-control" />
-                <span asp-validation-for="GoodsDepcription" class="text-danger"></span>
+                <label asp-for="container.GoodsDepcription" class="control-label"></label>
+                <input asp-for="container.GoodsDepcription" class="form-control" />
+                <span asp-validation-for="container.GoodsDepcription" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

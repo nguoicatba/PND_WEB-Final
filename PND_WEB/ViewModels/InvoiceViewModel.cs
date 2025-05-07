@@ -7,7 +7,10 @@ namespace PND_WEB.ViewModels
         public string HBL_ID { get; set; }
         public List<TblInvoice> invoices {get; set;}
 
-        
+ 
+
+
+
 
     }
 }
