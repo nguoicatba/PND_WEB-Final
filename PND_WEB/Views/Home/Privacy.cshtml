@@ -1,6 +1,120 @@
-﻿@{
-    ViewData["Title"] = "Privacy Policy";
-}
-<h1>@ViewData["Title"]</h1>
+﻿@model IEnumerable<PND_WEB.Models.Mode>
 
-<p>Use this page to detail your site's privacy policy.</p>
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách", SubTitle = "Danh sách chứa các thông tin liên quan" })
+
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <button id="delete_row">Delete first row</button>
+        </p>
+        <p>
+            <button id="save">Save</button>
+        </p>
+        <p>
+
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
+            <thead class="">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Code)</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Note)
+                    </th>
+
+                    @* <th class="sort-numeric">Engine version</th> *@
+                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                            @* <a asp-action="Details" asp-route-id="@item.Code">Details</a> *@
+                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Code)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Note)
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+   <script>
+        $(document).ready(function () {
+            var table=$('#kientable').DataTable({
+                
+
+            });
+            // $('#delete_row').click(function () {
+
+            //     var row = table.row(0); Get the first row
+            //     row.remove().draw(); Remove the row and redraw the table
+            // });
+
+            //detele row select
+            $('#kientable tbody').on('click', 'tr', function () {
+                $(this).toggleClass('selected');
+            });
+            //delete row
+            $('#delete_row').click(function () {
+                var row = table.row('.selected'); // Get the selected row
+                if (row.length) {
+                    row.remove().draw(); // Remove the row and redraw the table
+                } else {
+                    alert('Please select a row to delete.');
+                }
+            });
+
+            // save database
+                   $('#save').click(function () {
+            var tableData = table.rows().data().toArray();
+
+            var dataToSend = tableData.map(row => {
+                return {
+                    Code: row[1], // Cột 1: Code
+                    Note: row[2]  // Cột 2: Note
+                };
+            });
+
+            console.log("Data gửi lên:", dataToSend); // Kiểm tra trước khi gửi
+
+            $.ajax({
+                url: '@Url.Action("SaveData", "Home")',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(dataToSend),
+                success: function (response) {
+                    alert('Data saved successfully!');
+                },
+                error: function (xhr, status, error) {
+                    alert('Error saving data: ' + error);
+                }
+            });
+        });
+
+            
+            $('#show').click(function () {
+                var data = table.rows().data().toArray(); // Get all data from the table
+                console.log(data);
+            });
+        });
+   </script>
+}

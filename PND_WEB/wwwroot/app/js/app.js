@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  *
  * Angle - Bootstrap Admin App + jQuery
  *
@@ -4142,6 +4142,7 @@
 
             // Text translation options
             // Note the required keywords between underscores (e.g _MENU_)
+
             oLanguage: {
                 sSearch: 'Search all columns:',
                 sLengthMenu: '_MENU_ records per page',
@@ -4181,9 +4182,9 @@
             keys: true
         });
 
-
         $('#mytable').DataTable({
             scrollX: true,
+            scrollCollapse: true,
             paging: true,
             ordering: true,
             info: true,
