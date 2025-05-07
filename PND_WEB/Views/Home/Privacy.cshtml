@@ -55,7 +55,7 @@
         </table>
     </div>
 </div>
-
+@Html.AntiForgeryToken()
 @section Scripts {
    <script>
         $(document).ready(function () {
@@ -63,12 +63,8 @@
                 
 
             });
-            // $('#delete_row').click(function () {
 
-            //     var row = table.row(0); Get the first row
-            //     row.remove().draw(); Remove the row and redraw the table
-            // });
-
+            var token = $('input[name="__RequestVerificationToken"]').val();
             //detele row select
             $('#kientable tbody').on('click', 'tr', function () {
                 $(this).toggleClass('selected');
@@ -100,6 +96,9 @@
                 url: '@Url.Action("SaveData", "Home")',
                 type: 'POST',
                 contentType: 'application/json',
+                headers: {
+                    'RequestVerificationToken': token // Gửi token CSRF
+                },
                 data: JSON.stringify(dataToSend),
                 success: function (response) {
                     alert('Data saved successfully!');

@@ -1,4 +1,4 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
@@ -29,48 +29,48 @@ namespace PND_WEB.Controllers
             return View(await _context.Modes.ToListAsync());
         }
         [HttpPost]
-     
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> SaveData([FromBody] List<Mode> data)
         {
             if (data == null)
             {
-                return BadRequest("D? li?u kh?ng h?p l?.");
+                return BadRequest("Dữ liệu không hợp lệ.");
             }
 
-            // 1. L?y danh s?ch Mode hi?n c? trong DB
+            // 1. Lấy danh sách Mode hiện có trong DB
             var existingList = await _context.Modes.ToListAsync();
 
-            // 2. T?o danh s?ch Code t? client g?i l?n
+            // 2. Tạo danh sách Code từ client gửi lên
             var codesFromClient = data.Select(d => d.Code).ToList();
 
-            // 3. C?p nh?t ho?c th?m m?i
+            // 3. Cập nhật hoặc thêm mới
             foreach (var item in data)
             {
                 var existing = existingList.FirstOrDefault(x => x.Code == item.Code);
                 if (existing != null)
                 {
-                    // C?p nh?t
+                    // Cập nhật
                     existing.Note = item.Note;
-                    // C?p nh?t th?m c?c tr??ng kh?c n?u c?
+                    // Cập nhật thêm các trường khác nếu có
                 }
                 else
                 {
-                    // Th?m m?i
+                    // Thêm mới
                     await _context.Modes.AddAsync(item);
                 }
             }
 
-            // 4. X?a c?c b?n ghi kh?ng c?n trong d? li?u client g?i l?n
+            // 4. Xóa các bản ghi không còn trong dữ liệu client gửi lên
             var toDelete = existingList.Where(x => !codesFromClient.Contains(x.Code)).ToList();
             if (toDelete.Any())
             {
                 _context.Modes.RemoveRange(toDelete);
             }
 
-            // 5. L?u thay ??i v?o CSDL
+            // 5. Lưu thay đổi vào CSDL
             await _context.SaveChangesAsync();
 
-            return Json(new { success = true, message = "L?u d? li?u th?nh c?ng!" });
+            return Json(new { success = true, message = "Lưu dữ liệu thành công!" });
 
         }
        
