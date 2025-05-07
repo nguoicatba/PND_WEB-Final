@@ -1,0 +1,57 @@
+﻿@model PND_WEB.Models.QuotationsCharge
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<center><h1>DELETE QUOTATIONCHARGES</h1></center>
+<h3>Chi tiết phí</h3>
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Tên phí:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.ChargeName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Số lượng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quantity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Đơn vị:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Unit</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Giá:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Rate</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Tiền tệ:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Currency</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Ghi chú:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Notes</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+<form asp-action="DeleteCharges">
+    <input type="hidden" asp-for="ChargeId" />
+    <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
+    <a asp-action="DetailsCharges" class="btn btn-primary btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
+</form>
