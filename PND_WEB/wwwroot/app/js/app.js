@@ -4139,6 +4139,7 @@
             'ordering': true, // Column ordering
             'info': true, // Bottom left status text
             responsive: true,
+            
 
             // Text translation options
             // Note the required keywords between underscores (e.g _MENU_)
