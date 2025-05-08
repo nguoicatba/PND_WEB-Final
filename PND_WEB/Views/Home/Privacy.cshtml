@@ -118,6 +118,7 @@
                      data: JSON.stringify(dataToSend),
                      success: function (response) {
                         alert('Data saved successfully!');
+                        location.reload(); // Tải lại trang sau khi lưu thành công
                      },
                      error: function (xhr, status, error) {
                          alert('Error saving data: ' + error);
@@ -127,11 +128,17 @@
             // get new row
             $('#add_row').click(function () {
                 var newRow = table.row.add([
-                    '<button class="btn btn-primary btn-xs" id="add_value" ><i class="fa fa-check-square-o"></i></button>',
+                    '<button class="btn btn-primary btn-xs" id="add_value" ><i class="fa fa-check-square-o"></i></button>'+' '+
+                    '<button class="btn btn-danger btn-xs" id="close_value" ><i class="fa fa-close"></i></button>',
                     '<input type="text" class="form-control" placeholder="Code">',
                     '<input type="text" class="form-control" placeholder="Note">'
                 ]).draw().node();
              
+            });
+            //close row
+            $('#kientable tbody').on('click', '#close_value', function () {
+                var row = $(this).closest('tr');
+                table.row(row).remove().draw();
             });
             // add new row 
             $('#kientable tbody').on('click', '#add_value', function () {
@@ -149,20 +156,17 @@
                     alert('Please fill in all fields.');
                 }
             });
-            // edit row format like add row and change button edit and buttton delete by button save
+            // edit row format like add row and change button edit and buttton delete by button save for nomal and after search
             $('#kientable tbody').on('click', '#edit_value', function () {
-
                 var row = $(this).closest('tr');
-                var code = row.find('td').eq(1).text();
-                var note = row.find('td').eq(2).text();
-                table.row(row).data([
-                    '<button class="btn btn-primary btn-xs" id="save_value_edit"><i class="fa fa-check-square-o"></i></button>',
-                    '<input type="text" class="form-control" value="' + code + '">',
-                    '<input type="text" class="form-control" value="' + note + '">'
-                ]).draw();
-
+                var code = row.find('td').eq(1).text().trim();
+                var note = row.find('td').eq(2).text().trim();
+                row.find('td').eq(1).html('<input type="text" class="form-control" value="' + code + '">');
+                row.find('td').eq(2).html('<input type="text" class="form-control" value="' + note + '">');
+                row.find('td').eq(0).html('<button class="btn btn-primary btn-xs" id="save_value_edit"><i class="fa fa-check-square-o"></i></button>'
+              );
             });
-
+        
             // save row edit
             $('#kientable tbody').on('click', '#save_value_edit', function () {
                 var row = $(this).closest('tr');
