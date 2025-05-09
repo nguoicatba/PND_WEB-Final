@@ -44,6 +44,26 @@ namespace PND_WEB.Controllers
 
         }
 
+        public async Task<string> GenerateCode(string prefix)
+        {
+            string Date = DateTime.Now.ToString("yyyyMMdd");
+            var lastInvoice = await _context.TblInvoices
+                .Where(i => i.DebitId.StartsWith(prefix) && i.DebitId.Contains(Date))
+                .OrderByDescending(i => i.InvoiceDate)
+                .FirstOrDefaultAsync();
+            if (lastInvoice == null)
+            {
+                return $"{prefix}{Date}0001";
+            }
+            else
+            {
+                string lastCode = lastInvoice.DebitId.Substring(prefix.Length + Date.Length);
+                int newCode = int.Parse(lastCode) + 1;
+                return $"{prefix}{Date}{newCode:D4}";
+
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(InvoiceEditModel invoiceEditModel)
         {
@@ -54,7 +74,7 @@ namespace PND_WEB.Controllers
                    
                     var invoice = new TblInvoice
                     {
-                        DebitId = invoiceEditModel.invoice.DebitId,
+                        DebitId = await GenerateCode("BUY"),
                         Hbl = invoiceEditModel.HBL_ID,
                         InvoiceType = invoiceEditModel.invoice.InvoiceType,
                         DebitDate = invoiceEditModel.invoice.DebitDate ?? DateTime.Now,
