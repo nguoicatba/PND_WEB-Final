@@ -2,7 +2,7 @@ hôm nay:
 - thêm role mặc định:ok
 -Phân quyền clams:not ok
 - nâng câp user
--sinh mã cho buy invoice
+-sinh mã cho buy invoice:ok
 
 
 

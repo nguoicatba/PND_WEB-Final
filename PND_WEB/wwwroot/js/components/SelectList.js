@@ -75,8 +75,9 @@ function select2_fee() {
             minimumInputLength: 0,
             templateResult: formatFee,
             templateSelection: SelectFee,
+            dropdownAutoWidth: true,
             placeholder: 'Select Fee',
-            allowClear: true,
+           
             theme: 'bootstrap4',
             width: '100%',
         });
