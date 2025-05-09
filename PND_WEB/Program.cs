@@ -74,7 +74,8 @@ namespace PND_WEB
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
             var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Data.DataContext>();
-            SeedingData.SeedData(context);
+            var roleManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            SeedingData.SeedData(context,roleManager);
             
             // run code
             app.Run();

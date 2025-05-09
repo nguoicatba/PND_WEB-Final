@@ -105,6 +105,8 @@
                     Note: row[2]  // Cột 2: Note
                 };
             });
+          
+            
 
             console.log("Data gửi lên:", dataToSend); // Kiểm tra trước khi gửi
 
@@ -125,7 +127,7 @@
                       }
                 });
             });
-            // get new row
+           
             $('#add_row').click(function () {
                 var newRow = table.row.add([
                     '<button class="btn btn-primary btn-xs" id="add_value" ><i class="fa fa-check-square-o"></i></button>'+' '+
@@ -164,8 +166,13 @@
                 row.find('td').eq(1).html('<input type="text" class="form-control" value="' + code + '">');
                 row.find('td').eq(2).html('<input type="text" class="form-control" value="' + note + '">');
                 row.find('td').eq(0).html('<button class="btn btn-primary btn-xs" id="save_value_edit"><i class="fa fa-check-square-o"></i></button>'
+                
               );
             });
+            // close row edit and return back the old value
+
+
+
         
             // save row edit
             $('#kientable tbody').on('click', '#save_value_edit', function () {

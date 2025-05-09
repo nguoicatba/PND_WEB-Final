@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol;
 using PND_WEB.Models;
 using System.Collections.Generic;
@@ -9,9 +10,38 @@ namespace PND_WEB.Data
 {
     public class SeedingData
     {
-        public static void SeedData(DataContext _context)
+        public static async void SeedData(DataContext _context,RoleManager<IdentityRole> roleManager)
         {
             _context.Database.Migrate();
+
+        
+            if (!await roleManager.RoleExistsAsync("Admin"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Admin"));
+            }
+            if (!await roleManager.RoleExistsAsync("CEO"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("CEO"));
+            }
+            if (!await roleManager.RoleExistsAsync("Docs"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Docs"));
+            }
+            if (!await roleManager.RoleExistsAsync("Sale"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Sale"));
+            }
+            if (!await roleManager.RoleExistsAsync("Log"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Logistic"));
+            }
+            if (!await roleManager.RoleExistsAsync("Accountant"))
+            {
+                await roleManager.CreateAsync(new IdentityRole("Accountant"));
+            }
+
+
+
 
             if (!_context.Sourses.Any())
             {
@@ -25,6 +55,7 @@ namespace PND_WEB.Data
                 _context.SaveChanges();
 
             }
+
 
 
             if (!_context.Currencies.Any())
