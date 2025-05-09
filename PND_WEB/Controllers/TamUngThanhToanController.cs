@@ -341,7 +341,7 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttDelete(TuttEditModel tuttEdit)
         {
-            TempData["status"] = "Error: ";
+            TempData["status"] = "Đã xóa thành công";
             if (tuttEdit.tuttphi == null)
             {
                 return NotFound();
@@ -523,6 +523,22 @@ namespace PND_WEB.Controllers
             };
 
             return new ViewAsPdf("ExportPDFTutt", viewModel);
+        }
+
+
+
+        [HttpPost]
+        public JsonResult AutoCompleteFees(string prefix)
+        {
+            var fees = (from fee in this._context.Fees
+                        where fee.Fee1.Contains(prefix)
+                        select new
+                        {
+                            label = fee.Fee1,
+                            val = fee.Code
+                        }).ToList();
+
+            return Json(fees);
         }
     }
 }
