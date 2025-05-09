@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết hóa đơn mua", SubTitle = "Chi tiết hóa đơn mua" })
+
 
 
 <div class="row">
@@ -78,11 +78,14 @@
         <p>
             <a asp-action="CreateCharge" asp-route-id="@Model.Invoice.DebitId" class="btn btn-primary btn-xs">Create New</a>
         </p>
+        <p>
+            <button id="save" class="btn btn-primary btn-xs">Save data</button>
+        </p>
 
-        <table class="table table-striped my-4 w-100" id="datatable1">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
+            <thead class="">
                 <tr>
-                    <th>Action</th>
+                    <th class="col-1"> <button class="btn btn-success btn-xs" id="add_row"><i class="fa fa-plus-square-o"></i></button></th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model._Charges[0].SerName)</th>
                     <th data-priority="2">@Html.DisplayNameFor(model => model._Charges[0].SerUnit)</th>
                     <th data-priority="3">@Html.DisplayNameFor(model => model._Charges[0].SerQuantity)</th>
@@ -100,10 +103,10 @@
                 @foreach (var item in Model._Charges)
                 {
                     <tr>
-                        <td >
-                            <a asp-action="AgentEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="AgentDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        <td>
+                            <button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>
 
+                            <button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>
                         </td>
 
                         <td>@item.SerName</td>
@@ -119,14 +122,462 @@
                         
                     </tr>
                 }
+               
+            </tbody>
+            <tfoot>
                 <tr>
                     <td colspan="10" class="text-right">Total:</td>
                     <td>@Model.TotalAmount</td>
                 </tr>
-            </tbody>
+            </tfoot>
         </table>
 
 
     </div>
 </div>
+@Html.AntiForgeryToken();
 
+
+@section Scripts {
+   <script>
+       
+
+        $(document).ready(function () {
+            var table = $('#kientable').DataTable({
+              
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 },
+                ],
+                "language": {
+                    "lengthMenu": "_MENU_",
+                    "zeroRecords": "Nothing found - sorry",
+                    "info": "Showing page _PAGE_ of _PAGES_",
+                    "infoEmpty": "No records available",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                    "search": "_INPUT_",
+                    "searchPlaceholder": "Search...",
+                    "paginate": {
+                        "first":      "<i class='fa fa-angle-double-left'></i>",
+                        "last":       "<i class='fa fa-angle-double-right'></i>",
+                        "next":       "<i class='fa fa-angle-right'></i>",
+                        "previous":   "<i class='fa fa-angle-left'></i>"
+                    }
+                }
+            });
+
+            const url_currency = '@Url.Action("CurrencyGet", "BuyInvoice")';
+            const url_fee = '@Url.Action("FeeGet", "BuyInvoice")';
+            let header = null;
+           
+            // get new row
+            $('#add_row').on('click', function () {
+                var newRow = table.row.add([
+                    '<button class="btn btn-primary btn-xs" id="add_value" ><i class="fa fa-check-square-o"></i></button>'+' '+
+                    '<button class="btn btn-danger btn-xs" id="close_value" ><i class="fa fa-close"></i></button>',
+                    '<select class="form-control select-fee" data-url="' + url_fee + '"></select>',
+                    '<input type="text" class="form-control" />',
+                    '<input type="text" class="form-control" />',
+                    '<input type="text" class="form-control" />',
+                    '<select class="form-control select2-currency" data-url="' + url_currency + '"></select>',
+                    '<input type="text" class="form-control" />',
+                    '<input type="text" class="form-control" />',
+                    '<input type="text" class="form-control" />',
+                    '<input type="checkbox" />',
+                    '0'
+                ]).draw().node();
+
+
+                $(newRow).find('.select-fee').select2({
+                    ajax: {
+                        url: url_fee,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                q: params.term || '',
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            header = data.header;
+                            console.log(header);
+                            return {
+                                results: data.items,
+                                pagination: {
+                                    more: (params.page * 10) < data.total_count
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    minimumInputLength: 0,
+                    templateResult: formatFee,
+                    templateSelection: SelectFee,
+                   
+                    dropdownAutoWidth: true,
+                    theme: 'bootstrap4',
+                    width: '100%',
+                });
+                function formatFee(state) {
+                    if (!state.id) {
+                        return state.text;
+                    }
+                    if (state.id == '-1') {
+                        var $state = $(
+                            '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                            '<div class="col-4">' + header.header_code + '</div>' +
+                            '<div class="col-4">' + header.header_name + '</div>' +
+                            '<div class="col-4">' + header.header_unit + '</div>' +
+                            '</div>'
+                        );
+                        return $state;
+                    }
+                    var $state = $(
+                        '<div class="row px-2 py-1">' +
+                        '<div class="col-4">' + state.id + '</div>' +
+                        '<div class="col-4">' + state.text + '</div>' +
+                        '<div class="col-4">' + state.unit + '</div>' +
+                        '</div>'
+                    );
+                    return $state;
+                }
+                function SelectFee(state) {
+                    if (!state.id) {
+                        return state.text;
+                    }
+                    var $state = $(
+                        '<span>' + state.id + '</span>'
+                    );
+                    return $state;
+                }
+
+                $(newRow).find('.select2-currency').select2({
+                    ajax: {
+                        url: url_currency,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                q: params.term || '',
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            header = data.header;
+                            console.log(header);
+                            return {
+                                results: data.items,
+                                pagination: {
+                                    more: (params.page * 10) < data.total_count
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    minimumInputLength: 0,
+                    templateResult: formatState2,
+                    templateSelection: formatState,
+                    dropdownAutoWidth: true,
+                    theme: 'bootstrap4',
+                    width: '100%',
+                });
+                function formatState2(state) {
+                if (!state.id) {
+                    return state.text;
+                }
+                if (state.id == '-1') {
+
+                    var $state = $(
+                        '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                        '<div class="col-6">' + header.header_code + '</div>' +
+                        '<div class="col-6">' + header.header_name + '</div>' +
+                        '</div>'
+                    );
+                    return $state;
+                }
+                var $state = $(
+                    '<div class="row">' +
+                    '<div class="col-6">' + state.id + '</div>' +
+                    '<div class="col-6">' + state.text + '</div>' +
+                    '</div>'
+                );
+                return $state;
+            }
+
+            function formatState(state) {
+
+                if (!state.id) {
+                    return state.text;
+                }
+                var $state = $(
+                    '<span>' + state.id + '</span>'
+
+                );
+                return $state;
+            }
+
+
+              
+            });
+
+            //close row
+            $('#kientable tbody').on('click', '#close_value', function () {
+                var row = $(this).closest('tr');
+                table.row(row).remove().draw();
+            });
+            // add new row to table fee
+            $('#kientable tbody').on('click', '#add_value', function () {
+                var row = $(this).closest('tr');
+                
+                var name_fee = row.find('td').eq(1).find('select').val();
+                var unit = row.find('td').eq(2).find('input').val();
+                var quantity = row.find('td').eq(3).find('input').val();
+                var price = row.find('td').eq(4).find('input').val();
+                var currency = row.find('td').eq(5).find('select').val();
+                var exchange_rate = row.find('td').eq(6).find('input').val();
+                var vat = row.find('td').eq(7).find('input').val();
+                var mvat = row.find('td').eq(8).find('input').val();
+                var checked = row.find('td').eq(9).find('input').is(':checked') ? 1 : 0;
+                var amount = (price || 0) * (quantity || 0) * (exchange_rate || 1) * (1 + (vat || 0) / 100) + (mvat || 0);
+ 
+                if (name_fee) {
+                    table.row(row).data([
+                        '<button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>' + ' '+
+                        '<button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>',
+                        name_fee,
+                        unit,
+                        quantity,
+                        price,
+                        currency,
+                        exchange_rate,
+                        vat,
+                        mvat,
+                        checked,
+                        amount
+                    ]).draw();
+                } else {
+                    alert('Đừng để trống fee');
+                }
+            });
+            // delete row
+            $('#kientable tbody').on('click', '#delete_value', function () {
+                var row = $(this).closest('tr');
+                table.row(row).remove().draw();
+            });
+            // edit row and setting like add row
+            $('#kientable tbody').on('click', '#edit_value', function () {
+                var row = $(this).closest('tr');
+                var name_fee = row.find('td').eq(1).text().trim();
+                var unit = row.find('td').eq(2).text().trim();
+                var quantity = row.find('td').eq(3).text().trim();
+                var price = row.find('td').eq(4).text().trim();
+                var currency = row.find('td').eq(5).text().trim();
+                var exchange_rate = row.find('td').eq(6).text().trim();
+                var vat = row.find('td').eq(7).text().trim();
+                var mvat = row.find('td').eq(8).text().trim();
+                var checked = row.find('td').eq(9).text().trim();
+                row.find('td').eq(1).html('<select class="form-control select-fee" data-url="' + url_fee + '"></select>');
+                row.find('td').eq(2).html('<input type="text" class="form-control" value="' + unit + '">');
+                row.find('td').eq(3).html('<input type="text" class="form-control" value="' + quantity + '">');
+                row.find('td').eq(4).html('<input type="text" class="form-control" value="' + price + '">');
+                row.find('td').eq(5).html('<select class="form-control select2-currency" data-url="' + url_currency + '"></select>');
+                row.find('td').eq(6).html('<input type="text" class="form-control" value="' + exchange_rate + '">');
+                row.find('td').eq(7).html('<input type="text" class="form-control" value="' + vat + '">');
+                row.find('td').eq(8).html('<input type="text" class="form-control" value="' + mvat + '">');
+                row.find('td').eq(9).html('<input type="checkbox"' + (checked == 1 ? ' checked' : '') + '/>');
+                // set fee
+                $(row).find('.select-fee').select2({
+                    ajax: {
+                        url: url_fee,
+                        dataType: 'json',
+                        data: function (params) {
+                            return {
+                                q: params.term || '',
+                                page: params.page
+                            };
+                        },
+                        processResults: function (data, params) {
+                            params.page = params.page || 1;
+                            header = data.header;
+                            console.log(header);
+                            return {
+                                results: data.items,
+                                pagination: {
+                                    more: (params.page * 10) < data.total_count
+                                }
+                            };
+                        },
+                        cache: true
+                        },
+                        minimumInputLength: 0,
+                        templateResult: formatFee,
+                        templateSelection: SelectFee,
+                        dropdownAutoWidth: true,
+                        theme: 'bootstrap4',
+                        width: '100%',
+                        });
+                  function formatFee(state) {
+                            if (!state.id) {
+                                return state.text;
+                            }
+                            if (state.id == '-1') {
+                                var $state = $(
+                                    '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                                    '<div class="col-4">' + header.header_code + '</div>' +
+                                    '<div class="col-4">' + header.header_name + '</div>' +
+                                    '<div class="col-4">' + header.header_unit + '</div>' +
+                                    '</div>'
+                                );
+                                return $state;
+                            }
+                            var $state = $(
+                                '<div class="row px-2 py-1">' +
+                                '<div class="col-4">' + state.id + '</div>' +
+                                '<div class="col-4">' + state.text + '</div>' +
+                                '<div class="col-4">' + state.unit + '</div>' +
+                                '</div>'
+                            );
+                            return $state;
+                        }
+                        function SelectFee(state) {
+                            if (!state.id) {
+                                return state.text;
+                            }
+                            var $state = $(
+                                '<span>' + state.id + '</span>'
+                            );
+                            return $state;
+                        }
+                        // set currency
+                        $(row).find('.select2-currency').select2({
+                            ajax: {
+                                url: url_currency,
+                                dataType: 'json',
+                                data: function (params) {
+                                    return {
+                                        q: params.term || '',
+                                        page: params.page
+                                    };
+                                },
+                                processResults: function (data, params) {
+                                    params.page = params.page || 1;
+                                    header = data.header;
+                                    console.log(header);
+                                    return {
+                                        results: data.items,
+                                        pagination: {
+                                            more: (params.page * 10) < data.total_count
+                                        }
+                                    };
+                                },
+                                cache: true
+                            },
+                            minimumInputLength: 0,
+                            templateResult: formatState2,
+                            templateSelection: formatState,
+                            dropdownAutoWidth: true,
+                            theme: 'bootstrap4',
+                            width: '100%',
+                        });
+                        function formatState2(state) {
+                            if (!state.id) {
+                                return state.text;
+                            }
+                            if (state.id == '-1') {
+                                var $state = $(
+                                    '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                                    '<div class="col-6">' + header.header_code + '</div>' +
+                                    '<div class="col-6">' + header.header_name + '</div>' +
+                                    '</div>'
+                                );
+                                return $state;
+                            }
+                            var $state = $(
+                                '<div class="row">' +
+                                '<div class="col-6">' + state.id + '</div>' +
+                                '<div class="col-6">' + state.text + '</div>' +
+                                '</div>'
+                            );
+                            return $state;
+                        }
+                        function formatState(state) {
+                            if (!state.id) {
+                                return state.text;
+                            }
+                            var $state = $(
+                                '<span>' + state.id + '</span>'
+                            );
+                            return $state;
+                        }
+
+                // show option selected in select
+                console.log(name_fee);
+                console.log(currency);
+                $(row).find('.select-fee').val(name_fee).trigger('change');
+                $(row).find('.select2-currency').val(currency).trigger('change');
+                
+
+                row.find('td').eq(0).html('<button class="btn btn-primary btn-xs" id="save_value_edit"><i class="fa fa-check-square-o"></i></button>'
+                );
+                            
+            });
+
+           
+
+
+
+            // save data
+            $('#save').on('click', function () {
+
+                var tableData=table.rows().data().toArray();
+                console.log(tableData);
+                var dataToSend = tableData.map(function (row) {
+                    return {
+                        DebitId: '@Model.Invoice.DebitId',
+                        SerName: row[1],
+                        SerUnit: row[2],
+                        SerQuantity: parseFloat(row[3]),
+                        SerPrice: parseFloat(row[4]),
+                        Currency: row[5],
+                        ExchangeRate: parseFloat(row[6]),
+                        SerVat: parseFloat(row[7]),
+                        MVat: parseFloat(row[8]),
+                        Checked: row[9] === "true" || row[9] === true || row[9] === "1"
+                    };
+                });
+                console.log(dataToSend);
+                // ajax with token
+                       $.ajax({
+            type: "POST",
+            url: '@Url.Action("SaveData", "BuyInvoice")',
+            data: JSON.stringify(dataToSend),
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert('Data saved successfully!');
+                    location.reload();
+                } else {
+                    alert('Error saving data: ' + response.message);
+                }
+            },
+            error: function (xhr, status, error) {
+                alert('Error saving data: ' + error);
+            }
+        });
+
+               
+            });
+    
+          
+
+        });
+      
+
+
+        
+   </script>
+}

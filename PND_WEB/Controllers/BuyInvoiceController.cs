@@ -393,6 +393,48 @@ namespace PND_WEB.Controllers
                 }
             });
 
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> SaveData([FromBody] List<TblCharge> data)
+        {
+            if (data == null)
+            {
+                return Json(new { success = false, message = "Dữ liệu không hợp lệ." });
+            }
+            // get list charge in db where DebitId = data[0].DebitId
+            var existingList = await _context.TblCharges
+                .Where(x => x.DebitId == data[0].DebitId)
+                .ToListAsync();
+           
+            _context.TblCharges.RemoveRange(existingList);
+          
+            
+            foreach (var item in data)
+            {
+                var charge = new TblCharge
+                {
+                    DebitId = item.DebitId,
+                    SerName = item.SerName,
+                    SerUnit = item.SerUnit,
+                    SerQuantity = item.SerQuantity,
+                    SerPrice = item.SerPrice,
+                    Currency = item.Currency,
+                    ExchangeRate = item.ExchangeRate,
+                    SerVat = item.SerVat,
+                    MVat = item.MVat
+                };
+                _context.TblCharges.Add(charge);
+            }
+        
+            // 5. Lưu thay đổi vào CSDL
+            await _context.SaveChangesAsync();
+            return Json(new { success = true, message = "Lưu dữ liệu thành công!" });
+
+
+
+
 
         }
     }
