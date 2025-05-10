@@ -72,6 +72,8 @@ namespace PND_WEB.Data
 
         public DbSet<Unit> Units { get; set; }
 
+        public DbSet<ApplicationClaim> Claims { get; set; }
+
 
 
 

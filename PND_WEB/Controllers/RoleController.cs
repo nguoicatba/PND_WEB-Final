@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using PND_WEB.Data;
 using PND_WEB.Models;
 using PND_WEB.ViewModels;
+using System.Security.Claims;
 
 namespace PND_WEB.Controllers
 {
@@ -11,10 +13,12 @@ namespace PND_WEB.Controllers
     {
         RoleManager<IdentityRole> _roleManager;
         UserManager<AppUserModel> _userManager;
-        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
+        DataContext _dataContext;
+        public RoleController(RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager,DataContext context)
         {
             _roleManager = roleManager;
             _userManager = userManager;
+            _dataContext = context;
         }
 
         [HttpGet]
@@ -222,5 +226,69 @@ namespace PND_WEB.Controllers
 
             return View(userRole);
         }
+
+
+
+        [HttpGet]
+        public async Task<IActionResult> UpdateRoleClaims(string id)
+        {
+            var role = await _roleManager.FindByIdAsync(id);
+            if (role == null)
+                return NotFound();
+
+            var ListRoleClaims = await _roleManager.GetClaimsAsync(role);
+            var ListSystemClaims = await _dataContext.Claims.ToListAsync();
+            var ClaimSet = ListRoleClaims.Select(c => $"{c.Type}:{c.Value}").ToHashSet();
+
+            List<ClaimViewModel> claims = new List<ClaimViewModel>();
+
+            foreach (var claim in ListSystemClaims)
+            {
+                string key = $"{claim.ClaimType}:{claim.ClaimValue}";
+                claims.Add(new ClaimViewModel
+                {
+                    ClaimId = claim.Id,
+                    ClaimType = claim.ClaimType,
+                    ClaimValue = claim.ClaimValue,
+                    Description = claim.Description,
+                    Selected = ClaimSet.Contains(key)
+                });
+            }
+
+            RoleClaimsViewModel roleClaims = new RoleClaimsViewModel
+            {
+                RoleId = role.Id,
+            
+                Claims = claims
+            };
+
+            return View(roleClaims);
+        }
+        [HttpPost]
+        public async Task<IActionResult> SaveRoleClaims([FromBody] RoleClaimsViewModel roleClaims)
+        {
+            var role = await _roleManager.FindByIdAsync(roleClaims.RoleId);
+            if (role == null)
+            {
+                return Json(new { success = false });
+            }
+
+            var claims = await _roleManager.GetClaimsAsync(role);
+            foreach (var claim in claims)
+            {
+                await _roleManager.RemoveClaimAsync(role,claim);
+            }
+
+            foreach (var claim in roleClaims.Claims)
+            {
+                await _roleManager.AddClaimAsync(role, new Claim(claim.ClaimType, claim.ClaimValue));
+            }
+
+
+            return Json(new { success = true });
+        }
+
+
+
     }
 }

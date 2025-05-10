@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 using PND_WEB.Data;
 using PND_WEB.Models;
 
@@ -18,12 +19,14 @@ namespace PND_WEB.Controllers
             _logger = logger;
             _context = context;
         }
+
        
         public IActionResult Index()
         {
             return View();
         }
 
+        [ClaimAuthorize("Job", "Create")]
         public async Task<IActionResult> Privacy()
         {
             return View(await _context.Modes.ToListAsync());
@@ -73,6 +76,9 @@ namespace PND_WEB.Controllers
             return Json(new { success = true, message = "Lưu dữ liệu thành công!" });
 
         }
+        
+
+
        
 
 

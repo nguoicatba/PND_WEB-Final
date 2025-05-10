@@ -49,6 +49,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Job/Create
+        [ClaimAuthorize("Job","Create")]
         public IActionResult Create()
         {
             ViewData["Mode"] = new SelectList(_context.Modes, "Code", "Code");

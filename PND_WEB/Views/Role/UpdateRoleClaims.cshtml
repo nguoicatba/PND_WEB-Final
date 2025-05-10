@@ -1,0 +1,118 @@
+﻿@model PND_WEB.ViewModels.RoleClaimsViewModel
+
+
+
+<div class="card">
+    <div class="card-body">
+
+        <p>
+            <button id="save_data" class="btn btn-primary btn-xs">Save Data</button>
+        </p>
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="table-primary">
+                <tr>
+                    <th>Action</th>
+                    <th data-priority="1">@Html.DisplayNameFor(model => model.Claims[0].ClaimType)</th>
+
+                    <th>
+                        @Html.DisplayNameFor(model => model.Claims[0].ClaimValue)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Claims[0].Description)
+                    </th>
+                    
+
+
+
+                  
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Claims)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="claims_value" 
+                             data-type="@item.ClaimType"
+                             data-value="@item.ClaimValue"
+                             data-description="@item.Description"
+                            @(item.Selected ? "checked" : "") />
+                        </td>
+                        <td>
+                            @item.ClaimType
+                        </td>
+                        <td>
+                            @item.ClaimValue
+                        </td>
+                        <td>
+                            @item.Description
+                        </td>
+                       
+              
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+@section Scripts {
+  
+    <script>  
+        // save data
+            $('#save_data').on('click', function () {
+            let selectedClaims = [];
+
+            $('.claims_value:checked').each(function(){
+                selectedClaims.push({
+                    claimType: $(this).data('type'),
+                    claimValue:$(this).data('value'),
+                   description:$(this).data('description')
+
+
+                });
+
+            });
+
+
+
+            const data={
+                RoleId:'@Model.RoleId',
+                Claims:selectedClaims
+
+            };
+
+            console.log(data);
+            $.ajax({
+                type:"POST",
+                url:'@Url.Action("SaveRoleClaims", "Role")',
+                contentType: "application/json; charset=utf-8",
+                   data: JSON.stringify(data),
+                   success: function (response) {
+                       if (response.success){
+                            alert("Lưu thành công!");
+                            location.reload();
+                       }
+                       else{
+                           alert("Lỗi role ko tìm thấy");
+                       }
+                      
+                   },
+                   error: function (xhr, status, error) {
+                       alert("Lỗi khi lưu: " + error);
+                   }
+              
+            })
+
+
+
+
+
+        });
+
+
+
+    </script>
+}

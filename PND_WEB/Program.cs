@@ -21,9 +21,9 @@ namespace PND_WEB
 
 
 
-            builder.Services.AddIdentity<AppUserModel,IdentityRole>()
+            builder.Services.AddIdentity<AppUserModel, IdentityRole>()
     .AddEntityFrameworkStores<Data.DataContext>().AddDefaultTokenProviders();
-           
+
 
             builder.Services.Configure<IdentityOptions>(options =>
             {
@@ -33,7 +33,7 @@ namespace PND_WEB
                 options.Password.RequireNonAlphanumeric = true;
                 options.Password.RequireUppercase = true;
                 options.Password.RequiredLength = 6;
-              
+
                 // Lockout settings.
                 //options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
                 //options.Lockout.MaxFailedAccessAttempts = 5;
@@ -75,8 +75,8 @@ namespace PND_WEB
 
             var context = app.Services.CreateScope().ServiceProvider.GetRequiredService<Data.DataContext>();
             var roleManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            SeedingData.SeedData(context,roleManager);
-            
+            SeedingData.SeedData(context, roleManager);
+
             // run code
             app.Run();
         }
