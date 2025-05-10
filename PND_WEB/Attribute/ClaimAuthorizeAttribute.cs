@@ -34,7 +34,8 @@ public class ClaimAuthorizeAttribute : Attribute, IAuthorizationFilter
         {
             // Nếu không có quyền, trả về 403 Forbidden
             context.Result = new ForbidResult();
-            // hi
+
+            
 
         }
 
