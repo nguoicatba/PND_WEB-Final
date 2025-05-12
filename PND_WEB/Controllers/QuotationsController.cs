@@ -10,19 +10,75 @@ using PND_WEB.Data;
 using PND_WEB.ViewModels;
 using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Identity;
-
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.CodeAnalysis.RulesetToEditorconfig;
+using System.Text;
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUserModel> _userManager;
+        private readonly IConverter _converter;
 
-        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter)
         {
             _context = context;
-            _userManager = userManager;   
+            _userManager = userManager;
+            _converter = converter;
         }
+        //test
+
+        [HttpGet]
+        public async Task<IActionResult> DownloadAsPdfAsync()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            var html = ConvertUserListToHtmlTable(users);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = html
+                    }
+                }
+            };
+
+            var fileBytes = _converter.Convert(doc);
+            return File(fileBytes, "application/pdf", "UserList.pdf");
+        }
+
+        private string ConvertUserListToHtmlTable(List<AppUserModel> users)
+        {
+            var sb = new StringBuilder();
+
+            sb.Append("<h2>User List</h2>");
+            sb.Append("<table border='1' cellpadding='5' cellspacing='0' width='100%'>");
+            sb.Append("<thead><tr>");
+            sb.Append("<th>Username</th><th>Full Name</th><th>Email</th>");
+            sb.Append("</tr></thead>");
+            sb.Append("<tbody>");
+
+            foreach (var user in users)
+            {
+                sb.Append("<tr>");
+                sb.Append($"<td>{user.UserName}</td>");
+                sb.Append($"<td>{user.Staff_Name}</td>");
+                sb.Append($"<td>{user.Email}</td>");
+                sb.Append("</tr>");
+            }
+
+            sb.Append("</tbody></table>");
+            return sb.ToString();
+        }
+
 
         // GET: Quotations
         public async Task<IActionResult> Index()

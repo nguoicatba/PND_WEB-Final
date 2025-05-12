@@ -3,6 +3,10 @@ using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
 using Rotativa.AspNetCore;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace PND_WEB
 {
@@ -15,6 +19,14 @@ namespace PND_WEB
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            var architectureFolder = (IntPtr.Size == 8) ? "64 bit" : "32 bit";
+            var wkHtmlToPdfPath = Path.Combine(builder.Environment.ContentRootPath, $"wkhtmltox/v0.12.4/{architectureFolder}/libwkhtmltox.dll");
+
+            CustomAssemblyLoadContext context1 = new CustomAssemblyLoadContext();
+            context1.LoadUnmanagedLibrary(wkHtmlToPdfPath);
+
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             builder.Services.AddDbContext<Data.DataContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
