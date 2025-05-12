@@ -46,40 +46,36 @@
     </style>
 </head>
 <body>
-
-    <table style="width: 100%; margin-bottom: 20px; border: #FFF">
-        <tr>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <img src="" alt="PND Logo" class="logo" />
-            </td>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-                <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
-                <p>TEL: __________________ EMAIL: __________________</p>
-                <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
-            </td>
-        </tr>
-    </table>
+    <div style="width: 100%; overflow: hidden; margin-bottom: 20px;">
+        <div style="width: 50%; float: left;">
+            <img src="" alt="PND Logo" class="logo" />
+        </div>
+        <div style="width: 50%; float: right;">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+            <p>TEL: __________________ EMAIL: __________________</p>
+            <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+        </div>
+    </div>
 
     <div class="center" style="text-align:center;">
         <h1>QUOTATION</h1>
         <div>Quotation No: @quotation.QuotationId</div>
     </div>
 
-    <table style="border: #FFF">
-        <tr>
-            <td style="border: #FFF">
-                FROM 
-                <br />
-                @quotation.Qdate?.ToString("dd/MM/yyyy")
-            </td>
-            <td style="border: #FFF">
-                TO 
-                <br />
-                @quotation.Valid?.ToString("dd/MM/yyyy")
-            </td>
-        </tr>
-    </table>
+
+    <div style="width: 100%; overflow: hidden; margin-bottom: 20px;">
+        <div style="width: 50%; float: left;">
+            FROM
+            <br /><br />
+            @quotation.Qdate?.ToString("dd/MM/yyyy")
+        </div>
+        <div style="width: 50%; float: right;">
+            TO
+            <br /><br />
+            @quotation.Valid?.ToString("dd/MM/yyyy")
+        </div>
+    </div>
 
     <div class="center">
         <div>Contact: @quotation.CusContact</div>
@@ -95,20 +91,19 @@
         </p>
     </div>
 
-    <table style="border: #FFF">
-        <tr>
-            <td style="border: #FFF">
-                <strong>Place of receipt:</strong> @quotation.Pol<br /><br />
-                <strong>Place of delivery:</strong> @quotation.Pod<br /><br />
-                <strong>Commodity:</strong> @quotation.Commodity<br />
-            </td>
-            <td style=" border: #FFF">
-                <strong>POL:</strong> @quotation.Pol<br /><br />
-                <strong>POD:</strong> @quotation.Pod<br /><br />
-                <strong>Volume/Term:</strong> @quotation.Vol<br />
-            </td>
-        </tr>
-    </table>
+    <div style="width: 100%; overflow: hidden; margin-bottom: 20px;">
+        <div style="width: 50%; float: left;">
+            <strong>Place of receipt:</strong> @quotation.Pol<br /><br />
+            <strong>Place of delivery:</strong> @quotation.Pod<br /><br />
+            <strong>Commodity:</strong> @quotation.Commodity<br />
+        </div>
+        <div style="width: 50%; float: right;">
+            <strong>POL:</strong> @quotation.Pol<br /><br />
+            <strong>POD:</strong> @quotation.Pod<br /><br />
+            <strong>Volume/Term:</strong> @quotation.Vol<br />
+        </div>
+    </div>
+
 
     <div class="center">
         <table>
