@@ -1,18 +1,21 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using System.Runtime.Loader;
-using System.Reflection;
+
 public class CustomAssemblyLoadContext : AssemblyLoadContext
 {
     public IntPtr LoadUnmanagedLibrary(string absolutePath)
     {
         return LoadUnmanagedDll(absolutePath);
     }
-    protected override IntPtr LoadUnmanagedDll(String unmanagedDllName)
+
+    protected override IntPtr LoadUnmanagedDll(string unmanagedDllPath)
     {
-        return LoadUnmanagedDllFromPath(unmanagedDllName);
+        return LoadUnmanagedDllFromPath(unmanagedDllPath);
     }
-    protected override Assembly Load(AssemblyName assemblyName)
+
+    protected override System.Reflection.Assembly Load(System.Reflection.AssemblyName assemblyName)
     {
-        throw new NotImplementedException();
+        return null;
     }
 }

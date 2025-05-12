@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
@@ -17,15 +17,15 @@ namespace PND_WEB
             var builder = WebApplication.CreateBuilder(args);
             var builderRazor = builder.Services.AddRazorPages();
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            // Đường dẫn đến file .dll
+            var architectureFolder = Environment.Is64BitProcess ? "64 bit" : "32 bit";
+            var wkhtmltoxPath = Path.Combine(Directory.GetCurrentDirectory(), "wkhtmltox", "v0.12.4", architectureFolder, "libwkhtmltox.dll");
 
-            var architectureFolder = (IntPtr.Size == 8) ? "64 bit" : "32 bit";
-            var wkHtmlToPdfPath = Path.Combine(builder.Environment.ContentRootPath, $"wkhtmltox/v0.12.4/{architectureFolder}/libwkhtmltox.dll");
+            // Load thư viện native
+            var context1 = new CustomAssemblyLoadContext();
+            context1.LoadUnmanagedLibrary(wkhtmltoxPath);
 
-            CustomAssemblyLoadContext context1 = new CustomAssemblyLoadContext();
-            context1.LoadUnmanagedLibrary(wkHtmlToPdfPath);
-
+            // Đăng ký DinkToPdf
             builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             builder.Services.AddDbContext<Data.DataContext>(options =>

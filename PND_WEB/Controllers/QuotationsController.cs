@@ -30,55 +30,26 @@ namespace PND_WEB.Controllers
         }
         //test
 
-        [HttpGet]
-        public async Task<IActionResult> DownloadAsPdfAsync()
+        public IActionResult Exporttopdf2()
         {
-            var users = await _userManager.Users.ToListAsync();
-
-            var html = ConvertUserListToHtmlTable(users);
-
             var doc = new HtmlToPdfDocument()
             {
                 GlobalSettings = {
-                    PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
-                },
+                PaperSize = PaperKind.A4,
+                Orientation = Orientation.Portrait
+            },
                 Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = html
-                    }
+                new ObjectSettings()
+                {
+                    HtmlContent = "<h1>Hello from PDF!</h1><p>This is a PDF file.</p>"
                 }
+            }
             };
 
-            var fileBytes = _converter.Convert(doc);
-            return File(fileBytes, "application/pdf", "UserList.pdf");
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=test.pdf");
+            return File(file, "application/pdf");
         }
-
-        private string ConvertUserListToHtmlTable(List<AppUserModel> users)
-        {
-            var sb = new StringBuilder();
-
-            sb.Append("<h2>User List</h2>");
-            sb.Append("<table border='1' cellpadding='5' cellspacing='0' width='100%'>");
-            sb.Append("<thead><tr>");
-            sb.Append("<th>Username</th><th>Full Name</th><th>Email</th>");
-            sb.Append("</tr></thead>");
-            sb.Append("<tbody>");
-
-            foreach (var user in users)
-            {
-                sb.Append("<tr>");
-                sb.Append($"<td>{user.UserName}</td>");
-                sb.Append($"<td>{user.Staff_Name}</td>");
-                sb.Append($"<td>{user.Email}</td>");
-                sb.Append("</tr>");
-            }
-
-            sb.Append("</tbody></table>");
-            return sb.ToString();
-        }
-
 
         // GET: Quotations
         public async Task<IActionResult> Index()

@@ -67,7 +67,10 @@
                             <a asp-action="ExportPDFQuotations" asp-route-id="@item.QuotationId" class="btn btn-info btn-xs" target="_blank">
                                 <i class="fa fa-print"></i>
                             </a>
-
+                            <a asp-action="Exporttopdf2" class="btn btn-info btn-xs" target="_blank">
+                                <i class="fa fa-print"></i>
+                            </a>
+                            
                         </td>
                         <td>
                             <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>  
