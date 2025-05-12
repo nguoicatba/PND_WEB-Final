@@ -134,7 +134,7 @@
                 {
                     <tr>
                         <td>
-                            @if (User.Identity.Name == "ceo")
+                            @if (User.IsInRole("CEO"))
                             {
                                 <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                                 <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>

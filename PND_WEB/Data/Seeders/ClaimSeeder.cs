@@ -14,6 +14,8 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Edit", Description = "Chỉnh sửa job" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Delete", Description = "Xóa job" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Index", Description = "Xem job" },
+
+
                     // báo giá
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Create", Description = "Tạo báo giá mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Edit", Description = "Chỉnh sửa báo giá" },

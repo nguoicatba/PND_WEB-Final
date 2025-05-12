@@ -56,7 +56,7 @@
             </div>
         </div>
         <div>
-            @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan")
+            @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
             {
                 <a asp-action="CheckDetails" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
             }

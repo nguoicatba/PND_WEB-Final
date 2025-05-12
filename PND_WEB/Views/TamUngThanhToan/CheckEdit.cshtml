@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        @if (User.Identity.Name == "ceo")
+                        @if (User.IsInRole("CEO"))
                         {
                             <div class="form-group col-12">
                                 <label asp-for="Ceo" class="control-label">CEO duyệt</label>
@@ -39,7 +39,7 @@
                                 <span asp-validation-for="Ceo" class="text-danger"></span>
                             </div>
                         }
-                        else if (User.Identity.Name == "ketoan")
+                        else if (User.IsInRole("Accountant"))
                         {
                             <div class="form-group col-12">
                                 <label asp-for="Ketoan" class="control-label">Kế toán duyệt</label>
