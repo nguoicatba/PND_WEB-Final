@@ -120,9 +120,6 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                var existingQuotation = await _context.Quotations
-                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
-
                 quotation.QuotationId = await GenerateQuotationCode();
 
                 _context.Add(quotation);

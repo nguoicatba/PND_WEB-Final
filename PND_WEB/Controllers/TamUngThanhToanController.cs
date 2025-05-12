@@ -21,6 +21,65 @@ namespace PND_WEB.Controllers
             _context = context;
         }
 
+        public async Task<string> PredictQuotationCode()
+        {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"TU{datePart}";
+
+            var sotuttWithPrefix = await _context.TblTutts
+                .Where(q => q.SoTutt.StartsWith(prefix))
+                .Select(q => q.SoTutt)
+                .ToListAsync();
+
+            int maxNumber = 0;
+            foreach (var sotutt in sotuttWithPrefix)
+            {
+                if (sotutt.Length >= prefix.Length + 3 &&
+                    int.TryParse(sotutt.Substring(prefix.Length, 3), out int number))
+                {
+                    if (number > maxNumber)
+                        maxNumber = number;
+                }
+            }
+
+            int nextNumber = maxNumber + 1;
+
+            return $"{prefix}{nextNumber:D3}";
+        }
+
+
+
+        public async Task<string> GenerateQuotationCode()
+        {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"TU{datePart}";
+
+            var sotuttWithPrefix = await _context.TblTutts
+                .Where(q => q.SoTutt.StartsWith(prefix))
+                .Select(q => q.SoTutt)
+                .ToListAsync();
+
+            int maxNumber = 0;
+            foreach (var sotutt in sotuttWithPrefix)
+            {
+                if (sotutt.Length >= prefix.Length + 3 &&
+                    int.TryParse(sotutt.Substring(prefix.Length, 3), out int number))
+                {
+                    if (number > maxNumber)
+                        maxNumber = number;
+                }
+            }
+
+            int nextNumber = maxNumber + 1;
+
+            return $"{prefix}{nextNumber:D3}";
+        }
+
+
+
+
         // GET: TamUngThanhToan
         public async Task<IActionResult> Index()
         {
@@ -74,12 +133,13 @@ namespace PND_WEB.Controllers
         }
 
         // GET: TamUngThanhToan/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
             var tblTutt = new TblTutt
             {
                 Ngay = DateTime.Now,
-                Tu = true
+                Tu = true,
+                SoTutt = await PredictQuotationCode(),
             };
 
             return View(tblTutt);
@@ -94,10 +154,13 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                tblTutt.SoTutt = await GenerateQuotationCode();
+
                 _context.Add(tblTutt);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            tblTutt.SoTutt = await PredictQuotationCode();
             return View(tblTutt);
         }
 
@@ -341,7 +404,7 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttDelete(TuttEditModel tuttEdit)
         {
-            TempData["status"] = "Error: ";
+            TempData["status"] = "Đã xóa thành công";
             if (tuttEdit.tuttphi == null)
             {
                 return NotFound();
@@ -523,6 +586,22 @@ namespace PND_WEB.Controllers
             };
 
             return new ViewAsPdf("ExportPDFTutt", viewModel);
+        }
+
+
+
+        [HttpPost]
+        public JsonResult AutoCompleteFees(string prefix)
+        {
+            var fees = (from fee in this._context.Fees
+                        where fee.Fee1.Contains(prefix)
+                        select new
+                        {
+                            label = fee.Fee1,
+                            val = fee.Code
+                        }).ToList();
+
+            return Json(fees);
         }
     }
 }
