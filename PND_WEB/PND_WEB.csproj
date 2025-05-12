@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="DinkToPdf" Version="1.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
@@ -25,6 +26,39 @@
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="Rotativa.AspNetCore" Version="1.4.0" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.7" />
+
+	  
+	  <None Update="log4net.config">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\32 bit\libwkhtmltox.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\32 bit\libwkhtmltox.dylib">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\32 bit\libwkhtmltox.so">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\64 bit\libwkhtmltox.dll">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\64 bit\libwkhtmltox.dylib">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="wkhtmltox\v0.12.4\64 bit\libwkhtmltox.so">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="wwwroot\**\*">
+		  <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
   </ItemGroup>
 
 </Project>
