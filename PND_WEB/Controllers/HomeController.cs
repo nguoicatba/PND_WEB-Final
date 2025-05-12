@@ -89,8 +89,12 @@ namespace PND_WEB.Controllers
             {
                 return View("NotFound");
             }
-           
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            else if (statuscode == 403)
+            {
+                return View("AccessDenied");
+            }
+
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
     }

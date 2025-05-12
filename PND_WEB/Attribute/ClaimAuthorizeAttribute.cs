@@ -5,6 +5,7 @@ using PND_WEB.Controllers;
 using System;
 using System.Linq;
 using System.Security.Claims;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 [AttributeUsage(AttributeTargets.Method | AttributeTargets.Class, AllowMultiple = true)]
 public class ClaimAuthorizeAttribute : Attribute, IAuthorizationFilter
@@ -33,7 +34,8 @@ public class ClaimAuthorizeAttribute : Attribute, IAuthorizationFilter
         if (!hasClaim)
         {
             // Nếu không có quyền, trả về 403 Forbidden
-            context.Result = new ForbidResult();
+            context.Result = new RedirectToActionResult("Error", "Home",new { statuscode =403});
+
 
             
 

@@ -4,6 +4,15 @@ hôm nay:
 - nâng câp user
 -sinh mã cho buy invoice:ok
 
+12/5:
+tạo trang 403: forbidResult
+phân quyền job
+chỉnh sửa tý giao diện quyền
+
+??:
+Nghiên cứu thống kê
+công nợ ??
+
 
 
 
