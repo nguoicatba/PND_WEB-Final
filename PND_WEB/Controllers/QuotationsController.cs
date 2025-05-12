@@ -30,26 +30,26 @@ namespace PND_WEB.Controllers
         }
         //test
 
-        public IActionResult Exporttopdf2()
-        {
-            var doc = new HtmlToPdfDocument()
-            {
-                GlobalSettings = {
-                PaperSize = PaperKind.A4,
-                Orientation = Orientation.Portrait
-            },
-                Objects = {
-                new ObjectSettings()
-                {
-                    HtmlContent = "<h1>Hello from PDF!</h1><p>This is a PDF file.</p>"
-                }
-            }
-            };
+        //public IActionResult Exporttopdf2()
+        //{
+        //    var doc = new HtmlToPdfDocument()
+        //    {
+        //        GlobalSettings = {
+        //        PaperSize = PaperKind.A4,
+        //        Orientation = Orientation.Portrait
+        //    },
+        //        Objects = {
+        //        new ObjectSettings()
+        //        {
+        //            HtmlContent = "<h1>Hello from PDF!</h1><p>This is a PDF file.</p>"
+        //        }
+        //    }
+        //    };
 
-            var file = _converter.Convert(doc);
-            Response.Headers.Add("Content-Disposition", "inline; filename=test.pdf");
-            return File(file, "application/pdf");
-        }
+        //    var file = _converter.Convert(doc);
+        //    Response.Headers.Add("Content-Disposition", "inline; filename=test.pdf");
+        //    return File(file, "application/pdf");
+        //}
 
         // GET: Quotations
         public async Task<IActionResult> Index()
@@ -757,5 +757,217 @@ namespace PND_WEB.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
         }
+
+
+
+        //test2
+        public IActionResult Exporttopdf2()
+        {
+            // Dữ liệu mẫu cho Quotation
+            var quotation = new
+            {
+                QuotationId = "Q123456",
+                Qdate = DateTime.Now,
+                Valid = DateTime.Now.AddMonths(1),
+                CusContact = "John Doe",
+                Pol = "Hai Phong",
+                Pod = "Ho Chi Minh",
+                Commodity = "Electronics",
+                Vol = "20 CBM"
+            };
+
+            // Dữ liệu mẫu cho Charges
+            var charges = new List<dynamic>
+                {
+                    new { ChargeName = "Shipping", Currency = "USD", Unit = "Container", Quantity = 1, Rate = 500, Notes = "Regular shipping charge" },
+                    new { ChargeName = "Insurance", Currency = "USD", Unit = "Container", Quantity = 1, Rate = 100, Notes = "Insurance charge" }
+                };
+
+            // Tính tổng số tiền
+            float totalAmount = 0;
+            foreach (var item in charges)
+            {
+                totalAmount += (float)(item.Quantity * item.Rate);
+            }
+
+            // HTML content cho PDF
+            var htmlContent = $@"
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <meta charset='utf-8' />
+        <style>
+            body {{
+                font-family: Arial;
+                font-size: 16px;
+                margin: 30px;
+            }}
+
+            .center {{
+                width: 100%;
+                clear: both;
+                margin-top: 20px;
+            }}
+
+            table {{
+                width: 100%;
+                border-collapse: collapse;
+            }}
+
+            th, td {{
+                border: 1px solid #000;
+                padding: 6px;
+                text-align: left;
+            }}
+
+            .text-right {{
+                text-align: right;
+            }}
+
+            .bold {{
+                font-weight: bold;
+            }}
+        </style>
+    </head>
+    <body>
+
+        <table style='width: 100%; margin-bottom: 20px; border: #FFF'>
+            <tr>
+                <td style='width: 50%; vertical-align: top; border: #FFF'>
+                    <img src='' alt='PND Logo' class='logo' />
+                </td>
+                <td style='width: 50%; vertical-align: top; border: #FFF'>
+                    <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+                    <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+                    <p>TEL: __________________ EMAIL: __________________</p>
+                    <p>WEBSITE: <span style='color: green;'>http://pnd-logistics.com</span></p>
+                </td>
+            </tr>
+        </table>
+
+        <div class='center' style='text-align:center;'>
+            <h1>QUOTATION</h1>
+            <div>Quotation No: {quotation.QuotationId}</div>
+        </div>
+
+        <table style='border: #FFF'>
+            <tr>
+                <td style='border: #FFF'>
+                    FROM 
+                    <br />
+                    {(quotation.Qdate != DateTime.MinValue ? quotation.Qdate.ToString("dd/MM/yyyy") : "N/A")}
+                </td>
+                <td style='border: #FFF'>
+                    TO 
+                    <br />
+                    {(quotation.Valid != DateTime.MinValue ? quotation.Valid.ToString("dd/MM/yyyy") : "N/A")}
+                </td>
+            </tr>
+        </table>
+
+        <div class='center'>
+            <div>Contact: {quotation.CusContact}</div>
+            <p>
+                Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
+                Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
+            </p>
+            <p>
+                <strong>
+                    We sincerely appreciate your company’s interest in our services.<br />
+                    Please refer to our best rate for your inquiry as below:
+                </strong>
+            </p>
+        </div>
+
+        <table style='border: #FFF'>
+            <tr>
+                <td style='border: #FFF'>
+                    <strong>Place of receipt:</strong> {quotation.Pol}<br /><br />
+                    <strong>Place of delivery:</strong> {quotation.Pod}<br /><br />
+                    <strong>Commodity:</strong> {quotation.Commodity}<br />
+                </td>
+                <td style=' border: #FFF'>
+                    <strong>POL:</strong> {quotation.Pol}<br /><br />
+                    <strong>POD:</strong> {quotation.Pod}<br /><br />
+                    <strong>Volume/Term:</strong> {quotation.Vol}<br />
+                </td>
+            </tr>
+        </table>
+
+        <div class='center'>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ITEMS</th>
+                        <th>CURRENCY</th>
+                        <th>UNIT</th>
+                        <th>QUANT</th>
+                        <th>PRICE</th>
+                        <th>TOTAL</th>
+                        <th>NOTE</th>
+                    </tr>
+                </thead>
+                <tbody>";
+
+            foreach (var item in charges)
+            {
+                float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
+                htmlContent += $@"
+                    <tr>
+                        <td>{item.ChargeName}</td>
+                        <td>{item.Currency}</td>
+                        <td>{item.Unit}</td>
+                        <td class='text-right'>{item.Quantity}</td>
+                        <td class='text-right'>{item.Rate?.ToString("N2")}</td>
+                        <td class='text-right'>{amount.ToString("N2")}</td>
+                        <td>{item.Notes}</td>
+                    </tr>";
+            }
+
+            htmlContent += $@"
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan='5' class='text-right bold'><center>TOTAL</center></td>
+                        <td class='text-right bold'>{totalAmount.ToString("N2")}</td>
+                        <td></td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        <div class='center'>
+            <p><strong>REMARK</strong></p>
+            <ul>
+                <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0%</li>
+                <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm…</li>
+                <li>Báo giá không áp dụng cho hàng hóa nguy hiểm, dễ cháy nổ, quá tải, quá khổ… - Tỉ giá TCB bank ngày xuất hóa đơn</li>
+            </ul>
+            <p><strong>Thanks & Best regards</strong></p>
+            <p>We are member of</p>
+        </div>
+
+    </body>
+    </html>";
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+            PaperSize = PaperKind.A4,
+            Orientation = Orientation.Portrait
+        },
+                Objects = {
+            new ObjectSettings()
+            {
+                HtmlContent = htmlContent
+            }
+        }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=test.pdf");
+            return File(file, "application/pdf");
+        }
+
     }
 }
