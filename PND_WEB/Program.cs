@@ -7,6 +7,7 @@ using DinkToPdf;
 using DinkToPdf.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
+using PND_WEB.Services;
 
 namespace PND_WEB
 {
@@ -56,6 +57,8 @@ namespace PND_WEB
                 //"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
                 options.User.RequireUniqueEmail = false;
             });
+
+            builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
 
             var app = builder.Build();
 

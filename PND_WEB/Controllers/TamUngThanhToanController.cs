@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
-using Rotativa.AspNetCore;
 using DinkToPdf;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using DinkToPdf.Contracts;
+using PND_WEB.Services;
 
 namespace PND_WEB.Controllers
 {
@@ -22,15 +18,13 @@ namespace PND_WEB.Controllers
     {
         private readonly DataContext _context;
         private readonly IConverter _converter;
-        private readonly ICompositeViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
+        private readonly IViewRenderService _viewRenderService;
 
-        public TamUngThanhToanController(DataContext context, IConverter converter, ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
+        public TamUngThanhToanController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
             _context = context;
             _converter = converter;
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
+            _viewRenderService = viewRenderService;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -598,44 +592,6 @@ namespace PND_WEB.Controllers
         }
 
 
-
-        private async Task<string> RenderViewToStringAsync(string viewName, object model)
-        {
-            var controllerContext = new ControllerContext()
-            {
-                HttpContext = HttpContext,
-                RouteData = RouteData,
-                ActionDescriptor = new ControllerActionDescriptor()
-            };
-
-            using var sw = new StringWriter();
-            var viewResult = _viewEngine.FindView(controllerContext, viewName, false);
-
-            if (viewResult.View == null)
-            {
-                throw new ArgumentNullException($"{viewName} not found");
-            }
-
-            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-            {
-                Model = model
-            };
-
-            var tempData = new TempDataDictionary(HttpContext, _tempDataProvider);
-            var viewContext = new ViewContext(
-                controllerContext,
-                viewResult.View,
-                viewDictionary,
-                tempData,
-                sw,
-                new HtmlHelperOptions()
-            );
-
-            await viewResult.View.RenderAsync(viewContext);
-            return sw.ToString();
-        }
-
-
         //ExportPDF
         public async Task<IActionResult> ExportToPdf2(string id)
         {
@@ -652,7 +608,7 @@ namespace PND_WEB.Controllers
                 tuttphi = tutt.TblTuttPhis.ToList()
             };
 
-            string htmlContent = await RenderViewToStringAsync("ExportPDFTutt", viewModel);
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFTutt", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {

@@ -1,23 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
-using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Identity;
 using DinkToPdf;
 using DinkToPdf.Contracts;
-using Microsoft.CodeAnalysis.RulesetToEditorconfig;
-using System.Text;
-using Microsoft.AspNetCore.Mvc.Controllers;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.ViewEngines;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using PND_WEB.Services;
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
@@ -25,16 +15,14 @@ namespace PND_WEB.Controllers
         private readonly DataContext _context;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly IConverter _converter;
-        private readonly ICompositeViewEngine _viewEngine;
-        private readonly ITempDataProvider _tempDataProvider;
+        private readonly IViewRenderService _viewRenderService;
 
-        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter, ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter, IViewRenderService viewRenderService)
         {
             _context = context;
             _userManager = userManager;
             _converter = converter;
-            _viewEngine = viewEngine;
-            _tempDataProvider = tempDataProvider;
+            _viewRenderService = viewRenderService;
         }
         // GET: Quotations
         public async Task<IActionResult> Index()
@@ -724,43 +712,6 @@ namespace PND_WEB.Controllers
 
 
         //fff
-        private async Task<string> RenderViewToStringAsync(string viewName, object model)
-        {
-            var controllerContext = new ControllerContext()
-            {
-                HttpContext = HttpContext,
-                RouteData = RouteData,
-                ActionDescriptor = new ControllerActionDescriptor()
-            };
-
-            using var sw = new StringWriter();
-            var viewResult = _viewEngine.FindView(controllerContext, viewName, false);
-
-            if (viewResult.View == null)
-            {
-                throw new ArgumentNullException($"{viewName} not found");
-            }
-
-            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
-            {
-                Model = model
-            };
-
-            var tempData = new TempDataDictionary(HttpContext, _tempDataProvider);
-            var viewContext = new ViewContext(
-                controllerContext,
-                viewResult.View,
-                viewDictionary,
-                tempData,
-                sw,
-                new HtmlHelperOptions()
-            );
-
-            await viewResult.View.RenderAsync(viewContext);
-            return sw.ToString();
-        }
-
-
         //ExportPDF
         public async Task<IActionResult> ExportToPdf2(string id)
         {
@@ -777,7 +728,7 @@ namespace PND_WEB.Controllers
                 QuotationsCharges = quotation.QuotationsCharges.ToList()
             };
 
-            string htmlContent = await RenderViewToStringAsync("ExportPDFQuotations", viewModel);
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {
