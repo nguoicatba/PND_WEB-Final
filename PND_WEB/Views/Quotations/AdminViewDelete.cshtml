@@ -155,7 +155,7 @@
 <div class="d-inline-flex gap-3">
     <form asp-action="AdminViewDelete">
         <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
-        <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
+        <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+        <a asp-action="AdminView" class="btn btn-info btn-xs">Back to List</a>
     </form>
-    <a asp-action="AdminView" class="btn btn-primary btn-xs">Back to List</a>
 </div>

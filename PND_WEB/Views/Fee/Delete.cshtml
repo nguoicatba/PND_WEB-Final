@@ -4,33 +4,47 @@
     ViewData["Title"] = "Delete";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Fee", SubTitle = "Xác nhận xóa Fee" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa phi", SubTitle = "Xóa phi" })
 
-<div>   
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Fee1)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Fee1)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Unit)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Unit)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Note)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Note)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Code" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">DELETE FEE</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Code)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Code)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Fee1)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Fee1)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Unit)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Unit)
+                    </dd>
+                    <dt class = "col-sm-2">
+                        @Html.DisplayNameFor(model => model.Note)
+                    </dt>
+                    <dd class = "col-sm-10">
+                        @Html.DisplayFor(model => model.Note)
+                    </dd>
+                </dl>
+            </div>
+        </div>
+    </div>
 </div>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Code" />
+    <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+</form>
+

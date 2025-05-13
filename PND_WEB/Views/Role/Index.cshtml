@@ -10,26 +10,19 @@
 
 <div class="card">
     <div class="card-body">
-
         <partial name="_StatusMessage" model="@TempData["status"]" />
-        <p>
-            <a asp-action="CreateRole">Create New</a>
-        </p>
-        <p>
-            <a asp-action="ListUserRole">Gán role cho user</a>
-        </p>
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <div class="mb-3">
+            <a asp-action="CreateRole" class="btn btn-primary btn-xs">Create New</a>
+            <a asp-action="ListUserRole" class="btn btn-primary btn-xs">Gán role cho user</a>
+        </div>
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
+                    <th></th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Id)</th>
-                    
                     <th>
                         @Html.DisplayNameFor(model => model.Name)
                     </th>
-
-
-
-                    <th>Action</th>
 
                     @* <th class="sort-numeric">Engine version</th> *@
                     @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
@@ -40,25 +33,25 @@
                 {
                     <tr>
                         <td>
+                            <div class="dropdown">
+                                <div class="btn-group">
+                                    <button class="btn btn-secondary" data-toggle="dropdown">Tùy chọn</button>
+                                    <div class="dropdown-menu animated fadeIn" role="menu">
+                                        <a class="dropdown-item" asp-action="EditRole" asp-route-id="@item.Id">Edit</a>
+                                        <a class="dropdown-item" asp-action="DeleteRole" asp-route-id="@item.Id">Delete</a>
+                                        <a class="dropdown-item" asp-action="UpdateRoleClaims" asp-route-id="@item.Id">Update claim</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.Name)
-
-                        </td>
-
-                   
-
-                        <td>
-                            <a asp-action="EditRole" asp-route-id="@item.Id">Edit</a> |
-                            
-                            <a asp-action="DeleteRole" asp-route-id="@item.Id">Delete</a>|
-                            <a asp-action="UpdateRoleClaims" asp-route-id="@item.Id">Update claim</a>
                         </td>
                     </tr>
                 }
-
             </tbody>
         </table>
     </div>
@@ -66,3 +59,8 @@
 
 
 
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

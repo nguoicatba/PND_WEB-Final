@@ -3,36 +3,38 @@
 @{
     ViewData["Title"] = "Edit";
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa cảng", SubTitle = "Sửa cảng" })
 
-<h1>Edit</h1>
-
-<h4>Cport</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Code" />
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
-
-                <label asp-for="PortName" class="control-label"></label>
-                <input asp-for="PortName" class="form-control" />
-                <span asp-validation-for="PortName" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">EDIT CPORT</div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label asp-for="Code" class="control-label"></label>
+                            <input asp-for="Code" class="form-control" readonly/>
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="PortName" class="control-label"></label>
+                            <input asp-for="PortName" class="form-control" />
+                            <span asp-validation-for="PortName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-success btn-xs" />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
             </div>
-
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{

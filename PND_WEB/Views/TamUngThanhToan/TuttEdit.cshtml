@@ -58,11 +58,11 @@
         <div>
             @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
             {
-                <a asp-action="CheckDetails" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+                <a asp-action="CheckDetails" class="btn btn-info btn-xs" asp-route-id=@Model.id>Back to List</a>
             }
             else
             {
-                <a asp-action="Details" class="btn btn-primary btn-xs" asp-route-id=@Model.id>Back to List</a>
+                <a asp-action="Details" class="btn btn-info btn-xs" asp-route-id=@Model.id>Back to List</a>
             }
         </div>
     </div>
