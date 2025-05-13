@@ -64,10 +64,9 @@
                         <td>
                             <a asp-action="Edit" asp-route-id="@item.QuotationId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                             <a asp-action="Delete" asp-route-id="@item.QuotationId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                            <a asp-action="ExportPDFQuotations" asp-route-id="@item.QuotationId" class="btn btn-info btn-xs" target="_blank">
+                            <a asp-action="Exporttopdf2" asp-route-id="@item.QuotationId" class="btn btn-info btn-xs" target="_blank">
                                 <i class="fa fa-print"></i>
                             </a>
-
                         </td>
                         <td>
                             <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>  

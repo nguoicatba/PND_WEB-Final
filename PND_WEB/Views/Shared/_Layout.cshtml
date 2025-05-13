@@ -200,7 +200,7 @@
                                         <span>Customer</span>
                                     </a>
                                 </li>
-                                @if (User.Identity.Name == "admin" || User.Identity.Name == "ceo")
+                                @if (User.IsInRole("CEO"))
                                 {
                                     <li class=" ">
                                         <a asp-controller="Quotations" asp-action="AdminView">
@@ -208,7 +208,7 @@
                                         </a>
                                     </li>
                                 }
-                                else
+                                else if (User.IsInRole("Sale"))
                                 {
                                     <li class=" ">
                                         <a asp-controller="Quotations" asp-action="Index">
@@ -220,11 +220,6 @@
                         </li>
 
 
-
-
-
-
-                     
 
 
                         <li class="nav-heading">
@@ -340,7 +335,7 @@
                         
                         @* điều kiện vào check *@
 
-                        @if (User.Identity.Name == "ceo" || User.Identity.Name == "ketoan") 
+                        @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
                         {
                             <li>
                                 <a asp-controller="TamUngThanhToan" asp-action="Check">

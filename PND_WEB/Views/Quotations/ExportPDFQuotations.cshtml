@@ -2,7 +2,7 @@
 @model QuotationsEditDeleteDetailController
 
 @{
-    Layout = null; // PDF nên không dùng layout
+    Layout = null;
     var quotation = Model.Quotation;
     var charges = Model.QuotationsCharges;
     float totalAmount = 0;
@@ -43,49 +43,68 @@
         .bold {
             font-weight: bold;
         }
+        .left-right{
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left{
+            width: 50%;
+            float: left;
+        }
+
+        .right{
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
     </style>
 </head>
 <body>
-
-    <table style="width: 100%; margin-bottom: 20px; border: #FFF">
-        <tr>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <img src="" alt="PND Logo" class="logo" />
-            </td>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-                <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
-                <p>TEL: __________________ EMAIL: __________________</p>
-                <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
-            </td>
-        </tr>
-    </table>
-
-    <div class="center" style="text-align:center;">
+    <div class="left-right">
+        <div class="left2">
+            <img src="https://localhost:7290/app/img/logo-pnd.png" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+            <p>TEL: __________________ EMAIL: __________________</p>
+            <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+        </div>
+    </div>
+    <div style="text-align:center;">
         <h1>QUOTATION</h1>
-        <div>Quotation No: @quotation.QuotationId</div>
+        <p>Quotation No: @quotation.QuotationId</p>
+    </div>
+    <div class="left-right">
+        <div class="left">
+            <h3>FROM</h3>
+            @quotation.Qdate?.ToString("dd/MM/yyyy")
+        </div>
+        <div class="right">
+            <h3>TO</h3>
+            @quotation.Valid?.ToString("dd/MM/yyyy")
+        </div>
     </div>
 
-    <table style="border: #FFF">
-        <tr>
-            <td style="border: #FFF">
-                FROM 
-                <br />
-                @quotation.Qdate?.ToString("dd/MM/yyyy")
-            </td>
-            <td style="border: #FFF">
-                TO 
-                <br />
-                @quotation.Valid?.ToString("dd/MM/yyyy")
-            </td>
-        </tr>
-    </table>
-
     <div class="center">
-        <div>Contact: @quotation.CusContact</div>
+        <h3>Contact:</h3><div> @quotation.CusContact</div>
         <p>
-            Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
-            Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
+            <strong>
+                Chúng tôi chân thành cảm ơn sự quan tâm của Quý công ty đối với dịch vụ của chúng tôi.<br />
+                Chúng tôi xin đưa ra bảng giá cước theo yêu cầu của Quý công ty như sau:
+            </strong>
         </p>
         <p>
             <strong>
@@ -95,20 +114,19 @@
         </p>
     </div>
 
-    <table style="border: #FFF">
-        <tr>
-            <td style="border: #FFF">
-                <strong>Place of receipt:</strong> @quotation.Pol<br /><br />
-                <strong>Place of delivery:</strong> @quotation.Pod<br /><br />
-                <strong>Commodity:</strong> @quotation.Commodity<br />
-            </td>
-            <td style=" border: #FFF">
-                <strong>POL:</strong> @quotation.Pol<br /><br />
-                <strong>POD:</strong> @quotation.Pod<br /><br />
-                <strong>Volume/Term:</strong> @quotation.Vol<br />
-            </td>
-        </tr>
-    </table>
+    <div class="left-right">
+        <div class="left">
+            <strong>Place of receipt:</strong> @quotation.Pol<br /><br />
+            <strong>Place of delivery:</strong> @quotation.Pod<br /><br />
+            <strong>Commodity:</strong> @quotation.Commodity<br />
+        </div>
+        <div class="right">
+            <strong>POL:</strong> @quotation.Pol<br /><br />
+            <strong>POD:</strong> @quotation.Pod<br /><br />
+            <strong>Volume/Term:</strong> @quotation.Vol<br />
+        </div>
+    </div>
+
 
     <div class="center">
         <table>

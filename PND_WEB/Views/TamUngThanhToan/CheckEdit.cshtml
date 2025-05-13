@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        @if (User.Identity.Name == "ceo")
+                        @if (User.IsInRole("CEO"))
                         {
                             <div class="form-group col-12">
                                 <label asp-for="Ceo" class="control-label">CEO duyệt</label>
@@ -39,7 +39,7 @@
                                 <span asp-validation-for="Ceo" class="text-danger"></span>
                             </div>
                         }
-                        else if (User.Identity.Name == "ketoan")
+                        else if (User.IsInRole("Accountant"))
                         {
                             <div class="form-group col-12">
                                 <label asp-for="Ketoan" class="control-label">Kế toán duyệt</label>
@@ -56,7 +56,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" />
+                        <a asp-action="Check" class="btn btn-info btn-xs">Back to List</a>
                     </div>
                 </form>
             </div>
@@ -64,9 +65,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Check">Back to List</a>
-</div>
 
 @section Scripts {
     @{

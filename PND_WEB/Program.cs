@@ -1,8 +1,13 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
 using Rotativa.AspNetCore;
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using System.IO;
+using System.Runtime.InteropServices;
+using PND_WEB.Services;
 
 namespace PND_WEB
 {
@@ -13,8 +18,16 @@ namespace PND_WEB
             var builder = WebApplication.CreateBuilder(args);
             var builderRazor = builder.Services.AddRazorPages();
 
-            // Add services to the container.
-            builder.Services.AddControllersWithViews();
+            // Đường dẫn đến file .dll
+            var architectureFolder = Environment.Is64BitProcess ? "64 bit" : "32 bit";
+            var wkhtmltoxPath = Path.Combine(Directory.GetCurrentDirectory(), "wkhtmltox", "v0.12.4", architectureFolder, "libwkhtmltox.dll");
+
+            // Load thư viện native
+            var context1 = new CustomAssemblyLoadContext();
+            context1.LoadUnmanagedLibrary(wkhtmltoxPath);
+
+            // Đăng ký DinkToPdf
+            builder.Services.AddSingleton(typeof(IConverter), new SynchronizedConverter(new PdfTools()));
 
             builder.Services.AddDbContext<Data.DataContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
@@ -45,6 +58,8 @@ namespace PND_WEB
                 options.User.RequireUniqueEmail = false;
             });
 
+            builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
+
             var app = builder.Build();
 
             app.UseStatusCodePagesWithRedirects("/Home/Error/?statuscode={0}");
@@ -59,7 +74,7 @@ namespace PND_WEB
             }
 
             var env = builder.Environment;
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+            //RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();

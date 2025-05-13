@@ -1,29 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
-using Rotativa.AspNetCore;
 using Microsoft.AspNetCore.Identity;
-
+using DinkToPdf;
+using DinkToPdf.Contracts;
+using PND_WEB.Services;
 namespace PND_WEB.Controllers
 {
     public class QuotationsController : Controller
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUserModel> _userManager;
+        private readonly IConverter _converter;
+        private readonly IViewRenderService _viewRenderService;
 
-        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager)
+        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter, IViewRenderService viewRenderService)
         {
             _context = context;
-            _userManager = userManager;   
+            _userManager = userManager;
+            _converter = converter;
+            _viewRenderService = viewRenderService;
         }
-
         // GET: Quotations
         public async Task<IActionResult> Index()
         {
@@ -434,28 +434,6 @@ namespace PND_WEB.Controllers
         }
 
 
-        //ExportPDF
-        public async Task<IActionResult> ExportPDFQuotations(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
-
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            return new ViewAsPdf("ExportPDFQuotations", viewModel);
-        }
-
-
-
-
         ///admin //////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
 
@@ -730,5 +708,47 @@ namespace PND_WEB.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
         }
+
+
+
+        //fff
+        //ExportPDF
+        public async Task<IActionResult> ExportToPdf2(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
+
+
     }
 }
