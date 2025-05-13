@@ -9,16 +9,28 @@ using PND_WEB.Models;
 using PND_WEB.Data;
 using PND_WEB.ViewModels;
 using Rotativa.AspNetCore;
+using DinkToPdf;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.ViewEngines;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
+using DinkToPdf.Contracts;
 
 namespace PND_WEB.Controllers
 {
     public class TamUngThanhToanController : Controller
     {
         private readonly DataContext _context;
+        private readonly IConverter _converter;
+        private readonly ICompositeViewEngine _viewEngine;
+        private readonly ITempDataProvider _tempDataProvider;
 
-        public TamUngThanhToanController(DataContext context)
+        public TamUngThanhToanController(DataContext context, IConverter converter, ICompositeViewEngine viewEngine, ITempDataProvider tempDataProvider)
         {
             _context = context;
+            _converter = converter;
+            _viewEngine = viewEngine;
+            _tempDataProvider = tempDataProvider;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -569,25 +581,6 @@ namespace PND_WEB.Controllers
         }
 
 
-        //xuat
-        public async Task<IActionResult> ExportPDFTutt(string id)
-        {
-            var tutt = await _context.TblTutts
-                                          .Include(q => q.TblTuttPhis)
-                                          .FirstOrDefaultAsync(q => q.SoTutt == id);
-
-            if (tutt == null)
-                return NotFound();
-
-            var viewModel = new TuttPhiViewModel
-            {
-                tutt = tutt,
-                tuttphi = tutt.TblTuttPhis.ToList()
-            };
-
-            return new ViewAsPdf("ExportPDFTutt", viewModel);
-        }
-
 
 
         [HttpPost]
@@ -602,6 +595,82 @@ namespace PND_WEB.Controllers
                         }).ToList();
 
             return Json(fees);
+        }
+
+
+
+        private async Task<string> RenderViewToStringAsync(string viewName, object model)
+        {
+            var controllerContext = new ControllerContext()
+            {
+                HttpContext = HttpContext,
+                RouteData = RouteData,
+                ActionDescriptor = new ControllerActionDescriptor()
+            };
+
+            using var sw = new StringWriter();
+            var viewResult = _viewEngine.FindView(controllerContext, viewName, false);
+
+            if (viewResult.View == null)
+            {
+                throw new ArgumentNullException($"{viewName} not found");
+            }
+
+            var viewDictionary = new ViewDataDictionary(new EmptyModelMetadataProvider(), new ModelStateDictionary())
+            {
+                Model = model
+            };
+
+            var tempData = new TempDataDictionary(HttpContext, _tempDataProvider);
+            var viewContext = new ViewContext(
+                controllerContext,
+                viewResult.View,
+                viewDictionary,
+                tempData,
+                sw,
+                new HtmlHelperOptions()
+            );
+
+            await viewResult.View.RenderAsync(viewContext);
+            return sw.ToString();
+        }
+
+
+        //ExportPDF
+        public async Task<IActionResult> ExportToPdf2(string id)
+        {
+            var tutt = await _context.TblTutts
+                                          .Include(q => q.TblTuttPhis)
+                                          .FirstOrDefaultAsync(q => q.SoTutt == id);
+
+            if (tutt == null)
+                return NotFound();
+
+            var viewModel = new TuttPhiViewModel
+            {
+                tutt = tutt,
+                tuttphi = tutt.TblTuttPhis.ToList()
+            };
+
+            string htmlContent = await RenderViewToStringAsync("ExportPDFTutt", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=Tutt.pdf");
+            return File(file, "application/pdf");
         }
     }
 }
