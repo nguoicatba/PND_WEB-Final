@@ -14,6 +14,8 @@ namespace PND_WEB.Data
             : base(options)
         {
         }
+    
+
         public DbSet<Agent> Agents { get; set; }
 
         public DbSet<AgentAction> AgentActions { get; set; }
@@ -73,6 +75,8 @@ namespace PND_WEB.Data
         public DbSet<Unit> Units { get; set; }
 
         public DbSet<ApplicationClaim> Claims { get; set; }
+
+        public DbSet<JobUser> JobUser { get; set; }
 
 
 

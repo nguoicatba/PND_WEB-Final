@@ -97,7 +97,7 @@ namespace PND_WEB.Controllers
 
 
         //Quotations
-
+        [ClaimAuthorize("Quotation", "Create")]
         public async Task<IActionResult> Create()
         {
             var username = User.Identity.Name;

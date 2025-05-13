@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PND_WEB.Data;
 
@@ -11,9 +12,11 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250513031622_Init136")]
+    partial class Init136
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -529,11 +532,11 @@ namespace PND_WEB.Migrations
 
             modelBuilder.Entity("PND_WEB.Models.JobUser", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Job_ID")
+                        .HasColumnType("nvarchar(50)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    b.Property<string>("User_ID")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime?>("CreateDate")
                         .HasColumnType("datetime2");
@@ -541,15 +544,9 @@ namespace PND_WEB.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Job_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Job_ID", "User_ID");
 
-                    b.Property<string>("User_ID")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasIndex("User_ID");
 
                     b.ToTable("Job_User");
                 });
@@ -1744,6 +1741,25 @@ namespace PND_WEB.Migrations
                     b.Navigation("CodeNavigation");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.JobUser", b =>
+                {
+                    b.HasOne("PND_WEB.Models.TblJob", "TblJob")
+                        .WithMany("JobUsers")
+                        .HasForeignKey("Job_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PND_WEB.Models.AppUserModel", "User")
+                        .WithMany("JobUsers")
+                        .HasForeignKey("User_ID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TblJob");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.QuotationsCharge", b =>
                 {
                     b.HasOne("PND_WEB.Models.Quotation", "Quotation")
@@ -1866,6 +1882,11 @@ namespace PND_WEB.Migrations
                     b.Navigation("TblJobs");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.AppUserModel", b =>
+                {
+                    b.Navigation("JobUsers");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.Carrier", b =>
                 {
                     b.Navigation("CarrierActions");
@@ -1904,6 +1925,8 @@ namespace PND_WEB.Migrations
 
             modelBuilder.Entity("PND_WEB.Models.TblJob", b =>
                 {
+                    b.Navigation("JobUsers");
+
                     b.Navigation("TblHbls");
                 });
 

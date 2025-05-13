@@ -132,4 +132,6 @@ public partial class TblJob
     public virtual Carrier? CarrierNavigation { get; set; }
 
     public virtual ICollection<TblHbl> TblHbls { get; set; } = new List<TblHbl>();
+
+ 
 }

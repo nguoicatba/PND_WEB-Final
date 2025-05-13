@@ -22,7 +22,7 @@
                             <a class="nav-link" asp-controller="Hbls" asp-action="Index" asp-route-id=@Model.JobId>List HBL</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Phân quyền Job</a>
+                            <a class="nav-link" asp-controller="JobUser" asp-action="Index" asp-route-id=@Model.JobId>Phân quyền job</a>
                         </li>
                        
                     </ul>

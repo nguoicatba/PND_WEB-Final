@@ -1,0 +1,58 @@
+﻿@model PND_WEB.ViewModels.JobUserEditModel
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới người phụ trách", SubTitle = "Thêm người phụ trách" })
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Cập nhật người phụ trách</div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="Job_ID" value="@Model.Job_ID" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="UserName" class="control-label"></label>
+                            <select asp-for="UserName" class="form-control select2-not-tag" data-url="@Url.Action("GetUser", "JobUser")">
+                            </select>
+                            <span asp-validation-for="UserName" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col">
+                            <label asp-for="Description" class="control-label"></label>
+                            <input asp-for="Description" class="form-control" />
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+
+                     
+                    </div>
+
+                  
+
+
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary" />
+                    </div>
+
+
+                </form>
+            </div>
+        </div>
+
+        <div>
+            <a asp-action="Index" asp-route-id="@Model.Job_ID">Back to List</a>
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/components/SelectList.js"></script>
+}
