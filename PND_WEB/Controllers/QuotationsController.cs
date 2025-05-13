@@ -36,29 +36,6 @@ namespace PND_WEB.Controllers
             _viewEngine = viewEngine;
             _tempDataProvider = tempDataProvider;
         }
-        //test
-
-        //public IActionResult Exporttopdf2()
-        //{
-        //    var doc = new HtmlToPdfDocument()
-        //    {
-        //        GlobalSettings = {
-        //        PaperSize = PaperKind.A4,
-        //        Orientation = Orientation.Portrait
-        //    },
-        //        Objects = {
-        //        new ObjectSettings()
-        //        {
-        //            HtmlContent = "<h1>Hello from PDF!</h1><p>This is a PDF file.</p>"
-        //        }
-        //    }
-        //    };
-
-        //    var file = _converter.Convert(doc);
-        //    Response.Headers.Add("Content-Disposition", "inline; filename=test.pdf");
-        //    return File(file, "application/pdf");
-        //}
-
         // GET: Quotations
         public async Task<IActionResult> Index()
         {
@@ -469,28 +446,6 @@ namespace PND_WEB.Controllers
         }
 
 
-        //ExportPDF
-        public async Task<IActionResult> ExportPDFQuotations(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
-
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            return new ViewAsPdf("ExportPDFQuotations", viewModel);
-        }
-
-
-
-
         ///admin //////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
 
@@ -767,6 +722,8 @@ namespace PND_WEB.Controllers
         }
 
 
+
+        //fff
         private async Task<string> RenderViewToStringAsync(string viewName, object model)
         {
             var controllerContext = new ControllerContext()
@@ -803,7 +760,21 @@ namespace PND_WEB.Controllers
             return sw.ToString();
         }
 
-        //test2
+
+
+        private string ToBase64ImageJPG(string relativePath)
+        {
+            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath);
+
+            if (!System.IO.File.Exists(fullPath))
+                return "";
+
+            var bytes = System.IO.File.ReadAllBytes(fullPath);
+            var base64 = Convert.ToBase64String(bytes);
+            return $"data:image/jpeg;base64,{base64}";
+        }
+
+        //ExportPDF
         public async Task<IActionResult> ExportToPdf2(string id)
         {
             var quotation = await _context.Quotations

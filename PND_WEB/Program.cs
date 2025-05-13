@@ -71,7 +71,7 @@ namespace PND_WEB
             }
 
             var env = builder.Environment;
-            RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
+            //RotativaConfiguration.Setup(env.WebRootPath, "Rotativa");
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
