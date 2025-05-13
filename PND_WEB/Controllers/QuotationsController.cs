@@ -761,19 +761,6 @@ namespace PND_WEB.Controllers
         }
 
 
-
-        private string ToBase64ImageJPG(string relativePath)
-        {
-            var fullPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", relativePath);
-
-            if (!System.IO.File.Exists(fullPath))
-                return "";
-
-            var bytes = System.IO.File.ReadAllBytes(fullPath);
-            var base64 = Convert.ToBase64String(bytes);
-            return $"data:image/jpeg;base64,{base64}";
-        }
-
         //ExportPDF
         public async Task<IActionResult> ExportToPdf2(string id)
         {
