@@ -9,46 +9,41 @@
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
-        <!-- START card-->
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About Carrier: @Model.agent.Code</div>
             <div class="card-body">
-
-                            <dl class="row">
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.agent.AgentName) :
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.agent.AgentName) :
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.agent.AgentNamekd)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.agent.AgentNamekd)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.agent.AgentAdd)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.agent.AgentAdd)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.agent.Note)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.agent.Note)
-                                </dd>
-                            </dl>
-                                <div>
-                                    <a asp-action="Edit" asp-route-id="@Model.agent?.Code">Edit</a> |
-                                    <a asp-action="Index">Back to List</a>
-                                </div>
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.agent.AgentName) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.agent.AgentName) :
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.agent.AgentNamekd)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.agent.AgentNamekd)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.agent.AgentAdd)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.agent.AgentAdd)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.agent.Note)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.agent.Note)
+                    </dd>
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.agent?.Code" class="btn btn-success btn-xs">Edit</a>
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                </div>
               </div>
-                    
-
         </div>
-        <!-- END card-->
     </div>
 </div>
 

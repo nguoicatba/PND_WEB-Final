@@ -4,7 +4,7 @@
     ViewData["Title"] = "Chi tiết Cnee";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết Cnee", SubTitle = "" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết người nhận hàng", SubTitle = "Chi tiết người nhận hàng" })
 
 
 <div class="row">
@@ -64,8 +64,8 @@
                         </dd>
                     </dl>
                     <div>
-                        <a asp-action="Edit" asp-route-id="@Model.Cnee.Cnee">Edit</a> 
-                        <a asp-action="Index">Back to List</a>
+                    <a asp-action="Edit" asp-route-id="@Model.Cnee.Cnee" class="btn btn-success btn-xs">Edit</a>
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
                     </div>
                 </div>
         </div>
