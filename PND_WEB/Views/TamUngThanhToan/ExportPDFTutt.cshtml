@@ -43,25 +43,64 @@
         .bold {
             font-weight: bold;
         }
+
+        .left-right {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left {
+            width: 50%;
+            float: left;
+        }
+
+        .right {
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
+
+        .left3 {
+            width: 45%;
+            float: left;
+        }
+
+        .center3 {
+            width: 35%;
+            float: left;
+        }
+        .right3 {
+            width: 20%;
+            float: left;
+        }
     </style>
 </head>
 <body>
 
-    <table style="width: 100%; margin-bottom: 20px; border: #FFF">
-        <tr>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <img src="" alt="PND Logo" class="logo" />
-            </td>
-            <td style="width: 50%; vertical-align: top; border: #FFF">
-                <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-                <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
-                <p>TEL: __________________ EMAIL: __________________</p>
-                <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
-            </td>
-        </tr>
-    </table>
+    <div class="left-right">
+        <div class="left2">
+            <img src="https://localhost:7290/app/img/logo-pnd.png" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <p>ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+            <p>TEL: __________________ EMAIL: __________________</p>
+            <p>WEBSITE: <span style="color: green;">http://pnd-logistics.com</span></p>
+        </div>
+    </div>
 
-    <div class="center" style="text-align:center;">
+    <div style="text-align:center;">
         <h1>Tạm ứng thanh toán</h1>
         <div>Tạm ứng thanh toán No: @tutt.SoTutt</div>
     </div>
@@ -72,16 +111,15 @@
     <div class="center">
         Nội dung : @tutt.NoiDung
     </div>
-    <table style="border: #FFF">
-        <tr>
-            <td style="border: #FFF">
-                Ngày tạo : @tutt.Ngay?.ToString("dd/MM/yyyy")
-            </td>
-            <td style="border: #FFF">
-                Đến ngày : 
-            </td>
-        </tr>
-    </table>
+
+    <div class="left-right">
+        <div class="left">
+            Ngày tạo : @tutt.Ngay?.ToString("dd/MM/yyyy")
+        </div>
+        <div class="right">
+            Đến ngày :
+        </div>
+    </div>
 
     <div class="center">
         <table>
@@ -118,30 +156,18 @@
     <br />
     <br />
     <br />
-    <table style="border: #FFF">
-        <tr>
-            <th style="border: #FFF">
-                THỦ TRƯỜNG ĐƠN VỊ
-            </th>
-            <th style="border: #FFF">
-                KẾ TOÁN
-            </th>
-            <th style="border: #FFF">
-                NGƯỜI ĐỀ NGHỊ
-            </th>
-        </tr>
-        <tr>
-            <td style="border: #FFF">
 
-            </td>
-            <td style="border: #FFF">
-
-            </td>
-            <td style="border: #FFF">
-
-            </td>
-        </tr>
-    </table>
+    <div class="left-right">
+        <div class="left3">
+            THỦ TRƯỜNG ĐƠN VỊ
+        </div>
+        <div class="center3">
+            KẾ TOÁN
+        </div>
+        <div class="right3">
+            NGƯỜI ĐỀ NGHỊ
+        </div>
+    </div>
 
 </body>
 </html>
