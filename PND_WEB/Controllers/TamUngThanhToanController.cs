@@ -593,7 +593,7 @@ namespace PND_WEB.Controllers
 
 
         //ExportPDF
-        public async Task<IActionResult> ExportToPdf2(string id)
+        public async Task<IActionResult> ExportPDFTutt(string id)
         {
             var tutt = await _context.TblTutts
                                           .Include(q => q.TblTuttPhis)
