@@ -149,5 +149,43 @@ namespace PND_WEB.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
             return File(file, "application/pdf");
         }
+
+        public async Task<IActionResult> ExportPDFDO(string id)
+        {
+
+            //sửa dữ liệu
+            var debitnote = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (debitnote == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = debitnote,
+                QuotationsCharges = debitnote.QuotationsCharges.ToList()
+            };
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFDeliveryOrder", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
     }
 }

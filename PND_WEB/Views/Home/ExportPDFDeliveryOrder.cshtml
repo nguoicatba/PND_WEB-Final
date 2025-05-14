@@ -93,49 +93,50 @@
 
 
     <div style="text-align:center;">
-        <h1>DEBIT NOTE</h1>
-
-        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
-        <h3>   x   </h3> 
-        <div class="right">    x   </div>
+        <h1>LỆNH GIAO HÀNG</h1>
+        <h3>(DELIVERY ORDER)</h3>
+        <div class="right">Job No:    x   </div>
+        <br />
     </div>
     <br />
-
+    <div>
+        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+        Kính gửi : HẢI QUAN CẢNG      X
+    </div>
+    <br />
+    <div>
+        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+        Chúng tôi, CÔNG TY TNHH GIAO NHẬN VẬN TẢI PND trận trọng giao hàng cho:
+                    x
+    </div>
+    <br />
+    <div>
+        Nhận lô hàng với những chi tiết sau:
+    </div>
+    <br />
     <div class="left-right">
         <div class="left">
             
-            <div class="left">
-
-                @* chèn thêm các dữ liệu vô những chỗ có x  *@
-                <div><strong>Job No:</strong>    x  </div>
-                <br />
-                <div><strong>Consignee:</strong>   x   </div>
-                <br />
-                <div><strong>MBL:</strong>    x  </div>
-                <br />
-                <div><strong>HBL:</strong>    x  </div>
-                <br />
-                <div><strong>Vessel/Voy:</strong>    x  </div>
-                <br />
-                <div><strong>ETA:</strong>    x  </div>
-
-            </div>
+            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+            <div><strong>Vận đơn chính(MB/L No)</strong>    x  </div>
+            <br />
+            <div><strong>Tên tàu (Vessel):</strong>   x   </div>
+            <br />
+            <div><strong>Cảng xếp hàng (POL):</strong>    x  </div>
+            <br />
+            <div><strong>Ngày cập cảng (Arrive on):</strong>    x  </div>
 
         </div>
         <div class="right">
-
+            
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
-            <div><strong>Quantity:</strong>    x  </div>
+            <div><strong>Vận đơn phụ(HB/L No)</strong>    x  </div>
             <br />
-            <div><strong>G.W(KGS):</strong>   x   </div>
+            <div><strong>Tên chuyến (Voyage):</strong>   x   </div>
             <br />
-            <div><strong>G.W(CBM):</strong>    x  </div>
+            <div><strong>Cảng dỡ hàng (POD):</strong>    x  </div>
             <br />
-            <div><strong>POL:</strong>    x  </div>
-            <br />
-            <div><strong>POD:</strong>    x  </div>
-            <br />
-            <div><strong>PO.Delivery:</strong>    x  </div>
+            <div><strong>Địa điểm nhận hàng (P.O.Delivery):</strong>    x  </div>
         </div>
     </div>
 
@@ -144,16 +145,11 @@
         <table>
             <thead>
                 <tr>
-                    <th>No</th>
-                    <th>DESCRIPTION OF CHARGES</th>
-                    <th>COST</th>
-                    <th>CURRENCY</th>
-                    <th>CURRENCY EXCHANGE</th>
-                    <th>QUATITY</th>
-                    <th>UNIT</th>
-                    <th>VAR RATE (%)</th>
-                    <th>AMOUNT</th>
-                    <th>TOTAL AMOUNT(VND)</th>
+                    <th>Số container</th>
+                    <th>Số chì (Seal No)</th>
+                    <th>Số kiện (No. of Packages)</th>
+                    <th>Trọng lượng(KGS)</th>
+                    <th>Số khối (CBM)</th>
                 </tr>
             </thead>
             <tbody>
