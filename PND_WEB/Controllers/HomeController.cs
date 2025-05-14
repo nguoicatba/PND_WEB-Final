@@ -1,9 +1,13 @@
 ﻿using System.Diagnostics;
+using DinkToPdf;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 using PND_WEB.Data;
 using PND_WEB.Models;
+using PND_WEB.Services;
+using PND_WEB.ViewModels;
 
 
 namespace PND_WEB.Controllers
@@ -14,10 +18,17 @@ namespace PND_WEB.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
 
-        public HomeController(ILogger<HomeController> logger,DataContext context )
+        //pdf
+
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IConverter _converter;
+
+        public HomeController(ILogger<HomeController> logger,DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
             _logger = logger;
             _context = context;
+            _converter = converter;
+            _viewRenderService = viewRenderService;
         }
 
        
@@ -79,8 +90,6 @@ namespace PND_WEB.Controllers
         
 
 
-       
-
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error(int statuscode)
@@ -97,5 +106,48 @@ namespace PND_WEB.Controllers
                 return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+
+
+
+
+        //fff
+        //ExportPDF
+        public async Task<IActionResult> ExportPDFDN(string id)
+        {
+
+            //sửa dữ liệu
+            var debitnote = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (debitnote == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = debitnote,
+                QuotationsCharges = debitnote.QuotationsCharges.ToList()
+            };
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFDebitNote", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
     }
 }

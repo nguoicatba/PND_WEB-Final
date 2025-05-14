@@ -1,5 +1,21 @@
-﻿@{
+﻿
+
+@* test *@
+@model PND_WEB.ViewModels.TuttViewModel
+
+
+
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
+
+
+
 @await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "" })
+
+
+<a asp-action="ExportPDFDN" asp-route-id="QTN202505001" class="btn btn-info btn-xs" target="_blank">
+    <i class="fa fa-print"></i>
+</a>
