@@ -41,14 +41,11 @@
                 </dl>
 
                 <div>
-                    <a asp-action="Edit" asp-route-id="@Model.carrier?.Code">Edit</a> |
-                    <a asp-action="Index">Back to List</a>
+                    <a asp-action="Edit" asp-route-id="@Model.carrier?.Code" class="btn btn-success btn-xs">Edit</a>
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
                 </div>
             </div>
-
-
         </div>
-        <!-- END card-->
     </div>
 </div>
 
@@ -78,8 +75,6 @@
                     <th>
                         @Html.DisplayNameFor(model => model.carrierActions[0].Note)
                     </th>
-
-
                 </tr>
             </thead>
             <tbody>
@@ -93,33 +88,24 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.Id)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.PersonInCharge)
-
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.PhoneNumber)
                         </td>
-
                         <td>
                             @Html.DisplayFor(modelItem => item.Email)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.LccFee)
                         </td>
-
-
                         <td>
                             @Html.DisplayFor(modelItem => item.Note)
                         </td>
-
                     </tr>
                 }
             </tbody>
         </table>
-
-
     </div>
 </div>

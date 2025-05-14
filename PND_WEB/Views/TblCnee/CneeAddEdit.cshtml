@@ -3,13 +3,13 @@
     ViewData["Title"] = "Edit";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa", SubTitle = "Chỉnh sửa" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa thông tin thêm người nhận hàng", SubTitle = "Chỉnh sửa thông tin thêm người nhận hàng" })
 
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Chỉnh sửa cnee</div>
+            <div class="card-header">EDIT CNEE ADD</div>
             <div class="card-body">
                 <form asp-action="CneeAddEdit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -19,6 +19,11 @@
                             <label asp-for="CneeAdd.Cnee" class="control-label"></label>
                             <input asp-for="CneeAdd.Cnee" class="form-control" value=@Model.id readonly="readonly" />
                             <span asp-validation-for="CneeAdd.Cnee" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="CneeAdd.Adds" class="control-label"></label>
+                            <input asp-for="CneeAdd.Adds" class="form-control" />
+                            <span asp-validation-for="CneeAdd.Adds" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="CneeAdd.Place" class="control-label"></label>
@@ -32,13 +37,11 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="CneeAddEdit" class="btn btn-primary" />
+                        <input type="submit" value="Edit" class="btn btn-success btn-xs" />
+                        <a asp-action="Details" asp-route-id="@Model.id" class="btn btn-info btn-xs">Back to List</a>
                     </div>
                 </form>
             </div>
-        </div>
-        <div>
-            <a asp-action="Index">Back to List</a>
         </div>
     </div>
 </div>

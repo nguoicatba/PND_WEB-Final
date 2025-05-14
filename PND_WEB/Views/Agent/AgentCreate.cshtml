@@ -4,17 +4,16 @@
     ViewData["Title"] = "Create";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới", SubTitle = "Thêm mới" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin thêm của đại lý", SubTitle = "Thêm thông tin thêm của đại lý" })
 
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Tạo khách hàng</div>
+            <div class="card-header">CREATE AGENT ACTION</div>
             <div class="card-body">
                 <form asp-action="AgentCreate">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="agentAction.Code" class="control-label"></label>
@@ -34,7 +33,6 @@
                             <span asp-validation-for="agentAction.PhoneNumber" class="text-danger"></span>
                         </div>
                     </div>
-
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="agentAction.Email" class="control-label"></label>
@@ -47,22 +45,13 @@
                             <span asp-validation-for="agentAction.Note" class="text-danger"></span>
                         </div>
                     </div>
-
-                   
-
                     <div class="form-group">
-                        <input type="submit" value="AgentCreate" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
+                        <a asp-action="Details" asp-route-id="@Model.id" class="btn btn-info btn-xs">Back to List</a>
                     </div>
-
-
                 </form>
             </div>
         </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-        <!-- END card-->
     </div>
 </div>
 

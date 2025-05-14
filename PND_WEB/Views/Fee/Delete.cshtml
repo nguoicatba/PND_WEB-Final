@@ -37,14 +37,13 @@
                         @Html.DisplayFor(model => model.Note)
                     </dd>
                 </dl>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="Code" />
+                    <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                </form>
             </div>
         </div>
     </div>
 </div>
-
-<form asp-action="Delete">
-    <input type="hidden" asp-for="Code" />
-    <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
-    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
-</form>
 

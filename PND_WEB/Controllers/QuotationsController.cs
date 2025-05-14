@@ -713,7 +713,7 @@ namespace PND_WEB.Controllers
 
         //fff
         //ExportPDF
-        public async Task<IActionResult> ExportToPdf2(string id)
+        public async Task<IActionResult> ExportPDFQuotation(string id)
         {
             var quotation = await _context.Quotations
                                           .Include(q => q.QuotationsCharges)
