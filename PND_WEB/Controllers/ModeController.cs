@@ -66,14 +66,14 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Mode/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string modeid)
         {
-            if (id == null)
+            if (modeid == null)
             {
                 return NotFound();
             }
 
-            var mode = await _context.Modes.FindAsync(id);
+            var mode = await _context.Modes.FindAsync(modeid);
             if (mode == null)
             {
                 return NotFound();
@@ -86,9 +86,9 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Code,Note")] Mode mode)
+        public async Task<IActionResult> Edit(string modeid, [Bind("Code,Note")] Mode mode)
         {
-            if (id != mode.Code)
+            if (modeid != mode.Code)
             {
                 return NotFound();
             }
@@ -117,15 +117,15 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Mode/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string modeid)
         {
-            if (id == null)
+            if (modeid == null)
             {
                 return NotFound();
             }
 
             var mode = await _context.Modes
-                .FirstOrDefaultAsync(m => m.Code == id);
+                .FirstOrDefaultAsync(m => m.Code == modeid);
             if (mode == null)
             {
                 return NotFound();
@@ -137,9 +137,9 @@ namespace PND_WEB.Controllers
         // POST: Mode/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed(string modeid)
         {
-            var mode = await _context.Modes.FindAsync(id);
+            var mode = await _context.Modes.FindAsync(modeid);
             if (mode != null)
             {
                 _context.Modes.Remove(mode);
@@ -149,9 +149,9 @@ namespace PND_WEB.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ModeExists(string id)
+        private bool ModeExists(string modeid)
         {
-            return _context.Modes.Any(e => e.Code == id);
+            return _context.Modes.Any(e => e.Code == modeid);
         }
     }
 }

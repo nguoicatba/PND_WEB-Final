@@ -5,9 +5,23 @@ hôm nay:
 -sinh mã cho buy invoice:ok
 
 12/5:
-tạo trang 403: forbidResult
-phân quyền job
-chỉnh sửa tý giao diện quyền
+tạo trang 403: forbidResult :ok
+phân quyền job:  ok
+chỉnh sửa tý giao diện quyền:ok
+
+
+14/5:
+chỉnh sửa lại phần mode cho job
+thêm card phần chứng từ: đưa hưng cao
+sửa lại tính năng mode:
+export pdf:
+export pdf:
+
+Nghiên cứu cách thức job
+tạo thông báo
+tạo trang chủ
+
+
 
 ??:
 Nghiên cứu thống kê

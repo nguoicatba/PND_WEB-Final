@@ -5,7 +5,7 @@
 }
 
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách", SubTitle = "Danh sách chứa các thông tin liên quan" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Mode", SubTitle = "Danh sách chứa các thông tin liên quan" })
 
 
 <div class="card">
@@ -22,8 +22,7 @@
                         @Html.DisplayNameFor(model => model.Note)
                     </th>
 
-                    @* <th class="sort-numeric">Engine version</th> *@
-                    @* <th class="sort-alpha" data-priority="2">CSS grade</th> *@
+             
                 </tr>
             </thead>
             <tbody>
@@ -31,9 +30,9 @@
                 {
                     <tr>
                         <td>
-                            <a asp-action="Edit" asp-route-id="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            @* <a asp-action="Details" asp-route-id="@item.Code">Details</a> *@
-                            <a asp-action="Delete" asp-route-id="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            <a asp-action="Edit" asp-route-modeid="@item.Code" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                 
+                            <a asp-action="Delete" asp-route-modeid="@item.Code" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Code)
