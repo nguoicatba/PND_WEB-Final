@@ -75,39 +75,51 @@
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">Charge List:</div>
     <div class="card-body">
+
         <p>
-            <a asp-action="CreateCharge" asp-route-id="@Model.Invoice.DebitId" class="btn btn-primary btn-xs">Create New</a>
-        </p>
-        <p>
+
             <button id="save" class="btn btn-primary btn-xs">Save data</button>
+
+
         </p>
+
+
 
         <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
             <thead class="">
                 <tr>
                     <th class="col-1"> <button class="btn btn-success btn-xs" id="add_row"><i class="fa fa-plus-square-o"></i></button></th>
-                    <th data-priority="1">@Html.DisplayNameFor(model => model._Charges[0].SerName)</th>
-                    <th data-priority="2">@Html.DisplayNameFor(model => model._Charges[0].SerUnit)</th>
-                    <th data-priority="3">@Html.DisplayNameFor(model => model._Charges[0].SerQuantity)</th>
-                    <th data-priority="4">@Html.DisplayNameFor(model => model._Charges[0].SerPrice)</th>
-                    <th data-priority="5">@Html.DisplayNameFor(model => model._Charges[0].Currency)</th>
-                    <th data-priority="6">@Html.DisplayNameFor(model => model._Charges[0].ExchangeRate)</th>
-                    <th data-priority="7">@Html.DisplayNameFor(model => model._Charges[0].SerVat)</th>
-                    <th data-priority="8">@Html.DisplayNameFor(model => model._Charges[0].MVat)</th>
-                    <th data-priority="9">@Html.DisplayNameFor(model => model._Charges[0].Checked)</th>
-                    <th data-priority="10">Amount</th>
-            
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerName)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerUnit)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerQuantity)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerPrice)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].Currency)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].ExchangeRate)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerVat)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].MVat)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].Checked)</th>
+                    <th>Amount</th>
+
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model._Charges)
                 {
-                    <tr>
-                        <td>
-                            <button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>
+                    <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
 
-                            <button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>
-                        </td>
+                        @if (item.Checked == false || item.Checked == null){
+                            <td>
+                                <button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>
+
+                                <button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+
+                            </td>
+                        }
 
                         <td>@item.SerName</td>
                         <td>@item.SerUnit</td>
@@ -366,6 +378,10 @@
             });
             // edit row and setting like add row
             $('#kientable tbody').on('click', '#edit_value', function () {
+                
+
+
+
                 var row = $(this).closest('tr');
                 var name_fee = row.find('td').eq(1).text().trim();
                 var unit = row.find('td').eq(2).text().trim();
@@ -376,11 +392,21 @@
                 var vat = row.find('td').eq(7).text().trim();
                 var mvat = row.find('td').eq(8).text().trim();
                 var checked = row.find('td').eq(9).text().trim();
-                row.find('td').eq(1).html('<select class="form-control select-fee" data-url="' + url_fee + '"></select>');
+                // select fee with option selected name_fee in eq(1)
+
+                
+                row.find('td').eq(1).html(
+                    '<select class="form-control select-fee" data-url="' + url_fee + '">'+
+                    '<option value="'+name_fee+'" selected="selected">'+name_fee+'</option>' +
+                    '</select>');
                 row.find('td').eq(2).html('<input type="text" class="form-control" value="' + unit + '">');
                 row.find('td').eq(3).html('<input type="text" class="form-control" value="' + quantity + '">');
                 row.find('td').eq(4).html('<input type="text" class="form-control" value="' + price + '">');
-                row.find('td').eq(5).html('<select class="form-control select2-currency" data-url="' + url_currency + '"></select>');
+                row.find('td').eq(5).html(
+                    '<select class="form-control select2-currency" data-url="' + url_currency + '">'+
+                    '<option value="'+currency+'" selected="selected">'+currency+'</option>' +
+                    '</select>');
+              
                 row.find('td').eq(6).html('<input type="text" class="form-control" value="' + exchange_rate + '">');
                 row.find('td').eq(7).html('<input type="text" class="form-control" value="' + vat + '">');
                 row.find('td').eq(8).html('<input type="text" class="form-control" value="' + mvat + '">');
@@ -511,8 +537,7 @@
                         }
 
                 // show option selected in select
-                console.log(name_fee);
-                console.log(currency);
+              
                 $(row).find('.select-fee').val(name_fee).trigger('change');
                 $(row).find('.select2-currency').val(currency).trigger('change');
                 
@@ -521,11 +546,39 @@
                 );
                             
             });
+            // save edit
+            $('#kientable tbody').on('click', '#save_value_edit', function () {
+                var row = $(this).closest('tr');
+                var name_fee = row.find('td').eq(1).find('select').val();
+                var unit = row.find('td').eq(2).find('input').val();
+                var quantity = row.find('td').eq(3).find('input').val();
+                var price = row.find('td').eq(4).find('input').val();
+                var currency = row.find('td').eq(5).find('select').val();
+                var exchange_rate = row.find('td').eq(6).find('input').val();
+                var vat = row.find('td').eq(7).find('input').val();
+                var mvat = row.find('td').eq(8).find('input').val();
+                var checked = row.find('td').eq(9).find('input').is(':checked') ? 1 : 0;
+                var amount = (price || 0) * (quantity || 0) * (exchange_rate || 1) * (1 + (vat || 0) / 100) + (mvat || 0);
 
-         
-
-           
-
+                if (name_fee) {
+                    table.row(row).data([
+                        '<button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>' + ' '+
+                        '<button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>',
+                        name_fee,
+                        unit,
+                        quantity,
+                        price,
+                        currency,
+                        exchange_rate,
+                        vat,
+                        mvat,
+                        checked,
+                        amount
+                    ]).draw();
+                } else {
+                    alert('Đừng để trống fee');
+                }
+            });
 
 
             // save data
@@ -544,7 +597,7 @@
                         ExchangeRate: parseFloat(row[6]),
                         SerVat: parseFloat(row[7]),
                         MVat: parseFloat(row[8]),
-                        Checked: row[9] === "true" || row[9] === true || row[9] === "1"
+                        Checked: false
                     };
                 });
                 console.log(dataToSend);
@@ -573,8 +626,7 @@
 
                
             });
-    
-          
+
 
         });
       

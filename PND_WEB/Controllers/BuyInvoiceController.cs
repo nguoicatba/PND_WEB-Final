@@ -423,7 +423,8 @@ namespace PND_WEB.Controllers
                     Currency = item.Currency,
                     ExchangeRate = item.ExchangeRate,
                     SerVat = item.SerVat,
-                    MVat = item.MVat
+                    MVat = item.MVat,
+                    Checked = item.Checked
                 };
                 _context.TblCharges.Add(charge);
             }
@@ -437,5 +438,8 @@ namespace PND_WEB.Controllers
 
 
         }
+
+       
+
     }
 }
