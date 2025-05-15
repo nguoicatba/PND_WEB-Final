@@ -3,8 +3,6 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-
 @await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Mode", SubTitle = "Danh sách chứa các thông tin liên quan" })
 
 
@@ -21,8 +19,6 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Note)
                     </th>
-
-             
                 </tr>
             </thead>
             <tbody>
@@ -42,7 +38,6 @@
                         </td>
                     </tr>
                 }
-
             </tbody>
         </table>
     </div>
