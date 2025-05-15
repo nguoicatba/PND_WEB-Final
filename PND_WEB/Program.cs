@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
-using Rotativa.AspNetCore;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using System.IO;

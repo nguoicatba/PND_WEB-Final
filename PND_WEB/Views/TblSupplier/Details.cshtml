@@ -9,7 +9,6 @@
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
-        <!-- START card-->
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About Carrier: @Model.supplier.SupplierId</div>
             <div class="card-body">
@@ -46,8 +45,8 @@
                     </dd>
                 </dl>
                 <div>
-                    <a asp-action="Edit" asp-route-id="@Model.supplier?.SupplierId">Edit</a> |
-                    <a asp-action="Index">Back to List</a>
+                    <a asp-action="Edit" asp-route-id="@Model.supplier?.SupplierId" class="btn btn-success btn-xs">Edit</a>
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
                 </div>
             </div>
         </div>

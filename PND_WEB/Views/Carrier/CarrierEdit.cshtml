@@ -4,13 +4,13 @@
     ViewData["Title"] = "Edit";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa", SubTitle = "Chỉnh sửa" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa thông tin thêm của hãng tàu", SubTitle = "Chỉnh sửa thông tin thêm của hãng tàu" })
 
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Chỉnh sửa carrier</div>
+            <div class="card-header">EDIT CARRIER ACTION</div>
             <div class="card-body">
                 <form asp-action="CarrierEdit" asp-route-id=@Model.carrierAction.Id>
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -53,22 +53,13 @@
                         </div>
                     </div>
 
-
-
-
                     <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" />
+                        <a asp-action="Details" asp-route-id=@Model.id class="btn btn-info btn-xs">Back to List</a>
                     </div>
-
-
                 </form>
             </div>
         </div>
-
-        <div>
-            <a asp-action="Details" asp-route-id=@Model.id>Back to List</a>
-        </div>
-        <!-- END card-->
     </div>
 </div>
 

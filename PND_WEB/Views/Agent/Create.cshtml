@@ -4,47 +4,53 @@
     ViewData["Title"] = "Create";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới thông tin đại lý", SubTitle = "Thêm mới thông tin đại lý" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin đại lý", SubTitle = "Thêm thông tin đại lý" })
 
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Code" class="control-label"></label>
-                <input asp-for="Code" class="form-control" />
-                <span asp-validation-for="Code" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">CREATE AGENT</div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label asp-for="Code" class="control-label"></label>
+                            <input asp-for="Code" class="form-control" />
+                            <span asp-validation-for="Code" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="AgentName" class="control-label"></label>
+                            <input asp-for="AgentName" class="form-control" />
+                            <span asp-validation-for="AgentName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="AgentNamekd" class="control-label"></label>
+                            <input asp-for="AgentNamekd" class="form-control" />
+                            <span asp-validation-for="AgentNamekd" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="AgentAdd" class="control-label"></label>
+                        <input asp-for="AgentAdd" class="form-control" />
+                        <span asp-validation-for="AgentAdd" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Note" class="control-label"></label>
+                        <input asp-for="Note" class="form-control" />
+                        <span asp-validation-for="Note" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="AgentName" class="control-label"></label>
-                <input asp-for="AgentName" class="form-control" />
-                <span asp-validation-for="AgentName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AgentNamekd" class="control-label"></label>
-                <input asp-for="AgentNamekd" class="form-control" />
-                <span asp-validation-for="AgentNamekd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="AgentAdd" class="control-label"></label>
-                <input asp-for="AgentAdd" class="form-control" />
-                <span asp-validation-for="AgentAdd" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Note" class="control-label"></label>
-                <input asp-for="Note" class="form-control" />
-                <span asp-validation-for="Note" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

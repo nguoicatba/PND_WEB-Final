@@ -3,50 +3,54 @@
 @{
     ViewData["Title"] = "Create";
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin người vận chuyển", SubTitle = "Thêm thông tin người vận chuyển" })
 
-<h1>Create</h1>
-
-<h4>TblShipper</h4>
-<hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Shipper" class="control-label"></label>
-                <input asp-for="Shipper" class="form-control" />
-                <span asp-validation-for="Shipper" class="text-danger"></span>
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">CREATE SHIPPER</div>
+            <div class="card-body">
+                <form asp-action="Create">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="row">
+                        <div class="form-group col-4">
+                            <label asp-for="Shipper" class="control-label"></label>
+                            <input asp-for="Shipper" class="form-control" />
+                            <span asp-validation-for="Shipper" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Saddress" class="control-label"></label>
+                            <input asp-for="Saddress" class="form-control" />
+                            <span asp-validation-for="Saddress" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Scity" class="control-label"></label>
+                            <input asp-for="Scity" class="form-control" />
+                            <span asp-validation-for="Scity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label asp-for="SpersonInCharge" class="control-label"></label>
+                            <input asp-for="SpersonInCharge" class="form-control" />
+                            <span asp-validation-for="SpersonInCharge" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="TaxId" class="control-label"></label>
+                            <input asp-for="TaxId" class="form-control" />
+                            <span asp-validation-for="TaxId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Saddress" class="control-label"></label>
-                <input asp-for="Saddress" class="form-control" />
-                <span asp-validation-for="Saddress" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Scity" class="control-label"></label>
-                <input asp-for="Scity" class="form-control" />
-                <span asp-validation-for="Scity" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SpersonInCharge" class="control-label"></label>
-                <input asp-for="SpersonInCharge" class="form-control" />
-                <span asp-validation-for="SpersonInCharge" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="TaxId" class="control-label"></label>
-                <input asp-for="TaxId" class="form-control" />
-                <span asp-validation-for="TaxId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 
 
