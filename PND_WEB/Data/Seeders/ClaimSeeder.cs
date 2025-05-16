@@ -23,7 +23,7 @@ namespace PND_WEB.Data.Seeders
 
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "DeleteCharges", Description = "Tạo phi báo giá mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "CreateCharges", Description = "Chỉnh sửa phí báo giá" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "EditCharges", Description = "Xóa phí báo giá" }
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "EditCharges", Description = "Xóa phí báo giá" },
 
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Index", Description = "Xem báo giá" },
 

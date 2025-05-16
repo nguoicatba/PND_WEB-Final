@@ -61,13 +61,53 @@ namespace PND_WEB.Controllers
             return View(checkDebitVMs);
         }
 
-        //public async Task<bool> CheckSupplier(string id)
-        //{
-        //    if (string.IsNullOrEmpty(id))
-        //        return false;
+        [HttpGet]
+        public async Task<IActionResult> InvoiceDetail(string id)
+        {
+            var invoice = await _context.TblInvoices
+                .Where(invoice => invoice.DebitId == id)
+                .Select(invoice => new InvoiceChargeViewModel
+                {
+                    HBL_ID = invoice.Hbl,
+                    Invoice = invoice,
+                    _Charges = _context.TblCharges.Where(charge => charge.DebitId == invoice.DebitId).ToList(),
+                    TotalAmount = _context.TblCharges
+                        .Where(charge => charge.DebitId == invoice.DebitId)
+                        .Sum(charge => (charge.SerPrice ?? 0) * (charge.SerQuantity ?? 0) * (charge.ExchangeRate ?? 1) * (1 + (charge.SerVat ?? 0) / 100) + (charge.MVat ?? 0))
 
-        //    return await _context.TblSuppliers.AnyAsync(s => s.SupplierId == id);
-        //}
+                }).FirstOrDefaultAsync();
+            return View(invoice);
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<JsonResult> SaveData([FromBody] List<TblCharge> charges)
+        {
+            if (charges == null || charges.Count == 0)
+            {
+                return Json(new { success = false, message = "No data to save." });
+            }
+            foreach (var charge in charges)
+            {
+                var existingCharge = await _context.TblCharges.FindAsync(charge.Id);
+                if (existingCharge != null)
+                {
+                    existingCharge.SerName = charge.SerName;
+                    existingCharge.SerUnit = charge.SerUnit;
+                    existingCharge.SerQuantity = charge.SerQuantity;
+                    existingCharge.SerPrice = charge.SerPrice;
+                    existingCharge.Currency = charge.Currency;
+                    existingCharge.ExchangeRate = charge.ExchangeRate;
+                    existingCharge.SerVat = charge.SerVat;
+                    existingCharge.MVat = charge.MVat;
+                    existingCharge.Checked = charge.Checked;
+                    _context.TblCharges.Update(existingCharge);
+                }
+            }
+            await _context.SaveChangesAsync();
+            return Json(new { success = true, message = "Data saved successfully." });
+        }
+
+
 
     }
 }

@@ -194,7 +194,7 @@
                     '<input type="text" class="form-control" />',
                     '<input type="text" class="form-control" />',
                     '<input type="text" class="form-control" />',
-                    '<input type="checkbox" />',
+                    '',
                     '0'
                 ]).draw().node();
 
@@ -410,7 +410,7 @@
                 row.find('td').eq(6).html('<input type="text" class="form-control" value="' + exchange_rate + '">');
                 row.find('td').eq(7).html('<input type="text" class="form-control" value="' + vat + '">');
                 row.find('td').eq(8).html('<input type="text" class="form-control" value="' + mvat + '">');
-                row.find('td').eq(9).html('<input type="checkbox"' + (checked == 1 ? ' checked' : '') + '/>');
+                row.find('td').eq(9).html('');
                 // set fee
                 $(row).find('.select-fee').select2({
                     ajax: {
@@ -597,7 +597,8 @@
                         ExchangeRate: parseFloat(row[6]),
                         SerVat: parseFloat(row[7]),
                         MVat: parseFloat(row[8]),
-                        Checked: false
+                        Checked: row[9] =='True'? true: false
+                      
                     };
                 });
                 console.log(dataToSend);

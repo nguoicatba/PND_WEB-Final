@@ -1,0 +1,223 @@
+﻿@model PND_WEB.ViewModels.InvoiceChargeViewModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About Buy Invoice: @Model.Invoice.DebitId</div>
+            <div class="card-body">
+
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.DebitId) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.DebitId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.SupplierId) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.SupplierId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.DebitDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.DebitDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceNo) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceNo)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.InvoiceType) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.InvoiceType)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.Invoice.PaymentDate) :
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Invoice.PaymentDate)
+                    </dd>
+
+                </dl>
+                <div>
+                    <a asp-action="Edit" asp-route-id="@Model.Invoice.DebitId">Edit</a> |
+                    <a asp-action="Index" asp-route-id="@Model.HBL_ID">Back to List</a>
+                </div>
+            </div>
+
+
+        </div>
+        <!-- END card-->
+    </div>
+</div>
+
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">Charge List:</div>
+    <div class="card-body">
+
+        <p>
+
+            <button id="save" class="btn btn-primary btn-xs">Save data</button>
+
+
+        </p>
+
+
+
+        <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
+            <thead class="">
+                <tr>
+                    <th class="col-1"> 
+
+                        <input type="checkbox" id="checkAll" />
+                    </th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerName)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerUnit)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerQuantity)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerPrice)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].Currency)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].ExchangeRate)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].SerVat)</th>
+                    <th>@Html.DisplayNameFor(model => model._Charges[0].MVat)</th>
+                 
+                    <th>Amount</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model._Charges)
+                {
+                    <tr data-id="@item.Id">
+
+
+                        <td><input type="checkbox" name="checked" @(item.Checked == true ? "checked" : "") /></td>
+                        <td>@item.SerName</td>
+                        <td>@item.SerUnit</td>
+                        <td>@item.SerQuantity</td>
+                        <td>@item.SerPrice</td>
+                        <td>@item.Currency</td>
+                        <td>@item.ExchangeRate</td>
+                        <td>@item.SerVat</td>
+                        <td>@item.MVat</td>
+                    
+                        <td>@Model.Amount(@item)</td>
+
+                    </tr>
+                }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="9" class="text-right">Total:</td>
+                    <td>@Model.TotalAmount</td>
+                </tr>
+            </tfoot>
+        </table>
+
+
+    </div>
+</div>
+@Html.AntiForgeryToken();
+
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+            $('#kientable').DataTable({
+                "order": [[0, "asc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": [0] }
+                ]
+            });
+        });
+        $('#checkAll').click(function () {
+            $('input[name="checked"]').prop('checked', this.checked);
+        });
+      
+        // save data with ajax
+        $('#save').click(function () {
+            var checkedValues = [];
+            $('input[name="checked"]').each(function () {
+               let row = $(this).closest('tr');
+               let id = row.data('id');
+               let checked = $(this).is(':checked');
+                let feename = row.find('td:nth-child(2)').text();
+                let unit = row.find('td:nth-child(3)').text();
+                let quantity = row.find('td:nth-child(4)').text();
+                let price = row.find('td:nth-child(5)').text();
+                let currency = row.find('td:nth-child(6)').text();
+                let exchangeRate = row.find('td:nth-child(7)').text();
+                let vat = row.find('td:nth-child(8)').text();
+                let mvat = row.find('td:nth-child(9)').text();
+                // Convert values to appropriate types if necessary
+                quantity = parseFloat(quantity);
+                price = parseFloat(price);
+                exchangeRate = parseFloat(exchangeRate);
+                vat = parseFloat(vat);
+                mvat = parseFloat(mvat);
+                // Create an object with the data
+              
+                
+                let data = {
+                        Id: id,
+                        DebitId: '@Model.Invoice.DebitId',
+                        SerName: feename,
+                        SerUnit: unit,
+                        SerQuantity: quantity,
+                        SerPrice: price,
+                        Currency: currency,
+                        ExchangeRate: exchangeRate,
+                        SerVat: vat,
+                        MVat: mvat,
+                        Checked: checked,
+                };
+                checkedValues.push(data);
+            });
+            console.log(checkedValues);
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("SaveData", "CheckInvoice")',
+                data: JSON.stringify(checkedValues),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                 headers: {
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+                },
+                
+                success: function (response) {
+                    // Handle success response
+                    console.log(response);
+
+                    alert(response.message);
+                    location.reload();
+                },
+                error: function (xhr, status, error) {
+                    // Handle error response
+                    console.error(xhr.responseText);
+                    alert(response.message);
+                }
+            });
+        });
+    </script>
+}
