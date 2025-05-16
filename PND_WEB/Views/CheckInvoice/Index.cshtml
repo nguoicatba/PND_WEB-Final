@@ -1,0 +1,96 @@
+﻿@model IEnumerable<PND_WEB.Models.TblJob>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách job", SubTitle = "Danh sách job" })
+
+
+
+<div class="card">
+    <div class="card-body">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+     
+
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="">
+                <tr>
+                   
+                    <th data-priority="1">
+                        @Html.DisplayNameFor(model => model.JobId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.GoodsType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Mbl)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Etd)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Eta)
+                    </th>
+                    <th>
+                        Agent
+                    </th>
+                    <th>
+                        Carrier
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.YunLock)
+                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                      
+
+                        <td>
+                            <a asp-action="InvoiceIndex" asp-route-id="@item.JobId"> @Html.DisplayFor(modelItem => item.JobId) </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.GoodsType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Mbl)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Etd)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Eta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.AgentNavigation.AgentName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CarrierNavigation.CarrierName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.YunLock)
+                        </td>
+
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+
+

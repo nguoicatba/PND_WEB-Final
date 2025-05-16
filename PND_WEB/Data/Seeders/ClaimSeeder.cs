@@ -20,9 +20,44 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Create", Description = "Tạo báo giá mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Edit", Description = "Chỉnh sửa báo giá" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Delete", Description = "Xóa báo giá" },
+
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "DeleteCharges", Description = "Tạo phi báo giá mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "CreateCharges", Description = "Chỉnh sửa phí báo giá" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "EditCharges", Description = "Xóa phí báo giá" }
+
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Index", Description = "Xem báo giá" },
+
+
+                    // HBL
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Create", Description = "Tạo HBL mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Edit", Description = "Chỉnh sửa HBL" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Edit", Description = "Xóa sửa HBL" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Index", Description = "Xem HBL" },
+
+                    // Container
+
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Create", Description = "Tạo Container mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Edit", Description = "Chỉnh sửa Container" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Edit", Description = "Xóa sửa Container" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Index", Description = "Xem Container" },
+
+                    //Buy Invoice
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Create", Description = "Tạo hóa đơn mua hàng mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Edit", Description = "Chỉnh sửa hóa đơn mua hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Delete", Description = "Xóa hóa đơn mua hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Index", Description = "Xem hóa đơn mua hàng" },
+
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Details", Description = "Xem hóa đơn mua hàng" },
+
+
+                   //Charge Invoice Manager
+                   new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Manager Charge", Description = "Cập nhật phí hóa đơn" },
+                      // Check Invoice
+                   new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Check", Description = "Duyệt thông tin đơn" }
+
+
+
+
 
 
                     );

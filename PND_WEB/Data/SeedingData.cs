@@ -12,6 +12,9 @@ namespace PND_WEB.Data
         public static async Task SeedData(DataContext _context, RoleManager<IdentityRole> roleManager)
         {
             await _context.Database.MigrateAsync();
+
+
+
             // Claims
             await ClaimSeeder.SeedAsync(_context);
 

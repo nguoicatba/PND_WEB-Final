@@ -1,0 +1,82 @@
+﻿@model IEnumerable<PND_WEB.ViewModels.CheckDebitVM>
+
+
+<div class="card">
+    <div class="card-body">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+
+
+        <table class="table table-striped my-4 w-100" id="datatable1">
+            <thead class="">
+                <tr>
+                
+
+                    <td>
+                        @Html.DisplayNameFor(model => model.DebitId)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.InvoiceType)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.SupplierName)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.DebitDate)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.PaymentDate)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.InvoiceNo)
+                    </td>
+                    <td>
+                        @Html.DisplayNameFor(model => model.InvoiceDate)
+                    </td>
+                  
+                    <td>
+                        @Html.DisplayNameFor(model => model.Hbl)
+                    </td>
+
+                  
+
+                    
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="InvoiceDetails" asp-route-id="@item.DebitId"> @Html.DisplayFor(modelItem => item.DebitId) </a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvoiceType)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.SupplierName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DebitDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaymentDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvoiceNo)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.InvoiceDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Hbl)
+                        </td>
+
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
