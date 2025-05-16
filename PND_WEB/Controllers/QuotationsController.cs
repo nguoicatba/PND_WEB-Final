@@ -130,6 +130,8 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
+
+        [ClaimAuthorize("Quotation", "Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -185,7 +187,7 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
-
+        [ClaimAuthorize("Quotation", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -236,7 +238,7 @@ namespace PND_WEB.Controllers
 
 
         //QuotationCharges
-
+        [ClaimAuthorize("Quotation", "CreateCharges")]
         public IActionResult CreateCharges(string id)
         {
             var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
@@ -270,6 +272,7 @@ namespace PND_WEB.Controllers
             return View(quotationsCharge);
         }
 
+        [ClaimAuthorize("Quotation", "EditCharges")]
         public IActionResult EditCharges(int id)
         {
             var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
@@ -318,6 +321,7 @@ namespace PND_WEB.Controllers
             return View("Edit", quotationsCharge);
         }
 
+        [ClaimAuthorize("Quotation", "DeleteCharges")]
         public async Task<IActionResult> DeleteCharges(int? id)
         {
             if (id == null)

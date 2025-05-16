@@ -20,6 +20,11 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Create", Description = "Tạo báo giá mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Edit", Description = "Chỉnh sửa báo giá" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Delete", Description = "Xóa báo giá" },
+
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "DeleteCharges", Description = "Tạo phi báo giá mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "CreateCharges", Description = "Chỉnh sửa phí báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "EditCharges", Description = "Xóa phí báo giá" }
+
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "Index", Description = "Xem báo giá" },
 
 
@@ -49,6 +54,7 @@ namespace PND_WEB.Data.Seeders
                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Manager Charge", Description = "Cập nhật phí hóa đơn" },
                       // Check Invoice
                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Check", Description = "Duyệt thông tin đơn" }
+
 
 
 
