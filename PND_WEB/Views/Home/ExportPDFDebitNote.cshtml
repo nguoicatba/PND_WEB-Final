@@ -19,8 +19,8 @@
     <meta charset="utf-8" />
     <style>
         body {
-            font-family: Arial;
-            font-size: 16px;
+            font-family: 'Times New Roman';
+            font-size: 20px;
             margin: 30px;
         }
 
@@ -74,6 +74,16 @@
             width: 70%;
             float: right;
         }
+
+        .left3 {
+            width: 70%;
+            float: left;
+        }
+
+        .right3 {
+            width: 30%;
+            float: right;
+        }
     </style>
 </head>
 <body>
@@ -85,53 +95,85 @@
         </div>
         <div class="right2">
             <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-            ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam
-            TEL: +84 225 7303388 EMAIL:  <span style="color: green;"> ceo@pnd-logistics.com</span><br>
-            WEBSITE: <span style="color: green;"> http://pnd-logistics.com</span>
+            <strong>Add:</strong> No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam
+            <strong>Tel:</strong> +84 225 7303388 <strong>Email:</strong><span style="color: green;"> ceo@pnd-logistics.com</span><br>
+            <strong>Website</strong> <span style="color: green;"> http://pnd-logistics.com</span>
+            <hr style="border: 3px solid lawngreen" />
         </div>
     </div>
 
 
     <div style="text-align:center;">
-        <h1>DEBIT NOTE</h1>
+        <h1 style="margin: 0; padding : 0; color: dimgray">DEBIT NOTE</h1>
 
         @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
-        <h3>   x   </h3> 
-        <div class="right">    x   </div>
+        <h2 style="margin: 3px; padding : 3px">   XXX   </h2>
+        <div class="right" style="color: dimgray; font-size: 24px">    xxxxxx   </div>
     </div>
     <br />
 
     <div class="left-right">
         <div class="left">
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
-            <div><strong>Job No:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">Job No:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>Consignee:</strong>   x   </div>
+            <div>
+                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>MBL:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">MBL:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>HBL:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">HBL:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>Vessel/Voy:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>ETA:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">ETA:</strong> <span style="color: black;">    XXX   </span>
+            </div>
         </div>
         <div class="right">
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
-            <div><strong>Quantity:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>G.W(KGS):</strong>   x   </div>
+            <div>
+                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>G.W(CBM):</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>POL:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">POL:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>POD:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">POD:</strong> <span style="color: black;">    XXX   </span>
+            </div>
             <br />
-            <div><strong>PO.Delivery:</strong>    x  </div>
+            <div>
+                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">    XXX   </span>
+            </div>
         </div>
     </div>
 
+
+    <br />
+    <div style="text-align:right">
+        <span style="background-color: lightgoldenrodyellow">TOTAL INVOICE (VND)</span>
+        
+        <input type="text" style="color: black; background-color: lightgoldenrodyellow"/>
+    </div>
 
     <div class="center">
         <table>
@@ -178,5 +220,31 @@
             </tfoot>
         </table>
     </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <div>
+        <strong>Please payment :</strong>
+    </div>
+    <br />
+    <div>
+        ACCOUNT NAME : Công ty TNHH Giao Nhận Vận Tải PND<br>
+        <br />
+        BANK NAME    : Ngân hàng thương mại cổ phần Á Châu - PGD Trần Nguyên Hãn - CN Hải Phòng<br>
+        <br />
+        ACCOUNT NO   :<strong>109 1986 88 (VND)</strong> <br>
+    </div>
+    <br />
+    <div>
+        <div class="left3">
+            NOTE: Currency exchange rate following Vietcombank
+        </div>
+
+        <div class="right3">
+            <strong> PND LOGISTICS.,LTD</strong>
+        </div>
+    </div>
+
 </body>
 </html>
