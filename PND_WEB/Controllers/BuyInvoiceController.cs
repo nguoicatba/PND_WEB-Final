@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using PND_WEB.Data;
 using PND_WEB.Models;
+using PND_WEB.Services;
 using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
@@ -10,10 +13,20 @@ namespace PND_WEB.Controllers
     public class BuyInvoiceController : Controller
     {
 
+        private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
-        public BuyInvoiceController(DataContext context)
+
+        //pdf
+
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IConverter _converter;
+
+        public BuyInvoiceController(ILogger<HomeController> logger, DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
+            _logger = logger;
             _context = context;
+            _converter = converter;
+            _viewRenderService = viewRenderService;
         }
 
         [HttpGet]
@@ -433,13 +446,40 @@ namespace PND_WEB.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success = true, message = "Lưu dữ liệu thành công!" });
 
-
-
-
-
         }
 
-       
+
+        public async Task<IActionResult> ExportPDFDN(string id)
+        {
+
+            DebitNoteExport viewModel = new DebitNoteExport
+            {
+                Today = DateTime.Now,
+            };
+           
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFDebitNote", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
+
+
 
     }
 }

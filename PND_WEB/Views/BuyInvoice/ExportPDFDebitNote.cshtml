@@ -1,0 +1,182 @@
+﻿@using PND_WEB.ViewModels
+
+
+@* sửa theo model của ô để hiển thị những cái màu xanh
+
+*@
+@* @model QuotationsEditDeleteDetailController *@
+
+@{
+    Layout = null;
+    // var quotation = Model.Quotation;
+    // var charges = Model.QuotationsCharges;
+    // float totalAmount = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: Arial;
+            font-size: 16px;
+            margin: 30px;
+        }
+
+        .center {
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+        .left-right{
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left{
+            width: 50%;
+            float: left;
+        }
+
+        .right{
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left2">
+
+            @* ảnh chưa đc chuẩn tại chỗ này chưa bt để kiểu gì (k dùng đc link ảo có ~)*@
+            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam
+            TEL: +84 225 7303388 EMAIL:  <span style="color: green;"> ceo@pnd-logistics.com</span><br>
+            WEBSITE: <span style="color: green;"> http://pnd-logistics.com</span>
+        </div>
+    </div>
+
+
+    <div style="text-align:center;">
+        <h1>DEBIT NOTE</h1>
+
+        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+        <h3>   x   </h3> 
+        <div class="right">    x   </div>
+    </div>
+    <br />
+
+    <div class="left-right">
+        <div class="left">
+            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+            <div><strong>Job No:</strong>    x  </div>
+            <br />
+            <div><strong>Consignee:</strong>   x   </div>
+            <br />
+            <div><strong>MBL:</strong>    x  </div>
+            <br />
+            <div><strong>HBL:</strong>    x  </div>
+            <br />
+            <div><strong>Vessel/Voy:</strong>    x  </div>
+            <br />
+            <div><strong>ETA:</strong>    x  </div>
+        </div>
+        <div class="right">
+            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+            <div><strong>Quantity:</strong>    x  </div>
+            <br />
+            <div><strong>G.W(KGS):</strong>   x   </div>
+            <br />
+            <div><strong>G.W(CBM):</strong>    x  </div>
+            <br />
+            <div><strong>POL:</strong>    x  </div>
+            <br />
+            <div><strong>POD:</strong>    x  </div>
+            <br />
+            <div><strong>PO.Delivery:</strong>    x  </div>
+        </div>
+    </div>
+
+
+    <div class="center">
+        <table>
+            <thead>
+                <tr style="background-color: #D1E9EF;">
+                    <th>No</th>
+                    <th>DESCRIPTION OF CHARGES</th>
+                    <th>COST</th>
+                    <th>CURRENCY</th>
+                    <th>CURRENCY EXCHANGE</th>
+                    <th>QUATITY</th>
+                    <th>UNIT</th>
+                    <th>VAR RATE (%)</th>
+                    <th>AMOUNT</th>
+                    <th>TOTAL AMOUNT(VND)</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @* chèn thêm các dữ liệu vô những chỗ có xanh lá  *@
+
+
+                @* @foreach (var item in charges) *@
+                {
+                    @* float amount = (float)item.Quantity * (float)(item.Rate ?? 0); *@
+                    @* totalAmount += amount; *@
+                    @* <tr> *@
+                    @*     <td>@item.ChargeName</td> *@
+                    @*     <td>@item.Currency</td> *@
+                    @*     <td>@item.Unit</td> *@
+                    @*     <td class="text-right">@item.Quantity</td> *@
+                    @*     <td class="text-right">@item.Rate?.ToString("N2")</td> *@
+                    @*     <td class="text-right">@amount.ToString("N2")</td> *@
+                    @*     <td>@item.Notes</td> *@
+                    @* </tr> *@
+                }
+            </tbody>
+            <tfoot>
+                @* <tr> *@
+                @*     <td colspan="5" class="text-right bold"><center>TOTAL</center></td> *@
+                @*     <td class="text-right bold">@totalAmount.ToString("N2")</td> *@
+                @*     <td></td> *@
+                @* </tr> *@
+            </tfoot>
+        </table>
+    </div>
+</body>
+</html>
