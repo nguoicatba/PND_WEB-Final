@@ -449,12 +449,38 @@ namespace PND_WEB.Controllers
         }
 
 
-        public async Task<IActionResult> ExportPDFDN(string id)
+        public async Task<IActionResult> DebitNoteExport(string id)
         {
+
+            var invoice = await _context.TblInvoices
+                .FirstOrDefaultAsync(i => i.DebitId == id);
+            var Hbl = await _context.TblHbls
+                
+                .FirstOrDefaultAsync(h => h.Hbl == invoice.Hbl);
+            var job = await _context.TblJobs
+                .Include(j => j.TblHbls)
+                .FirstOrDefaultAsync(j => j.JobId == Hbl.RequestId) ;
 
             DebitNoteExport viewModel = new DebitNoteExport
             {
-                Today = DateTime.Now,
+                JobId = job.JobId,
+                JobType = job.GoodsType,
+                Cnee =Hbl.Cnee,
+                HBL = Hbl.Hbl,
+                MBL = job.Mbl,
+           
+                ETA = job.Eta,
+                Quantity = Hbl.Quantity,
+                GrossWeight = Hbl.GrossWeight,
+                CBM = Hbl.Tonnage,
+                Transport = job.VoyageName == null || job.VoyageName == null ? "" : job.VoyageName.ToString()+"/"+ job.VesselName.ToString(),
+                POL = job.Pol,
+                POD = job.Pod,
+                PODel = job.Podel,
+                Total = await _context.TblCharges
+                    .Where(c => c.DebitId == id)
+                    .SumAsync(c => (c.SerPrice ?? 0) * (c.SerQuantity ?? 0) * (c.ExchangeRate ?? 1) * (1 + (c.SerVat ?? 0) / 100) + (c.MVat ?? 0)),
+                Charges = await _context.TblCharges.Where(c => c.DebitId == id).ToListAsync()
             };
            
 
@@ -475,7 +501,7 @@ namespace PND_WEB.Controllers
             };
 
             var file = _converter.Convert(doc);
-            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            Response.Headers.Add("Content-Disposition", "inline; filename=debit.pdf");
             return File(file, "application/pdf");
         }
 

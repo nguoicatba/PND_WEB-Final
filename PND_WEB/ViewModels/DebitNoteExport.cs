@@ -11,15 +11,17 @@ namespace PND_WEB.ViewModels
         public string ?MBL { get; set; }
         public string? HBL { get; set; }
 
-        public DateTime? Today { get; set; }
+      
 
-        public DateTime? ETA { get; set; }
+        public required DateTime  ETA { get; set; }
 
         public string ? Quantity { get; set; }
 
-        public string ? GrossWeight { get; set; }
+        public double ? GrossWeight { get; set; }
 
-        public string ? CBM { get; set; }
+        public string? Transport { get; set; }
+
+        public double ? CBM { get; set; }
 
         public string? POL { get; set; }
         public string? POD { get; set; }
