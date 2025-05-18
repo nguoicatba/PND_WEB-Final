@@ -200,10 +200,10 @@
                                         <span>Customer</span>
                                     </a>
                                 </li>
-                                @if (User.IsInRole("CEO"))
+                                @if (User.IsInRole("Sale"))
                                 {
                                     <li class=" ">
-                                        <a asp-controller="Quotations" asp-action="AdminView">
+                                        <a asp-controller="Quotations" asp-action="Index">
                                             <span>Quotaions</span>
                                         </a>
                                     </li>
@@ -211,7 +211,7 @@
                                 else
                                 {
                                     <li class=" ">
-                                        <a asp-controller="Quotations" asp-action="Index">
+                                        <a asp-controller="Quotations" asp-action="AdminView">
                                             <span>Quotaions</span>
                                         </a>
                                     </li>

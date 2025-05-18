@@ -440,7 +440,7 @@ namespace PND_WEB.Controllers
 
         ///admin //////////////////////////////////////////////////////////////////////////////////////////////////////////
         ///
-
+        [ClaimAuthorize("Quotation", "AdminView")]
         public async Task<IActionResult> AdminView()
         {
             var quotations = await _context.Quotations
@@ -448,6 +448,8 @@ namespace PND_WEB.Controllers
 
             return View(quotations);
         }
+
+        [ClaimAuthorize("Quotation", "AdminViewDetails")]
         public async Task<IActionResult> AdminViewDetails(string id)
         {
             var quotation = await _context.Quotations
@@ -466,6 +468,8 @@ namespace PND_WEB.Controllers
             return View(viewModel);
         }
 
+
+        [ClaimAuthorize("Quotation", "AdminViewCreate")]
         public async Task<IActionResult> AdminViewCreate()
         {
             var username = User.Identity.Name;
@@ -502,6 +506,7 @@ namespace PND_WEB.Controllers
         }
 
 
+        [ClaimAuthorize("Quotation", "AdminViewEdit")]
         [HttpGet("/Quotations/AdminViewEdit/{id}")]
         public async Task<IActionResult> AdminViewEdit(string id)
         {
@@ -558,6 +563,8 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
+
+        [ClaimAuthorize("Quotation", "AdminViewDelete")]
         [HttpGet("/Quotations/AdminViewDelete/{id}")]
         public async Task<IActionResult> AdminViewDelete(string id)
         {
@@ -599,7 +606,7 @@ namespace PND_WEB.Controllers
             return RedirectToAction(nameof(AdminView));
         }
 
-
+        [ClaimAuthorize("Quotation", "AdminViewCreateCharges")]
         public IActionResult AdminViewCreateCharges(string id)
         {
             var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
@@ -633,6 +640,8 @@ namespace PND_WEB.Controllers
             return View(quotationsCharge);
         }
 
+
+        [ClaimAuthorize("Quotation", "AdminViewEditCharges")]
         public IActionResult AdminViewEditCharges(int id)
         {
             var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
@@ -681,6 +690,8 @@ namespace PND_WEB.Controllers
             return View("Edit", quotationsCharge);
         }
 
+
+        [ClaimAuthorize("Quotation", "AdminViewDeleteCharges")]
         public async Task<IActionResult> AdminViewDeleteCharges(int? id)
         {
             if (id == null)
