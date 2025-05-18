@@ -10,20 +10,34 @@ using PND_WEB.Data;
 using System.ComponentModel;
 using System.Diagnostics;
 using PND_WEB.ViewModels;
+using DinkToPdf;
+using PND_WEB.Services;
+using DinkToPdf.Contracts;
 
 
 namespace PND_WEB.Controllers
 {
     public class HblsController : Controller
     {
+        private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
 
-        public HblsController(DataContext context)
+        //pdf
+
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IConverter _converter;
+
+
+
+        public HblsController(ILogger<HomeController> logger, DataContext context, IViewRenderService viewRenderService, IConverter converter)
         {
+            _logger = logger;
             _context = context;
+            _viewRenderService = viewRenderService;
+            _converter = converter;
         }
 
-     
+
         public async Task<IActionResult> Index(string id)
         {
             //if (await CheckJobExists(id) == false)
@@ -363,6 +377,63 @@ namespace PND_WEB.Controllers
                 }
 
             });
+        }
+
+        //HBL ID
+        public async Task<IActionResult> ExportPDFDO(string id)
+        {
+
+            //sửa dữ liệu
+           var Hbl = await _context.TblHbls
+                .Include(t => t.CneeNavigation)
+                .Include(t => t.Customer)
+                .Include(t => t.Request)
+                .Include(t => t.ShipperNavigation)
+                .FirstOrDefaultAsync(m => m.Hbl == id);
+
+            if (Hbl == null)
+                return NotFound();
+
+            var viewModel = new ExportPDFDeliveryOrderVM
+            {
+                HBL = Hbl.Hbl,
+
+                JobId = Hbl.RequestId,
+                POL = Hbl.Request?.Pol,
+                POD = Hbl.Request?.Pod,
+                CNEE = Hbl.CneeNavigation?.Cnee,
+                MBL = Hbl.Request?.Mbl,
+                ArriveOn =Hbl.Request.Eta,
+                Vessel = Hbl.Request?.VesselName,
+                Voyage = Hbl.Request?.VoyageName,
+                Podel = Hbl.Request?.Podel,
+                conths = await _context.TblConths
+                    .Where(c => c.Hbl == Hbl.Hbl)
+                    .ToListAsync()
+
+            };
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFDeliveryOrder", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait,
+
+
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=DO.pdf");
+            return File(file, "application/pdf");
         }
 
     }

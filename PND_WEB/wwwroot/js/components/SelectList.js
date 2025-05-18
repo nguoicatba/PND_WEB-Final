@@ -8,8 +8,10 @@ $(document).ready(function () {
     // Select2 for invoice charge
     select2_fee();
 
-    //
+    //select 2 show code
     select2_two_columns_code();
+
+    //select2 choice text
    
 
 })
@@ -169,7 +171,7 @@ function select2_two_columns() {
             minimumInputLength: 0,
             templateResult: formatState2,
             templateSelection: formatState,
-           
+            dropdownAutoWidth: true,
             allowClear: true,
             theme: 'bootstrap4',
             width: '100%',
@@ -248,7 +250,7 @@ function select2_cport() {
                 },
                 cache: true
             },
-
+            dropdownAutoWidth: true,
             minimumInputLength: 0,
             templateResult: formatPort,
             templateSelection: SelectPort,
@@ -330,7 +332,7 @@ function select2_two_columns_code() {
             minimumInputLength: 0,
             templateResult: formatState2,
             templateSelection: formatState,
-
+            dropdownAutoWidth: true,
             allowClear: true,
             theme: 'bootstrap4',
             width: '100%',

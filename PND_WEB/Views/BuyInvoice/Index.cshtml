@@ -4,7 +4,7 @@
     ViewData["Title"] = "Buy Invoice";
  
 }
-
+@await Component.InvokeAsync("HblHeader", new { Title = "Invoice", SubTitle = "Invoice", Hbl_ID = Model.HBL_ID })
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->

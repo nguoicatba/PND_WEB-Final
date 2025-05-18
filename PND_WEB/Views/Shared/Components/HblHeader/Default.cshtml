@@ -1,0 +1,18 @@
+﻿@model (string Title, string SubTitle, string Hbl_ID)
+
+<div class="content-heading">
+    <div>
+        @Model.Title
+        <small>@Model.SubTitle</small>
+    </div>
+    <div class="ml-auto">
+        <button class="btn dropdown-toggle btn-info btn-xs" type="button" data-toggle="dropdown">PDF File</button>
+        <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" asp-action="HblFileExport" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">HBL</a>
+            <a class="dropdown-item" asp-action="ExportPDFDO" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">D.O File</a>
+            <a class="dropdown-item" asp-action="ExportPDFArrivalNote" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">Arrival Note</a>
+
+
+        </div>
+    </div>
+</div>

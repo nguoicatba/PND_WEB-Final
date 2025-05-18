@@ -9,6 +9,8 @@ namespace PND_WEB.ViewModels
         public string? POL { get; set; }
         public string ? POD { get; set; }
 
+        public string? CNEE { get; set; }
+
         public string ? MBL { get; set; }
         public string? HBL { get; set; }
 
@@ -18,6 +20,7 @@ namespace PND_WEB.ViewModels
 
         public string? Podel { get; set; }
 
+        public required DateTime  ArriveOn { get; set; }
         public List<TblConth> conths { get; set; } = new List<TblConth>();
 
 

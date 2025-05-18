@@ -57,7 +57,7 @@
 
                     <div class="form-group">
                         <label asp-for="container.GoodsKind" class="control-label required-label"></label>
-                        <select asp-for="container.GoodsKind" class="form-control select2-code" data-url="@Url.Action("KindOfPackageGet", "Container")">
+                        <select asp-for="container.GoodsKind" class="form-control select2-not-tag" data-url="@Url.Action("KindOfPackageGet", "Container")">
                             <option value="@Model.container.GoodsKind" selected="selected">@Model.container.GoodsKind</option>
                         </select>
                         <span asp-validation-for="container.GoodsKind" class="text-danger"></span>

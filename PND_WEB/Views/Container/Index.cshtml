@@ -4,7 +4,8 @@
     ViewData["Title"] = "Container";
 
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "About Container", SubTitle = "About job" })
+@await Component.InvokeAsync("HblHeader", new { Title = "Container", SubTitle = "Container", Hbl_ID = Model.HBL_ID })
+
 
 <div class="row">
     <div class="col-xl-12">
