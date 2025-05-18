@@ -4,12 +4,11 @@
 
 <div class="card">
     <div class="card-body">
-
         <p>
             <button id="save_data" class="btn btn-primary btn-xs">Save Data</button>
         </p>
-        <table class="table table-striped my-4 w-100" id="datatable1">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
                     <th>Action</th>
                     <th data-priority="1">@Html.DisplayNameFor(model => model.Claims[0].ClaimType)</th>
@@ -20,11 +19,6 @@
                     <th>
                         @Html.DisplayNameFor(model => model.Claims[0].Description)
                     </th>
-                    
-
-
-
-                  
                 </tr>
             </thead>
             <tbody>
@@ -47,13 +41,11 @@
                         <td>
                             @item.Description
                         </td>
-                       
-              
                     </tr>
                 }
-
             </tbody>
         </table>
+        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
     </div>
 </div>
 
@@ -70,12 +62,8 @@
                     claimType: $(this).data('type'),
                     claimValue:$(this).data('value'),
                    description:$(this).data('description')
-
-
                 });
-
             });
-
 
 
             const data={
@@ -103,13 +91,7 @@
                    error: function (xhr, status, error) {
                        alert("Lỗi khi lưu: " + error);
                    }
-              
             })
-
-
-
-
-
         });
 
 
