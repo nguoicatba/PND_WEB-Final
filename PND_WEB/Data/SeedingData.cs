@@ -13,9 +13,6 @@ namespace PND_WEB.Data
         {
             await _context.Database.MigrateAsync();
 
-
-
-            // Claims
             await ClaimSeeder.SeedAsync(_context);
 
             if (!await roleManager.RoleExistsAsync("Admin"))
@@ -209,6 +206,45 @@ namespace PND_WEB.Data
                     new TblSupplier { SupplierId = "SUP001", NameSup = "Công ty TNHH ABC Logistics", Typer = "Local Charges", AddressSup = "123 Lê Lợi, Q1, HCM", LccFee = "Giao hàng nội địa", Note = "" },
                     new TblSupplier { SupplierId = "SUP002", NameSup = "CTCP Vận Tải Biển XYZ", Typer = "Shipping Line", AddressSup = "789 Trần Hưng Đạo, HN", LccFee = "Hỗ trợ thủ tục hải quan", Note = "" },
                     new TblSupplier { SupplierId = "SUP003", NameSup = "DNTN Kim Ngân Forwarder", Typer = "Handling Fee", AddressSup = "56 Nguyễn Huệ, Đà Nẵng", LccFee = "Giao hàng quốc tế", Note = "" }
+                );
+                await _context.SaveChangesAsync();
+            }
+
+            // Seeding Kindofpackages
+
+            if (!await _context.Kindofpackages.AnyAsync())
+            {
+
+                await _context.Kindofpackages.AddRangeAsync(
+                        new Kindofpackage { Code = "BA", PackageName = "Barrels", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BE", PackageName = "Bundles", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BG", PackageName = "Bags", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BK", PackageName = "Baskets", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BL", PackageName = "Bales,compressed", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BN", PackageName = "Bales,non-compressed", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BR", PackageName = "Bars", PackagesDescription = "" },
+                    new Kindofpackage { Code = "BX", PackageName = "Boxes", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CA", PackageName = "Cans, rectangular", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CG", PackageName = "Cages", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CK", PackageName = "Casks", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CL", PackageName = "Coils", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CN", PackageName = "Containers", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CO", PackageName = "Carboy, non-protected", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CP", PackageName = "Carboy, protected", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CR", PackageName = "Crates", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CS", PackageName = "Cases", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CT", PackageName = "Cartons", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CX", PackageName = "Cans, cylindrical", PackagesDescription = "" },
+                    new Kindofpackage { Code = "CY", PackageName = "Cylinders", PackagesDescription = "" },
+                    new Kindofpackage { Code = "DR", PackageName = "Drums", PackagesDescription = "" },
+                    new Kindofpackage { Code = "KG", PackageName = "Kegs", PackagesDescription = "" },
+                    new Kindofpackage { Code = "LG", PackageName = "Logs", PackagesDescription = "" },
+                    new Kindofpackage { Code = "LZ", PackageName = "Logs, in bundle/bunch/truss", PackagesDescription = "" },
+                    new Kindofpackage { Code = "MST", PackageName = "MST", PackagesDescription = "" },
+                    new Kindofpackage { Code = "MT", PackageName = "Mats", PackagesDescription = "" },
+                    new Kindofpackage { Code = "NE", PackageName = "Unpacked  or unpackaged", PackagesDescription = "" },
+                    new Kindofpackage { Code = "NT", PackageName = "Nets", PackagesDescription = "" }
+
                 );
                 await _context.SaveChangesAsync();
             }

@@ -36,6 +36,10 @@ hóa đơn bán:
 duyệt đơn: như l
 
 16/5
-tạo trang duyệt cho accountant
-xuất pdf ??
+tạo trang duyệt cho accountant :ok
+xuất pdf:ok
+
+18/5:
+sinh mã hbl:
+lệnh do:
 
