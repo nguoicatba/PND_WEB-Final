@@ -17,9 +17,9 @@ public partial class TblConth
 
     public string? SealNo { get; set; }
 
-    public double? GrossWeight { get; set; }
+    public double GrossWeight { get; set; } = 0;
 
-    public double? Cmb { get; set; }
+    public double Cmb { get; set; } = 0;
 
     public string? GoodsQuantity { get; set; }
 

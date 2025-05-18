@@ -1,0 +1,316 @@
+﻿@using PND_WEB.ViewModels
+
+
+@model ArrivalNoticeVM
+
+@{
+    Layout = null;
+    DateTime today = DateTime.Now;
+    string formattedToday = today.ToString("dddd, MMMM dd, yyyy ");
+    double total_GW = 0;
+    double total_CBM = 0;
+    string Mbl_Text = "";
+    string HBL_Text = "";
+    string TranPort_Text = "";
+    string Pol_Text = "";
+    string Pod_Text = "";
+
+    if (Model.Goods_Type == "AI" ||  Model.Goods_Type == "AE")
+    {
+        Mbl_Text = "MAWB";
+        HBL_Text = "HAWB";
+        TranPort_Text = "Chuyến bay (Flight)";
+        Pol_Text = "Sân bay xếp hàng (A.P.O.L)";
+        Pod_Text = "Sân bay dỡ hàng (A.P.O.D)";
+    }
+    else
+    {
+        Mbl_Text = "MBL";
+        HBL_Text = "HBL";
+        TranPort_Text = "Vessel/Voyage";
+        Pol_Text = "Cảng xếp hàng (P.O.L)";
+        Pod_Text = "Cảng dỡ hàng (P.O.D)";
+    }
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+        font-family: "Tahoma", sans-serif;
+        font-size: 16px;
+        margin: 30px;
+        }
+
+        .center {
+        width: 100%;
+        clear: both;
+        margin-top: 20px;
+        }
+
+        table {
+        width: 100%;
+        border-collapse: collapse;
+        }
+
+        th, td {
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
+        }
+
+        .text-right {
+        text-align: right;
+        }
+
+        .bold {
+        font-weight: bold;
+        }
+        .left-right{
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 10px;
+        margin-top: 10px;
+        }
+
+        .left{
+        width: 50%;
+        float: left;
+        }
+
+        .right{
+        width: 50%;
+        float: right;
+        }
+
+        .left2 {
+        width: 30%;
+        float: left;
+        }
+
+        .right2 {
+        width: 70%;
+        float: right;
+        }
+
+        .left3 {
+        width: 70%;
+        float: left;
+        }
+
+        .right3 {
+        width: 30%;
+        float: right;
+        }
+
+        .left4 {
+        width: 25%;
+        float: left;
+        }
+
+        .right4 {
+        width: 25%;
+        float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left2">
+
+            @* ảnh chưa đc chuẩn tại chỗ này chưa bt để kiểu gì (k dùng đc link ảo có ~)*@
+            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <strong>ADD:</strong> No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam
+            <strong>TEL:</strong> +84 225 7303388 EMAIL:  <span style="color: green;"> ceo@pnd-logistics.com</span><br>
+            <strong>WEBSITE:</strong> <span style="color: green;"> http://pnd-logistics.com</span>
+            <hr style="border: 3px solid lawngreen" />
+        </div>
+    </div>
+
+
+    <div style="text-align:center; color: dimgray">
+        <h1>GIẤY BÁO HÀNG ĐẾN</h1>
+
+        <h3>ARRIVAL NOTE</h3>
+        @* chèn thêm các dữ liệu vô những chỗ có X ( So Lan ) *@
+        <h3 >(Thông báo lần 1)</h3>
+        @* chèn thêm các dữ liệu vô những chỗ có X ( NGAY THANG NAM ) *@
+        <div class="right">    @formattedToday   </div>
+    </div>
+    <br />
+
+    <div class="left-right">
+        <div class="left2" style="color: dimgray">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div><strong>JOB No:</strong></div><br />
+            <div><strong>Kính gửi: (Bill to)</strong></div><br />
+        </div>
+        <div class="right2" style="color: black">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div>   @Model.Job_ID  </div><br />
+            <div>   @Model.CNEE  </div><br />
+        </div>
+
+
+
+        <div class="left3" style="color: dimgray">
+            <i>Chúng tôi xin trân trọng thông báo lô hàng của quý công ty thuộc vận đơn số:
+                (We are pleased to inform you that your shipment under @HBL_Text No.)
+            </i><br />
+        </div><br />
+        <div class="right3" style="color: black">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div>   @Model.HBL  </div><br />
+        </div>
+
+
+
+        <div class="left3">
+            <br />
+        </div>
+        <div class="right3">
+            <br />
+        </div>
+
+
+        <div class="left2" style="color: dimgray">
+            <div><strong>Số vận đơn chính (@Mbl_Text):</strong></div><br />
+            <div><strong>Người gửi (Shipper):</strong></div><br />
+            <div><strong>@Pol_Text:</strong></div><br />
+            <div><strong>@Pod_Text:</strong></div><br />
+            <div><strong>Địa điểm nhận hàng (Port of Delivery):</strong></div><br />
+        </div>
+        <div class="right2" style="color: black">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div>    @Model.MBL  </div><br />
+            <div>    @Model.Shipper </div><br />
+            <div>    @Model.POL  </div><br />
+            <div>    @Model.POD  </div><br />
+            <div>    @Model.PODel  </div><br /><br />
+        </div>
+
+
+
+
+
+        <div class="left4" style="color: dimgray">
+            <div><strong>@TranPort_Text:</strong></div><br />
+        </div>
+        <div class="left4" style="color: black">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div>    @Model.Transport </div><br />
+        </div>
+        <div class="left4" style="color: dimgray">
+            <div><strong>Ngày hàng về (ETA):</strong></div><br />
+        </div>
+        <div class="right4" style="color: black">
+            @* chèn thêm các dữ liệu vô những chỗ có X  *@
+            <div>   @Model.ETA.ToString("dd/MM/yyyy")  </div><br />
+        </div>
+
+
+
+
+    </div>
+
+
+    <div class="center">
+        <table>
+            <thead>
+                <tr style="background-color: #D1E9EF; text-align: center; vertical-align: middle;">
+                    <th>Ký mã hiệu</th>
+                    <th>Số kiện <br>(No. of packages)</th>
+                    <th>Mô tả hàng hóa<br>(Description of goods)</th>
+                    <th>Trọng Lượng<br>(G.W/KGS)</th>
+                    <th>Số khối<br>(M.W/CBM)</th>
+                </tr>
+            </thead>
+            <tbody style="color: black">
+
+
+
+
+                @foreach (var item in Model.tblConths)
+                {
+                    string GoodQuantiy = item.GoodsQuantity == null ? "" : item.GoodsQuantity.ToString() + " " + item.GoodsKind ?? "";
+                    string ContNo = item.ContNo == null ? "" : item.ContNo.ToString() + "/" + item.SealNo ?? "";
+                    string GrossWeight = Convert.ToDouble(item.GrossWeight).ToString("N3");
+                    string Cmb = Convert.ToDouble(item.Cmb).ToString("N3");
+
+                    <tr>
+                        <td>
+                            @ContNo
+                        </td>
+                        <td>@GoodQuantiy</td>
+                        <td>@item.GoodsDepcription</td>
+                        <td>@GrossWeight</td>
+                        <td>@Cmb</td>
+                    </tr>
+                    total_GW +=(double) item.GrossWeight;
+                    total_CBM +=(double) item.Cmb;
+                   
+                }
+            </tbody>
+            <tfoot>
+              
+                <tr style="color: dimgray">
+                    <td colspan="3" class="text-right bold">Tổng cộng:</td>
+                    <td class="bold">@total_GW.ToString("N3")</td>
+                    <td class="bold">@total_CBM.ToString("N3")</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <br />
+    <br />
+    <div style="color: dimgray"><strong><u>To take D/O, Pls bring the following documents:</u></strong></div>
+    <br />
+
+
+
+    <div class="left4" style="color: dimgray">
+        @* chèn thêm các dữ liệu vô những chỗ có X  *@
+        <div><strong>Loại B/L:  &nbsp;&nbsp;&nbsp;  <span style="color: black">   @Model.BL_Type  </span>    </strong></div><br />
+    </div>
+    <div class="left4">
+        @* chèn thêm các dữ liệu vô những chỗ có X  *@
+        <div style="color: black">    X  </div><br />
+    </div>
+    <div class="left4" style="color: dimgray">
+        <div><strong>Notice of Arrival:</strong></div><br />
+    </div>
+    <div class="right4">
+        @* chèn thêm các dữ liệu vô những chỗ có X  *@
+        <div style="color: black">    X  </div><br />
+    </div>
+
+
+
+    <div class="left3" style="color: dimgray">
+        <div><strong>Recommendation Letter</strong></div><br />
+    </div>
+    <br />
+    <div class="right3">
+        @* chèn thêm các dữ liệu vô những chỗ có X  *@
+        <div style="color: black">    X  </div><br />
+    </div>
+
+    <div style="color: dimgray"><strong>Xin Quý công ty lưu ý:</strong></div>
+    <br />
+    <div style="color: dimgray">
+        <i>
+        1. Địa chỉ liên hệ tại Hải Phòng :  Số 24A, Tổ Dân Phố 15, Phường Đằng Hải, Quận Hải An, TP Hải Phòng / Ms Tươi :
+        0336300299<br>
+        2. Công ty chúng tôi nhận làm mọi thủ tục Hải Quan, giao nhận và vận chuyển với giá tốt và ưu đãi.<br>
+        3. Tất cả các phí trên chưa bao gồm thuế VAT.<br>
+            4. Xin vui lòng xác nhận khi nhận được thông báo hàng đến (Email: cus.hpg@pnd-logistics.com  ovs@pnd-logistics.com)<br>
+        </i>
+    </div>
+</body>
+</html>

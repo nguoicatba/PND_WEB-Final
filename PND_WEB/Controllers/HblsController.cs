@@ -436,5 +436,61 @@ namespace PND_WEB.Controllers
             return File(file, "application/pdf");
         }
 
+        // HBL ID
+        public async Task<IActionResult> ExportPDFAN(string id)
+        {
+
+            var Hbl = await _context.TblHbls
+               .Include(t => t.CneeNavigation)
+               .Include(t => t.Customer)
+               .Include(t => t.Request)
+               .Include(t => t.ShipperNavigation)
+               .FirstOrDefaultAsync(m => m.Hbl == id);
+
+            if (Hbl == null)
+                return NotFound();
+            var viewModel = new ArrivalNoticeVM
+            {
+                HBL_ID = Hbl.Hbl,
+                Job_ID = Hbl.RequestId,
+                Goods_Type = Hbl.Request?.GoodsType,
+                POL = Hbl.Request?.Pol,
+                POD = Hbl.Request?.Pod,
+                PODel = Hbl.Request?.Podel,
+                Shipper = Hbl.ShipperNavigation?.Shipper,
+                CNEE = Hbl.CneeNavigation?.Cnee,
+                MBL = Hbl.Request?.Mbl,
+                HBL = Hbl.Hbl,
+                Transport = Hbl.Request?.GoodsType == "AI" || Hbl.Request?.GoodsType == "AE" ? Hbl.Request.VesselName: Hbl.Request?.VesselName + "/" + Hbl.Request?.VoyageName,
+                ETA = Hbl.Request.Eta,
+                BL_Type = Hbl.BlType,
+                tblConths = await _context.TblConths
+                    .Where(c => c.Hbl == Hbl.Hbl)
+                    .ToListAsync()
+
+            };
+
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFArrivalNote", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
+
     }
 }
