@@ -10,59 +10,65 @@
 
 
 
-<div class="card">
-   <div class="card-header">
-       Tìm kiếm HSCODE
-   </div>
-        <form method="get" asp-action="Search" style="padding: 20px">
-            <select name="matchType">
-                <option value="exact">Chính xác</option>
-                <option value="suggest">Gợi ý</option>
-            </select>
-            <input type="text" name="s" placeholder="Nhập từ khóa" required value="@ViewBag.SearchTerm" />
-        <button type="submit" class="btn btn-primary btn-xs">Tìm kiếm</button>
-        </form>
-
-    
-</div>
-
-
-<div class="card">
-    <div class="card-header">Bảng HSCODE</div>
-    <div class="card-body">
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th>  @Html.DisplayNameFor(model => model[0].HsCode)</th>
-                    <th>  @Html.DisplayNameFor(model => model[0].MoTaHangHoaV)</th>
-                    <th>  @Html.DisplayNameFor(model => model[0].MoTaHangHoaE)</th>
-                    <th>  @Html.DisplayNameFor(model => model[0].DonViTinh)</th>
-                    <th>  @Html.DisplayNameFor(model => model[0].ChinhSachHangHoa)</th>
-                    <th>Chi tiết</th>
-                </tr>
-            </thead>
-            <tbody id="data-container">
-                @foreach (var item in Model)
-                {
-                    <tr style="color: @(GetTextColor(item.MoTaHangHoaV))">
-                        <td>@item.HsCode</td>
-                        <td>@item.MoTaHangHoaV</td>
-                        <td>@item.MoTaHangHoaE</td>
-                        <td>@item.DonViTinh</td>
-                        <td>@item.ChinhSachHangHoa</td>
-                        <td><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs">Chi tiết</a></td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-
-        <!-- Loader -->
-        <div id="loading" style="display: none; text-align: center;">
-            <img src="~/images/loader.gif" alt="Loading..." />
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">TÌM KIẾM HSCODE</div>
+            <div class="card-body" style="padding:0">
+                <form method="get" asp-action="Search" style="padding: 20px">
+                    <select name="matchType">
+                        <option value="exact">Chính xác</option>
+                        <option value="suggest">Gợi ý</option>
+                    </select>
+                    <input type="text" name="s" placeholder="Nhập từ khóa" required value="@ViewBag.SearchTerm" />
+                <button type="submit" class="btn btn-primary btn-xs">Tìm kiếm</button>
+                </form>
+            </div>
         </div>
-
     </div>
 </div>
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">BẢNG HSCODE</div>
+            <div class="card-body" style="padding:0">
+                <table class="table table-bordered table-striped" style="border: 1px solid black">
+                    <thead>
+                        <tr style="border: 1px solid black">
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white">  @Html.DisplayNameFor(model => model[0].HsCode)</th>
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white" ">  @Html.DisplayNameFor(model => model[0].MoTaHangHoaV)</th>
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white" ">  @Html.DisplayNameFor(model => model[0].MoTaHangHoaE)</th>
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white" ">  @Html.DisplayNameFor(model => model[0].DonViTinh)</th>
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white" ">  @Html.DisplayNameFor(model => model[0].ChinhSachHangHoa)</th>
+                            <th style="border: 1px solid black; background-color:#5a8c9b; color:white" ">Chi tiết</th>
+                        </tr>
+                    </thead>
+                    <tbody id="data-container">
+                        @foreach (var item in Model)
+                        {
+                            <tr style="color: @(GetTextColor(item.MoTaHangHoaV)); border: 1px solid black">
+                                <td style="border: 1px solid black">@item.HsCode</td>
+                                <td style="border: 1px solid black">@item.MoTaHangHoaV</td>
+                                <td style="border: 1px solid black">@item.MoTaHangHoaE</td>
+                                <td style="border: 1px solid black">@item.DonViTinh</td>
+                                <td style="border: 1px solid black">@item.ChinhSachHangHoa</td>
+                                <td style="border: 1px solid black"><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-primary btn-xs" style="color:white">Chi tiết</a></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+                <!-- Loader -->
+                <div id="loading" style="display: none; text-align: center;">
+                    <img src="~/images/loader.gif" alt="Loading..." />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 
 
@@ -120,13 +126,13 @@
                     if (response.data.length > 0) {
                         $.each(response.data, function (index, item) {
                             let row = $(`
-                                <tr style="color: ${getTextColor(item.moTaHangHoaV)};">
-                                    <td>${item.hsCode}</td>
-                                    <td>${item.moTaHangHoaV}</td>
-                                    <td>${item.moTaHangHoaE}</td>
-                                    <td>${item.donViTinh}</td>
-                                    <td>${item.chinhSachHangHoa}</td>
-                                    <td><a href="/TblHscode/Details/${item.id}" class="btn btn-primary btn-xs">Chi tiết</a></td>
+                                <tr style="color: ${getTextColor(item.moTaHangHoaV)}; border: 1px solid black">
+                                    <td style="border: 1px solid black">${item.hsCode}</td>
+                                    <td style="border: 1px solid black">${item.moTaHangHoaV}</td>
+                                    <td style="border: 1px solid black">${item.moTaHangHoaE}</td>
+                                    <td style="border: 1px solid black">${item.donViTinh}</td>
+                                    <td style="border: 1px solid black">${item.chinhSachHangHoa}</td>
+                                    <td style="border: 1px solid black"><a href="/TblHscode/Details/${item.id}" class="btn btn-primary btn-xs" style="color:white">Chi tiết</a></td>
                                 </tr>
                             `);
                             $("#data-container").append(row);
