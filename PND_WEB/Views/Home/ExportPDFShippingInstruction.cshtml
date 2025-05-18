@@ -1,0 +1,262 @@
+﻿@using PND_WEB.ViewModels
+
+
+@* sửa theo model của ô để hiển thị những cái màu xanh
+
+*@
+@* @model QuotationsEditDeleteDetailController *@
+
+@{
+    Layout = null;
+    // var quotation = Model.Quotation;
+    // var charges = Model.QuotationsCharges;
+    // float totalAmount = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            font-size: 20px;
+            margin: 30px;
+        }
+
+        .center {
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+        .left-right{
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left{
+            width: 50%;
+            float: left;
+        }
+
+        .right{
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
+
+        .left3 {
+            width: 70%;
+            float: left;
+        }
+
+        .right3 {
+            width: 30%;
+            float: right;
+        }
+
+        .left4 {
+            width: 26%;
+            float: left;
+        }
+
+        .right4 {
+            width: 74%;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left2">
+
+            @* ảnh chưa đc chuẩn tại chỗ này chưa bt để kiểu gì (k dùng đc link ảo có ~)*@
+            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            <strong>Add:</strong> No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam
+            <strong>Tel:</strong> +84 225 7303388 <strong>Email:</strong><span style="color: green;"> ceo@pnd-logistics.com</span><br>
+            <strong>Website</strong> <span style="color: green;"> http://pnd-logistics.com</span>
+            <hr style="border: 3px solid lawngreen" />
+        </div>
+    </div>
+
+
+    <div class="left-right">
+
+        @* chèn thêm các dữ liệu vô những chỗ có x ( k bt đây là cái gì ) *@
+        <div class="left" style="text-align:center">
+            <i>
+                XXX
+                <br>
+                <strong>
+                        Attn: XXXX
+                
+                </strong>
+            </i>
+        </div>
+
+        @* chèn thêm các dữ liệu vô những chỗ có x ( Ngay Thàng ) *@
+        <div class="right" style="text-align:center">
+            <i>
+                <strong>
+                    XXXX
+                </strong>
+            </i>
+        </div>
+    </div>
+
+
+    <div style="text-align:center;">
+        <h1 style="margin: 0; padding : 0; color: dimgray">Shipping Instruction</h1>
+    </div>
+    <br />
+    @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+    <div style="color:dimgray">
+        <strong>
+            Please issue MB/L as <span style="color:black">Booking No:   XXXXX    </span> following details:
+        </strong>
+    </div>
+    <div class="left-right">
+        <div class="left4">
+            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+            <div>
+                <strong style="color: black;">1. Shipper:</strong>
+            </div>
+            <br />
+            <div>
+                <strong style="color: black;">2. Consignee:</strong>
+            </div>
+            <br />
+            <div>
+                <strong style="color: black;">3. Notify Party:</strong>
+            </div>
+            <br />
+        </div>
+        <div class="right4">
+            @* chèn thêm các dữ liệu vô những chỗ có x   *@
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+            <br />
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+            <br />
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="left-right">
+        <div class="left4">
+            <div>
+                <strong style="color: black;">4. Description of Goods:</strong>
+            </div>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+        <div class="right4">
+            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+            <ul>
+                <li>Name of goods: <span>    XXXX   </span>
+                    <ul>
+                        <li>WIDTH:  X   </li>
+                        <li>COLOR FABRIC:   X   </li>
+                        <li>WEIGHT:   X   ²</li>
+                    </ul>
+                </li>
+                <li>Type of container:   X   </li>
+                <li>Container/Seal(s) No.:   X   </li>
+                <li>Quantity:   X   </li>
+                <li>Gross weight:   X   </li>
+                <li>N.W:   X   </li>
+                <li>Measurement:   X   </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="left-right">
+        <div class="left4">
+            @* chèn thêm các dữ liệu vô những chỗ có x (POL) *@
+            <div>
+                <strong style="color: black;">5. POL:</strong>
+            </div>
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+            <br />
+        </div>
+        <div class="right4">
+            @* chèn thêm các dữ liệu vô những chỗ có x (POD) *@
+            <div>
+                <strong style="color: black;">POD:</strong>
+            </div>
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+        </div>
+    </div>
+    <div class="left-right">
+        <div class="left4">
+            <div>
+                <strong style="color: black;">6. Freight and Charge:</strong>
+            </div>
+        </div>
+        <div class="right4">
+            @* chèn thêm các dữ liệu vô những chỗ có x (Freight and Charge) *@
+            <div>
+                <span style="color: black;">    XXX   </span>
+            </div>
+        </div>
+    </div>
+
+    <div style ="color:black">
+        <i>
+            Please fax us the draft of MBL to check before issue the original. Thanks for your co‑operation. <br>
+            @* chèn thêm các dữ liệu vô những chỗ có x ( Có thể tên người gửi or nhận ) *@
+            <span>   X   </span>,
+        </i>
+    </div>
+</body>
+</html>
