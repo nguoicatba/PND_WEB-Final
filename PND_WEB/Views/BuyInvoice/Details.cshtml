@@ -4,6 +4,21 @@
     ViewData["Title"] = "Details";
 }
 
+<div class="content-heading">
+    <div>
+        Chi tiết hóa đơn 
+        <small></small>
+    </div>
+   <div class="ml-auto">
+        <button class="btn dropdown-toggle btn-info" type="button" data-toggle="dropdown">Xuất file</button>
+        <div class="dropdown-menu" role="menu">
+            <a class="dropdown-item" asp-action="DebitNoteExport" asp-route-id="@Model.Invoice.DebitId">Debit Note</a>
+            <a class="dropdown-item" href="#">Credit Note</a>
+   
+          
+        </div>
+   </div>
+</div>
 
 
 <div class="row">

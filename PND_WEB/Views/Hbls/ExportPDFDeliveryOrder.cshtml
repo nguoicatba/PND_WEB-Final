@@ -20,8 +20,8 @@
     <style>
         body {
             font-family: 'Times New Roman';
-            font-size: 20px;
-            margin: 30px;
+            font-size: 18px;
+            margin: 10px;
         }
 
         .center {
@@ -74,16 +74,6 @@
             width: 70%;
             float: right;
         }
-
-        .left3 {
-            width: 70%;
-            float: left;
-        }
-
-        .right3 {
-            width: 30%;
-            float: right;
-        }
     </style>
 </head>
 <body>
@@ -103,92 +93,81 @@
     </div>
 
 
-    <div style="text-align:center;">
-        <h1 style="margin: 0; padding : 0; color: dimgray">DEBIT NOTE</h1>
+    <div style="text-align:center; color: dimgray">
+        <h1 style="margin: 0; padding : 0; color: dimgray">LỆNH GIAO HÀNG</h1>
+        <h2 style="margin: 0; padding : 0; color: dimgray">(DELIVERY ORDER)</h2>
+       
+        <div class="right"><strong style="color: dimgray">Job No :</strong>    x   </div>
+       
+        <br />
+        <div class="right"><strong style="color: dimgray"></strong> </div>
 
-        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
-        <h2 style="margin: 3px; padding : 3px">   XXX   </h2>
-        <div class="right" style="color: dimgray; font-size: 24px">    xxxxxx   </div>
     </div>
     <br />
-
+    <div>
+        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+        <strong style="color: dimgray"> Kính gửi : HẢI QUAN CẢNG  </strong> X
+       
+       
+    </div>
+    <br />
+    <div>
+        <strong style="color: dimgray"> CÁC CƠ QUAN HỮU QUAN </strong>
+    </div>
+    <br />
+    <div>
+        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
+        <strong style="color: dimgray">
+            Chúng tôi, CÔNG TY TNHH GIAO NHẬN VẬN TẢI PND trận trọng giao hàng cho :
+        </strong>
+                    
+    </div>
+    <br />
+    <div style="text-align:center">
+   
+        x
+    </div>
+    <br />
+    <div>
+        <strong style="color: dimgray">Nhận lô hàng với những chi tiết sau : </strong>
+    </div>
+    <br />
     <div class="left-right">
         <div class="left">
+            
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
-            <div>
-                <strong style="color: gray;">Job No:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Vận đơn chính(MB/L No)</strong>    x  </div>
             <br />
-            <div>
-                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Tên tàu (Vessel):</strong>   x   </div>
             <br />
-            <div>
-                <strong style="color: gray;">MBL:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Cảng xếp hàng (POL):</strong>    x  </div>
             <br />
-            <div>
-                <strong style="color: gray;">HBL:</strong> <span style="color: black;">    XXX   </span>
-            </div>
-            <br />
-            <div>
-                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;">    XXX   </span>
-            </div>
-            <br />
-            <div>
-                <strong style="color: gray;">ETA:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Ngày cập cảng (Arrive on):</strong>    x  </div>
+
         </div>
         <div class="right">
+            
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
-            <div>
-                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Vận đơn phụ(HB/L No)</strong>    x  </div>
             <br />
-            <div>
-                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Tên chuyến (Voyage):</strong>   x   </div>
             <br />
-            <div>
-                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Cảng dỡ hàng (POD):</strong>    x  </div>
             <br />
-            <div>
-                <strong style="color: gray;">POL:</strong> <span style="color: black;">    XXX   </span>
-            </div>
-            <br />
-            <div>
-                <strong style="color: gray;">POD:</strong> <span style="color: black;">    XXX   </span>
-            </div>
-            <br />
-            <div>
-                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">    XXX   </span>
-            </div>
+            <div><strong style="color: dimgray">Địa điểm nhận hàng (P.O.Delivery):</strong>    x  </div>
         </div>
     </div>
 
-
-    <br />
-    <div style="text-align:right">
-        <span style="background-color: lightgoldenrodyellow">TOTAL INVOICE (VND)</span>
-        
-        <input type="text" style="color: black; background-color: lightgoldenrodyellow"/>
-    </div>
 
     <div class="center">
         <table>
             <thead>
-                <tr style="background-color: #D1E9EF;">
-                    <th>No</th>
-                    <th>DESCRIPTION OF CHARGES</th>
-                    <th>COST</th>
-                    <th>CURRENCY</th>
-                    <th>CURRENCY EXCHANGE</th>
-                    <th>QUATITY</th>
-                    <th>UNIT</th>
-                    <th>VAR RATE (%)</th>
-                    <th>AMOUNT</th>
-                    <th>TOTAL AMOUNT(VND)</th>
+                <tr style="color: dimgray">
+                    <th>Số container</th>
+                    <th>Số chì (Seal No)</th>
+                    <th>Số kiện (No. of Packages)</th>
+                    <th>Trọng lượng(KGS)</th>
+                    <th>Số khối (CBM)</th>
                 </tr>
             </thead>
             <tbody>
@@ -220,31 +199,8 @@
             </tfoot>
         </table>
     </div>
-    <br />
-    <br />
-    <br />
-    <br />
-    <div>
-        <strong>Please payment :</strong>
-    </div>
-    <br />
-    <div>
-        ACCOUNT NAME : Công ty TNHH Giao Nhận Vận Tải PND<br>
-        <br />
-        BANK NAME    : Ngân hàng thương mại cổ phần Á Châu - PGD Trần Nguyên Hãn - CN Hải Phòng<br>
-        <br />
-        ACCOUNT NO   :<strong>109 1986 88 (VND)</strong> <br>
-    </div>
-    <br />
-    <div>
-        <div class="left3">
-            NOTE: Currency exchange rate following Vietcombank
-        </div>
-
-        <div class="right3">
-            <strong> PND LOGISTICS.,LTD</strong>
-        </div>
-    </div>
-
+    
 </body>
+
+
 </html>

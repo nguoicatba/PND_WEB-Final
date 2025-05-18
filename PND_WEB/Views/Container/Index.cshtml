@@ -50,8 +50,16 @@
                                     <th>@Html.DisplayNameFor(model => model.containers[0].ContType)</th>
                                  
                                     <th>@Html.DisplayNameFor(model => model.containers[0].ContQuantity)</th>
+                                   
                                     <th>@Html.DisplayNameFor(model => model.containers[0].GrossWeight)</th>
                                     <th>@Html.DisplayNameFor(model => model.containers[0].Cmb)</th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.containers[0].GoodsQuantity)
+
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.containers[0].GoodsKind)
+                                    </th>
     
                                     <th>@Html.DisplayNameFor(model => model.containers[0].GoodsDepcription)</th>
                                 </tr>
@@ -66,13 +74,16 @@
                                             <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                         </td>
                                         <td>@item.ContNo</td>
-                                  
                                         <td>@item.SealNo</td>
                                         <td>@item.ContType</td>
                                         <td>@item.ContQuantity</td>
                                         <td>@item.GrossWeight</td>
                                         <td>@item.Cmb</td>
+                                        <td>@item.GoodsQuantity</td>
+                                        <td>@item.GoodsKind</td>
                                         <td>@item.GoodsDepcription</td>
+
+                                        
                                     </tr>
                                 }
                             

@@ -135,11 +135,20 @@ namespace PND_WEB.Controllers
             {
                 GlobalSettings = {
                     PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
+                    Orientation = Orientation.Portrait,
+                    Margins = new MarginSettings()
+                    {
+                        Top = 10,
+                        Bottom = 10,
+                        Left = 10,
+                        Right = 10
+                    }
+
                 },
                 Objects = {
                     new ObjectSettings()
                     {
+                        
                         HtmlContent = htmlContent
                     }
                 }
@@ -173,7 +182,9 @@ namespace PND_WEB.Controllers
             {
                 GlobalSettings = {
                     PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
+                    Orientation = Orientation.Portrait,
+
+                    
                 },
                 Objects = {
                     new ObjectSettings()

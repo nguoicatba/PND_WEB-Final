@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client;
 using PND_WEB.Data;
 using PND_WEB.Models;
+using PND_WEB.Services;
 using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
@@ -10,10 +13,20 @@ namespace PND_WEB.Controllers
     public class BuyInvoiceController : Controller
     {
 
+        private readonly ILogger<HomeController> _logger;
         private readonly DataContext _context;
-        public BuyInvoiceController(DataContext context)
+
+        //pdf
+
+        private readonly IViewRenderService _viewRenderService;
+        private readonly IConverter _converter;
+
+        public BuyInvoiceController(ILogger<HomeController> logger, DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
+            _logger = logger;
             _context = context;
+            _converter = converter;
+            _viewRenderService = viewRenderService;
         }
 
         [HttpGet]
@@ -433,13 +446,66 @@ namespace PND_WEB.Controllers
             await _context.SaveChangesAsync();
             return Json(new { success = true, message = "Lưu dữ liệu thành công!" });
 
-
-
-
-
         }
 
-       
+
+        public async Task<IActionResult> DebitNoteExport(string id)
+        {
+
+            var invoice = await _context.TblInvoices
+                .FirstOrDefaultAsync(i => i.DebitId == id);
+            var Hbl = await _context.TblHbls
+                
+                .FirstOrDefaultAsync(h => h.Hbl == invoice.Hbl);
+            var job = await _context.TblJobs
+                .Include(j => j.TblHbls)
+                .FirstOrDefaultAsync(j => j.JobId == Hbl.RequestId) ;
+
+            DebitNoteExport viewModel = new DebitNoteExport
+            {
+                JobId = job.JobId,
+                JobType = job.GoodsType,
+                Cnee =Hbl.Cnee,
+                HBL = Hbl.Hbl,
+                MBL = job.Mbl,
+           
+                ETA = job.Eta,
+                Quantity = Hbl.Quantity,
+                GrossWeight = Hbl.GrossWeight,
+                CBM = Hbl.Tonnage,
+                Transport = job.VoyageName == null || job.VoyageName == null ? "" : job.VoyageName.ToString()+"/"+ job.VesselName.ToString(),
+                POL = job.Pol,
+                POD = job.Pod,
+                PODel = job.Podel,
+                Total = await _context.TblCharges
+                    .Where(c => c.DebitId == id)
+                    .SumAsync(c => (c.SerPrice ?? 0) * (c.SerQuantity ?? 0) * (c.ExchangeRate ?? 1) * (1 + (c.SerVat ?? 0) / 100) + (c.MVat ?? 0)),
+                Charges = await _context.TblCharges.Where(c => c.DebitId == id).ToListAsync()
+            };
+           
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFDebitNote", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=debit.pdf");
+            return File(file, "application/pdf");
+        }
+
+
 
     }
 }

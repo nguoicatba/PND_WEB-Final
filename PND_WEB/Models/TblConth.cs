@@ -23,6 +23,8 @@ public partial class TblConth
 
     public string? GoodsQuantity { get; set; }
 
+    public string? GoodsKind { get; set; }
+
     public string? GoodsDepcription { get; set; }
 
     public virtual TblHbl? HblNavigation { get; set; }

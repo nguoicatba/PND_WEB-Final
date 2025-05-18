@@ -1,16 +1,12 @@
 ﻿@using PND_WEB.ViewModels
 
-
-@* sửa theo model của ô để hiển thị những cái màu xanh
-
-*@
-@* @model QuotationsEditDeleteDetailController *@
+@model DebitNoteExport
 
 @{
     Layout = null;
-    // var quotation = Model.Quotation;
-    // var charges = Model.QuotationsCharges;
-    // float totalAmount = 0;
+    var id = 0;
+    DateTime today = DateTime.Now;
+    string formattedToday = today.ToString("dddd, MMMM dd, yyyy ");
 }
 
 <!DOCTYPE html>
@@ -19,70 +15,71 @@
     <meta charset="utf-8" />
     <style>
         body {
-            font-family: 'Times New Roman';
-            font-size: 20px;
-            margin: 30px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        margin: 30px;
         }
 
         .center {
-            width: 100%;
-            clear: both;
-            margin-top: 20px;
+        width: 100%;
+        clear: both;
+        margin-top: 20px;
         }
 
         table {
-            width: 100%;
-            border-collapse: collapse;
+        width: 100%;
+        border-collapse: collapse;
         }
 
         th, td {
-            border: 1px solid #000;
-            padding: 6px;
-            text-align: center;
+        border: 1px solid #000;
+        padding: 6px;
+        text-align: center;
         }
 
         .text-right {
-            text-align: right;
+        text-align: right;
         }
 
         .bold {
-            font-weight: bold;
-        }
-        .left-right{
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 10px;
-            margin-top: 10px;
+        font-weight: bold;
         }
 
-        .left{
-            width: 50%;
-            float: left;
+        .left-right {
+        width: 100%;
+        overflow: hidden;
+        margin-bottom: 10px;
+        margin-top: 10px;
         }
 
-        .right{
-            width: 50%;
-            float: right;
+        .left {
+        width: 50%;
+        float: left;
+        }
+
+        .right {
+        width: 50%;
+        float: right;
         }
 
         .left2 {
-            width: 30%;
-            float: left;
+        width: 30%;
+        float: left;
         }
 
         .right2 {
-            width: 70%;
-            float: right;
+        width: 70%;
+        float: right;
         }
 
         .left3 {
-            width: 70%;
-            float: left;
+        width: 70%;
+        float: left;
         }
 
         .right3 {
-            width: 30%;
-            float: right;
+        width: 30%;
+        float: right;
         }
     </style>
 </head>
@@ -107,8 +104,8 @@
         <h1 style="margin: 0; padding : 0; color: dimgray">DEBIT NOTE</h1>
 
         @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
-        <h2 style="margin: 3px; padding : 3px">   XXX   </h2>
-        <div class="right" style="color: dimgray; font-size: 24px">    xxxxxx   </div>
+        <h2 style="margin: 3px; padding : 3px">   @Model.JobType  </h2>
+        <div class="right" style="color: dimgray; font-size: 24px"> @formattedToday     </div>
     </div>
     <br />
 
@@ -116,53 +113,53 @@
         <div class="left">
             @* chèn thêm các dữ liệu vô những chỗ có x  *@
             <div>
-                <strong style="color: gray;">Job No:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">Job No:</strong> <span style="color: black;">    @Model.JobId   </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">   @Model.Cnee  </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">MBL:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">MBL:</strong> <span style="color: black;">    @Model.Cnee  </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">HBL:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">HBL:</strong> <span style="color: black;">    @Model.HBL  </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;"> @Model.Transport   </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">ETA:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">ETA:</strong> <span style="color: black;">    @Model.ETA.ToString("dd/MM/yyyy")  </span>
             </div>
         </div>
         <div class="right">
-            @* chèn thêm các dữ liệu vô những chỗ có x  *@
+           
             <div>
-                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">    @Model.Quantity  </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">    @Model.GrossWeight  </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">    @Model.CBM   </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">POL:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">POL:</strong> <span style="color: black;">   @Model.POL </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">POD:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">POD:</strong> <span style="color: black;">    @Model.POD   </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">    XXX   </span>
+                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">   @Model.PODel   </span>
             </div>
         </div>
     </div>
@@ -171,8 +168,8 @@
     <br />
     <div style="text-align:right">
         <span style="background-color: lightgoldenrodyellow">TOTAL INVOICE (VND)</span>
-        
-        <input type="text" style="color: black; background-color: lightgoldenrodyellow"/>
+
+        <input type="text" style="color: black; background-color: lightgoldenrodyellow" value="@Model.Total" />
     </div>
 
     <div class="center">
@@ -196,28 +193,27 @@
                 @* chèn thêm các dữ liệu vô những chỗ có xanh lá  *@
 
 
-                @* @foreach (var item in charges) *@
+                @foreach (var item in Model.Charges)
                 {
-                    @* float amount = (float)item.Quantity * (float)(item.Rate ?? 0); *@
-                    @* totalAmount += amount; *@
-                    @* <tr> *@
-                    @*     <td>@item.ChargeName</td> *@
-                    @*     <td>@item.Currency</td> *@
-                    @*     <td>@item.Unit</td> *@
-                    @*     <td class="text-right">@item.Quantity</td> *@
-                    @*     <td class="text-right">@item.Rate?.ToString("N2")</td> *@
-                    @*     <td class="text-right">@amount.ToString("N2")</td> *@
-                    @*     <td>@item.Notes</td> *@
-                    @* </tr> *@
+                    ++id;
+
+                <tr>
+                   
+                        <td>@id</td>
+                        <td>@item.SerName</td>
+                        <td>@item.SerPrice</td>
+                        <td>@item.Currency</td>
+                        <td>@item.ExchangeRate</td>
+                        <td>@item.SerQuantity</td>
+                        <td>@item.SerUnit</td>
+                        <td>@item.SerVat</td>
+                        <td>@item.MVat</td>
+                        <td>@Model.Amount(item)</td>
+              
+                </tr>
                 }
             </tbody>
-            <tfoot>
-                @* <tr> *@
-                @*     <td colspan="5" class="text-right bold"><center>TOTAL</center></td> *@
-                @*     <td class="text-right bold">@totalAmount.ToString("N2")</td> *@
-                @*     <td></td> *@
-                @* </tr> *@
-            </tfoot>
+          
         </table>
     </div>
     <br />
