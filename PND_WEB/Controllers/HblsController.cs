@@ -488,7 +488,72 @@ namespace PND_WEB.Controllers
             };
 
             var file = _converter.Convert(doc);
-            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            Response.Headers.Add("Content-Disposition", "inline; filename=AN.pdf");
+            return File(file, "application/pdf");
+        }
+
+
+        public async Task<IActionResult> ExportPDFHBL(string id)
+        {
+
+            var Hbl = await _context.TblHbls
+               .Include(t => t.CneeNavigation)
+               .Include(t => t.Customer)
+               .Include(t => t.Request)
+               .Include(t => t.ShipperNavigation)
+               .FirstOrDefaultAsync(m => m.Hbl == id);
+
+            if (Hbl == null)
+                return NotFound();
+            var viewModel = new ExportHblVM
+            {
+                Hbl = Hbl.Hbl,
+                RequestId = Hbl.RequestId,
+                GoodType = Hbl.Request?.GoodsType,
+                Shipper = Hbl.ShipperNavigation,
+                Cnee = Hbl.CneeNavigation,
+                NotifyParty = Hbl.NotifyParty,
+                NotifyPartyCnee = _context.TblCnees.FirstOrDefault(c => c.Cnee == Hbl.NotifyParty),
+                PlaceOfReceipt = Hbl.Request?.PlaceofReceipt,
+                PlaceOfDelivery = Hbl.Request?.PlaceofDelivery,
+                Pod = Hbl.Request?.Pod,
+                Pol = Hbl.Request?.Pol,
+                BILL_TYPE = Hbl.BlType,
+                NumberOfOriginal = Hbl.NumberofOrigins,
+                Transport = Hbl.Request?.GoodsType == "AI" || Hbl.Request?.GoodsType == "AE" ? Hbl.Request.VesselName : Hbl.Request?.VesselName + "/" + Hbl.Request?.VoyageName,
+                FreightPayable = Hbl.FreightPayable,
+                MarkNo = Hbl.MarkNos,
+                Quantity = Hbl.Quantity,
+                PreCariageBy = Hbl.Request?.PreCariageBy,
+                DescriptionOfGoods = Hbl.GoodsDesciption,
+                GrossWeight = Hbl.GrossWeight ?? 0.0,
+                Tonnage = (Hbl.GrossWeight ?? 0.0) / 1000.0,
+                FreightCharge = Hbl.FreightCharge,
+                Prepaid = Hbl.Prepaid,
+                Collect = Hbl.Collect,
+
+
+            };
+
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFHBL", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=BILL.pdf");
             return File(file, "application/pdf");
         }
 

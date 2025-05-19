@@ -1,0 +1,349 @@
+﻿@using PND_WEB.ViewModels
+
+
+@model ExportHblVM
+
+@{
+    Layout = null;
+    // var quotation = Model.Quotation;
+    // var charges = Model.QuotationsCharges;
+    // float totalAmount = 0;
+
+    string TranPost_Text = "";
+
+    if (Model.GoodType == "AI" || Model.GoodType == "AE")
+    {
+        TranPost_Text = "Flight";
+    }
+    else
+    {
+        TranPost_Text = "Vessel/Voyage";
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+        font-family: 'Times New Roman';
+        font-size: 12px;
+        color: #4472C3;
+        }
+
+        .center {
+        width: 100%;
+        clear: both;
+        }
+
+        .text-right {
+        text-align: right;
+        }
+
+        .bold {
+        font-weight: bold;
+        }
+        .left-right{
+        width: 100%;
+        overflow: hidden;
+        }
+
+        .left{
+        width: 49%;
+        float: left;
+        }
+
+        .right{
+        width: 49%;
+        float: right;
+        }
+
+        .left2 {
+        width: 30%;
+        float: left;
+        }
+
+        .right2 {
+        width: 70%;
+        float: right;
+        }
+
+        th, td{
+        border: 1px solid gray;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left">
+            <div>
+                <hr />
+                <div style="font-size: 16px; padding: 0; margin: 0;">
+                    Shipper
+                </div>
+                <br />
+                <div style="font-size: 16px; padding: 0; margin: 0; color: black">
+                    @* thêm dữ liệu vào x *@
+                    @Model.Shipper.Shipper
+
+                    @if (Model.Shipper.Saddress !=null)
+                    {
+                        <br />
+                        @Model.Shipper.Saddress
+
+                    }
+                    @if (Model.Shipper.TaxId != null)
+                    {
+                        <br />
+                        <span style="color: black">Tax ID: </span> @Model.Shipper.TaxId
+
+                    }
+                </div>
+                <br />
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <hr />
+                <div style="font-size: 16px; padding: 0; margin: 0;">
+                    Consignee
+                </div>
+                <br />
+                <div style="font-size: 16px; padding: 0; margin: 0; color: black">
+
+                    @* thêm dữ liệu vào x *@
+                    @Model.Cnee.Cnee
+                    @if (Model.Cnee.Caddress != null)
+                    {
+                        <br />
+                        @Model.Cnee.Caddress
+
+                    }
+                    @if (Model.Cnee.TaxId != null)
+                    {
+                        <br />
+                        <span style="color: black">Tax ID: </span> @Model.Cnee.TaxId
+                    }
+                </div>
+                <br />
+                <br />
+                <br />
+            </div>
+
+            <div>
+                <hr />
+                <div style="font-size: 16px; padding: 0; margin: 0;">
+                    Notify address
+                </div>
+                <br />
+                <div style="font-size: 16px; padding: 0; margin: 0; color: black">
+
+                    @if (Model.NotifyPartyCnee != null)
+                    {
+                        
+                        @Model.NotifyPartyCnee.Cnee
+
+                        @if (Model.NotifyPartyCnee.Caddress != null)
+                        {
+                            <br />
+                            @Model.NotifyPartyCnee.Caddress
+                        }
+                        @if (Model.NotifyPartyCnee.TaxId != null)
+                        {
+                            <br />
+                            <span style="color: black">Tax ID: </span> @Model.NotifyPartyCnee.TaxId
+                        }
+
+                    }
+                    else
+                    {
+                        <span style="color: black">  Same As Consignee </span>
+                       
+                    
+                    }
+                </div>
+                <br />
+                <br />
+                <br />
+            </div>
+        </div>
+        <div class="right">
+            <div style="text-align:left;  padding: 0; margin: 0;">
+                <h1 style="font-size: 36px; padding: 0; margin: 0;">BILL OF LADING</h1>
+                <hr />
+            </div>
+
+            <div style="text-align:center;  padding: 0; margin: 0;">
+                @* thêm dữ liệu vào x *@
+                <p style="font-size: 16px;  padding: 0; margin: 0;">BL No:    @Model.Hbl  </p>
+                <hr />
+            </div>
+
+            <div>
+                <p><h2 style="text-align:center; color: #21B14B">PND TRANSPORT LOGISTICS CO.,LTD</h2></p>
+                <img style="width:130px; height:80px; float: left;" src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+                Add: No 24A, Area 15, Dang Hai Ward, Hai An District,Hai Phong City, Vietnam <br>
+                Tel: +84 225 37303388    Email: ceo@pnd-logistics.com<br>
+                Website: http://pnd-logistic.com<br><br>
+            </div>
+
+            <div>
+                RECEIVED by the Carrier from the Shipper in apparent good order and condition
+                (unless otherwwise noted herein) the total number or quantity of Containers or the
+                packages of units indicated below for Cariage subject to all the terms and conditions
+                hereof (INCLUDING THE TERM AND CONDITIONS ON THE REVERSE SIDE
+                HEREOF AND THE TERMS AND CONDITIONS OF THE CARRIER'S
+                APPLICABLE TARIFF) from the Place of Receipt or the Port of loading, whichever is
+                applicable, to the Port of Discharge or the Port of Delivery whichever is applicable. One
+                original Bill of lading, duly endorsed, must be surrendered by the Merchant to the
+                Carrier at the Port of Discharge or at some other location acceptable to the Carrier in
+                exchange for the Goods. In accepting this Bill of Lading the Merchant expressly accept
+                and agrees to all it's term and conditions whether printed, stamped or written, or
+                otherwwise incorporated, notwithstanding the non-signing of this Bill of Lading by the
+                Merchant
+            </div>
+        </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div>
+        <table cellspacing="2" cellpadding="5" style="width:100%;border-collapse: separate; border-spacing: 1px;
+        border-style: solid; border-width: 1px 1px 0 1px; border-color: gray;">
+            <thead>
+                <tr>
+                    <th>Place of Receipt</th>
+                    <th>Port of loading</th>
+                    <th>Pre-Carriage by</th>
+                    <th>Numbers of Origins</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="color:black">
+                    <td> @Model.PlaceOfReceipt </td>
+                    <td> @Model.Pol </td>
+                    <td> @Model.PreCariageBy </td>
+                    <td> @Model.NumberOfOriginal </td>
+                </tr>
+                <tr>
+                    <td>@TranPost_Text</td>
+                    <td>Port of Discharge</td>
+                    <td>Place of Delivery</td>
+                    <td>Freight Payable</td>
+                </tr>
+                <tr style ="color:black">
+                    <td> @Model.Transport </td>
+                    <td> @Model.Pod </td>
+                    <td> @Model.PlaceOfDelivery </td>
+                    <td> @Model.FreightPayable </td>
+                </tr>
+            </tbody>
+        </table>
+        <table cellspacing="2" cellpadding="5" style="width:100%;border-collapse: separate; border-spacing: 1px;
+        border-style: solid; border-width: 0px 1px 1px 1px; border-color: gray;">
+            <thead>
+                <tr>
+                    <th>Marks and Nos</th>
+                    <th>Quantity</th>
+                    <th>Description of Goods</th>
+                    <th>Gross Weight (KGS)</th>
+                    <th>Measurement (CBM)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr style="color:black">
+                    <td> @Model.MarkNo </td>
+                    <td> @Model.Quantity </td>
+                    <td> @Model.DescriptionOfGoods </td>
+                    <td> @Model.GrossWeight </td>
+                    <td> @Model.Tonnage </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <br />
+    <br />
+
+
+    @* <div style="color:black; font-size: 16px"> *@
+    @*     x  *@
+        
+    @*     <br> *@
+
+    @*     x *@
+    @* </div> *@
+
+    <div style="text-align:center; padding: 2px; margin: 2px;">
+        <h1 style="font-size: 80px; padding: 2px; margin: 2px; color:gray">Page 1</h1>
+    </div>
+
+    <div style="text-align:center;  padding: 2px; margin: 2px;">
+        <h1 style="font-size: 36px;  padding: 2px; margin: 2px;">@Model.BILL_TYPE B/L</h1>
+    </div>
+    <hr />
+    <div class="left-right">
+        <div class="left" style="font-size:16px">
+            <div>
+                For delivery of goods apply to
+            </div>
+            <br />
+            <div style="font-size: 16px; padding: 0; margin: 0; color: black">
+                @* thêm dữ liệu vào x *@
+                x
+            </div>
+            <br />
+            <br />
+            <br />
+
+            <table cellspacing="2" cellpadding="5" style="width: 100% ;border-collapse: separate; border-spacing: 1px;
+        border-style: solid; border-width: 0px 1px 1px 1px; border-color: gray;">
+                <thead>
+                    <tr>
+                        <th style="width: 33%">Freight and Charge</th>
+                        <th style ="width: 33%">Prepaid</th>
+                        <th style="width: 33%">Collect</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="color:black; height:80px">
+                        <td style="vertical-align: top; text-align: left;"><input type="checkbox" @(Model.FreightCharge == null || Model.FreightCharge == false ? "" : "checked")></td>
+                        <td style="vertical-align: top; text-align: left;"><input type="checkbox" @(Model.Collect == null || Model.Collect== false ? "" : "checked")></td>
+                        <td style="vertical-align: top; text-align: left;"><input type="checkbox" @(Model.Prepaid== null || Model.Prepaid == false ? "" : "checked")></td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="text-align:center;">
+                <h1 style="font-size: 30px;"> COPY NON-NEGOTIABLE</h1>
+            </div>
+        </div>
+
+
+        <div class="right" style="font-size:16px">
+            <div>
+                IN WITNESS whereof the number of original Bill of Lading stated
+                opposited have been issued one of which being accomplished the
+                other(s) to be void
+            </div>
+            <hr />
+            <div>
+                Signed as the Carrier
+            </div>
+            <br />
+            <hr />
+            <div>
+                Plane and Date of issue
+            </div>
+            <br />
+            <hr />
+            <div>
+                STAMP and Signature
+            </div>
+        </div>
+    </div>
+</body>
+</html>
