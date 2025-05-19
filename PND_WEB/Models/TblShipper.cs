@@ -15,18 +15,22 @@ public partial class TblShipper
 
     [Column("SAddress")]
     [MaxLength(1000)]
+    [Display(Name = "Shipper Address")]
     public string? Saddress { get; set; }
 
     [Column("SCity")]
     [MaxLength(100)]
+    [Display(Name = "Shipper City")]
     public string? Scity { get; set; }
 
     [Column("SPerson_in_charge")]
     [MaxLength(255)]
+    [Display(Name = "Shipper PIC")]
     public string? SpersonInCharge { get; set; }
 
     [Column("TaxID")]
     [MaxLength(20)]
+    [Display(Name = "Tax ID")]
     public string? TaxId { get; set; }
 
     public virtual ICollection<TblHbl> TblHbls { get; set; } = new List<TblHbl>();

@@ -6,7 +6,13 @@
         <small>@Model.SubTitle</small>
     </div>
     <div class="ml-auto">
-        <button class="btn dropdown-toggle btn-info btn-xs" type="button" data-toggle="dropdown">PDF File</button>
+        <button class="btn dropdown-toggle btn-info btn-xs btn-labeled" type="button" data-toggle="dropdown">
+            <span class="btn-label">
+                <i class="fa fa-file-pdf-o"></i>
+            </span> PDF File
+
+         </button>
+        
         <div class="dropdown-menu" role="menu">
             <a class="dropdown-item" asp-action="ExportPDFHBL" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">HBL/HWAB</a>
             <a class="dropdown-item" asp-action="ExportPDFDO" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">D.O File</a>
