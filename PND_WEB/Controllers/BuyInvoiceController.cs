@@ -171,16 +171,22 @@ namespace PND_WEB.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> Delete(string id, InvoiceEditModel invoiceEditModel)
         {
+            if (id == null)
+            {
+                return NotFound();
+            }
             var invoice = await _context.TblInvoices.FindAsync(id);
             if (invoice != null)
             {
+                _context.TblCharges.RemoveRange(_context.TblCharges.Where(c => c.DebitId == invoice.DebitId));
                 _context.TblInvoices.Remove(invoice);
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Index", new { id = invoice.Hbl });
         }
+      
 
         [HttpGet]
         public async Task<IActionResult> Details(string id)

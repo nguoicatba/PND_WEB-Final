@@ -15,6 +15,10 @@ namespace PND_WEB.Data
 
             await ClaimSeeder.SeedAsync(_context);
 
+            await KindOfPackageSeeder.SeedAsync(_context);
+
+            await CarrierSeeder.SeedAsync(_context);
+
             if (!await roleManager.RoleExistsAsync("Admin"))
             {
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
@@ -203,51 +207,115 @@ namespace PND_WEB.Data
             if (!await _context.TblSuppliers.AnyAsync())
             {
                 await _context.TblSuppliers.AddRangeAsync(
-                    new TblSupplier { SupplierId = "SUP001", NameSup = "Công ty TNHH ABC Logistics", Typer = "Local Charges", AddressSup = "123 Lê Lợi, Q1, HCM", LccFee = "Giao hàng nội địa", Note = "" },
-                    new TblSupplier { SupplierId = "SUP002", NameSup = "CTCP Vận Tải Biển XYZ", Typer = "Shipping Line", AddressSup = "789 Trần Hưng Đạo, HN", LccFee = "Hỗ trợ thủ tục hải quan", Note = "" },
-                    new TblSupplier { SupplierId = "SUP003", NameSup = "DNTN Kim Ngân Forwarder", Typer = "Handling Fee", AddressSup = "56 Nguyễn Huệ, Đà Nẵng", LccFee = "Giao hàng quốc tế", Note = "" }
+                    new TblSupplier { SupplierId = "SUP001", NameSup = "Công ty TNHH ABC Logistics", Typer = "Agent", AddressSup = "123 Lê Lợi, Q1, HCM", LccFee = "", Note = "Giao hàng nội địa" },
+                    new TblSupplier { SupplierId = "SUP002", NameSup = "CTCP Vận Tải Biển XYZ", Typer = "Agent", AddressSup = "789 Trần Hưng Đạo, HN", LccFee = "", Note = "Hỗ trợ thủ tục hải quan" },
+                    new TblSupplier { SupplierId = "SUP003", NameSup = "DNTN Kim Ngân Forwarder", Typer = "Agent", AddressSup = "56 Nguyễn Huệ, Đà Nẵng", LccFee = "", Note = "Giao hàng quốc tế" }
                 );
                 await _context.SaveChangesAsync();
             }
 
-            // Seeding Kindofpackages
 
-            if (!await _context.Kindofpackages.AnyAsync())
+            if (!await _context.TblShippers.AnyAsync())
             {
-
-                await _context.Kindofpackages.AddRangeAsync(
-                        new Kindofpackage { Code = "BA", PackageName = "Barrels", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BE", PackageName = "Bundles", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BG", PackageName = "Bags", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BK", PackageName = "Baskets", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BL", PackageName = "Bales,compressed", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BN", PackageName = "Bales,non-compressed", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BR", PackageName = "Bars", PackagesDescription = "" },
-                    new Kindofpackage { Code = "BX", PackageName = "Boxes", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CA", PackageName = "Cans, rectangular", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CG", PackageName = "Cages", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CK", PackageName = "Casks", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CL", PackageName = "Coils", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CN", PackageName = "Containers", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CO", PackageName = "Carboy, non-protected", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CP", PackageName = "Carboy, protected", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CR", PackageName = "Crates", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CS", PackageName = "Cases", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CT", PackageName = "Cartons", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CX", PackageName = "Cans, cylindrical", PackagesDescription = "" },
-                    new Kindofpackage { Code = "CY", PackageName = "Cylinders", PackagesDescription = "" },
-                    new Kindofpackage { Code = "DR", PackageName = "Drums", PackagesDescription = "" },
-                    new Kindofpackage { Code = "KG", PackageName = "Kegs", PackagesDescription = "" },
-                    new Kindofpackage { Code = "LG", PackageName = "Logs", PackagesDescription = "" },
-                    new Kindofpackage { Code = "LZ", PackageName = "Logs, in bundle/bunch/truss", PackagesDescription = "" },
-                    new Kindofpackage { Code = "MST", PackageName = "MST", PackagesDescription = "" },
-                    new Kindofpackage { Code = "MT", PackageName = "Mats", PackagesDescription = "" },
-                    new Kindofpackage { Code = "NE", PackageName = "Unpacked  or unpackaged", PackagesDescription = "" },
-                    new Kindofpackage { Code = "NT", PackageName = "Nets", PackagesDescription = "" }
-
+                await _context.TblShippers.AddRangeAsync(
+                    new TblShipper
+                    {
+                        Shipper = "INTL001",
+                        Saddress = "121 King Street, London EC2V 7AA, UK",
+                        Scity = "London",
+                        SpersonInCharge = "Alice Johnson",
+                        TaxId = "GB123456789"
+                    },
+                    new TblShipper
+                    {
+                        Shipper = "INTL002",
+                        Saddress = "350 Mission Street, San Francisco, CA 94105, USA",
+                        Scity = "San Francisco",
+                        SpersonInCharge = "Michael Chen",
+                        TaxId = "US94-1234567"
+                    },
+                    new TblShipper
+                    {
+                        Shipper = "INTL003",
+                        Saddress = "1-1-2 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
+                        Scity = "Tokyo",
+                        SpersonInCharge = "Hiroshi Tanaka",
+                        TaxId = "JP1234567890"
+                    },
+                    new TblShipper
+                    {
+                        Shipper = "INTL004",
+                        Saddress = "Süderstraße 288, 20537 Hamburg, Germany",
+                        Scity = "Hamburg",
+                        SpersonInCharge = "Klara Schmidt",
+                        TaxId = "DE812345678"
+                    },
+                    new TblShipper
+                    {
+                        Shipper = "INTL005",
+                        Saddress = "Suite 1802, 18F, Tower A, Beijing Fortune Plaza, Beijing, China",
+                        Scity = "Beijing",
+                        SpersonInCharge = "Li Wei",
+                        TaxId = "CN110108123456789"
+                    }
                 );
                 await _context.SaveChangesAsync();
             }
+
+            if (!await _context.TblCnees.AnyAsync())
+            {
+                await _context.TblCnees.AddRangeAsync(
+                    new TblCnee
+                    {
+                        Cnee = "CNEE001",
+                        Vcnee = "Công ty TNHH Nhập Khẩu Toàn Cầu",
+                        Caddress = "350 Mission Street, San Francisco, CA 94105, USA",
+                        Vaddress = "350 Phố Nhiệm Vụ, San Francisco, Hoa Kỳ",
+                        Ccity = "San Francisco",
+                        CpersonInCharge = "Emily Thompson",
+                        TaxId = "US84-9988776",
+                        Haddress = "789 Lake View Rd, Oakland, CA"
+                    },
+                    new TblCnee
+                    {
+                        Cnee = "CNEE002",
+                        Vcnee = "CTCP Thương Mại Á Âu",
+                        Caddress = "88 Nathan Road, Tsim Sha Tsui, Kowloon, Hong Kong",
+                        Vaddress = "88 Đường Nathan, Cửu Long, Hồng Kông",
+                        Ccity = "Hong Kong",
+                        CpersonInCharge = "Raymond Cheng",
+                        TaxId = "HK456789321",
+                        Haddress = "Flat 12B, Tower 3, Harbour View Gardens, HK"
+                    },
+                    new TblCnee
+                    {
+                        Cnee = "CNEE003",
+                        Vcnee = "CT TNHH Công Nghệ Đức Minh",
+                        Caddress = "Hafenstraße 15, 28195 Bremen, Germany",
+                        Vaddress = "15 Đường Cảng, Bremen, Đức",
+                        Ccity = "Bremen",
+                        CpersonInCharge = "Lars Becker",
+                        TaxId = "DE908765432",
+                        Haddress = "42 Bahnhofstraße, Bremen"
+                    },
+                    new TblCnee
+                    {
+                        Cnee = "CNEE004",
+                        Vcnee = "Tập Đoàn Thép Việt Hàn",
+                        Caddress = "6 Battery Road, Singapore 049909",
+                        Vaddress = "6 Đường Battery, Singapore",
+                        Ccity = "Singapore",
+                        CpersonInCharge = "Tan Wei Ling",
+                        TaxId = "SG123456789A",
+                        Haddress = "22 Ang Mo Kio Ave 3, Singapore"
+                    }
+                );
+                await _context.SaveChangesAsync();
+            }
+
+
+
+
         }
     }
 }
