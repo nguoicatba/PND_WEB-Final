@@ -7,7 +7,7 @@
         <p>
             <button id="save_data" class="btn btn-primary btn-xs">Save Data</button>
         </p>
-        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+        <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
             <thead class="">
                 <tr>
                     <th>Action</th>
@@ -26,10 +26,7 @@
                 {
                     <tr>
                         <td>
-                            <input type="checkbox" class="claims_value" 
-                             data-type="@item.ClaimType"
-                             data-value="@item.ClaimValue"
-                             data-description="@item.Description"
+                            <input type="checkbox" class="claims_value"  
                             @(item.Selected ? "checked" : "") />
                         </td>
                         <td>
@@ -52,47 +49,75 @@
 
 @section Scripts {
   
-    <script>  
-        // save data
-            $('#save_data').on('click', function () {
-            let selectedClaims = [];
+    <script>
 
-            $('.claims_value:checked').each(function(){
-                selectedClaims.push({
-                    claimType: $(this).data('type'),
-                    claimValue:$(this).data('value'),
-                   description:$(this).data('description')
-                });
+
+
+        $(document).ready(function () {
+           var table= $('#kientable').DataTable({
+                "order": [[1, "asc"]],
+                "columnDefs": [
+                    { "orderable": false, "targets": 0 }
+                ]
             });
 
 
-            const data={
-                RoleId:'@Model.RoleId',
-                Claims:selectedClaims
 
+        $('#save_data').click(function () {
+            var get_select_data = [];
+
+            // Duyệt từng dòng bằng DataTables
+            table.rows().every(function (rowIdx, tableLoop, rowLoop) {
+                var rowNode = $(this.node());
+
+                var isChecked = rowNode.find('input[type="checkbox"]').prop('checked');
+
+               
+                var data = this.data();
+
+                var claim = {
+                    ClaimId: "", 
+                    ClaimType: data[1],      
+                    ClaimValue: data[2],      
+                    Description: data[3],      
+                    Selected: isChecked       
+                };
+
+                get_select_data.push(claim);
+            });
+
+            var dataToSend = {
+                RoleId: '@Model.RoleId',
+                Claims: get_select_data
             };
 
-            console.log(data);
+            console.log(dataToSend);
+
             $.ajax({
-                type:"POST",
-                url:'@Url.Action("SaveRoleClaims", "Role")',
+                type: "POST",
+                url: '@Url.Action("SaveRoleClaims", "Role")',
+                data: JSON.stringify(dataToSend),
                 contentType: "application/json; charset=utf-8",
-                   data: JSON.stringify(data),
-                   success: function (response) {
-                       if (response.success){
-                            alert("Lưu thành công!");
-                            location.reload();
-                       }
-                       else{
-                           alert("Lỗi role ko tìm thấy");
-                       }
-                      
-                   },
-                   error: function (xhr, status, error) {
-                       alert("Lỗi khi lưu: " + error);
-                   }
-            })
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        alert("Data saved successfully!");
+                        location.reload(); // Reload the page to see the changes
+                    } else {
+                        alert("Error saving data.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred while saving data.");
+                }
+            });
         });
+
+         
+        });
+     
+ 
+          
 
 
 

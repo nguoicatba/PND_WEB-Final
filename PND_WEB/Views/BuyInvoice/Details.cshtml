@@ -600,7 +600,7 @@
             $('#save').on('click', function () {
 
                 var tableData=table.rows().data().toArray();
-                console.log(tableData);
+               
                 var dataToSend = tableData.map(function (row) {
                     return {
                         DebitId: '@Model.Invoice.DebitId',

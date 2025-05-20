@@ -253,6 +253,9 @@ namespace PND_WEB.Controllers
                     Description = claim.Description,
                     Selected = ClaimSet.Contains(key)
                 });
+                Console.WriteLine(key);
+                Console.WriteLine(ClaimSet.Contains(key));
+
             }
 
             RoleClaimsViewModel roleClaims = new RoleClaimsViewModel
@@ -281,6 +284,8 @@ namespace PND_WEB.Controllers
 
             foreach (var claim in roleClaims.Claims)
             {
+                if (claim.Selected == false)
+                    continue;
                 await _roleManager.AddClaimAsync(role, new Claim(claim.ClaimType, claim.ClaimValue));
             }
 
