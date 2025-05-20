@@ -253,8 +253,7 @@ namespace PND_WEB.Controllers
                     Description = claim.Description,
                     Selected = ClaimSet.Contains(key)
                 });
-                Console.WriteLine(key);
-                Console.WriteLine(ClaimSet.Contains(key));
+               
 
             }
 

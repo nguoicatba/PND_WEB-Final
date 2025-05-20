@@ -23,6 +23,7 @@ namespace PND_WEB.Controllers
         // GET: TblSupplier
         public async Task<IActionResult> Index()
         {
+           
             return View(await _context.TblSuppliers.ToListAsync());
         }
 
@@ -51,6 +52,7 @@ namespace PND_WEB.Controllers
         // GET: TblSupplier/Create
         public IActionResult Create()
         {
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "NameType", "NameType");
             return View();
         }
 
@@ -67,6 +69,7 @@ namespace PND_WEB.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "NameType", "NameType");
             return View(tblSupplier);
         }
 
@@ -83,6 +86,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "Name_type", "Name_type");
             return View(tblSupplier);
         }
 
@@ -118,6 +122,7 @@ namespace PND_WEB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "Name_type", "Name_type");
             return View(tblSupplier);
         }
 
