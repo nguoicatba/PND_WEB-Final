@@ -86,7 +86,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "Name_type", "Name_type");
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "NameType", "NameType");
             return View(tblSupplier);
         }
 
@@ -122,7 +122,7 @@ namespace PND_WEB.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "Name_type", "Name_type");
+            ViewData["Type"] = new SelectList(_context.InvoiceTypes, "NameType", "NameType");
             return View(tblSupplier);
         }
 
