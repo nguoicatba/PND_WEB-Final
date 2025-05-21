@@ -30,17 +30,22 @@ namespace PND_WEB.Data.Seeders
 
 
                     // báo giá admin
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewCreate", Description = "Tạo báo giá mới" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewEdit", Description = "Chỉnh sửa báo giá" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewDelete", Description = "Xóa báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewCreate", Description = "Tạo báo giá mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewEdit", Description = "Chỉnh sửa báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewDelete", Description = "Xóa báo giá" },
 
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewDeleteCharges", Description = "Tạo phi báo giá mới" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewCreateCharges", Description = "Chỉnh sửa phí báo giá" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewEditCharges", Description = "Xóa phí báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewDeleteCharges", Description = "Tạo phi báo giá mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewCreateCharges", Description = "Chỉnh sửa phí báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewEditCharges", Description = "Xóa phí báo giá" },
                     
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminView", Description = "Xem báo giá" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "AdminViewDetails", Description = "Xem chi tiết báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminView", Description = "Xem báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewDetails", Description = "Xem chi tiết báo giá" },
 
+                    // tạm ứng thanh toán check
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "Check", Description = "Thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckDelete", Description = "Xóa thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckDetails", Description = "Chi tiết thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckEdit", Description = "Sửa thông tin tạm ứng thanh toán khi duyệt" },
 
                     // HBL
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Create", Description = "Tạo HBL mới" },

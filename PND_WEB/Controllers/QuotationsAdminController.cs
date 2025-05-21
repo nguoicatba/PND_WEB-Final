@@ -8,34 +8,24 @@ using Microsoft.AspNetCore.Identity;
 using DinkToPdf;
 using DinkToPdf.Contracts;
 using PND_WEB.Services;
+
 namespace PND_WEB.Controllers
 {
-    public class QuotationsController : Controller
+    public class QuotationsAdminController : Controller
     {
         private readonly DataContext _context;
         private readonly UserManager<AppUserModel> _userManager;
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
 
-        public QuotationsController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter, IViewRenderService viewRenderService)
+        public QuotationsAdminController(DataContext context, UserManager<AppUserModel> userManager, IConverter converter, IViewRenderService viewRenderService)
         {
             _context = context;
             _userManager = userManager;
             _converter = converter;
             _viewRenderService = viewRenderService;
         }
-        // GET: Quotations
-        public async Task<IActionResult> Index()
-        {
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
 
-            var quotations = await _context.Quotations
-                .Where(q => q.StaffName == user.Staff_Name)
-                .ToListAsync();
-
-            return View(quotations);
-        }
 
         // FUNCTIONS
         public async Task<string> PredictQuotationCode()
@@ -95,10 +85,50 @@ namespace PND_WEB.Controllers
         }
 
 
+        private bool QuotationExists(string id)
+        {
+            return _context.Quotations.Any(e => e.QuotationId == id);
+        }
 
-        //Quotations
-        [ClaimAuthorize("Quotation", "Create")]
-        public async Task<IActionResult> Create()
+        private bool QuotationsChargeExists(int id)
+        {
+            return _context.QuotationsCharges.Any(e => e.ChargeId == id);
+        }
+
+
+        ///admin //////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///
+        [ClaimAuthorize("QuotationsAdmin", "AdminView")]
+        public async Task<IActionResult> AdminView()
+        {
+            var quotations = await _context.Quotations
+                .ToListAsync();
+
+            return View(quotations);
+        }
+
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewDetails")]
+        public async Task<IActionResult> AdminViewDetails(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            return View(viewModel);
+        }
+
+
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewCreate")]
+        public async Task<IActionResult> AdminViewCreate()
         {
             var username = User.Identity.Name;
 
@@ -116,23 +146,27 @@ namespace PND_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
+        public async Task<IActionResult> AdminViewCreate([Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
         {
             if (ModelState.IsValid)
             {
+                var existingQuotation = await _context.Quotations
+                    .FirstOrDefaultAsync(q => q.QuotationId == quotation.QuotationId);
+
                 quotation.QuotationId = await GenerateQuotationCode();
 
                 _context.Add(quotation);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AdminView));
             }
             quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
 
 
-        [ClaimAuthorize("Quotation", "Edit")]
-        public async Task<IActionResult> Edit(string id)
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewEdit")]
+        [HttpGet("/Quotations/AdminViewEdit/{id}")]
+        public async Task<IActionResult> AdminViewEdit(string id)
         {
             if (id == null)
             {
@@ -155,9 +189,9 @@ namespace PND_WEB.Controllers
             return View(quotation);
         }
 
-        [HttpPost]
+        [HttpPost("/Quotations/AdminViewEdit/{id}")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
+        public async Task<IActionResult> AdminViewEdit(string id, [Bind("QuotationId,Qsatus,StaffName,Contact,Qdate,CusTo,CusContact,Valid,Term,Vol,Commodity,Pol,Adds,Pod")] Quotation quotation)
         {
             if (id != quotation.QuotationId)
             {
@@ -182,13 +216,15 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(AdminView));
             }
             return View(quotation);
         }
 
-        [ClaimAuthorize("Quotation", "Delete")]
-        public async Task<IActionResult> Delete(string id)
+
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewDelete")]
+        [HttpGet("/Quotations/AdminViewDelete/{id}")]
+        public async Task<IActionResult> AdminViewDelete(string id)
         {
             if (id == null)
             {
@@ -212,9 +248,9 @@ namespace PND_WEB.Controllers
 
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("AdminViewDelete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> AdminViewDeleteConfirmed(string id)
         {
             var quotation = await _context.Quotations.FindAsync(id);
             if (quotation != null)
@@ -225,21 +261,11 @@ namespace PND_WEB.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(AdminView));
         }
 
-        private bool QuotationExists(string id)
-        {
-            return _context.Quotations.Any(e => e.QuotationId == id);
-        }
-
-
-
-
-
-        //QuotationCharges
-        [ClaimAuthorize("Quotation", "CreateCharges")]
-        public IActionResult CreateCharges(string id)
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewCreateCharges")]
+        public IActionResult AdminViewCreateCharges(string id)
         {
             var quotation = _context.Quotations.FirstOrDefault(q => q.QuotationId == id);
             if (quotation == null)
@@ -250,7 +276,7 @@ namespace PND_WEB.Controllers
                 QuotationId = id,
 
                 Quantity = 0,
-                Rate =0,
+                Rate = 0,
             };
 
             ViewBag.CurrencyList = new SelectList(_context.Currencies, "Code", "Code");
@@ -260,20 +286,21 @@ namespace PND_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        public async Task<IActionResult> AdminViewCreateCharges([Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(quotationsCharge);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+                return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
             }
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
             return View(quotationsCharge);
         }
 
-        [ClaimAuthorize("Quotation", "EditCharges")]
-        public IActionResult EditCharges(int id)
+
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewEditCharges")]
+        public IActionResult AdminViewEditCharges(int id)
         {
             var charge = _context.QuotationsCharges.FirstOrDefault(c => c.ChargeId == id);
             if (charge == null)
@@ -287,7 +314,7 @@ namespace PND_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
+        public async Task<IActionResult> AdminViewEditCharges(int id, [Bind("ChargeId,QuotationId,ChargeName,Quantity,Unit,Rate,Currency,Notes")] QuotationsCharge quotationsCharge)
         {
             if (id != quotationsCharge.ChargeId)
             {
@@ -312,7 +339,7 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+                return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
             }
 
             ViewData["QuotationId"] = new SelectList(_context.Quotations, "QuotationId", "QuotationId", quotationsCharge.QuotationId);
@@ -321,8 +348,9 @@ namespace PND_WEB.Controllers
             return View("Edit", quotationsCharge);
         }
 
-        [ClaimAuthorize("Quotation", "DeleteCharges")]
-        public async Task<IActionResult> DeleteCharges(int? id)
+
+        [ClaimAuthorize("QuotationsAdmin", "AdminViewDeleteCharges")]
+        public async Task<IActionResult> AdminViewDeleteCharges(int? id)
         {
             if (id == null)
             {
@@ -340,9 +368,9 @@ namespace PND_WEB.Controllers
             return View(quotationsCharge);
         }
 
-        [HttpPost, ActionName("DeleteCharges")]
+        [HttpPost, ActionName("AdminViewDeleteCharges")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteChargesConfirmed(int id)
+        public async Task<IActionResult> AdminViewDeleteChargesConfirmed(int id)
         {
             var quotationsCharge = await _context.QuotationsCharges.FindAsync(id);
             if (quotationsCharge != null)
@@ -351,31 +379,11 @@ namespace PND_WEB.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction("DetailsCharges", new { id = quotationsCharge.QuotationId });
+            return RedirectToAction("AdminViewDetails", new { id = quotationsCharge.QuotationId });
         }
 
-        private bool QuotationsChargeExists(int id)
-        {
-            return _context.QuotationsCharges.Any(e => e.ChargeId == id);
-        }
 
-        public async Task<IActionResult> DetailsCharges(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
 
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            return View(viewModel);
-        }
 
 
 
@@ -386,12 +394,12 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteCports(string prefix)
         {
             var cports = (from cport in this._context.Cports
-                             where cport.PortName.Contains(prefix)
-                             select new
-                             {
-                                 label = cport.PortName,
-                                 val = cport.Code
-                             }).ToList();
+                          where cport.PortName.Contains(prefix)
+                          select new
+                          {
+                              label = cport.PortName,
+                              val = cport.Code
+                          }).ToList();
 
             return Json(cports);
         }
@@ -400,12 +408,12 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteCustomers(string prefix)
         {
             var customer = (from customers in this._context.TblCustomers
-                          where customers.DutyPerson.Contains(prefix)
-                          select new
-                          {
-                              label = customers.DutyPerson,
-                              label2 = customers.Contact
-                          }).ToList();
+                            where customers.DutyPerson.Contains(prefix)
+                            select new
+                            {
+                                label = customers.DutyPerson,
+                                label2 = customers.Contact
+                            }).ToList();
 
             return Json(customer);
         }
@@ -414,12 +422,12 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteFees(string prefix)
         {
             var fees = (from fee in this._context.Fees
-                            where fee.Fee1.Contains(prefix)
-                            select new
-                            {
-                                label = fee.Fee1,
-                                val = fee.Code
-                            }).ToList();
+                        where fee.Fee1.Contains(prefix)
+                        select new
+                        {
+                            label = fee.Fee1,
+                            val = fee.Code
+                        }).ToList();
 
             return Json(fees);
         }
@@ -428,14 +436,17 @@ namespace PND_WEB.Controllers
         public JsonResult AutoCompleteUnits(string prefix)
         {
             var units = (from unit in this._context.Units
-                        where unit.Code.Contains(prefix)
-                        select new
-                        {
-                            label = unit.Code,
-                        }).ToList();
+                         where unit.Code.Contains(prefix)
+                         select new
+                         {
+                             label = unit.Code,
+                         }).ToList();
 
             return Json(units);
         }
+
+
+
 
 
 
@@ -476,7 +487,5 @@ namespace PND_WEB.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
             return File(file, "application/pdf");
         }
-
-
     }
 }

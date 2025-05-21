@@ -159,7 +159,6 @@
 
 
 
-
                         <li class="nav-heading">
                             <span>Quản lý job</span>
                         </li>
@@ -211,7 +210,7 @@
                                 else
                                 {
                                     <li class=" ">
-                                        <a asp-controller="Quotations" asp-action="AdminView">
+                                        <a asp-controller="QuotationsAdmin" asp-action="AdminView">
                                             <span>Quotaions</span>
                                         </a>
                                     </li>
@@ -368,7 +367,7 @@
                         @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
                         {
                             <li>
-                                <a asp-controller="TamUngThanhToan" asp-action="Check">
+                                <a asp-controller="TamUngThanhToanCheck" asp-action="Check">
                                     <em class="fa fa-money text-success"></em>
                                     <span>Tạm Ứng và Thanh Toán</span>
                                 </a>
@@ -413,6 +412,12 @@
                         </li>
 
 
+                        <li class=" ">
+                            <a asp-controller="Test" asp-action="Index">
+                                <em class="icon-home"></em>
+                                <span>System</span>
+                            </a>
+                        </li>
                     </ul>
                     <!-- END sidebar nav-->
                 </nav>
