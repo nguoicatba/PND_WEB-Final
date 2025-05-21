@@ -84,6 +84,7 @@ namespace PND_WEB.Controllers
         }
 
 
+        [ClaimAuthorize("TamUngThanhToanCheck", "Check")]
         public async Task<IActionResult> Check()
         {
             TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
@@ -103,6 +104,8 @@ namespace PND_WEB.Controllers
 
         //ceo + ketoan
 
+
+        [ClaimAuthorize("TamUngThanhToanCheck", "CheckDetails")]
         public async Task<IActionResult> CheckDetails(string id)
         {
             if (id == null)
@@ -126,6 +129,8 @@ namespace PND_WEB.Controllers
 
             return View(tuttViewModel);
         }
+
+        [ClaimAuthorize("TamUngThanhToanCheck", "CheckEdit")]
         public async Task<IActionResult> CheckEdit(string id)
         {
             if (id == null)
@@ -199,7 +204,7 @@ namespace PND_WEB.Controllers
             return View(tblTutt);
         }
 
-
+        [ClaimAuthorize("TamUngThanhToanCheck", "CheckDelete")]
         public async Task<IActionResult> CheckDelete(string id)
         {
             if (id == null)

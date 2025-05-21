@@ -41,6 +41,11 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminView", Description = "Xem báo giá" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "QuotationsAdmin", ClaimValue = "AdminViewDetails", Description = "Xem chi tiết báo giá" },
 
+                    // tạm ứng thanh toán check
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "Check", Description = "Thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckDelete", Description = "Xóa thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckDetails", Description = "Chi tiết thông tin tạm ứng thanh toán khi duyệt" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "TamUngThanhToanCheck", ClaimValue = "CheckEdit", Description = "Sửa thông tin tạm ứng thanh toán khi duyệt" },
 
                     // HBL
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Create", Description = "Tạo HBL mới" },
