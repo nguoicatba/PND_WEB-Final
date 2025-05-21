@@ -89,7 +89,7 @@
             $("#chargername").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteFees/',
+                        url: '/QuotationsAdmin/AutoCompleteFees/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {
@@ -115,7 +115,7 @@
             $("#unit").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteUnits/',
+                        url: '/QuotationsAdmin/AutoCompleteUnits/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {

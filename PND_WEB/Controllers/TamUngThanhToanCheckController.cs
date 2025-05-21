@@ -14,13 +14,13 @@ using PND_WEB.Services;
 
 namespace PND_WEB.Controllers
 {
-    public class TamUngThanhToanController : Controller
+    public class TamUngThanhToanCheckController : Controller
     {
         private readonly DataContext _context;
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
 
-        public TamUngThanhToanController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
+        public TamUngThanhToanCheckController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
             _context = context;
             _converter = converter;
@@ -84,24 +84,6 @@ namespace PND_WEB.Controllers
         }
 
 
-
-
-        // GET: TamUngThanhToan
-        public async Task<IActionResult> Index()
-        {
-            TuttViewModel tuttViewModel = new TuttViewModel();
-
-            tuttViewModel.tutt = await _context.TblTutts
-                .Where(a => a.xacnhanduyet == null)
-                .ToListAsync();
-
-            tuttViewModel.tuttcheck = await _context.TblTutts
-                .Where(a => a.xacnhanduyet != null )
-                .ToListAsync();
-
-            return View(tuttViewModel);
-        }
-
         public async Task<IActionResult> Check()
         {
             TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
@@ -113,8 +95,15 @@ namespace PND_WEB.Controllers
         }
 
 
-        // GET: TamUngThanhToan/Details/5
-        public async Task<IActionResult> Details(string id)
+
+        private bool TblTuttExists(string id)
+        {
+            return _context.TblTutts.Any(e => e.SoTutt == id);
+        }
+
+        //ceo + ketoan
+
+        public async Task<IActionResult> CheckDetails(string id)
         {
             if (id == null)
             {
@@ -137,41 +126,7 @@ namespace PND_WEB.Controllers
 
             return View(tuttViewModel);
         }
-
-        // GET: TamUngThanhToan/Create
-        public async Task<IActionResult> Create()
-        {
-            var tblTutt = new TblTutt
-            {
-                Ngay = DateTime.Now,
-                Tu = true,
-                SoTutt = await PredictQuotationCode(),
-            };
-
-            return View(tblTutt);
-        }
-
-        // POST: TamUngThanhToan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
-        {
-            if (ModelState.IsValid)
-            {
-                tblTutt.SoTutt = await GenerateQuotationCode();
-
-                _context.Add(tblTutt);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            tblTutt.SoTutt = await PredictQuotationCode();
-            return View(tblTutt);
-        }
-
-        // GET: TamUngThanhToan/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> CheckEdit(string id)
         {
             if (id == null)
             {
@@ -183,11 +138,17 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-
-            ViewBag.DuyetList = new List<SelectListItem>
+            ViewBag.CeoOptions = new List<SelectListItem>
             {
-                new SelectListItem { Text = "Chưa duyệt", Value = "", Selected = (tblTutt.xacnhanduyet == null) },
-                new SelectListItem { Text = "Cần duyệt", Value = "true", Selected = (tblTutt.xacnhanduyet == true) }
+                new SelectListItem { Text = "Chưa duyệt", Value = "" },
+                new SelectListItem { Text = "Đã duyệt", Value = "true" },
+                new SelectListItem { Text = "Huỷ", Value = "false" }
+            };
+            ViewBag.KetoanOptions = new List<SelectListItem>
+            {
+                new SelectListItem { Text = "Chưa duyệt", Value = "" },
+                new SelectListItem { Text = "Đã duyệt", Value = "true" },
+                new SelectListItem { Text = "Huỷ", Value = "false" }
             };
             return View(tblTutt);
         }
@@ -198,7 +159,7 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu")] TblTutt tblTutt)
+        public async Task<IActionResult> CheckEdit(string id, [Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu")] TblTutt tblTutt)
         {
             if (id != tblTutt.SoTutt)
             {
@@ -215,13 +176,12 @@ namespace PND_WEB.Controllers
                         return NotFound();
                     }
 
-                    existingTutt.NhanvienTutt = tblTutt.NhanvienTutt;
-                    existingTutt.NoiDung = tblTutt.NoiDung;
-                    existingTutt.xacnhanduyet = tblTutt.xacnhanduyet;
+                    existingTutt.Ceo = tblTutt.Ceo;
+                    existingTutt.Ketoan = tblTutt.Ketoan    ;
                     existingTutt.GhiChu = tblTutt.GhiChu;
 
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+                    return RedirectToAction(nameof(Check));
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -240,8 +200,7 @@ namespace PND_WEB.Controllers
         }
 
 
-        // GET: TamUngThanhToan/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> CheckDelete(string id)
         {
             if (id == null)
             {
@@ -265,9 +224,9 @@ namespace PND_WEB.Controllers
             return View(tuttViewModel);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("CheckDelete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> CheckDeleteConfirmed(string id)
         {
             var tuttphi = await _context.TblTuttsPhi
                 .Where(p => p.SoTutt == id)
@@ -284,148 +243,9 @@ namespace PND_WEB.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Check));
         }
 
-        private bool TblTuttExists(string id)
-        {
-            return _context.TblTutts.Any(e => e.SoTutt == id);
-        }
-
-
-
-        //TuttCreate
-
-        [HttpGet]
-        public async Task<IActionResult> TuttCreate(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var tutt = await _context.TblTutts.FindAsync(id);
-            if (tutt == null)
-            {
-                return NotFound();
-            }
-            var tuttphiActionEditModel = new TuttEditModel
-            {
-                id = tutt.SoTutt,
-                tuttphi = new TblTuttPhi()
-            };
-            return View(tuttphiActionEditModel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
-                if (tutt == null)
-                {
-                    return NotFound();
-                }
-                tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
-                _context.Add(tuttEditModel.tuttphi);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), new { id = tuttEditModel.id });
-            }
-            return View(tuttEditModel);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> TuttEdit(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var tuttphi = await _context.TblTuttsPhi.FindAsync(id);
-            if (tuttphi == null)
-            {
-                return NotFound();
-            }
-            var tuttEditModel = new TuttEditModel
-            {
-                tuttphi = tuttphi,
-                id = tuttphi.SoTutt
-            };
-            return View(tuttEditModel);
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TuttEdit(int id, TuttEditModel tuttEditModel)
-        {
-            if (id != tuttEditModel.tuttphi.Id)
-            {
-                return NotFound();
-            }
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(tuttEditModel.tuttphi);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TblTuttExists(tuttEditModel.id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Details), new { id = tuttEditModel.tuttphi.SoTutt });
-            }
-            return View(tuttEditModel);
-        }
-
-
-        [HttpGet]
-        public async Task<IActionResult> TuttDelete(int id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-            var tuttphi = await _context.TblTuttsPhi.FindAsync(id);
-            if (tuttphi == null)
-            {
-                return NotFound();
-            }
-            var tuttEditModel = new TuttEditModel
-            {
-                tuttphi = tuttphi,
-                id = tuttphi.SoTutt
-            };
-            return View(tuttEditModel);
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> TuttDelete(TuttEditModel tuttEdit)
-        {
-            TempData["status"] = "Đã xóa thành công";
-            if (tuttEdit.tuttphi == null)
-            {
-                return NotFound();
-            }
-            var tuttAction = await _context.TblTuttsPhi.FindAsync(tuttEdit.tuttphi.Id);
-            var Code = tuttAction.SoTutt;
-            if (tuttAction == null)
-            {
-                return NotFound();
-            }
-
-            _context.TblTuttsPhi.Remove(tuttAction);
-            await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = Code });
-        }
 
 
 

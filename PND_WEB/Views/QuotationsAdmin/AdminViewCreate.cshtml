@@ -130,7 +130,7 @@
             $("#pol").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
+                        url: '/QuotationsAdmin/AutoCompleteCports/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {
@@ -156,7 +156,7 @@
             $("#pod").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
+                        url: '/QuotationsAdmin/AutoCompleteCports/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {
@@ -182,7 +182,7 @@
             $("#adds").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
+                        url: '/QuotationsAdmin/AutoCompleteCports/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {
@@ -209,7 +209,7 @@
             $("#custo").autocomplete({
                 source: function (request, response) {
                     $.ajax({
-                        url: '/Quotations/AutoCompleteCustomers/',
+                        url: '/QuotationsAdmin/AutoCompleteCustomers/',
                         data: { "prefix": request.term },
                         type: "POST",
                         success: function (data) {

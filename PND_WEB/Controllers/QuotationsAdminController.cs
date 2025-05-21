@@ -384,6 +384,72 @@ namespace PND_WEB.Controllers
 
 
 
+
+
+
+
+        //AutoComplete 
+
+        [HttpPost]
+        public JsonResult AutoCompleteCports(string prefix)
+        {
+            var cports = (from cport in this._context.Cports
+                          where cport.PortName.Contains(prefix)
+                          select new
+                          {
+                              label = cport.PortName,
+                              val = cport.Code
+                          }).ToList();
+
+            return Json(cports);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteCustomers(string prefix)
+        {
+            var customer = (from customers in this._context.TblCustomers
+                            where customers.DutyPerson.Contains(prefix)
+                            select new
+                            {
+                                label = customers.DutyPerson,
+                                label2 = customers.Contact
+                            }).ToList();
+
+            return Json(customer);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteFees(string prefix)
+        {
+            var fees = (from fee in this._context.Fees
+                        where fee.Fee1.Contains(prefix)
+                        select new
+                        {
+                            label = fee.Fee1,
+                            val = fee.Code
+                        }).ToList();
+
+            return Json(fees);
+        }
+
+        [HttpPost]
+        public JsonResult AutoCompleteUnits(string prefix)
+        {
+            var units = (from unit in this._context.Units
+                         where unit.Code.Contains(prefix)
+                         select new
+                         {
+                             label = unit.Code,
+                         }).ToList();
+
+            return Json(units);
+        }
+
+
+
+
+
+
         //fff
         //ExportPDF
         public async Task<IActionResult> ExportPDFQuotation(string id)
