@@ -149,16 +149,16 @@ function select2_two_columns() {
                 url: url,
                 dataType: 'json',
                 data: function (params) {
+                  
                     return {
                         q: params.term || '',
-                        page: params.page
+                        page: params.page || 1
                     };
                 },
                 processResults: function (data, params) {
                     params.page = params.page || 1;
                     header = data.header;
-                    console.log(header);
-                   
+                    console.log(data.total_count);
                     return {
                         results: data.items,
                         pagination: {
