@@ -19,12 +19,15 @@ namespace PND_WEB.Controllers
         private readonly DataContext _context;
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
+        private readonly BudgetService _budgetService;
 
-        public TamUngThanhToanController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
+        public TamUngThanhToanController(DataContext context, IConverter converter,
+            IViewRenderService viewRenderService, BudgetService budgetService)
         {
             _context = context;
             _converter = converter;
             _viewRenderService = viewRenderService;
+            _budgetService = budgetService;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -102,16 +105,6 @@ namespace PND_WEB.Controllers
             return View(tuttViewModel);
         }
 
-        public async Task<IActionResult> Check()
-        {
-            TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
-            tuttViewModel2.tuttcheck = await _context.TblTutts
-                .Where(a => a.xacnhanduyet == true)
-                .ToListAsync();
-
-            return View(tuttViewModel2);
-        }
-
 
         // GET: TamUngThanhToan/Details/5
         public async Task<IActionResult> Details(string id)
@@ -139,8 +132,22 @@ namespace PND_WEB.Controllers
         }
 
         // GET: TamUngThanhToan/Create
+        //public async Task<IActionResult> Create()
+        //{
+        //    var tblTutt = new TblTutt
+        //    {
+        //        Ngay = DateTime.Now,
+        //        Tu = true,
+        //        SoTutt = await PredictQuotationCode(),
+        //    };
+
+        //    return View(tblTutt);
+        //}
+
+
         public async Task<IActionResult> Create()
         {
+
             var tblTutt = new TblTutt
             {
                 Ngay = DateTime.Now,
@@ -294,11 +301,32 @@ namespace PND_WEB.Controllers
 
 
 
-        //TuttCreate
+
+
+
+
+
+        //TuttphiCreate
 
         [HttpGet]
         public async Task<IActionResult> TuttCreate(string id)
         {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"TU{datePart}";
+
+            var totalThisMonth = await _context.TblTuttsPhi
+                .Where(p => p.SoTutt.StartsWith(prefix))
+                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+            var limit = _budgetService.GetLimit();
+
+
+            if (totalThisMonth >= limit)
+            {
+                return BadRequest("Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.");
+            }
+
             if (id == null)
             {
                 return NotFound();

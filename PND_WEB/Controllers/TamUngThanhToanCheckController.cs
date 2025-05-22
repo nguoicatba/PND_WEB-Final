@@ -104,7 +104,7 @@ namespace PND_WEB.Controllers
             var tutts = await _context.TblTutts
                 .Include(t => t.TblTuttPhis)
                 .Where(t => t.xacnhanduyet == true)
-                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= 200000)
+                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= 500000)
                 .ToListAsync();
 
             TuttViewCheckModel model = new TuttViewCheckModel
@@ -121,7 +121,7 @@ namespace PND_WEB.Controllers
             var tutts = await _context.TblTutts
                .Include(t => t.TblTuttPhis)
                .Where(t => t.xacnhanduyet == true)
-               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < 200000)
+               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < 500000)
                .ToListAsync();
 
             TuttViewCheckModel model = new TuttViewCheckModel
@@ -143,7 +143,7 @@ namespace PND_WEB.Controllers
         //ceo + ketoan
 
 
-        [ClaimAuthorize("TamUngThanhToanCheck", "CheckDetails")]
+        //[ClaimAuthorize("TamUngThanhToanCheck", "CheckDetails")]
         public async Task<IActionResult> CheckDetails(string id)
         {
             if (id == null)
