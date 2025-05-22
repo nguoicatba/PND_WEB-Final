@@ -1,6 +1,6 @@
 ﻿public class BudgetService
 {
-    private decimal _limit;
+    private static decimal _limit;
 
     public BudgetService()
     {
@@ -17,8 +17,4 @@
         _limit = newLimit;
     }
 
-    public bool CanSpend(decimal amount)
-    {
-        return amount <= _limit;
-    }
 }

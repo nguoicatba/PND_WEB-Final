@@ -19,12 +19,15 @@ namespace PND_WEB.Controllers
         private readonly DataContext _context;
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
+        private readonly BudgetService _budgetService;
 
-        public TamUngThanhToanCheckController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
+        public TamUngThanhToanCheckController(DataContext context, IConverter converter,
+            IViewRenderService viewRenderService, BudgetService budgetService)
         {
             _context = context;
             _converter = converter;
             _viewRenderService = viewRenderService;
+            _budgetService = budgetService;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -82,6 +85,31 @@ namespace PND_WEB.Controllers
 
             return $"{prefix}{nextNumber:D3}";
         }
+
+
+        public IActionResult EditBudget()
+        {
+            var viewModel = new BudgetLimitViewModel
+            {
+                Limit = _budgetService.GetLimit()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditBudget(BudgetLimitViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _budgetService.SetLimit(model.Limit);
+            }
+
+            return RedirectToAction(nameof(CheckCeo));
+        }
+
+
 
 
         //[ClaimAuthorize("TamUngThanhToanCheck", "Check")]
