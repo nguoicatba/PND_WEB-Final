@@ -324,7 +324,8 @@ namespace PND_WEB.Controllers
 
             if (totalThisMonth >= limit)
             {
-                return BadRequest("Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.");
+                TempData["ErrorMessage"] = "Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.";
+                return RedirectToAction(nameof(Index));
             }
 
             if (id == null)
@@ -343,6 +344,8 @@ namespace PND_WEB.Controllers
             };
             return View(tuttphiActionEditModel);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)

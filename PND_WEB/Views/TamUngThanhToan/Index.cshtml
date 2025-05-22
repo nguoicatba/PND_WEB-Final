@@ -5,6 +5,12 @@
 }
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["ErrorMessage"]
+    </div>
+}
 
 <div class="row">
     <div class="col-xl-12">
