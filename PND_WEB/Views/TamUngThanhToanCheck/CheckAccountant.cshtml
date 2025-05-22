@@ -1,4 +1,4 @@
-﻿@model PND_WEB.ViewModels.TuttViewModel2
+﻿@model PND_WEB.ViewModels.TuttViewCheckModel
 
 @{
     ViewData["Title"] = "Index";
@@ -16,17 +16,16 @@
                     <thead class="">
                         <tr>
                             <th>Action</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().SoTutt)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NhanvienTutt)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().SoTutt)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NhanvienTutt)</th>
                             <th>Tạm ứng / Thanh toán</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NoiDung)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ngay)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ketoan)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ceo)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NoiDung)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ngay)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ketoan)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.tuttcheck)
+                        @foreach (var item in Model.tutt)
                         {
                             <tr>
                                 <td>
@@ -49,10 +48,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ketoan == true ? "Đã duyệt" : "Chưa duyệt")
-                                </td>
-                                <td>
-                                    @(item.Ceo == true ? "Đã duyệt" : "Chưa duyệt")
+                                    @(item.Ketoan == null ? "Chưa duyệt" : (item.Ketoan == true ? "Đã duyệt" : "Huỷ"))
                                 </td>
                             </tr>
                         }

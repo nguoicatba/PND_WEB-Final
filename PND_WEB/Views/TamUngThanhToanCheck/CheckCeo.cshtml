@@ -48,7 +48,7 @@
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ceo == true ? "Đã duyệt" : "Chưa duyệt")
+                                    @(item.Ceo == null ? "Chưa duyệt" : (item.Ceo == true ? "Đã duyệt" : "Huỷ"))
                                 </td>
                             </tr>
                         }
