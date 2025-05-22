@@ -3,11 +3,12 @@
 
 
 <div class="card">
+    <div class="card-header">Cập nhật role : @Model.RoleName</div>
     <div class="card-body">
         <p>
             <button id="save_data" class="btn btn-primary btn-xs">Save Data</button>
         </p>
-        <table class="table table-striped my-4 w-100 nowrap border" id="kientable">
+        <table class="table my-4 w-100 nowrap border" id="kientable">
             <thead class="">
                 <tr>
                     <th>Action</th>
@@ -24,28 +25,31 @@
             <tbody>
                 @foreach (var item in Model.Claims)
                 {
-                    <tr>
+                    <tr data-claimtype="@item.ClaimType">
                         <td>
-                            <input type="checkbox" class="claims_value"  
-                            @(item.Selected ? "checked" : "") />
+                            <input type="checkbox" class="claims_value" @(item.Selected ? "checked" : "") />
                         </td>
-                        <td>
-                            @item.ClaimType
-                        </td>
-                        <td>
-                            @item.ClaimValue
-                        </td>
-                        <td>
-                            @item.Description
-                        </td>
+                        <td>@item.ClaimType</td>
+                        <td>@item.ClaimValue</td>
+                        <td>@item.Description</td>
                     </tr>
                 }
             </tbody>
+
         </table>
         <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
     </div>
 </div>
 
+@section CssFile {
+ 
+    <style>
+        .group-header {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+    </style>
+}
 
 @section Scripts {
   
@@ -54,16 +58,58 @@
 
 
         $(document).ready(function () {
-           var table= $('#kientable').DataTable({
-                "order": [[1, "asc"]],
-                "columnDefs": [
-                    { "orderable": false, "targets": 0 }
-                ]
-            });
+               var table = $('#kientable').DataTable({
+            "order": [[1, "asc"]],
+            "columnDefs": [
+                { "orderable": false, "targets": 0 },
+                { "visible": false, "targets": 1 }, // Ẩn cột ClaimType
+                { "orderable": false, "targets": 1 },
+                { "orderable": false, "targets": 2 },
+                { "orderable": false, "targets": 3 }
+                
+            ],
 
+            "drawCallback": function (settings) {
+                var api = this.api();
+                var rows = api.rows({ page: 'current' }).nodes();
+                var lastGroup = null;
 
+                api.column(1, { page: 'current' }).data().each(function (group, i) {
+                    if (lastGroup !== group) {
+                        $(rows).eq(i).before(
+                            `<tr class="group-header" data-claimtype="${group}" style="font-weight:bold; background:#f2f2f2">
+                                <td>
+                                    <input type="checkbox" class="group-checkbox" data-claimtype="${group}" />
+                                </td>
+                                <td colspan="3">${group}</td>
+                            </tr>`
+                        );
+                        lastGroup = group;
+                    }
+                });
+            }
+        });
 
-        $('#save_data').click(function () {
+                // Khi chọn checkbox nhóm -> chọn tất cả các dòng trong nhóm đó
+        $('#kientable tbody').on('change', '.group-checkbox', function () {
+            var group = $(this).data('claimtype');
+            var checked = $(this).is(':checked');
+
+            $('#kientable tbody tr[data-claimtype="' + group + '"] .claims_value').prop('checked', checked);
+        });
+
+        // Nếu bỏ chọn 1 checkbox con -> bỏ luôn checkbox nhóm
+        $('#kientable tbody').on('change', '.claims_value', function () {
+            var row = $(this).closest('tr');
+            var group = row.data('claimtype');
+
+            var all = $('#kientable tbody tr[data-claimtype="' + group + '"] .claims_value');
+            var checked = all.filter(':checked');
+
+            $('.group-checkbox[data-claimtype="' + group + '"]').prop('checked', all.length === checked.length);
+        });
+
+         $('#save_data').click(function () {
             var get_select_data = [];
 
             // Duyệt từng dòng bằng DataTables
@@ -72,15 +118,15 @@
 
                 var isChecked = rowNode.find('input[type="checkbox"]').prop('checked');
 
-               
+
                 var data = this.data();
 
                 var claim = {
-                    ClaimId: "", 
-                    ClaimType: data[1],      
-                    ClaimValue: data[2],      
-                    Description: data[3],      
-                    Selected: isChecked       
+                    ClaimId: "",
+                    ClaimType: data[1],
+                    ClaimValue: data[2],
+                    Description: data[3],
+                    Selected: isChecked
                 };
 
                 get_select_data.push(claim);
@@ -113,8 +159,13 @@
             });
         });
 
+
+
+
          
         });
+
+
      
  
           

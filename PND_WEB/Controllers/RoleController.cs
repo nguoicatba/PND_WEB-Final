@@ -260,7 +260,8 @@ namespace PND_WEB.Controllers
             RoleClaimsViewModel roleClaims = new RoleClaimsViewModel
             {
                 RoleId = role.Id,
-            
+                RoleName = role.Name,
+
                 Claims = claims
             };
 

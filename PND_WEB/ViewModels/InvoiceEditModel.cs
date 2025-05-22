@@ -8,6 +8,8 @@ namespace PND_WEB.ViewModels
 
         public TblInvoice? invoice { get; set; }
 
+        public string ?type_invoice { get; set; }
+
 
     }
 }
