@@ -1,0 +1,54 @@
+﻿@model PND_WEB.ViewModels.InvoiceEditModel
+
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Invoice</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.invoice.DebitId)
+
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.invoice.DebitId)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.invoice.InvoiceDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.invoice.InvoiceDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.invoice.InvoiceDate)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.invoice.InvoiceDate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.invoice.InvoiceType)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.invoice.InvoiceType)
+                    </dd>
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.invoice.InvoiceNo)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.invoice.InvoiceNo)
+                    </dd>
+                    
+
+                  
+                </dl>
+                <form asp-action="Delete">
+                    <input type="hidden" asp-for="invoice.DebitId" />
+                    <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+                    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                </form>
+               
+            </div>
+        </div>
+    </div>
+</div>

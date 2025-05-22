@@ -22,17 +22,19 @@
                             <a class="nav-link" asp-controller="Container" asp-action="Index" asp-route-id=@Model.HBL_ID>Container</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link active">Hóa đơn mua</a>
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn mua</a>
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn bán</a>
+                            <a class="nav-link active">Hóa đơn bán</a>
                         </li>
-                     @if (Model.GoodType=="LGT"){
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Cược công</a>
-                        </li>
-                     }
+
+                        @if (Model.GoodType == "LGT")
+                        {
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Cược công</a>
+                            </li>
+                        }
 
 
                     </ul>

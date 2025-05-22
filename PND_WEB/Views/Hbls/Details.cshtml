@@ -19,19 +19,22 @@
                             <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Chi tiết HBL</a>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Container" asp-action="Index" asp-route-id=@Model.Hbl>List HBL</a>
+                            <a class="nav-link" asp-controller="Container" asp-action="Index" asp-route-id=@Model.Hbl>Container</a>
                         </li>
                         <li class="nav-item" role="presentation">
                             <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn mua</a>
                         </li>
 
                         <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn bán</a>
+                            <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn bán</a>
                         </li>
 
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Cược công</a>
-                        </li>
+                        @if (ViewBag.GoodType == "LGT")
+                        {
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Cược công</a>
+                            </li>
+                        }
 
                     </ul>
                     <!-- Tab panes-->

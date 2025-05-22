@@ -54,6 +54,13 @@ namespace PND_WEB.Controllers
 
             containerViewModel.totalGrossWeight = GetTotalGrossWeight(containerViewModel.containers).Result;
             containerViewModel.totalCbm = GetTotalCbm(containerViewModel.containers).Result;
+            var hbl = await _context.TblHbls
+                .Include(t => t.Request)
+                .FirstOrDefaultAsync(m => m.Hbl == id);
+            if (hbl == null) return NotFound();
+
+            ViewBag.GoodType = hbl.Request.GoodsType;
+
             return View(containerViewModel);
 
         }

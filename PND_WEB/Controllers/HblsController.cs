@@ -78,7 +78,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.GoodType = tblHbl.Request.GoodsType;
             return View(tblHbl);
         }
 

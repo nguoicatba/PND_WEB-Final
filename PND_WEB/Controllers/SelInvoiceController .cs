@@ -10,7 +10,7 @@ using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
-    public class BuyInvoiceController : Controller
+    public class SelInvoiceController : Controller
     {
 
         private readonly ILogger<HomeController> _logger;
@@ -21,7 +21,7 @@ namespace PND_WEB.Controllers
         private readonly IViewRenderService _viewRenderService;
         private readonly IConverter _converter;
 
-        public BuyInvoiceController(ILogger<HomeController> logger, DataContext context, IConverter converter, IViewRenderService viewRenderService)
+        public SelInvoiceController(ILogger<HomeController> logger, DataContext context, IConverter converter, IViewRenderService viewRenderService)
         {
             _logger = logger;
             _context = context;
@@ -33,7 +33,7 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Index(string id)
         {
             var invoice = await _context.TblInvoices
-                .Where(x => x.Hbl == id && x.Buy == true)
+                .Where(x => x.Hbl == id && x.Sell == true)
                 .ToListAsync();
             var invoiceViewModel = new InvoiceViewModel
             {
@@ -91,7 +91,7 @@ namespace PND_WEB.Controllers
                    
                     var invoice = new TblInvoice
                     {
-                        DebitId = await GenerateCode("BUY"),
+                        DebitId = await GenerateCode("SEL"),
                         Hbl = invoiceEditModel.HBL_ID,
                         InvoiceType = invoiceEditModel.invoice.InvoiceType,
                         DebitDate = invoiceEditModel.invoice.DebitDate ?? DateTime.Now,
@@ -99,8 +99,8 @@ namespace PND_WEB.Controllers
                         InvoiceNo = invoiceEditModel.invoice.InvoiceNo,
                         InvoiceDate = invoiceEditModel.invoice.InvoiceDate,
                         SupplierId = invoiceEditModel.invoice.SupplierId,
-                        Buy = true,
-                        Sell = false,
+                        Buy = false,
+                        Sell = true,
                         Cont = false
                     };
                     _context.TblInvoices.Add(invoice);
