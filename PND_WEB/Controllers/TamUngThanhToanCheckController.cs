@@ -84,15 +84,53 @@ namespace PND_WEB.Controllers
         }
 
 
-        [ClaimAuthorize("TamUngThanhToanCheck", "Check")]
-        public async Task<IActionResult> Check()
+        //[ClaimAuthorize("TamUngThanhToanCheck", "Check")]
+
+        public IActionResult Check()
         {
-            TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
-            tuttViewModel2.tuttcheck = await _context.TblTutts
-                .Where(a => a.xacnhanduyet == true)
+            if (User.IsInRole("CEO"))
+            {
+                return RedirectToAction(nameof(CheckCeo));
+            }
+            else if (User.IsInRole("Accountant"))
+            {
+                return RedirectToAction(nameof(CheckAccountant));
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> CheckCeo()
+        {
+            var tutts = await _context.TblTutts
+                .Include(t => t.TblTuttPhis)
+                .Where(t => t.xacnhanduyet == true)
+                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= 200000)
                 .ToListAsync();
 
-            return View(tuttViewModel2);
+            TuttViewCheckModel model = new TuttViewCheckModel
+            {
+                tutt = tutts,
+                tuttphi = tutts.SelectMany(t => t.TblTuttPhis).ToList()
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> CheckAccountant()
+        {
+            var tutts = await _context.TblTutts
+               .Include(t => t.TblTuttPhis)
+               .Where(t => t.xacnhanduyet == true)
+               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < 200000)
+               .ToListAsync();
+
+            TuttViewCheckModel model = new TuttViewCheckModel
+            {
+                tutt = tutts,
+                tuttphi = tutts.SelectMany(t => t.TblTuttPhis).ToList()
+            };
+
+            return View(model);
         }
 
 
