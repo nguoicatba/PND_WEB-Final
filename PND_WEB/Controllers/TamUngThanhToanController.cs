@@ -131,20 +131,6 @@ namespace PND_WEB.Controllers
             return View(tuttViewModel);
         }
 
-        // GET: TamUngThanhToan/Create
-        //public async Task<IActionResult> Create()
-        //{
-        //    var tblTutt = new TblTutt
-        //    {
-        //        Ngay = DateTime.Now,
-        //        Tu = true,
-        //        SoTutt = await PredictQuotationCode(),
-        //    };
-
-        //    return View(tblTutt);
-        //}
-
-
         public async Task<IActionResult> Create()
         {
 
