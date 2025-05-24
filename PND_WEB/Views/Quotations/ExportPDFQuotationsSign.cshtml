@@ -14,222 +14,469 @@
     <meta charset="utf-8" />
     <style>
         body {
-            font-family: Arial;
-            font-size: 16px;
-            margin: 30px;
+            font-family: Times New Roman;
+            font-size: 14px;
+            margin: 40px;
+            line-height: 1.6;
         }
 
-        .center {
-            width: 100%;
-            clear: both;
-            margin-top: 20px;
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header p {
+            margin: 5px 0;
+            font-weight: bold;
+        }
+
+        .contract-title {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .contract-title h1 {
+            font-size: 18px;
+            text-transform: uppercase;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .contract-number {
+            text-align: center;
+            font-style: italic;
+            margin: 15px 0;
+        }
+
+        .legal-basis {
+            margin: 20px 0;
+        }
+
+        .legal-basis p {
+            margin: 8px 0;
+        }
+
+        .contract-date {
+            margin: 20px 0;
+        }
+
+        .party-info {
+            margin: 20px 0;
+        }
+
+        .party-info p {
+            margin: 8px 0;
+        }
+
+        .article {
+            margin: 25px 0;
+        }
+
+        .article-title {
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .sub-article {
+            margin: 10px 0 10px 20px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
+            margin: 15px 0;
         }
 
         th, td {
             border: 1px solid #000;
-            padding: 6px;
-            text-align: center;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .bold {
-            font-weight: bold;
-        }
-
-        .left-right {
-            width: 100%;
-            overflow: hidden;
-            margin-bottom: 10px;
-            margin-top: 10px;
-        }
-
-        .left {
-            width: 50%;
-            float: left;
-        }
-
-        .right {
-            width: 50%;
-            float: right;
-        }
-
-        .left2 {
-            width: 30%;
-            float: left;
-        }
-
-        .right2 {
-            width: 70%;
-            float: right;
+            padding: 8px;
+            text-align: left;
         }
 
         .signature-section {
-            margin-top: 30px;
-            page-break-inside: avoid;
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
         }
 
         .signature-box {
             width: 45%;
-            float: left;
-            margin: 0 2.5%;
             text-align: center;
         }
 
         .signature-line {
+            margin: 60px auto 10px;
             border-top: 1px solid #000;
-            margin-top: 50px;
             width: 80%;
-            margin-left: auto;
-            margin-right: auto;
         }
 
-        h3 {
-            color: royalblue;
-            margin-top: 20px;
+        .indent {
+            margin-left: 20px;
+        }
+
+        .note {
+            font-style: italic;
+            font-size: 12px;
+            color: #666;
         }
     </style>
 </head>
 <body>
-    <div class="left-right">
-        <div class="left2">
-            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
-        </div>
-        <div class="right2">
-            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
-            ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam<br>
-            TEL: __________________ EMAIL: __________________<br>
-            WEBSITE: <span style="color: green;">http://pnd-logistics.com</span>
-            <hr style="border: 3px solid lawngreen" />
-        </div>
+    <div class="header">
+        <p>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</p>
+        <p>Độc lập – Tự do – Hạnh phúc</p>
+        <p>---------------</p>
     </div>
 
-    <div style="text-align:center;">
-        <h1>HỢP ĐỒNG VẬN CHUYỂN</h1>
-        <h2>TRANSPORTATION CONTRACT</h2>
-        <p>Số hợp đồng / Contract No: @quotation.QuotationId</p>
-        <p>Ngày / Date: @quotation.Qdate?.ToString("dd/MM/yyyy")</p>
+    <div class="contract-title">
+        <h1>HỢP ĐỒNG VẬN CHUYỂN HÀNG HÓA</h1>
+        <p class="contract-number">(Số: @quotation.QuotationId/HĐVCHH)</p>
     </div>
 
-    <div class="center">
-        <h3>BETWEEN PARTIES / GIỮA CÁC BÊN:</h3>
-        <div class="left-right">
-            <div class="left">
-                <strong>PARTY A (BÊN A):</strong><br />
-                <strong>PND LOGISTICS TRANSPORT CO., LTD</strong><br />
-                Address/Địa chỉ: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam<br />
-                Representative/Đại diện: ___________________<br />
-                Position/Chức vụ: ___________________
-            </div>
-            <div class="right">
-                <strong>PARTY B (BÊN B):</strong><br />
-                Contact Person/Người liên hệ: @quotation.CusContact<br />
-                Address/Địa chỉ: ___________________<br />
-                Tel: ___________________<br />
-                Email: ___________________
-            </div>
+    <div class="legal-basis">
+        <p>- Căn cứ Bộ luật dân sự 2015;</p>
+        <p>- Căn cứ Luật thương mại 2005;</p>
+        <p>- Căn cứ vào nhu cầu và khả năng của các bên.</p>
+    </div>
+
+    <div class="contract-date">
+        <p>Hôm nay, ngày @quotation.Qdate?.ToString("dd") tháng @quotation.Qdate?.ToString("MM") năm @quotation.Qdate?.ToString("yyyy"), Tại Hải Phòng</p>
+    </div>
+
+    <div class="party-info">
+        <p><strong>BÊN CHỦ HÀNG (BÊN A):</strong></p>
+        <div class="indent">
+            <p>Địa chỉ: __________________</p>
+            <p>Điện thoại: __________________</p>
+            <p>Fax: __________________</p>
+            <p>Mã số thuế: __________________</p>
+            <p>Tài khoản số: __________________</p>
+            <p>Do ông (bà): @quotation.CusContact</p>
+            <p>Chức vụ: __________________ làm đại diện</p>
         </div>
     </div>
 
-    <div class="center">
-        <h3>1. TRANSPORTATION DETAILS / CHI TIẾT VẬN CHUYỂN:</h3>
-        <div class="left-right">
-            <div class="left">
-                <strong>Place of Receipt / Nơi nhận hàng:</strong> @quotation.Pol<br /><br />
-                <strong>Place of Delivery / Nơi giao hàng:</strong> @quotation.Pod<br /><br />
-                <strong>Commodity / Hàng hóa:</strong> @quotation.Commodity<br />
-            </div>
-            <div class="right">
-                <strong>Port of Loading / Cảng đi:</strong> @quotation.Pol<br /><br />
-                <strong>Port of Discharge / Cảng đến:</strong> @quotation.Pod<br /><br />
-                <strong>Volume/Term / Khối lượng:</strong> @quotation.Vol<br />
-            </div>
+    <div class="party-info">
+        <p><strong>BÊN VẬN CHUYỂN (BÊN B): CÔNG TY TNHH VẬN TẢI VÀ LOGISTICS PND</strong></p>
+        <div class="indent">
+            <p>Địa chỉ: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam</p>
+            <p>Điện thoại: __________________</p>
+            <p>Fax: __________________</p>
+            <p>Mã số thuế: __________________</p>
+            <p>Tài khoản số: __________________</p>
+            <p>Do ông (bà): __________________</p>
+            <p>Chức vụ: __________________ làm đại diện</p>
         </div>
     </div>
 
-    <div class="center">
-        <h3>2. CHARGES AND FEES / CƯỚC PHÍ VÀ LỆ PHÍ:</h3>
+    <p><strong>Hai bên cùng thỏa thuận ký hợp đồng với những nội dung sau:</strong></p>
+// ... existing code ...
+    <div class="article">
+        <p class="article-title">ĐIỀU 1: HÀNG HÓA VẬN CHUYỂN</p>
+        <div class="sub-article">
+            <p>1.1. Tên hàng: Bên A thuê bên B vận tải những hàng hóa sau: @quotation.Commodity</p>
+            <p>1.2. Tính chất hàng hóa:</p>
+            <p>Bên B cần lưu ý bảo đảm cho bên A những loại hàng sau được an toàn:</p>
+            <div class="indent">
+                <p>a) __________________ hàng cần giữ tươi sống: __________________</p>
+                <p>b) __________________ hàng cần bảo quản không để biến chất: __________________</p>
+                <p>c) __________________ hàng nguy hiểm cần che đậy hoặc để riêng: __________________</p>
+                <p>d) __________________ hàng dễ vỡ: __________________</p>
+                <p>e) __________________ súc vật cần giữ sống bình thường: __________________</p>
+            </div>
+            <p>1.3. Đơn vị tính đơn giá cước: __________________</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 2: ĐỊA ĐIỂM NHẬN HÀNG VÀ GIAO HÀNG</p>
+        <div class="sub-article">
+            <p>2.1. Bên B đưa phương tiện đến nhận hàng tại (kho hàng) @quotation.Pol do bên A giao.</p>
+            <p>2.2. Bên B giao hàng cho bên A tại địa điểm @quotation.Pod</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 3: LỊCH TRÌNH GIAO NHẬN HÀNG</p>
         <table>
             <thead>
-                <tr style="background-color: lawngreen">
-                    <th>Items / Hạng mục</th>
-                    <th>Currency / Tiền tệ</th>
-                    <th>Unit / Đơn vị</th>
-                    <th>Quantity / Số lượng</th>
-                    <th>Rate / Đơn giá</th>
-                    <th>Amount / Thành tiền</th>
-                    <th>Notes / Ghi chú</th>
+                <tr>
+                    <th>STT</th>
+                    <th>Tên hàng</th>
+                    <th>Nhận hàng</th>
+                    <th colspan="2">Giao hàng</th>
+                    <th>Ghi chú</th>
+                </tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th>Số lượng</th>
+                    <th>Địa điểm</th>
+                    <th>Thời gian</th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in charges)
-                {
-                    float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
-                    totalAmount += amount;
-                    <tr>
-                        <td>@item.ChargeName</td>
-                        <td>@item.Currency</td>
-                        <td>@item.Unit</td>
-                        <td class="text-right">@item.Quantity</td>
-                        <td class="text-right">@item.Rate?.ToString("N2")</td>
-                        <td class="text-right">@amount.ToString("N2")</td>
-                        <td>@item.Notes</td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
                 <tr>
-                    <td colspan="5" class="text-right bold">TOTAL / TỔNG CỘNG:</td>
-                    <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                    <td>1</td>
+                    <td>@quotation.Commodity</td>
+                    <td>@quotation.Vol</td>
+                    <td>@quotation.Pod</td>
+                    <td>@quotation.Valid?.ToString("dd/MM/yyyy")</td>
                     <td></td>
                 </tr>
-            </tfoot>
+            </tbody>
         </table>
     </div>
 
-    <div class="center">
-        <h3>3. VALIDITY / HIỆU LỰC:</h3>
-        <div class="left-right">
-            <div class="left">
-                From / Từ ngày: @quotation.Qdate?.ToString("dd/MM/yyyy")
+    <div class="article">
+        <p class="article-title">ĐIỀU 4: PHƯƠNG TIỆN VẬN TẢI</p>
+        <div class="sub-article">
+            <p>4.1. Bên A yêu cầu bên B vận tải số hàng trên bằng phương tiện __________________</p>
+            <p>Phải có những khả năng cần thiết như:</p>
+            <div class="indent">
+                <p>- Tốc độ phải đạt __________________ km/giờ</p>
+                <p>- Có mái che __________________</p>
+                <p>- Số lượng phương tiện là: __________________</p>
             </div>
-            <div class="right">
-                To / Đến ngày: @quotation.Valid?.ToString("dd/MM/yyyy")
+            <p>4.2. Bên B chịu trách nhiệm về kỹ thuật cho phương tiện vận tải để bảo đảm vận tải trong thời gian là: __________________</p>
+            <p>4.3. Bên B phải chuẩn bị đầy đủ giấy tờ cho phương tiện đi lại hợp lệ trên tuyến giao thông đó để vận tải số hàng hóa đã thỏa thuận như trên và chịu mọi hậu quả về giấy tờ pháp lý của phương tiện vận tải.</p>
+            <p>4.4. Bên B phải làm vệ sinh phương tiện vận tải khi nhận hàng, chi phí vệ sinh phương tiện vận tải sau khi giao hàng bên A phải chịu là __________________ đồng (Bằng chữ: __________________)</p>
+            <p>4.5. Sau khi bên B đưa phương tiện đến nhận hàng mà bên A chưa có hàng để giao sau __________________ phút thì bên A phải chứng nhận cho bên B đem phương tiện về và phải trả giá cước của loại hàng thấp nhất về giá vận tải theo đoạn đường đã hợp đồng.</p>
+            <p>4.6. Bên B có quyền từ chối không nhận hàng nếu bên A giao hàng không đúng loại hàng ghi trong vận đơn khi xét thấy phương tiện điều động không thích hợp với loại hàng đó, có quyền yêu cầu bên A phải chịu phạt __________% giá trị tổng cước phí.</p>
+            <p>4.7. Trường hợp bên B đưa phương tiện đến nhận hàng chậm so với lịch giao nhận phải chịu phạt hợp đồng là: __________________ đồng/giờ.</p>
+        </div>
+    </div>
+// ... existing code ...// ... existing code ...
+    <div class="article">
+        <p class="article-title">ĐIỀU 5: GIẤY TỜ CHO VIỆC VẬN CHUYỂN HÀNG HÓA</p>
+        <div class="sub-article">
+            <p>5.1. Bên B phải làm giấy xác báo hàng hóa (phải được đại diện bên B ký, đóng dấu xác nhận) trước __________________ giờ so với thời điểm giao hàng.</p>
+            <p>Bên B phải xác báo lại cho bên A số lượng và trọng tải các phương tiện có thể điều động trong 24 giờ trước khi bên A giao hàng. Nếu bên A không xác báo xin phương tiện thì bên B không chịu trách nhiệm.</p>
+            <p>5.2. Các giấy tờ khác nếu có.</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 6: PHƯƠNG THỨC GIAO NHẬN HÀNG HÓA</p>
+        <div class="sub-article">
+            <p>6.1. Hai bên thỏa thuận nhận hàng theo phương thức sau:</p>
+            <p class="note">Lưu ý: Tùy theo từng loại hàng và tính chất phương tiện vận tải mà thỏa thuận giao nhận theo một trong các phương thức sau:</p>
+            <div class="indent">
+                <p>- Nguyên đai, nguyên kiện, nguyên bao.</p>
+                <p>- Theo trọng lượng, thể tích.</p>
+                <p>- Theo nguyên hầm hay container.</p>
+                <p>- Theo ngấn nước của phương tiện vận tải thủy.</p>
+            </div>
+            <p>6.2. Bên A đề nghị bên B giao hàng theo phương thức:</p>
+            <p>__________________________________________________________________________________</p>
+            <p>__________________________________________________________________________________</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 7: TRÁCH NHIỆM XẾP DỠ HÀNG HÓA</p>
+        <div class="sub-article">
+            <p>7.1. Bên __________________ có trách nhiệm xếp dỡ hàng hóa.</p>
+            <p class="note">Chú ý:</p>
+            <div class="indent">
+                <p>- Tại địa điểm có thể tổ chức xếp dỡ chuyên trách thì chi phí xếp dỡ do bên A chịu.</p>
+                <p>- Trong trường hợp bên A phụ trách xếp dỡ (không thuê chuyên trách) thì bên vận tải có trách nhiệm hướng dẫn về kỹ thuật xếp dỡ.</p>
+            </div>
+            <p>7.2. Thời gian xếp dỡ giải phóng phương tiện là __________________ giờ.</p>
+            <p class="note">Lưu ý: Nếu cần xếp dỡ vào ban đêm, vào ngày lễ và ngày chủ nhật bên A phải báo trước cho bên B __________________ giờ, phải trả chi phí cao hơn giờ hành chính là __________________ đồng/giờ (tấn).</p>
+            <p>7.3. Mức thưởng phạt</p>
+            <div class="indent">
+                <p>- Nếu xếp dỡ xong trước thời gian quy định và an toàn thì bên __________________ sẽ thưởng cho bên __________________ số tiền là __________________ đồng/giờ.</p>
+                <p>- Xếp dỡ chậm bị phạt là: __________________ đồng/giờ.</p>
+                <p>- Xếp dỡ hư hỏng hàng hóa phải bồi thường theo giá trị thị trường tự do tại địa điểm bốc xếp.</p>
             </div>
         </div>
     </div>
 
-    <div class="center">
-        <h3>4. TERMS AND CONDITIONS / ĐIỀU KHOẢN VÀ ĐIỀU KIỆN:</h3>
-        <ul>
-            <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0% / Price not include 8% VAT, except ocean freight VAT 0%</li>
-            <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm… / Price not include 3rd party charges: customs inspection, scanning, tax, storage, restricted road...</li>
-            <li>Hợp đồng này có hiệu lực kể từ ngày ký và được lập thành 02 bản có giá trị như nhau / This contract takes effect from the signing date and is made in 02 copies of equal value</li>
-            <li>Mỗi bên giữ 01 bản / Each party keeps 01 copy</li>
-        </ul>
+    <div class="article">
+        <p class="article-title">ĐIỀU 8: GIẢI QUYẾT HAO HỤT HÀNG HÓA</p>
+        <div class="sub-article">
+            <p>- Nếu hao hụt theo quy định dưới mức __________________ % tổng số lượng hàng thì bên B không phải bồi thường.</p>
+            <p>- Hao hụt trên tỷ lệ cho phép thì bên B phải bồi thường cho bên A theo giá trị thị trường tự do tại nơi giao hàng (áp dụng cho trường hợp bên A không cử người áp tải).</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 9: NGƯỜI ÁP TẢI HÀNG HÓA</p>
+        <div class="sub-article">
+            <p>9.1. Bên A cử __________________ người theo phương tiện để áp tải hàng.</p>
+            <p class="note">Lưu ý: Các trường hợp sau đây bên A buộc phải cử người áp tải:</p>
+            <div class="indent">
+                <p>- Hàng quý hiếm: vàng, kim cương, đá quý...</p>
+                <p>- Hàng tươi sống đi đường phải ướp;</p>
+                <p>- Súc vật sống cần cho ăn dọc đường;</p>
+                <p>- Hàng nguy hiểm;</p>
+                <p>- Các loại súng ống, đạn dược;</p>
+                <p>- Linh cửu, thi hài.</p>
+            </div>
+            <p>9.2. Người áp tải có trách nhiệm bảo vệ hàng hóa và giải quyết các thủ tục kiểm tra liên quan đến hàng hóa trên đường vận chuyển.</p>
+            <p>9.3. Bên B không phải chịu trách nhiệm hàng mất mát nhưng phải có trách nhiệm điều khiển phương tiện đúng yêu cầu kỹ thuật để không gây hư hỏng, mất mát hàng hóa.</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 10: THANH TOÁN PHÍ VẬN TẢI</p>
+        <div class="sub-article">
+            <p>10.1. Tiền cước phí chính mà bên A phải thanh toán cho bên B bao gồm:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>STT</th>
+                        <th>Hạng mục</th>
+                        <th>Đơn vị</th>
+                        <th>Số lượng</th>
+                        <th>Đơn giá</th>
+                        <th>Thành tiền</th>
+                        <th>Ghi chú</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{var index = 1;}
+                    @foreach (var item in charges)
+                    {
+                        float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
+                        totalAmount += amount;
+                        <tr>
+                            <td>@(index++)</td>
+                            <td>@item.ChargeName</td>
+                            <td>@item.Unit</td>
+                            <td>@item.Quantity</td>
+                            <td>@item.Rate?.ToString("N2")</td>
+                            <td>@amount.ToString("N2")</td>
+                            <td>@item.Notes</td>
+                        </tr>
+                    }
+                    <tr>
+                        <td colspan="5"><strong>TỔNG CỘNG:</strong></td>
+                        <td><strong>@totalAmount.ToString("N2")</strong></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <p>10.2. Tiền phụ phí vận tải bên A phải thanh toán cho bên B gồm:</p>
+            <div class="indent">
+                <p>- Phí tổn điều xe một số quãng đường không chở hàng là __________________ đồng/km.</p>
+                <p>- Cước qua phà là __________________ đồng.</p>
+                <p>- Chi phí chuyển tải là __________________ đồng.</p>
+                <p>- Phí tổn vật dụng chèn lót là __________________ đồng.</p>
+                <p>- Chuồng cũi cho súc vật là __________________ đồng.</p>
+                <p>- Giá chênh lệch nhiên liệu tổng cộng là __________________ đồng.</p>
+                <p>- Lệ phí bến đổ phương tiện là __________________ đồng.</p>
+                <p>- Kê khai trị giá hàng hóa __________________ đồng.</p>
+                <p>- Cảng phí __________________ đồng.</p>
+                <p>- Hoa tiêu phí __________________ đồng.</p>
+            </div>
+            <p>10.3. Tổng cộng cước phí bằng số: __________________ (Bằng chữ: __________________)</p>
+            <p>10.4. Bên A thanh toán cho bên B bằng hình thức sau:</p>
+            <p>__________________________________________________________________________________</p>
+            <p>__________________________________________________________________________________</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 11: QUYỀN VÀ NGHĨA VỤ CỦA CÁC BÊN</p>
+        <div class="sub-article">
+            <p>11.1. Quyền và nghĩa vụ của bên A</p>
+            <p>a) Nghĩa vụ của bên A:</p>
+            <div class="indent">
+                <p>- Trả đủ tiền cước phí vận chuyển cho bên B theo đúng thời hạn, phương thức đã thoả thuận;</p>
+                <p>- Trông coi tài sản trên đường vận chuyển, nếu có thoả thuận. Trong trường hợp bên A trông coi tài sản mà tài sản bị mất mát, hư hỏng thì không được bồi thường.</p>
+                <p>- Bên A phải bồi thường thiệt hại cho bên B và người thứ ba về thiệt hại do tài sản vận chuyển có tính chất nguy hiểm, độc hại mà không có biện pháp đóng gói, bảo đảm an toàn trong quá trình vận chuyển.</p>
+            </div>
+            <p>b) Quyền của bên A:</p>
+            <div class="indent">
+                <p>- Yêu cầu bên B chuyên chở tài sản đến đúng địa điểm, thời điểm đã thoả thuận;</p>
+                <p>- Trực tiếp hoặc chỉ định người thứ ba nhận lại tài sản đã thuê vận chuyển;</p>
+                <p>- Yêu cầu bên B bồi thường thiệt hại.</p>
+            </div>
+            <p>11.2. Quyền và nghĩa vụ của bên B</p>
+            <p>a) Nghĩa vụ của bên B:</p>
+            <div class="indent">
+                <p>- Bảo đảm vận chuyển hàng hóa đầy đủ, an toàn đến địa điểm đã định, theo đúng thời hạn;</p>
+                <p>- Trả tài sản cho người có quyền nhận;</p>
+                <p>- Chịu chi phí liên quan đến việc chuyên chở tài sản, trừ trường hợp có thoả thuận khác;</p>
+                <p>- Mua bảo hiểm trách nhiệm dân sự theo quy định của pháp luật;</p>
+                <p>- Bồi thường thiệt hại cho bên A trong trường hợp bên B để mất mát, hư hỏng tài sản do lỗi của mình, trừ trường hợp có thoả thuận khác hoặc pháp luật có quy định khác.</p>
+            </div>
+            <p>b) Quyền của bên B:</p>
+            <div class="indent">
+                <p>- Kiểm tra sự xác thực của tài sản, của vận đơn hoặc chứng từ vận chuyển tương đương khác;</p>
+                <p>- Từ chối vận chuyển tài sản không đúng với loại tài sản đã thoả thuận trong hợp đồng;</p>
+                <p>- Yêu cầu bên A thanh toán đủ cước phí vận chuyển đúng thời hạn;</p>
+                <p>- Từ chối vận chuyển tài sản cấm giao dịch, tài sản có tính chất nguy hiểm, độc hại, nếu bên B biết hoặc phải biết;</p>
+                <p>- Yêu cầu bên A bồi thường thiệt hại.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 12: ĐĂNG KÝ BẢO HIỂM</p>
+        <div class="sub-article">
+            <p>- Bên A phải chi phí mua bảo hiểm hàng hóa.</p>
+            <p>- Bên B chi phí mua bảo hiểm phương tiện vận tải với chi nhánh Bảo Việt.</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 13: BIỆN PHÁP BẢO ĐẢM THỰC HIỆN HỢP ĐỒNG</p>
+        <div class="sub-article">
+            <p>__________________________________________________________________________________</p>
+            <p>__________________________________________________________________________________</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 14: TRÁCH NHIỆM DO VI PHẠM HỢP ĐỒNG</p>
+        <div class="sub-article">
+            <p>14.1. Bên nào vi phạm hợp đồng, một mặt phải trả cho bên bị vi phạm tiền phạt vi phạm hợp đồng, mặt khác nếu có thiệt hại xảy ra do lỗi vi phạm hợp đồng dẫn đến như mất mát, hư hỏng, tài sản phải chi phí để ngăn chặn hạn chế thiệt hại do vi phạm gây ra, tiền phạt do vi phạm hợp đồng khác và tiền bồi thường thiệt hại mà bên bị vi phạm đã phải trả cho bên thứ ba là hậu quả trực tiếp của sự vi phạm này gây ra.</p>
+            <p>14.2. Nếu bên A đóng gói hàng mà không khai hoặc khai không đúng sự thật về số lượng, trọng lượng hàng hóa thì bên A phải chịu phạt đến __________________ % số tiền cước phải trả cho lô hàng đó.</p>
+            <p>14.3. Nếu bên B có lỗi làm hư hỏng hàng hóa trong quá trình vận chuyển thì:</p>
+            <div class="indent">
+                <p>- Trong trường hợp có thể sửa chữa được nếu bên A đã tiến hành sửa chữa thì bên B phải đài thọ phí tổn.</p>
+                <p>- Nếu hư hỏng đến mức không còn khả năng sửa chữa thì hai bên thỏa thuận mức bồi thường hoặc nhờ cơ quan chuyên môn giám định và xác nhận tỷ lệ bồi thường.</p>
+            </div>
+            <p>14.4. Nếu bên A vi phạm nghĩa vụ thanh toán tổng cước phí vận chuyển thì phải chịu phạt theo mức lãi suất chậm trả của tín dụng ngân hàng là __________________ % ngày (hoặc tháng) tính từ ngày hết hạn thanh toán.</p>
+            <p>14.5. Bên nào đã ký hợp đồng mà không thực hiện hợp đồng hoặc đơn phương đình chỉ thực hiện hợp đồng mà không có lý do chính đáng thì sẽ bị phạt tới __________________ % giá trị phần tổng cước phí dự chi.</p>
+            <p>14.6. Nếu hợp đồng này có một bên nào đó gây ra đồng thời nhiều loại vi phạm, thì chỉ phải chịu một loại phạt có số tiền phạt ở mức cao nhất theo các mức phạt mà hai bên đã thỏa thuận trong hợp đồng này, trừ các loại trách hiệm bồi thường khi làm mất mát hoặc hư hỏng hàng hóa lúc vận chuyển.</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 15: GIẢI QUYẾT TRANH CHẤP HỢP ĐỒNG</p>
+        <div class="sub-article">
+            <p>Các bên cam kết cùng nhau thực hiện hợp đồng. Nếu trong quá trình thực hiện có phát sinh vướng mắc các bên sẽ trao đổi trên tinh thần hợp tác, trường hợp hai bên không thỏa thuận được thì việc tranh chấp sẽ được phán quyết bởi tòa án.</p>
+        </div>
+    </div>
+
+    <div class="article">
+        <p class="article-title">ĐIỀU 16: HIỆU LỰC CỦA HỢP ĐỒNG</p>
+        <div class="sub-article">
+            <p>Hợp đồng này có hiệu lực từ ngày @quotation.Qdate?.ToString("dd") tháng @quotation.Qdate?.ToString("MM") năm @quotation.Qdate?.ToString("yyyy") đến ngày @quotation.Valid?.ToString("dd") tháng @quotation.Valid?.ToString("MM") năm @quotation.Valid?.ToString("yyyy")</p>
+            <p>Hai bên sẽ họp và lập biên bản thanh lý hợp đồng vận chuyển hàng hóa này vào ngày __________________ tháng __________________ năm __________________.</p>
+            <p>Hợp đồng được lập thành 02 (hai) bản, mỗi bên giữ một bản và có giá trị như nhau.</p>
+        </div>
     </div>
 
     <div class="signature-section">
         <div class="signature-box">
-            <p><strong>PARTY A / BÊN A</strong></p>
-            <p>PND LOGISTICS TRANSPORT CO., LTD</p>
-            <div class="signature-line"></div>
-            <p>Name/Họ tên: ________________</p>
-            <p>Date/Ngày: ________________</p>
-        </div>
-        <div class="signature-box">
-            <p><strong>PARTY B / BÊN B</strong></p>
+            <p><strong>ĐẠI DIỆN BÊN A</strong></p>
             <p>@quotation.CusContact</p>
             <div class="signature-line"></div>
-            <p>Name/Họ tên: ________________</p>
-            <p>Date/Ngày: ________________</p>
+            <p>Họ tên: __________________</p>
+            <p>Chức vụ: __________________</p>
+        </div>
+        <div class="signature-box">
+            <p><strong>ĐẠI DIỆN BÊN B</strong></p>
+            <p>CÔNG TY TNHH VẬN TẢI VÀ LOGISTICS PND</p>
+            <div class="signature-line"></div>
+            <p>Họ tên: __________________</p>
+            <p>Chức vụ: __________________</p>
         </div>
     </div>
 </body>
