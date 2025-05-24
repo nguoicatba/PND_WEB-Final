@@ -106,6 +106,23 @@
                 minLength: 1,
                 appendTo: "#autocomplete-wrapper"
             });
+
+
+
+            const form = $("form");
+            const soTienInput = $('input[name="tuttphi.SoTien"]');
+            const totalThisMonth = parseFloat('@ViewBag.TotalThisMonth'.replace(',', '.')) || 0;
+            const limit = parseFloat('@ViewBag.Limit'.replace(',', '.')) || 0;
+
+            form.on("submit", function (e) {
+                const currentSoTien = parseFloat(soTienInput.val().replace(',', '.')) || 0;
+                const total = totalThisMonth + currentSoTien;
+
+                if (total > limit) {
+                    e.preventDefault(); // Ngăn form gửi
+                    alert("Tổng số tiền tạm ứng trong tháng (bao gồm số vừa nhập) đã vượt hạn mức!");
+                }
+            });
         });
     </script>
 }

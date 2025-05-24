@@ -479,7 +479,7 @@ namespace PND_WEB.Controllers
 
 
 
-        public async Task<IActionResult> ExportPDFQuotationsSign(string id)
+        public async Task<IActionResult> ExportPDFQuotationsContract(string id)
         {
             var quotation = await _context.Quotations
                                           .Include(q => q.QuotationsCharges)
@@ -494,7 +494,7 @@ namespace PND_WEB.Controllers
                 QuotationsCharges = quotation.QuotationsCharges.ToList()
             };
 
-            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotationsSign", viewModel);
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotationsContract", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {

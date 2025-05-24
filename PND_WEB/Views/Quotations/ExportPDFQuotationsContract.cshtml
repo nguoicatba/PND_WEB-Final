@@ -1,0 +1,255 @@
+﻿@using PND_WEB.ViewModels
+@model QuotationsEditDeleteDetailController
+
+@{
+    Layout = null;
+    var quotation = Model.Quotation;
+    var charges = Model.QuotationsCharges;
+    float totalAmount = 0;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            font-size: 16px;
+            margin: 30px;
+        }
+
+        .center {
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+
+        .left-right {
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left {
+            width: 50%;
+            float: left;
+        }
+
+        .right {
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
+
+        .signature-section {
+            margin-top: 30px;
+            page-break-inside: avoid;
+        }
+
+        .signature-box {
+            width: 45%;
+            float: left;
+            margin: 0 2.5%;
+            text-align: center;
+        }
+
+        .signature-line {
+            border-top: 1px solid #000;
+            margin-top: 50px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        h3 {
+            color: royalblue;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left2">
+            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam<br>
+            TEL: __________________ EMAIL: __________________<br>
+            WEBSITE: <span style="color: green;">http://pnd-logistics.com</span>
+            <hr style="border: 3px solid lawngreen" />
+        </div>
+    </div>
+
+    <div style="text-align:center;">
+        <h1>HỢP ĐỒNG VẬN CHUYỂN</h1>
+        <h2>TRANSPORTATION CONTRACT</h2>
+        <p>Số hợp đồng / Contract No: @quotation.QuotationId</p>
+        <p>Ngày / Date: @quotation.Qdate?.ToString("dd/MM/yyyy")</p>
+    </div>
+
+    <div class="center">
+        <h3>BETWEEN PARTIES / GIỮA CÁC BÊN:</h3>
+        <div class="left-right">
+            <div class="left">
+                <strong>PARTY A (BÊN A):</strong><br />
+                <strong>PND LOGISTICS TRANSPORT CO., LTD</strong><br />
+                Address/Địa chỉ: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam<br />
+                Representative/Đại diện: ___________________<br />
+                Position/Chức vụ: ___________________
+            </div>
+            <div class="right">
+                <strong>PARTY B (BÊN B):</strong><br />
+                Contact Person/Người liên hệ: @quotation.CusContact<br />
+                Address/Địa chỉ: ___________________<br />
+                Tel: ___________________<br />
+                Email: ___________________
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+        <h3>1. TRANSPORTATION DETAILS / CHI TIẾT VẬN CHUYỂN:</h3>
+        <div class="left-right">
+            <div class="left">
+                <strong>Place of Receipt / Nơi nhận hàng:</strong> @quotation.Pol<br /><br />
+                <strong>Place of Delivery / Nơi giao hàng:</strong> @quotation.Pod<br /><br />
+                <strong>Commodity / Hàng hóa:</strong> @quotation.Commodity<br />
+            </div>
+            <div class="right">
+                <strong>Port of Loading / Cảng đi:</strong> @quotation.Pol<br /><br />
+                <strong>Port of Discharge / Cảng đến:</strong> @quotation.Pod<br /><br />
+                <strong>Volume/Term / Khối lượng:</strong> @quotation.Vol<br />
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+        <h3>2. CHARGES AND FEES / CƯỚC PHÍ VÀ LỆ PHÍ:</h3>
+        <table>
+            <thead>
+                <tr style="background-color: lawngreen">
+                    <th>Items / Hạng mục</th>
+                    <th>Currency / Tiền tệ</th>
+                    <th>Unit / Đơn vị</th>
+                    <th>Quantity / Số lượng</th>
+                    <th>Rate / Đơn giá</th>
+                    <th>Amount / Thành tiền</th>
+                    <th>Notes / Ghi chú</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in charges)
+                {
+                    float amount = (float)item.Quantity * (float)(item.Rate ?? 0);
+                    totalAmount += amount;
+                    <tr>
+                        <td>@item.ChargeName</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Unit</td>
+                        <td class="text-right">@item.Quantity</td>
+                        <td class="text-right">@item.Rate?.ToString("N2")</td>
+                        <td class="text-right">@amount.ToString("N2")</td>
+                        <td>@item.Notes</td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5" class="text-right bold">TOTAL / TỔNG CỘNG:</td>
+                    <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+
+    <div class="center">
+        <h3>3. VALIDITY / HIỆU LỰC:</h3>
+        <div class="left-right">
+            <div class="left">
+                From / Từ ngày: @quotation.Qdate?.ToString("dd/MM/yyyy")
+            </div>
+            <div class="right">
+                To / Đến ngày: @quotation.Valid?.ToString("dd/MM/yyyy")
+            </div>
+        </div>
+    </div>
+
+    <div class="center">
+        <h3>4. TERMS / ĐIỀU KHOẢN:</h3>
+        <ul>
+            <li>Báo giá chưa bao gồm 8% VAT, riêng cước biển VAT 0%</li>
+            <li>Báo giá chưa bao gồm phí thu hộ bên thứ 3: kiểm hóa, soi chiếu, thuế, lưu kho bãi, đường cấm…</li>
+            <li>Báo giá không áp dụng cho hàng hóa nguy hiểm, dễ cháy nổ, quá tải, quá khổ… - Tỉ giá TCB bank ngày xuất hóa đơn</li>
+        </ul>
+    </div>
+
+    <div class="center">
+        <h3>5. CONDITIONS / ĐIỀU KIỆN:</h3>
+        <ul>
+            @* điền vào x *@
+            <li>Bên A chịu trách nhiệm về thời gian đảm bảo vận chuyển trong thời gian là  xxxx</li>
+            <li>Bên A phải chuẩn bị đầy đủ giấy để hợp lệ trong quá trình vận chuyển
+                để vận tải số hàng hóa đã thỏa thuận như trên và chịu mọi hậu quả về giấy tờ pháp lý của các phương tiện vận tải.</li>
+            <li>Bên B trả đủ tiền cước phí vận chuyển cho bên A theo đúng thời hạn, phương thức đã thoả thuận;</li>
+            <li>Các bên cam kết cùng nhau thực hiện hợp đồng. Nếu trong quá trình thực hiện có phát sinh vướng mắc các bên sẽ trao đổi trên tinh thần hợp tác, trường hợp hai bên không thỏa thuận được thì việc tranh chấp sẽ được phán quyết bởi tòa án.</li>
+            <li>Hợp đồng này có hiệu lực kể từ ngày ký và được lập thành 02 bản có giá trị như nhau / This contract takes effect from the signing date and is made in 02 copies of equal value</li>
+            <li>Mỗi bên giữ 01 bản / Each party keeps 01 copy</li>
+        </ul>
+    </div>
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+
+    <div class="signature-section">
+        <div class="signature-box">
+            <p><strong>PARTY A / BÊN A</strong></p>
+            <p>PND LOGISTICS TRANSPORT CO., LTD</p>
+            <div class="signature-line"></div>
+            <p>Name/Họ tên: ________________</p>
+            <p>Date/Ngày: ________________</p>
+        </div>
+        <div class="signature-box">
+            <p><strong>PARTY B / BÊN B</strong></p>
+            <p>@quotation.CusContact</p>
+            <div class="signature-line"></div>
+            <p>Name/Họ tên: ________________</p>
+            <p>Date/Ngày: ________________</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -312,11 +312,14 @@ namespace PND_WEB.Controllers
             var limit = _budgetService.GetLimit();
 
 
-            if (totalThisMonth >= limit)
-            {
-                TempData["ErrorMessage"] = "Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.";
-                return RedirectToAction(nameof(Index));
-            }
+            ViewBag.TotalThisMonth = totalThisMonth;
+            ViewBag.Limit = limit;
+
+            //if (totalThisMonth >= limit)
+            //{
+            //    TempData["ErrorMessage"] = "Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.";
+            //    return RedirectToAction(nameof(Index));
+            //}
 
             if (id == null)
             {
