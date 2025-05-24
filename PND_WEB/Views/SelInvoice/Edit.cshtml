@@ -13,48 +13,75 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                     <input type="hidden" asp-for="invoice.Hbl" value=@Model.invoice.Hbl />
+                    <div class="form-row">
 
-                    <div class="form-group">
-                        <label asp-for="invoice.DebitId" class="control-label"></label>
-                        <input asp-for="invoice.DebitId" class="form-control" readonly="readonly" />
-                        <span asp-validation-for="invoice.DebitId" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.InvoiceType" class="control-label"></label>
-                        <select asp-for="invoice.InvoiceType" class="form-control select2-not-tag" data-url="@Url.Action("InvoiceTypeGet", "BuyInvoice")">
-                        </select>
-                        <span asp-validation-for="invoice.InvoiceType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.DebitDate" class="control-label"></label>
-                        <input asp-for="invoice.DebitDate" class="form-control" />
-                        <span asp-validation-for="invoice.DebitDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.PaymentDate" class="control-label"></label>
-                        <input asp-for="invoice.PaymentDate" class="form-control" />
-                        <span asp-validation-for="invoice.PaymentDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.InvoiceNo" class="control-label"></label>
-                        <input asp-for="invoice.InvoiceNo" class="form-control" />
-                        <span asp-validation-for="invoice.InvoiceNo" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.InvoiceDate" class="control-label"></label>
-                        <input asp-for="invoice.InvoiceDate" class="form-control" />
-                        <span asp-validation-for="invoice.InvoiceDate" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="invoice.SupplierId" class="control-label"></label>
-                        <select asp-for="invoice.SupplierId" class="form-control select2-not-tag" data-url="@Url.Action("SupplierGet", "BuyInvoice")">
-                        </select>
 
-                        <span asp-validation-for="invoice.SupplierId" class="text-danger"></span>
+                        <div class="form-group col-4">
+                            <label asp-for="invoice.DebitId" class="control-label required-label"></label>
+                            <input asp-for="invoice.DebitId" class="form-control" readonly="readonly" value="@Model.invoice.DebitId" />
+                            <span asp-validation-for="invoice.DebitId" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="invoice.SupplierId" class="control-label required-label"></label>
+                            <select asp-for="invoice.SupplierId" class="form-control select2-supplier" data-url="@Url.Action("SupplierGet", "BuyInvoice")">
+                                <option value="@Model.invoice.SupplierId">@Model.invoice.SupplierId</option>
+                            </select>
+
+                            <span asp-validation-for="invoice.SupplierId" class="text-danger"></span>
+                        </div>
+
+
+                        <div class="form-group col-2">
+                            <label asp-for="invoice.InvoiceType" class="control-label"></label>
+                            <input asp-for="invoice.InvoiceType" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="invoice.InvoiceType" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-2">
+                            <label asp-for="invoice.Currency" class="control-label required-label"></label>
+                            <select asp-for="invoice.Currency" class="form-control">
+                                <option value="USD">USD</option>
+                                <option value="VND">VND</option>
+                                
+                            </select>
+                            <span asp-validation-for="invoice.Currency" class="text-danger"></span>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="form-row">
+
+                        <div class="form-group col-3">
+                            <label asp-for="invoice.DebitDate" class="control-label"></label>
+                            <input asp-for="invoice.DebitDate" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="invoice.DebitDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="invoice.PaymentDate" class="control-label"></label>
+                            <input asp-for="invoice.PaymentDate" class="form-control" />
+                            <span asp-validation-for="invoice.PaymentDate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-3">
+                            <label asp-for="invoice.InvoiceNo" class="control-label"></label>
+                            <input asp-for="invoice.InvoiceNo" class="form-control" />
+                            <span asp-validation-for="invoice.InvoiceNo" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="invoice.InvoiceDate" class="control-label"></label>
+                            <input asp-for="invoice.InvoiceDate" class="form-control" />
+                            <span asp-validation-for="invoice.InvoiceDate" class="text-danger"></span>
+                        </div>
+
+
+
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Save" class="btn btn-primary" />
-                        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                        <a asp-action="Index" class="btn btn-secondary" asp-route-id="@Model.HBL_ID">Back to List</a>
                     </div>
                 </form>
 

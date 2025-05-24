@@ -41,5 +41,11 @@ xuất pdf:ok
 
 18/5:
 sinh mã hbl:
-lệnh do:
+lệnh do: ok
+
+24/5
+sửa invocie
+copy invoice
+
+
 

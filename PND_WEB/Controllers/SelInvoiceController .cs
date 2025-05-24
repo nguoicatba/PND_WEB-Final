@@ -99,6 +99,7 @@ namespace PND_WEB.Controllers
                         InvoiceNo = invoiceEditModel.invoice.InvoiceNo,
                         InvoiceDate = invoiceEditModel.invoice.InvoiceDate,
                         SupplierId = invoiceEditModel.invoice.SupplierId,
+                        Currency = invoiceEditModel.invoice.Currency,
                         Buy = false,
                         Sell = true,
                         Cont = false
@@ -146,6 +147,7 @@ namespace PND_WEB.Controllers
                         invoice.InvoiceNo = invoiceEditModel.invoice.InvoiceNo;
                         invoice.InvoiceDate = invoiceEditModel.invoice.InvoiceDate;
                         invoice.SupplierId = invoiceEditModel.invoice.SupplierId;
+                        invoice.Currency = invoiceEditModel.invoice.Currency;
                         await _context.SaveChangesAsync();
                         return RedirectToAction("Index", new { id = invoice.Hbl });
                     }
@@ -267,48 +269,7 @@ namespace PND_WEB.Controllers
             return View(invoiceChargeEditModel);
         }
 
-
-
-
-
-        public async Task<JsonResult> InvoiceTypeGet(string q="", int page = 1)
-        {
-            int pageSize = 10;
-            var query = q == "" ? _context.InvoiceTypes : _context.InvoiceTypes
-                .Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.NameType.ToLower().Contains(q.ToLower()));
-            var totalCount = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedData = await query
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize)
-                .ToListAsync();
-            var items = paginatedData.Select(data => new
-            {
-                id = data.Code,
-                text = data.NameType,
-                disabled = false
-            }).ToList();
-
-            if (page == 1)
-            {
-                items.Insert(0, new { id = "-1", text = "Select Invoice Type", disabled = true });
-            }
-            return Json(new
-            {
-                items = items,
-                total_count = totalCount,
-                header = new
-                {
-                    header_code = "Code",
-                    header_name = "Invoice Type"
-                }
-            });
-
-
-
-        }
-
-        public async Task<JsonResult> SupplierGet(string q="", int page = 1)
+        public async Task<JsonResult> SupplierGet(string q = "", int page = 1)
         {
             int pageSize = 10;
             var query = q == "" ? _context.TblSuppliers : _context.TblSuppliers
@@ -323,13 +284,14 @@ namespace PND_WEB.Controllers
             {
                 id = data.SupplierId,
                 text = data.NameSup,
+                type = data.Typer,
 
                 disabled = false
             }).ToList();
 
             if (page == 1)
             {
-                items.Insert(0, new { id = "-1", text = "Select Supplier", disabled = true });
+                items.Insert(0, new { id = "-1", text = "Select Supplier", type = "kien", disabled = true });
             }
 
 
@@ -340,12 +302,12 @@ namespace PND_WEB.Controllers
                 header = new
                 {
                     header_code = "Supplier Code",
-                    header_name = "Supplier Name"
+                    header_name = "Supplier Name",
+                    header_type = "Type"
                 }
 
             });
         }
-
         public async Task<JsonResult> FeeGet (string q="",int page=1)
         {
             int pageSize = 10;

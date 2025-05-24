@@ -13,6 +13,20 @@ public partial class TblInvoice
     [MaxLength(50, ErrorMessage = "Loi")]
     public string DebitId { get; set; } = null!;
 
+    [Column("Supplier_ID")]
+    [MaxLength(50)]
+    [Display(Name = "Supplier ID")]
+    [Required(ErrorMessage = "Supplier ID is required.")]
+    public string? SupplierId { get; set; } = null!;
+
+
+    [Column("Currency")]
+    [MaxLength(20)]
+    [Display(Name = "Currency")]
+    [Required(ErrorMessage = "Currency is required.")]
+    public string? Currency { get; set; } = null!;
+
+
     [Column("Invoice_type")]
     [MaxLength(10)]
     public string InvoiceType { get; set; } = null!;
@@ -40,10 +54,10 @@ public partial class TblInvoice
 
     public DateTime? InvoiceDate { get; set; }
 
-    [Column("Supplier_ID")]
-    [MaxLength(50)]
-    [Display(Name = "Supplier ID")]
-    public string? SupplierId { get; set; }
+
+ 
+
+
 
     [Column("Buy")]
     [Display(Name = "Buy")]

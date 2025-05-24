@@ -11,10 +11,96 @@ $(document).ready(function () {
     //select 2 show code
     select2_two_columns_code();
 
-    //select2 choice text
+    // select supplier
+    select2_supplier(); 
    
 
 })
+
+// Select2 for supplier
+function select2_supplier() {
+    let header = null;
+    function formatFee(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        if (state.id == '-1') {
+            var $state = $(
+                '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                '<div class="col-4">' + header.header_code + '</div>' +
+                '<div class="col-4">' + header.header_name + '</div>' +
+                '<div class="col-4">' + header.header_type + '</div>' +
+                '</div>'
+            );
+            return $state;
+        }
+        var $state = $(
+            '<div class="row px-2 py-1">' +
+            '<div class="col-4">' + state.id + '</div>' +
+            '<div class="col-4">' + state.text + '</div>' +
+            '<div class="col-4">' + state.type + '</div>' +
+            '</div>'
+        );
+        return $state;
+    }
+    function SelectFee(state) {
+        if (!state.id) {
+            return state.text;
+        }
+        var $state = $(
+            '<span>' + state.id + '</span>'
+        );
+        return $state;
+    }
+   
+    $('.select2-supplier').each(function () {
+        const $select = $(this);
+        const url = $select.data('url');
+        $select.select2({
+            ajax: {
+                url: url,
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: params.term || '',
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    header = data.header;
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: (params.page * 10) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            tags: true,
+            minimumInputLength: 0,
+            templateResult: formatFee,
+            templateSelection: SelectFee,
+            dropdownAutoWidth: true,
+            placeholder: 'Select Supllier',
+
+            theme: 'bootstrap4',
+            width: '100%',
+        });
+    });
+
+
+    //auto type for typer supllier  with id invoice_InvoiceType
+    $('.select2-supplier').on('select2:select', function (e) {
+        var data = e.params.data;
+        $('#invoice_InvoiceType').val(data.type);
+        
+    });
+
+   
+}
+
 // Select2 for Fee
 function select2_fee() {
     let header = null;
