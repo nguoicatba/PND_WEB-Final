@@ -1,11 +1,12 @@
 ﻿@using PND_WEB.ViewModels
 @model QuotationsEditDeleteDetailController
-
+@using System.IO
 @{
     Layout = null;
     var quotation = Model.Quotation;
     var charges = Model.QuotationsCharges;
     float totalAmount = 0;
+    var imagePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "app", "img", "logo-pnd-export-pdf.jpg");
 }
 
 <!DOCTYPE html>
@@ -74,7 +75,7 @@
 <body>
     <div class="left-right">
         <div class="left2">
-            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+            <img src="@imagePath" />
         </div>
         <div class="right2">
             <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
