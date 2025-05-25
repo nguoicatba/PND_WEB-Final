@@ -70,13 +70,13 @@ namespace PND_WEB.Controllers
                 .FirstOrDefaultAsync();
             if (lastInvoice == null)
             {
-                return $"{prefix}{Date}0001";
+                return $"{prefix}{Date}/0001";
             }
             else
             {
                 string lastCode = lastInvoice.DebitId.Substring(prefix.Length + Date.Length);
                 int newCode = int.Parse(lastCode) + 1;
-                return $"{prefix}{Date}{newCode:D4}";
+                return $"{prefix}{Date}/{newCode:D4}";
 
             }
         }

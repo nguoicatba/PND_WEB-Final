@@ -66,6 +66,8 @@ namespace PND_WEB.Controllers
             tblJob.JobDate = DateTime.Now.Date;
             tblJob.JobId = tblJob.GoodsType + "HP" + DateTime.Now.ToString("ddMMyyyyHHmmss");
             tblJob.YunLock = 15;
+            tblJob.JobStatus = true;
+            tblJob.JobOwner = User.Identity.Name ?? "UnknownUser"; 
             if (ModelState.IsValid)
             {
                 _context.Add(tblJob);
@@ -187,6 +189,24 @@ namespace PND_WEB.Controllers
         private bool TblJobExists(string id)
         {
             return _context.TblJobs.Any(e => e.JobId == id);
+        }
+
+        
+        public async Task<IActionResult> CloseJob(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var tblJob = await _context.TblJobs.FindAsync(id);
+            if (tblJob == null)
+            {
+                return NotFound();
+            }
+            tblJob.JobStatus = false; // Set JobStatus to false to close the job
+            _context.Update(tblJob);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<JsonResult> GoodsTypeGet(string q="", int page = 1)

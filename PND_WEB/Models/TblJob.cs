@@ -120,10 +120,18 @@ public partial class TblJob
     public string? Link { get; set; }
 
     [Column("YunLock")]
+    [Display(Name = "Date Lock")]
     public int? YunLock { get; set; } = 0;
 
     [Column("Use_time")]
     public int? UseTime { get; set; } = 2025;
+
+
+    [Display(Name = "Creator")]
+    public string ? JobOwner { get; set; }
+
+    [Display(Name = "Job Status")]
+    public bool JobStatus { get; set; } = true;
 
     [ForeignKey("Agent")]
     public virtual Agent? AgentNavigation { get; set; }

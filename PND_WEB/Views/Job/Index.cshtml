@@ -13,9 +13,16 @@
     <div class="card-body">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>
-            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
-        </p>
+            <a asp-action="Create" class="btn btn-labeled btn-primary btn-xs">
+                <span class="btn-label">
+                    <i class="fa fa-plus-circle"></i>
+                </span>
+                New Job
+            </a>
+
         
+        </p>
+
         <table class="table nowrap border display" id="mytable" style="width:100%">
             <thead class="">
                 <tr>
@@ -30,6 +37,12 @@
                         @Html.DisplayNameFor(model => model.JobDate)
                     </th>
                     <th>
+                        @Html.DisplayNameFor(model =>model.JobOwner)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.JobStatus)
+                    </th>
+                    <th>
                         @Html.DisplayNameFor(model => model.Mbl)
                     </th>
                     <th>
@@ -37,6 +50,12 @@
                     </th>
                     <th>
                         @Html.DisplayNameFor(model => model.Eta)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pol)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Pod)
                     </th>
                     <th>
                         Agent
@@ -47,7 +66,7 @@
                     <th>
                         @Html.DisplayNameFor(model => model.YunLock)
                     </th>
-                   
+
                 </tr>
             </thead>
             <tbody>
@@ -61,7 +80,7 @@
                         </td>
 
                         <td>
-                           <a asp-action = "Details" asp-route-id = "@item.JobId" > @Html.DisplayFor(modelItem => item.JobId) </a>
+                            <a asp-action = "Details" asp-route-id = "@item.JobId" > @Html.DisplayFor(modelItem => item.JobId) </a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.GoodsType)
@@ -70,13 +89,34 @@
                             @Html.DisplayFor(modelItem => item.JobDate)
                         </td>
                         <td>
+                            @Html.DisplayFor(modelItem => item.JobOwner)
+                        </td>
+                        <td>
+                            @if (item.JobStatus == true || item.YunLock < 0)
+                            {
+                                <span class="badge bg-success">Open</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">Close</span>
+                            }
+
+                        </td>
+                        <td>
                             @Html.DisplayFor(modelItem => item.Mbl)
                         </td>
+                       
                         <td>
                             @Html.DisplayFor(modelItem => item.Etd)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Eta)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pol)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Pod)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.AgentNavigation.AgentName)
