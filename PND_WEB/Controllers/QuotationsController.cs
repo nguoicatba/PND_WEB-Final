@@ -399,16 +399,22 @@ namespace PND_WEB.Controllers
         [HttpPost]
         public JsonResult AutoCompleteCustomers(string prefix)
         {
-            var customer = (from customers in this._context.TblCustomers
-                          where customers.DutyPerson.Contains(prefix)
-                          select new
-                          {
-                              label = customers.DutyPerson,
-                              label2 = customers.Contact
-                          }).ToList();
+            prefix = prefix?.ToLower(); // chuẩn hóa từ khóa
 
-            return Json(customer);
+            var customers = _context.TblCustomers
+                .Where(c =>
+                    (!string.IsNullOrEmpty(c.CompanyName) && c.CompanyName.ToLower().Contains(prefix)) ||
+                    (string.IsNullOrEmpty(c.CompanyName) && c.DutyPerson.ToLower().Contains(prefix)))
+                .Select(c => new
+                {
+                    label = !string.IsNullOrEmpty(c.CompanyName) ? c.CompanyName : c.DutyPerson,
+                    label2 = c.Contact
+                })
+                .ToList();
+
+            return Json(customers);
         }
+
 
         [HttpPost]
         public JsonResult AutoCompleteFees(string prefix)
