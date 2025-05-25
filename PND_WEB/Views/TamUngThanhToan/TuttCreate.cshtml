@@ -13,6 +13,7 @@
         <div class="card card-default">
             <div class="card-header">Tạo thông tin phí tạm ứng / thanh toán</div>
             <div class="card-body">
+                <div id="error-message" class="text-danger mb-3"></div>
                 <form asp-action="TuttCreate">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -120,7 +121,7 @@
 
                 if (total > limit) {
                     e.preventDefault(); // Ngăn form gửi
-                    alert("Tổng số tiền tạm ứng trong tháng (bao gồm số vừa nhập) đã vượt hạn mức!");
+                    $("#error-message").text("Tổng số tiền tạm ứng trong tháng (bao gồm số vừa nhập) đã vượt hạn mức!");
                 }
             });
         });
