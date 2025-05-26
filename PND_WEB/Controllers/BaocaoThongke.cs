@@ -27,8 +27,12 @@ namespace PND_WEB.Controllers
             int namThongKe = nam ?? DateTime.Now.Year;
             string yearPattern = $"QTN{namThongKe}";
 
-            var groupedData = await _context.Quotations
+            var quotations = await _context.Quotations
                 .Where(q => q.QuotationId.StartsWith(yearPattern))
+                .ToListAsync();
+
+            // Thống kê theo tháng
+            var groupedData = quotations
                 .GroupBy(q => q.QuotationId.Substring(7, 2))
                 .Select(g => new ThongKeQuotationViewModel
                 {
@@ -36,8 +40,9 @@ namespace PND_WEB.Controllers
                     SoLuongQuotation = g.Count()
                 })
                 .OrderBy(x => x.Thang)
-                .ToListAsync();
+                .ToList();
 
+            // Đảm bảo hiển thị đủ 12 tháng
             var allMonths = Enumerable.Range(1, 12)
                 .Select(month => new ThongKeQuotationViewModel
                 {
@@ -46,10 +51,22 @@ namespace PND_WEB.Controllers
                 })
                 .ToList();
 
+            // Thống kê theo người dùng
+            var staffStats = quotations
+                .GroupBy(q => q.StaffName)
+                .Select(g => new ThongKeNguoiDungViewModel
+                {
+                    StaffName = g.Key,
+                    SoLuongQuotation = g.Count()
+                })
+                .OrderByDescending(x => x.SoLuongQuotation)
+                .ToList();
+
             return View(new BaoCaoThongKeViewModel
             {
                 Nam = namThongKe,
-                ThongKeTheoThang = allMonths
+                ThongKeTheoThang = allMonths,
+                ThongKeTheoNguoiDung = staffStats
             });
         }
     }

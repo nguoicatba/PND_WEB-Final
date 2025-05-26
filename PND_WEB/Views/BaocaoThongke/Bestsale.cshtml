@@ -1,30 +1,74 @@
 ﻿@model PND_WEB.ViewModels.BaoCaoThongKeViewModel
 
-<div class="card card-default">
-    <div class="card-header">
-        <div class="float-left">
-            <h4 class="card-title mb-0">Số lượng vận đơn có trong năm @Model.Nam</h4>
-        </div>
-        <div class="float-right">
-            <form method="get" class="form-inline">
-                <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
-                    @for (int i = DateTime.Now.Year; i >= 2020; i--)
-                    {
-                        if (Model.Nam == i)
-                        {
-                            <option value="@i" selected>@i</option>
-                        }
-                        else
-                        {
-                            <option value="@i">@i</option>
-                        }
-                    }
-                </select>
-            </form>
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4 class="card-title mb-0">Số lượng vận đơn theo tháng năm @Model.Nam</h4>
+                </div>
+                <div class="float-right">
+                    <form method="get" class="form-inline">
+                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
+                            @for (int i = DateTime.Now.Year; i >= 2020; i--)
+                            {
+                                if (Model.Nam == i)
+                                {
+                                    <option value="@i" selected>@i</option>
+                                }
+                                else
+                                {
+                                    <option value="@i">@i</option>
+                                }
+                            }
+                        </select>
+                    </form>
+                </div>
+            </div>
+            <div class="card-body">
+                <canvas id="quotationChart" style="height: 300px;"></canvas>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-        <canvas id="quotationChart" style="height: 300px;"></canvas>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card card-default">
+            <div class="card-header">
+                <div class="float-left">
+                    <h4 class="card-title mb-0">Số lượng vận đơn theo nhân viên năm @Model.Nam</h4>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-8">
+                        <canvas id="staffChart" style="height: 300px;"></canvas>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th>Nhân viên</th>
+                                        <th class="text-center">Số lượng vận đơn</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var staff in Model.ThongKeTheoNguoiDung)
+                                    {
+                                        <tr>
+                                            <td>@staff.StaffName</td>
+                                            <td class="text-center">@staff.SoLuongQuotation</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -32,6 +76,7 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
+            // Biểu đồ thống kê theo tháng
             var ctx = document.getElementById('quotationChart').getContext('2d');
             var data = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
@@ -93,6 +138,69 @@
                 type: 'bar',
                 data: data,
                 options: options
+            });
+
+            // Biểu đồ thống kê theo nhân viên
+            var staffCtx = document.getElementById('staffChart').getContext('2d');
+            var staffData = {
+                labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoNguoiDung.Select(x => $"'{x.StaffName}'")))],
+                datasets: [{
+                    label: 'Vận đơn',
+                    data: [@string.Join(",", Model.ThongKeTheoNguoiDung.Select(x => x.SoLuongQuotation))],
+                    backgroundColor: '#4B89DC',
+                    borderColor: '#4B89DC',
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            };
+
+            var staffOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f0f0f0',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            callback: function(value) {
+                                return value + ' vận đơn';
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Số lượng vận đơn'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Nhân viên'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            boxWidth: 8,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    }
+                }
+            };
+
+            new Chart(staffCtx, {
+                type: 'bar',
+                data: staffData,
+                options: staffOptions
             });
         });
     </script>
