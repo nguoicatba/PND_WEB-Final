@@ -1,0 +1,2 @@
+acc: superadminpnd
+password : 123456@Abc

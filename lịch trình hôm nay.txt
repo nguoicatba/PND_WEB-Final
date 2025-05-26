@@ -43,9 +43,8 @@ xuất pdf:ok
 sinh mã hbl:
 lệnh do: ok
 
-24/5
-sửa invocie
-copy invoice
+28/5:
+sửa lại code y như ELSA@FMS bắt đầu từ invocie
 
 
 
