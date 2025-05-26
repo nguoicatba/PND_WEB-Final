@@ -1,5 +1,6 @@
-﻿@model PND_WEB.ViewModels.TuttViewModel2
-
+﻿@model PND_WEB.ViewModels.TuttViewCheckModel
+@using PND_WEB.Data
+@inject DataContext _context
 @{
     ViewData["Title"] = "Index";
 }
@@ -11,22 +12,26 @@
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">Đề nghị cần duyệt</div>
             <div class="card-body">
-
+                <p>
+                    <a asp-action="EditBudget" class="btn btn-info btn-xs">
+                        EDIT BUDGET
+                    </a>
+                </p>
                 <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
                     <thead class="">
                         <tr>
                             <th>Action</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().SoTutt)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NhanvienTutt)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().SoTutt)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NhanvienTutt)</th>
+                            <th>Số tiền</th>
                             <th>Tạm ứng / Thanh toán</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().NoiDung)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ngay)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ketoan)</th>
-                            <th>@Html.DisplayNameFor(model => model.tuttcheck.FirstOrDefault().Ceo)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NoiDung)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ngay)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ceo)</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.tuttcheck)
+                        @foreach (var item in Model.tutt)
                         {
                             <tr>
                                 <td>
@@ -43,16 +48,22 @@
                                     <a asp-action="CheckDetails" asp-route-id="@item.SoTutt"> @Html.DisplayFor(modelItem => item.SoTutt) </a>
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NhanvienTutt)</td>
+                                @{
+                                    var tongTien = _context.TblTuttsPhi
+                                    .Where(p => p.SoTutt == item.SoTutt)
+                                    .Sum(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+                                    <td>
+                                        @tongTien.ToString("N0") VNĐ
+                                    </td>
+                                }
                                 <td>
                                     @(item.Tu == true ? "Tạm ứng" : (item.Tt == true ? "Thanh toán" : ""))
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ketoan == true ? "Đã duyệt" : "Chưa duyệt")
-                                </td>
-                                <td>
-                                    @(item.Ceo == true ? "Đã duyệt" : "Chưa duyệt")
+                                    @(item.Ceo == null ? "Chưa duyệt" : (item.Ceo == true ? "Đã duyệt" : "Huỷ"))
                                 </td>
                             </tr>
                         }

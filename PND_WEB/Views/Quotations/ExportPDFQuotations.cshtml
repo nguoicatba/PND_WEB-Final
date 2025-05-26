@@ -1,4 +1,5 @@
 ﻿@using PND_WEB.ViewModels
+@using System.IO
 @model QuotationsEditDeleteDetailController
 
 @{
@@ -6,6 +7,7 @@
     var quotation = Model.Quotation;
     var charges = Model.QuotationsCharges;
     float totalAmount = 0;
+    var imagePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "app", "img", "logo-pnd-export-pdf.jpg");
 }
 
 <!DOCTYPE html>
@@ -14,7 +16,7 @@
     <meta charset="utf-8" />
     <style>
         body {
-            font-family: Arial;
+            font-family: 'Times New Roman';
             font-size: 16px;
             margin: 30px;
         }
@@ -74,7 +76,7 @@
 <body>
     <div class="left-right">
         <div class="left2">
-            <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
+            <img src="@imagePath" />
         </div>
         <div class="right2">
             <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
@@ -115,7 +117,7 @@
         </p>
         <p>
             <strong>
-                We sincerely appreciate your company’s interest in our services.<br />
+                We sincerely appreciate your company's interest in our services.<br />
                 Please refer to our best rate for your inquiry as below:
             </strong>
         </p>
@@ -138,7 +140,7 @@
     <div class="center">
         <table>
             <thead>
-                <tr style="color: royalblue; background-color: lawngreen">
+                <tr style="color: royalblue; background-color: #99CC99">
                     <th>ITEMS</th>
                     <th>CURRENCY</th>
                     <th>UNIT</th>

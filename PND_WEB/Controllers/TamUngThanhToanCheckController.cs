@@ -19,12 +19,15 @@ namespace PND_WEB.Controllers
         private readonly DataContext _context;
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
+        private readonly BudgetService _budgetService;
 
-        public TamUngThanhToanCheckController(DataContext context, IConverter converter, IViewRenderService viewRenderService)
+        public TamUngThanhToanCheckController(DataContext context, IConverter converter,
+            IViewRenderService viewRenderService, BudgetService budgetService)
         {
             _context = context;
             _converter = converter;
             _viewRenderService = viewRenderService;
+            _budgetService = budgetService;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -84,15 +87,78 @@ namespace PND_WEB.Controllers
         }
 
 
-        [ClaimAuthorize("TamUngThanhToanCheck", "Check")]
-        public async Task<IActionResult> Check()
+        public IActionResult EditBudget()
         {
-            TuttViewModel2 tuttViewModel2 = new TuttViewModel2();
-            tuttViewModel2.tuttcheck = await _context.TblTutts
-                .Where(a => a.xacnhanduyet == true)
+            var viewModel = new BudgetLimitViewModel
+            {
+                Limit = _budgetService.GetLimit()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditBudget(BudgetLimitViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _budgetService.SetLimit(model.Limit);
+            }
+
+            return RedirectToAction(nameof(CheckCeo));
+        }
+
+
+
+
+        //[ClaimAuthorize("TamUngThanhToanCheck", "Check")]
+
+        public IActionResult Check()
+        {
+            if (User.IsInRole("CEO"))
+            {
+                return RedirectToAction(nameof(CheckCeo));
+            }
+            else if (User.IsInRole("Accountant"))
+            {
+                return RedirectToAction(nameof(CheckAccountant));
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> CheckCeo()
+        {
+            var tutts = await _context.TblTutts
+                .Include(t => t.TblTuttPhis)
+                .Where(t => t.xacnhanduyet == true)
+                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= 500000)
                 .ToListAsync();
 
-            return View(tuttViewModel2);
+            TuttViewCheckModel model = new TuttViewCheckModel
+            {
+                tutt = tutts,
+                tuttphi = tutts.SelectMany(t => t.TblTuttPhis).ToList()
+            };
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> CheckAccountant()
+        {
+            var tutts = await _context.TblTutts
+               .Include(t => t.TblTuttPhis)
+               .Where(t => t.xacnhanduyet == true)
+               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < 500000)
+               .ToListAsync();
+
+            TuttViewCheckModel model = new TuttViewCheckModel
+            {
+                tutt = tutts,
+                tuttphi = tutts.SelectMany(t => t.TblTuttPhis).ToList()
+            };
+
+            return View(model);
         }
 
 
@@ -105,7 +171,7 @@ namespace PND_WEB.Controllers
         //ceo + ketoan
 
 
-        [ClaimAuthorize("TamUngThanhToanCheck", "CheckDetails")]
+        //[ClaimAuthorize("TamUngThanhToanCheck", "CheckDetails")]
         public async Task<IActionResult> CheckDetails(string id)
         {
             if (id == null)

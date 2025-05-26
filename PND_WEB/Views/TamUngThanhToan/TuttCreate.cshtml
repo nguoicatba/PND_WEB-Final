@@ -13,6 +13,7 @@
         <div class="card card-default">
             <div class="card-header">Tạo thông tin phí tạm ứng / thanh toán</div>
             <div class="card-body">
+                <div id="error-message" class="text-danger mb-3"></div>
                 <form asp-action="TuttCreate">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -105,6 +106,23 @@
                 },
                 minLength: 1,
                 appendTo: "#autocomplete-wrapper"
+            });
+
+
+
+            const form = $("form");
+            const soTienInput = $('input[name="tuttphi.SoTien"]');
+            const totalThisMonth = parseFloat('@ViewBag.TotalThisMonth'.replace(',', '.')) || 0;
+            const limit = parseFloat('@ViewBag.Limit'.replace(',', '.')) || 0;
+
+            form.on("submit", function (e) {
+                const currentSoTien = parseFloat(soTienInput.val().replace(',', '.')) || 0;
+                const total = totalThisMonth + currentSoTien;
+
+                if (total > limit) {
+                    e.preventDefault(); // Ngăn form gửi
+                    $("#error-message").text("Tổng số tiền tạm ứng trong tháng (bao gồm số vừa nhập) đã vượt hạn mức!");
+                }
             });
         });
     </script>

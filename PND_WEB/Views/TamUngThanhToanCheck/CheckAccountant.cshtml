@@ -1,0 +1,72 @@
+﻿@model PND_WEB.ViewModels.TuttViewCheckModel
+@using PND_WEB.Data
+@inject DataContext _context
+@{
+    ViewData["Title"] = "Index";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
+
+<div class="row">
+    <div class="col-xl-12">
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">Đề nghị cần duyệt</div>
+            <div class="card-body">
+
+                <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+                    <thead class="">
+                        <tr>
+                            <th>Action</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().SoTutt)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NhanvienTutt)</th>
+                            <th>Số tiền</th>
+                            <th>Tạm ứng / Thanh toán</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().NoiDung)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ngay)</th>
+                            <th>@Html.DisplayNameFor(model => model.tutt.FirstOrDefault().Ketoan)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.tutt)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-action="CheckEdit" asp-route-id="@item.SoTutt" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                    @if (User.IsInRole("CEO"))
+                                    {
+                                        <a asp-action="CheckDelete" asp-route-id="@item.SoTutt" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                    }
+                                    <a asp-action="ExportPDFTutt" asp-route-id="@item.SoTutt" class="btn btn-info btn-xs" target="_blank">
+                                        <i class="fa fa-print"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-action="CheckDetails" asp-route-id="@item.SoTutt"> @Html.DisplayFor(modelItem => item.SoTutt) </a>
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.NhanvienTutt)</td>
+                                @{
+                                    var tongTien = _context.TblTuttsPhi
+                                    .Where(p => p.SoTutt == item.SoTutt)
+                                    .Sum(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+                                    <td>
+                                        @tongTien.ToString("N0") VNĐ
+                                    </td>
+                                }
+                                <td>
+                                    @(item.Tu == true ? "Tạm ứng" : (item.Tt == true ? "Thanh toán" : ""))
+                                </td>
+                                <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
+                                <td>
+                                    @(item.Ketoan == null ? "Chưa duyệt" : (item.Ketoan == true ? "Đã duyệt" : "Huỷ"))
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>

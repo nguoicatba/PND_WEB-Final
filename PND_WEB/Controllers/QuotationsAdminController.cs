@@ -407,15 +407,20 @@ namespace PND_WEB.Controllers
         [HttpPost]
         public JsonResult AutoCompleteCustomers(string prefix)
         {
-            var customer = (from customers in this._context.TblCustomers
-                            where customers.DutyPerson.Contains(prefix)
-                            select new
-                            {
-                                label = customers.DutyPerson,
-                                label2 = customers.Contact
-                            }).ToList();
+            prefix = prefix?.ToLower(); // chuẩn hóa từ khóa
 
-            return Json(customer);
+            var customers = _context.TblCustomers
+                .Where(c =>
+                    (!string.IsNullOrEmpty(c.CompanyName) && c.CompanyName.ToLower().Contains(prefix)) ||
+                    (string.IsNullOrEmpty(c.CompanyName) && c.DutyPerson.ToLower().Contains(prefix)))
+                .Select(c => new
+                {
+                    label = !string.IsNullOrEmpty(c.CompanyName) ? c.CompanyName : c.DutyPerson,
+                    label2 = c.Contact
+                })
+                .ToList();
+
+            return Json(customers);
         }
 
         [HttpPost]
@@ -468,6 +473,42 @@ namespace PND_WEB.Controllers
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
+            return File(file, "application/pdf");
+        }
+
+        public async Task<IActionResult> ExportPDFQuotationsContract(string id)
+        {
+            var quotation = await _context.Quotations
+                                          .Include(q => q.QuotationsCharges)
+                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
+
+            if (quotation == null)
+                return NotFound();
+
+            var viewModel = new QuotationsEditDeleteDetailController
+            {
+                Quotation = quotation,
+                QuotationsCharges = quotation.QuotationsCharges.ToList()
+            };
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotationsContract", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {

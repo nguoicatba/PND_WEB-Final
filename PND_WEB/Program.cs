@@ -7,6 +7,8 @@ using DinkToPdf.Contracts;
 using System.IO;
 using System.Runtime.InteropServices;
 using PND_WEB.Services;
+using Microsoft.Extensions.DependencyInjection;
+
 
 namespace PND_WEB
 {
@@ -31,6 +33,7 @@ namespace PND_WEB
             builder.Services.AddDbContext<Data.DataContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+            builder.Services.AddSingleton<BudgetService>();
 
 
             builder.Services.AddIdentity<AppUserModel, IdentityRole>()
