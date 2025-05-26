@@ -27,11 +27,13 @@ namespace PND_WEB.Controllers
             int namThongKe = nam ?? DateTime.Now.Year;
             string yearPattern = $"QTN{namThongKe}";
 
+            var excludedStatuses = new[] { "Đang đàm phán", "Đã hủy" };
+
             var quotations = await _context.Quotations
-                .Where(q => q.QuotationId.StartsWith(yearPattern))
+                .Where(q => q.QuotationId.StartsWith(yearPattern)
+                         && !excludedStatuses.Contains(q.Qsatus))
                 .ToListAsync();
 
-            // Thống kê theo tháng
             var groupedData = quotations
                 .GroupBy(q => q.QuotationId.Substring(7, 2))
                 .Select(g => new ThongKeQuotationViewModel
@@ -42,16 +44,6 @@ namespace PND_WEB.Controllers
                 .OrderBy(x => x.Thang)
                 .ToList();
 
-            // Đảm bảo hiển thị đủ 12 tháng
-            var allMonths = Enumerable.Range(1, 12)
-                .Select(month => new ThongKeQuotationViewModel
-                {
-                    Thang = month.ToString("00"),
-                    SoLuongQuotation = groupedData.FirstOrDefault(x => x.Thang == month.ToString("00"))?.SoLuongQuotation ?? 0
-                })
-                .ToList();
-
-            // Thống kê theo người dùng
             var staffStats = quotations
                 .GroupBy(q => q.StaffName)
                 .Select(g => new ThongKeNguoiDungViewModel
@@ -60,6 +52,16 @@ namespace PND_WEB.Controllers
                     SoLuongQuotation = g.Count()
                 })
                 .OrderByDescending(x => x.SoLuongQuotation)
+                .ToList();
+
+
+            //bổ sung tháng không có báo giá
+            var allMonths = Enumerable.Range(1, 12)
+                .Select(month => new ThongKeQuotationViewModel
+                {
+                    Thang = month.ToString("00"),
+                    SoLuongQuotation = groupedData.FirstOrDefault(x => x.Thang == month.ToString("00"))?.SoLuongQuotation ?? 0
+                })
                 .ToList();
 
             return View(new BaoCaoThongKeViewModel
