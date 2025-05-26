@@ -1,0 +1,99 @@
+﻿@model PND_WEB.ViewModels.BaoCaoThongKeViewModel
+
+<div class="card card-default">
+    <div class="card-header">
+        <div class="float-left">
+            <h4 class="card-title mb-0">Số lượng vận đơn có trong năm @Model.Nam</h4>
+        </div>
+        <div class="float-right">
+            <form method="get" class="form-inline">
+                <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
+                    @for (int i = DateTime.Now.Year; i >= 2020; i--)
+                    {
+                        if (Model.Nam == i)
+                        {
+                            <option value="@i" selected>@i</option>
+                        }
+                        else
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    }
+                </select>
+            </form>
+        </div>
+    </div>
+    <div class="card-body">
+        <canvas id="quotationChart" style="height: 300px;"></canvas>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var ctx = document.getElementById('quotationChart').getContext('2d');
+            var data = {
+                labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
+                datasets: [{
+                    label: 'Vận đơn',
+                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongQuotation))],
+                    backgroundColor: '#9ED86E',
+                    borderColor: '#9ED86E',
+                    borderWidth: 0,
+                    borderRadius: 4
+                }]
+            };
+
+            var options = {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#f0f0f0',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            stepSize: 20,
+                            callback: function(value) {
+                                return value + ' vận đơn';
+                            }
+                        },
+                        title: {
+                            display: true,
+                            text: 'Số lượng vận đơn'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        title: {
+                            display: true,
+                            text: 'Tháng'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'top',
+                        align: 'end',
+                        labels: {
+                            boxWidth: 8,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
+                        }
+                    }
+                }
+            };
+
+            new Chart(ctx, {
+                type: 'bar',
+                data: data,
+                options: options
+            });
+        });
+    </script>
+}
