@@ -314,7 +314,13 @@ namespace PND_WEB.Data
             }
 
 
-
+            //if (!await _context.Quotations.AnyAsync())
+            //{
+            //    await _context.TblCustomers.AddRangeAsync(
+                    
+            //    );
+            //    await _context.SaveChangesAsync();
+            //}
 
         }
     }
