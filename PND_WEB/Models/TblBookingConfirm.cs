@@ -117,6 +117,18 @@ namespace PND_WEB.Models
         [Display(Name = "Ngày cập nhật")]
         public DateTime? UpdatedDate { get; set; }
 
+        [Column("StaffName")]
+        [Display(Name = "Tên nhân viên")]
+        public string? StaffName { get; set; }
+
+        [Column("Contact")]
+        [Display(Name = "Số liên lạc nhân viên")]
+        public string? Contact { get; set; }
+
+        [Column("PICcompany")]
+        [Display(Name = "Người đại diện công ty")]
+        public string? PICcompany { get; set; }
+
         // Navigation property
         [ForeignKey("CustomerId")]
         public virtual TblCustomer Customer { get; set; } = null!;
