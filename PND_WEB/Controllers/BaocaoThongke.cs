@@ -25,7 +25,6 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Bestsale(int? nam, string? thang)
         {
             int namThongKe = nam ?? DateTime.Now.Year;
-            string selectedThang = thang ?? DateTime.Now.Month.ToString("00");
             string yearPattern = $"QTN{namThongKe}";
 
             var excludedStatuses = new[] { "Đang đàm phán", "Đã hủy" };
@@ -45,8 +44,13 @@ namespace PND_WEB.Controllers
                 .OrderBy(x => x.Thang)
                 .ToList();
 
-            var staffMonthStats = quotations
-                .Where(q => string.IsNullOrEmpty(thang) || q.QuotationId.Substring(7, 2) == selectedThang)
+            var staffMonthStats = quotations;
+            if (!string.IsNullOrEmpty(thang))
+            {
+                staffMonthStats = staffMonthStats.Where(q => q.QuotationId.Substring(7, 2) == thang).ToList();
+            }
+
+            var staffMonthGrouped = staffMonthStats
                 .GroupBy(q => new { StaffName = q.StaffName, Month = q.QuotationId.Substring(7, 2) })
                 .Select(g => new ThongKeNguoiDungTheoThangViewModel
                 {
@@ -71,8 +75,8 @@ namespace PND_WEB.Controllers
             {
                 Nam = namThongKe,
                 ThongKeTheoThang = allMonths,
-                ThongKeNguoiDungTheoThang = staffMonthStats,
-                Thang = selectedThang
+                ThongKeNguoiDungTheoThang = staffMonthGrouped,
+                Thang = thang ?? ""
             });
         }
     }
