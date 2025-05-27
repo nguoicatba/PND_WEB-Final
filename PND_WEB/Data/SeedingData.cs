@@ -9,7 +9,7 @@ namespace PND_WEB.Data
 {
     public class SeedingData
     {
-        public static async Task SeedData(DataContext _context, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedData(DataContext _context, RoleManager<IdentityRole> roleManager,UserManager<AppUserModel> userManager)
         {
             await _context.Database.MigrateAsync();
 
@@ -18,6 +18,8 @@ namespace PND_WEB.Data
             await KindOfPackageSeeder.SeedAsync(_context);
 
             await CarrierSeeder.SeedAsync(_context);
+
+            await SupperAdminSeeder.SeedAsync(_context, roleManager, userManager);
 
             if (!await roleManager.RoleExistsAsync("Admin"))
             {

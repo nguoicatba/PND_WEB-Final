@@ -78,6 +78,7 @@ namespace PND_WEB.Data
 
         public DbSet<JobUser> JobUser { get; set; }
 
+        public DbSet<TblBookingConfirm> TblBookingConfirms { get; set; }
 
 
 
