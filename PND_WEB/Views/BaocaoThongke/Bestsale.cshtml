@@ -9,7 +9,7 @@
                 </div>
                 <div class="float-right">
                     <form method="get" class="form-inline">
-                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
+                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="resetAndSubmit(this)">
                             @for (int i = DateTime.Now.Year; i >= 2020; i--)
                             {
                                 if (Model.Nam == i)
@@ -49,7 +49,7 @@
                     </h4>
                 </div>
                 <div class="float-right">
-                    <form method="get" class="form-inline">
+                    <form method="get" class="form-inline" id="monthForm">
                         <input type="hidden" name="nam" value="@Model.Nam" />
                         <select name="thang" id="thang" class="form-control form-control-sm" onchange="this.form.submit()">
                             <option value="">Tất cả các tháng</option>
@@ -106,6 +106,24 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // Function to reset month selection when changing year
+        function resetAndSubmit(yearSelect) {
+            // Create a form and add the year parameter
+            var form = document.createElement('form');
+            form.method = 'get';
+            
+            // Add the selected year
+            var yearInput = document.createElement('input');
+            yearInput.type = 'hidden';
+            yearInput.name = 'nam';
+            yearInput.value = yearSelect.value;
+            form.appendChild(yearInput);
+            
+            // Submit the form
+            document.body.appendChild(form);
+            form.submit();
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
             // Biểu đồ thống kê theo tháng
             var ctx = document.getElementById('quotationChart').getContext('2d');
