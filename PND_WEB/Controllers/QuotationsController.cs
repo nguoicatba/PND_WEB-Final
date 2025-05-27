@@ -25,13 +25,34 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
         // GET: Quotations
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            if (User.IsInRole("Sale"))
+            {
+                return RedirectToAction(nameof(IndexUser));
+            }
+            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("QuotationsAdmin", "AdminView") || User.HasClaim("QuotationsAdmin", "AdminViewDetails"))
+            {
+                return RedirectToAction(nameof(IndexAdmin));
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> IndexUser()
         {
             var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
 
             var quotations = await _context.Quotations
                 .Where(q => q.StaffName == user.Staff_Name)
+                .ToListAsync();
+
+            return View(quotations);
+        }
+
+        public async Task<IActionResult> IndexAdmin()
+        {
+            var quotations = await _context.Quotations
                 .ToListAsync();
 
             return View(quotations);
@@ -463,44 +484,6 @@ namespace PND_WEB.Controllers
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
-
-            var doc = new HtmlToPdfDocument()
-            {
-                GlobalSettings = {
-                    PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
-                },
-                Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = htmlContent
-                    }
-                }
-            };
-
-            var file = _converter.Convert(doc);
-            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
-            return File(file, "application/pdf");
-        }
-
-
-
-        public async Task<IActionResult> ExportPDFQuotationsContract(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
-
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotationsContract", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {
