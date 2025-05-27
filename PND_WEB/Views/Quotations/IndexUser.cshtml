@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PND_WEB.Models.Quotation>
+﻿    @model IEnumerable<PND_WEB.Models.Quotation>
 @{
     ViewData["Title"] = "Index";
 }
@@ -46,12 +46,6 @@
                             <a asp-action="ExportPDFQuotation" asp-route-id="@item.QuotationId" class="btn btn-info btn-xs" target="_blank">
                                 <i class="fa fa-print"></i>
                             </a>
-                            @if (item.Qsatus != "Đang đàm phán")
-                            {
-                                <a asp-action="ExportPDFQuotationsContract" asp-route-id="@item.QuotationId" class="btn btn-warning btn-xs" target="_blank">
-                                    <i class="fa fa-print"></i>
-                                </a>
-                            }
                         </td>
                         <td>
                             <a asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>  

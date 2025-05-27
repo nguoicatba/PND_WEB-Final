@@ -25,13 +25,34 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
         // GET: Quotations
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+            if (User.IsInRole("Sale"))
+            {
+                return RedirectToAction(nameof(IndexUser));
+            }
+            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("QuotationsAdmin", "AdminView") || User.HasClaim("QuotationsAdmin", "AdminViewDetails"))
+            {
+                return RedirectToAction(nameof(IndexAdmin));
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> IndexUser()
         {
             var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
 
             var quotations = await _context.Quotations
                 .Where(q => q.StaffName == user.Staff_Name)
+                .ToListAsync();
+
+            return View(quotations);
+        }
+
+        public async Task<IActionResult> IndexAdmin()
+        {
+            var quotations = await _context.Quotations
                 .ToListAsync();
 
             return View(quotations);
@@ -129,7 +150,7 @@ namespace PND_WEB.Controllers
             quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
-
+        
 
         [ClaimAuthorize("Quotation", "Edit")]
         public async Task<IActionResult> Edit(string id)
@@ -144,6 +165,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+
             ViewBag.QsatusList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
@@ -383,20 +405,6 @@ namespace PND_WEB.Controllers
         //AutoComplete 
 
         [HttpPost]
-        public JsonResult AutoCompleteCports(string prefix)
-        {
-            var cports = (from cport in this._context.Cports
-                             where cport.PortName.Contains(prefix)
-                             select new
-                             {
-                                 label = cport.PortName,
-                                 val = cport.Code
-                             }).ToList();
-
-            return Json(cports);
-        }
-
-        [HttpPost]
         public JsonResult AutoCompleteCustomers(string prefix)
         {
             prefix = prefix?.ToLower(); // chuẩn hóa từ khóa
@@ -444,6 +452,84 @@ namespace PND_WEB.Controllers
         }
 
 
+        // GET: Quotation/PortGet
+        public async Task<JsonResult> PortGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Cports.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.PortName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.PortName,
+                text = data.PortName,
+                code = data.Code,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Port",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Port Name"
+                }
+            });
+        }
+
+        public async Task<JsonResult> FeeGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Fees.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.Fee1.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Fee1,
+                text = data.Fee1,
+                code = data.Code,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Fee",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Fee"
+                }
+            });
+        }
+
+
 
         //fff
         //ExportPDF
@@ -463,44 +549,6 @@ namespace PND_WEB.Controllers
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
-
-            var doc = new HtmlToPdfDocument()
-            {
-                GlobalSettings = {
-                    PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
-                },
-                Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = htmlContent
-                    }
-                }
-            };
-
-            var file = _converter.Convert(doc);
-            Response.Headers.Add("Content-Disposition", "inline; filename=quotation.pdf");
-            return File(file, "application/pdf");
-        }
-
-
-
-        public async Task<IActionResult> ExportPDFQuotationsContract(string id)
-        {
-            var quotation = await _context.Quotations
-                                          .Include(q => q.QuotationsCharges)
-                                          .FirstOrDefaultAsync(q => q.QuotationId == id);
-
-            if (quotation == null)
-                return NotFound();
-
-            var viewModel = new QuotationsEditDeleteDetailController
-            {
-                Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
-            };
-
-            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotationsContract", viewModel);
 
             var doc = new HtmlToPdfDocument()
             {

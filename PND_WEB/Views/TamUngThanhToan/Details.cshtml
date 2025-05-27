@@ -148,9 +148,6 @@
                             }
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Id)
-                        </td>
-                        <td>
                             @Html.DisplayFor(modelItem => item.SoHoaDon)
                         </td>
                         <td>
@@ -164,18 +161,18 @@
                         </td>
                     </tr>
                 }
-                
+
             </tbody>
             <tfoot>
                 <tr class="fw-bold table">
-                    <td colspan="4" class="text-end">Tổng tiền:</td>
+                    <td colspan="3" class="text-end">Tổng tiền:</td>
                     <td>
                         @String.Format("{0:N0}", Model.tuttphi.Sum(x => x.SoTien))
                     </td>
                     <td></td>
                 </tr>
             </tfoot>
-       
+
         </table>
 
     </div>

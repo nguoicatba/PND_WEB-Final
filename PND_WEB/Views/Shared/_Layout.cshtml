@@ -200,22 +200,18 @@
                                         <span>Customer</span>
                                     </a>
                                 </li>
-                                @if (User.IsInRole("Sale"))
-                                {
-                                    <li class=" ">
-                                        <a asp-controller="Quotations" asp-action="Index">
-                                            <span>Quotaions</span>
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class=" ">
-                                        <a asp-controller="QuotationsAdmin" asp-action="AdminView">
-                                            <span>Quotaions</span>
-                                        </a>
-                                    </li>
-                                }
+
+                                <li class=" ">
+                                    <a asp-controller="Quotations" asp-action="Index">
+                                        <span>Order</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Booking" asp-action="Index">
+                                        <span>Booking</span>
+                                    </a>
+                                </li>
                             </ul>
                         </li>
 
@@ -412,6 +408,12 @@
                             </ul>
                         </li>
 
+                        <li class=" ">
+                            <a asp-controller="BaocaoThongke" asp-action="Index">
+                                <em class="icon-home"></em>
+                                <span>Báo cáo thống kê</span>
+                            </a>
+                        </li>
 
                         <li class=" ">
                             <a asp-controller="Test" asp-action="Index">
