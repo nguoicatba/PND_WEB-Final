@@ -198,18 +198,18 @@
                                         <span>Customer</span>
                                     </a>
                                 </li>
+                                @if (User.HasClaim("QuotationsAdmin", "AdminView") || User.HasClaim("QuotationsAdmin", "AdminViewDetails"))
+                                {
+                                    <li class=" ">
+                                        <a asp-controller="QuotationsAdmin" asp-action="AdminView">
+                                            <span>Quotations</span>
+                                        </a>
+                                    </li>
+                                }
                                 @if (User.IsInRole("Sale"))
                                 {
                                     <li class=" ">
                                         <a asp-controller="Quotations" asp-action="Index">
-                                            <span>Quotaions</span>
-                                        </a>
-                                    </li>
-                                }
-                                else
-                                {
-                                    <li class=" ">
-                                        <a asp-controller="QuotationsAdmin" asp-action="AdminView">
                                             <span>Quotaions</span>
                                         </a>
                                     </li>
