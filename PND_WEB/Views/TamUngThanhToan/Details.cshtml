@@ -119,11 +119,11 @@
                 <a asp-action="TuttCreate" asp-route-id="@Model.tutt.SoTutt" class="btn btn-primary btn-xs">Create New</a>
             </p>
         }
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
                 <tr>
                     <th>Action</th>
-                    <th data-priority="1">@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
+                    <th>@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
                     <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
                     <th>
                         @Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)
@@ -164,6 +164,9 @@
                         </td>
                     </tr>
                 }
+                
+            </tbody>
+            <tfoot>
                 <tr class="fw-bold table">
                     <td colspan="4" class="text-end">Tổng tiền:</td>
                     <td>
@@ -171,8 +174,10 @@
                     </td>
                     <td></td>
                 </tr>
-            </tbody>
+            </tfoot>
+       
         </table>
+
     </div>
 </div>
 
