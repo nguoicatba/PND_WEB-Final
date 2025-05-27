@@ -218,7 +218,15 @@ namespace PND_WEB.Controllers
                     existingTutt.GhiChu = tblTutt.GhiChu;
 
                     await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
+
+                    if (User.IsInRole("CEO"))
+                    {
+                        return RedirectToAction("CheckCeo", "TamUngThanhToanCheck");
+                    }
+                    else
+                    {
+                        return RedirectToAction(nameof(Index));
+                    }
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -281,7 +289,15 @@ namespace PND_WEB.Controllers
             }
 
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+
+            if (User.IsInRole("CEO"))
+            {
+                return RedirectToAction("CheckCeo", "TamUngThanhToanCheck");
+            }
+            else
+            {
+                return RedirectToAction(nameof(Index));
+            }
         }
 
         private bool TblTuttExists(string id)
@@ -404,7 +420,14 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Details), new { id = tuttEditModel.tuttphi.SoTutt });
+                if (User.IsInRole("CEO"))
+                {
+                    return RedirectToAction("CheckDetails", "TamUngThanhToanCheck", new { id = tuttEditModel.tuttphi.SoTutt });
+                }
+                else
+                {
+                    return RedirectToAction(nameof(Details), new { id = tuttEditModel.tuttphi.SoTutt });
+                }
             }
             return View(tuttEditModel);
         }
@@ -448,7 +471,15 @@ namespace PND_WEB.Controllers
 
             _context.TblTuttsPhi.Remove(tuttAction);
             await _context.SaveChangesAsync();
-            return RedirectToAction("Details", new { id = Code });
+
+            if (User.IsInRole("CEO"))
+            {
+                return RedirectToAction("CheckDetails", "TamUngThanhToanCheck", new { id = Code });
+            }
+            else
+            {
+                return RedirectToAction("Details", new { id = Code });
+            }
         }
 
         public async Task<JsonResult> FeeGet(string q = "", int page = 1)
