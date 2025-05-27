@@ -150,7 +150,7 @@ namespace PND_WEB.Controllers
             quotation.QuotationId = await PredictQuotationCode();
             return View(quotation);
         }
-
+        
 
         [ClaimAuthorize("Quotation", "Edit")]
         public async Task<IActionResult> Edit(string id)
@@ -165,6 +165,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+
             ViewBag.QsatusList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
@@ -462,6 +463,46 @@ namespace PND_WEB.Controllers
                         }).ToList();
 
             return Json(units);
+        }
+
+
+        // GET: Quotation/PortGet
+        public async Task<JsonResult> PortGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.Cports.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.PortName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.PortName,
+                text = data.PortName,
+                code = data.Code,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Port",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Port Name"
+                }
+            });
         }
 
 

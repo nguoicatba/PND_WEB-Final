@@ -76,23 +76,26 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <div id="autocomplete-wrapper" style="position: relative;">
+                            <div style="position: relative;">
                                 <label asp-for="Pol"  class="control-label"></label>
-                                <input asp-for="Pol" id="pol" class="form-control" />
+                                <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                </select>
                                 <span asp-validation-for="Pol" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group col-4">
-                            <div id="autocomplete-wrapper" style="position: relative;">
+                            <div style="position: relative;">
                                 <label asp-for="Adds" class="control-label"></label>
-                                <input asp-for="Adds" id="adds" class="form-control" />
+                                <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                </select>
                                 <span asp-validation-for="Adds" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="form-group col-4">
-                            <div id="autocomplete-wrapper" style="position: relative;">
+                            <div style="position: relative;">
                                 <label asp-for="Pod" class="control-label"></label>
-                                <input asp-for="Pod" id="pod" class="form-control" />
+                                <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                </select>
                                 <span asp-validation-for="Pod" class="text-danger"></span>
                             </div>
                         </div>
@@ -109,128 +112,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-
-    <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.10.0.min.js" type="text/javascript"></script>
-    <script src="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/jquery-ui.min.js" type="text/javascript"></script>
-    <link href="https://ajax.aspnetcdn.com/ajax/jquery.ui/1.9.2/themes/blitzer/jquery-ui.css"
-          rel="Stylesheet" type="text/css" />
-
-    <style>
-        #autocomplete-wrapper .ui-autocomplete {
-            max-height: 200px;
-            overflow-y: auto;
-            overflow-x: hidden;
-            z-index: 1050 !important;
-        }
-    </style>
-
-    <script type="text/javascript">
-        $(function () {
-            $("#pol").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
-                        data: { "prefix": request.term },
-                        type: "POST",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }));
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#pol").val(i.item.label);
-                },
-                minLength: 1,
-                appendTo: "#autocomplete-wrapper" 
-            });
-
-            $("#pod").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
-                        data: { "prefix": request.term },
-                        type: "POST",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#pod").val(i.item.label);
-                },
-                minLength: 1,
-                appendTo: "#autocomplete-wrapper"
-            });
-
-            $("#adds").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Quotations/AutoCompleteCports/',
-                        data: { "prefix": request.term },
-                        type: "POST",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#adds").val(i.item.label);
-                },
-                minLength: 1,
-                appendTo: "#autocomplete-wrapper"
-            });
-
-
-            $("#custo").autocomplete({
-                source: function (request, response) {
-                    $.ajax({
-                        url: '/Quotations/AutoCompleteCustomers/',
-                        data: { "prefix": request.term },
-                        type: "POST",
-                        success: function (data) {
-                            response($.map(data, function (item) {
-                                return item;
-                            }))
-                        },
-                        error: function (response) {
-                            alert(response.responseText);
-                        },
-                        failure: function (response) {
-                            alert(response.responseText);
-                        }
-                    });
-                },
-                select: function (e, i) {
-                    $("#custo").val(i.item.label);
-                    $("#cuscontact").val(i.item.label2);
-                },
-                minLength: 1,
-                appendTo: "#autocomplete-wrapper"
-            });
-        });
-    </script>
+    <script src="~/js/components/SelectList.js"></script>
 }
