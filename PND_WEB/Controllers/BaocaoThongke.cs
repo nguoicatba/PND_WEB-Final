@@ -22,9 +22,10 @@ namespace PND_WEB.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Bestsale(int? nam)
+        public async Task<IActionResult> Bestsale(int? nam, string? thang)
         {
             int namThongKe = nam ?? DateTime.Now.Year;
+            string selectedThang = thang ?? DateTime.Now.Month.ToString("00");
             string yearPattern = $"QTN{namThongKe}";
 
             var excludedStatuses = new[] { "Đang đàm phán", "Đã hủy" };
@@ -44,16 +45,18 @@ namespace PND_WEB.Controllers
                 .OrderBy(x => x.Thang)
                 .ToList();
 
-            var staffStats = quotations
-                .GroupBy(q => q.StaffName)
-                .Select(g => new ThongKeNguoiDungViewModel
+            var staffMonthStats = quotations
+                .Where(q => string.IsNullOrEmpty(thang) || q.QuotationId.Substring(7, 2) == selectedThang)
+                .GroupBy(q => new { StaffName = q.StaffName, Month = q.QuotationId.Substring(7, 2) })
+                .Select(g => new ThongKeNguoiDungTheoThangViewModel
                 {
-                    StaffName = g.Key,
+                    StaffName = g.Key.StaffName,
+                    Thang = g.Key.Month,
                     SoLuongQuotation = g.Count()
                 })
-                .OrderByDescending(x => x.SoLuongQuotation)
+                .OrderBy(x => x.StaffName)
+                .ThenBy(x => x.Thang)
                 .ToList();
-
 
             //bổ sung tháng không có báo giá
             var allMonths = Enumerable.Range(1, 12)
@@ -68,7 +71,8 @@ namespace PND_WEB.Controllers
             {
                 Nam = namThongKe,
                 ThongKeTheoThang = allMonths,
-                ThongKeTheoNguoiDung = staffStats
+                ThongKeNguoiDungTheoThang = staffMonthStats,
+                Thang = selectedThang
             });
         }
     }

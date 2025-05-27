@@ -37,7 +37,36 @@
         <div class="card card-default">
             <div class="card-header">
                 <div class="float-left">
-                    <h4 class="card-title mb-0">Số lượng vận đơn theo nhân viên năm @Model.Nam</h4>
+                    <h4 class="card-title mb-0">
+                        @if (string.IsNullOrEmpty(Model.Thang))
+                        {
+                            <span>Số lượng vận đơn theo nhân viên và tháng năm @Model.Nam</span>
+                        }
+                        else
+                        {
+                            <span>Số lượng vận đơn theo nhân viên tháng @Model.Thang năm @Model.Nam</span>
+                        }
+                    </h4>
+                </div>
+                <div class="float-right">
+                    <form method="get" class="form-inline">
+                        <input type="hidden" name="nam" value="@Model.Nam" />
+                        <select name="thang" id="thang" class="form-control form-control-sm" onchange="this.form.submit()">
+                            <option value="">Tất cả các tháng</option>
+                            @for (int i = 1; i <= 12; i++)
+                            {
+                                string monthValue = i.ToString("00");
+                                if (Model.Thang == monthValue)
+                                {
+                                    <option value="@monthValue" selected>Tháng @monthValue</option>
+                                }
+                                else
+                                {
+                                    <option value="@monthValue">Tháng @monthValue</option>
+                                }
+                            }
+                        </select>
+                    </form>
                 </div>
             </div>
             <div class="card-body">
@@ -51,15 +80,17 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Nhân viên</th>
+                                        <th>Tháng</th>
                                         <th class="text-center">Số lượng vận đơn</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @foreach (var staff in Model.ThongKeTheoNguoiDung)
+                                    @foreach (var stat in Model.ThongKeNguoiDungTheoThang)
                                     {
                                         <tr>
-                                            <td>@staff.StaffName</td>
-                                            <td class="text-center">@staff.SoLuongQuotation</td>
+                                            <td>@stat.StaffName</td>
+                                            <td>@stat.Thang</td>
+                                            <td class="text-center">@stat.SoLuongQuotation</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -140,13 +171,13 @@
                 options: options
             });
 
-            // Biểu đồ thống kê theo nhân viên
+            // Biểu đồ thống kê theo nhân viên và tháng
             var staffCtx = document.getElementById('staffChart').getContext('2d');
             var staffData = {
-                labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoNguoiDung.Select(x => $"'{x.StaffName}'")))],
+                labels: [@Html.Raw(string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => $"'{x.StaffName} - Tháng {x.Thang}'")))],
                 datasets: [{
                     label: 'Vận đơn',
-                    data: [@string.Join(",", Model.ThongKeTheoNguoiDung.Select(x => x.SoLuongQuotation))],
+                    data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongQuotation))],
                     backgroundColor: '#4B89DC',
                     borderColor: '#4B89DC',
                     borderWidth: 0,
@@ -180,7 +211,11 @@
                         },
                         title: {
                             display: true,
-                            text: 'Nhân viên'
+                            text: 'Nhân viên - Tháng'
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
                         }
                     }
                 },
