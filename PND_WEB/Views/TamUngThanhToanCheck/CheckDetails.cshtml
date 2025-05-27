@@ -116,7 +116,6 @@
             <thead class="table-primary">
                 <tr>
                     <th>Action</th>
-                    <th data-priority="1">@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
                     <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
                     <th>
                         @Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)
@@ -139,9 +138,6 @@
                                 <a asp-controller="TamUngThanhToan" asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                                 <a asp-controller="TamUngThanhToan" asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                             }
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Id)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.SoHoaDon)
