@@ -20,6 +20,8 @@ namespace PND_WEB
             // Cấu hình Razor Pages (nếu dùng)
             builder.Services.AddRazorPages();
 
+            builder.Services.AddControllersWithViews();
+
             // Load thư viện native cho DinkToPdf
             var architectureFolder = Environment.Is64BitProcess ? "64 bit" : "32 bit";
             var wkhtmltoxPath = Path.Combine(Directory.GetCurrentDirectory(), "wkhtmltox", "v0.12.4", architectureFolder, "libwkhtmltox.dll");
