@@ -111,32 +111,53 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="Pol" class="control-label"></label>
-                            <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
-                                @if (Model.Pol != null)
-                                {
-                                    <option value="@Model.Pol" selected="selected">@Model.Pol</option>
-                                }
-                            </select>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Pol" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                    @if (Model.Pol != null)
+                                    {
+                                        <option value="@Model.Pol" selected="selected">@Model.Pol</option>
+                                    }
+                                </select>
+                            }
                             <span asp-validation-for="Pol" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="Adds" class="control-label"></label>
-                            <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
-                                @if (Model.Adds != null)
-                                                                {
-                                    <option value="@Model.Adds" selected="selected">@Model.Adds</option>
-                                                                }
-                            </select>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Adds" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                    @if (Model.Adds != null)
+                                    {
+                                        <option value="@Model.Adds" selected="selected">@Model.Adds</option>
+                                    }
+                                </select>
+                            }
                             <span asp-validation-for="Adds" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="Pod" class="control-label"></label>
-                            <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
-                                @if (Model.Pod != null)
-                                                                {
-                                <option value="@Model.Pod" selected="selected">@Model.Pod</option>
-                                                                }
-                            </select>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Pod" class="form-control" readonly/>
+                            }
+                            else
+                            {
+                                <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                    @if (Model.Pod != null)
+                                    {
+                                        <option value="@Model.Pod" selected="selected">@Model.Pod</option>
+                                    }
+                                </select>
+                            }
                             <span asp-validation-for="Pod" class="text-danger"></span>
                         </div>
 
