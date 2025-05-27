@@ -451,20 +451,42 @@ namespace PND_WEB.Controllers
             return RedirectToAction("Details", new { id = Code });
         }
 
-
-
-        [HttpPost]
-        public JsonResult AutoCompleteFees(string prefix)
+        public async Task<JsonResult> FeeGet(string q = "", int page = 1)
         {
-            var fees = (from fee in this._context.Fees
-                        where fee.Fee1.Contains(prefix)
-                        select new
-                        {
-                            label = fee.Fee1,
-                            val = fee.Code
-                        }).ToList();
+            int pageSize = 10;
+            var query = _context.Fees.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.Fee1.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Fee1,
+                text = data.Fee1,
+                code = data.Code,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Fee",
+                    code = "-1",
+                    disabled = true
+                });
+            }
 
-            return Json(fees);
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Fee"
+                }
+            });
         }
 
 

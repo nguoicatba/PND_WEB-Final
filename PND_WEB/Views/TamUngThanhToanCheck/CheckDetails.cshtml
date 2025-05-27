@@ -136,8 +136,8 @@
                         <td>
                             @if (User.IsInRole("CEO"))
                             {
-                                <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                <a asp-controller="TamUngThanhToan" asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-controller="TamUngThanhToan" asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                             }
                         </td>
                         <td>
@@ -157,6 +157,8 @@
                         </td>
                     </tr>
                 }
+            </tbody>
+            <tfoot>
                 <tr class="fw-bold table">
                     <td colspan="4" class="text-end">Tổng tiền:</td>
                     <td>
@@ -164,7 +166,7 @@
                     </td>
                     <td></td>
                 </tr>
-            </tbody>
+            </tfoot>
         </table>
     </div>
 </div>
