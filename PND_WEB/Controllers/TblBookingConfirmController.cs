@@ -344,7 +344,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.Shipper,
+                id = data.SpersonInCharge,
                 text = data.SpersonInCharge,
                 code = data.Shipper,
                 disabled = false
@@ -382,7 +382,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.Cnee,
+                id = data.CpersonInCharge,
                 text = data.CpersonInCharge,
                 code = data.Cnee,
                 disabled = false
