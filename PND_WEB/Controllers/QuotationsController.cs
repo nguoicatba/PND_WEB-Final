@@ -31,7 +31,7 @@ namespace PND_WEB.Controllers
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("QuotationsAdmin", "AdminView") || User.HasClaim("QuotationsAdmin", "AdminViewDetails"))
+            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("Quotations", "IndexAdmin"))
             {
                 return RedirectToAction(nameof(IndexAdmin));
             }
