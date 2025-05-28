@@ -1,0 +1,184 @@
+﻿@using PND_WEB.ViewModels
+@model QuotationsEditDeleteDetailController
+
+@{
+    ViewData["Title"] = "Details";
+
+    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
+    var staffNameAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
+}
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin báo giá", SubTitle = "Chi tiết thông tin báo giá" })
+
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">About Quotation:</div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Mã báo giá:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Trạng thái:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên lạc nhân viên:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Liên hệ khách hàng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Ngày tạo:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hiệu lực:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điều khoản:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Hàng hóa:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Khối lượng:
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đi (POL):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        Điểm đến (POD):
+                    </strong>
+                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+@{
+    float totalAmount = 0f;
+}
+<div class="card card-default" id="cardDemo14">
+    <div class="card-header bg-success">About QuotationCharges:</div>
+    <div class="card-body">
+        @if (!isReadOnly)
+        {
+            <p>
+                <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
+            </p>
+        }
+        <table class="table table-striped my-4 w-100" id="datatable3">
+            <thead class="table-primary">
+                <tr>
+                    @if (!isReadOnly)
+                    {
+                        <th></th>
+                    }
+                    <th>Tên phí</th>
+                    <th>Số lượng</th>
+                    <th>Đơn vị</th>
+                    <th>Giá</th>
+                    <th>Tiền tệ</th>
+                    <th>Ghi chú</th>
+                    <th>Thành tiền</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.QuotationsCharges)
+                {
+                    float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
+                    float quantity = item.Quantity.HasValue ? (float)item.Quantity : 0f;
+                    float amount = quantity * rate;
+                    totalAmount += amount;
+                    <tr>
+                        @if (!isReadOnly)
+                        {
+                            <td>
+                                <a asp-action="EditCharges" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-action="DeleteCharges" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            </td>
+                        }
+                        <td>@item.ChargeName</td>
+                        <td>@item.Quantity</td>
+                        <td>@item.Unit</td>
+                        <td>@item.Rate?.ToString("N2")</td>
+                        <td>@item.Currency</td>
+                        <td>@item.Notes</td>
+                        <td>
+                            @if (item.Rate.HasValue)
+                            {
+                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                ;
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    @if (!isReadOnly)
+                    {
+                        <td colspan="7" class="text-end"><strong>Tổng cộng:</strong></td>
+                    }
+                    else
+                    {
+                        <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
+                    }
+                    <td><strong>@totalAmount.ToString("N2")</strong></td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+
+<a asp-controller="Quotations" class="btn btn-info btn-xs" asp-action="Index">Back to List</a>

@@ -1,0 +1,135 @@
+﻿@model PND_WEB.Models.TblBookingConfirm
+
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<center><h1>DELETE BOOKING</h1></center>
+<h3>Are you sure you want to delete this booking?</h3>
+
+<div class="card">
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Booking ID:</strong>
+                    <span style="margin-left: 10px">@Model.BookingId</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Status:</strong>
+                    <span style="margin-left: 10px">@Model.Status</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Staff Name:</strong>
+                    <span style="margin-left: 10px">@Model.StaffName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Staff Contact:</strong>
+                    <span style="margin-left: 10px">@Model.Contact</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Customer ID:</strong>
+                    <span style="margin-left: 10px">@Model.CustomerId</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>PIC Company:</strong>
+                    <span style="margin-left: 10px">@Model.PICcompany</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Booking Date:</strong>
+                    <span style="margin-left: 10px">@Model.BookingDate.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Good Type:</strong>
+                    <span style="margin-left: 10px">@Model.GoodType</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>ETD:</strong>
+                    <span style="margin-left: 10px">@Model.ETD.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>ETA:</strong>
+                    <span style="margin-left: 10px">@Model.ETA.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>POL:</strong>
+                    <span style="margin-left: 10px">@Model.POL</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>POD:</strong>
+                    <span style="margin-left: 10px">@Model.POD</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Vessel Name:</strong>
+                    <span style="margin-left: 10px">@Model.VesselName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Container Type:</strong>
+                    <span style="margin-left: 10px">@Model.ContainerType</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Container Quantity:</strong>
+                    <span style="margin-left: 10px">@Model.ContainerQuantity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Package Quantity:</strong>
+                    <span style="margin-left: 10px">@Model.PackageQuantity</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Flight Number:</strong>
+                    <span style="margin-left: 10px">@Model.FlightNumber</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Airline:</strong>
+                    <span style="margin-left: 10px">@Model.Airline</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Gross Weight:</strong>
+                    <span style="margin-left: 10px">@Model.GrossWeight</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Chargeable Weight:</strong>
+                    <span style="margin-left: 10px">@Model.ChargeableWeight</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF" colspan="2">
+                    <strong>Volume:</strong>
+                    <span style="margin-left: 10px">@Model.Volume</span>
+                </td>
+                <td style="border: #FFF" colspan="2">
+                    <strong>Quotation ID:</strong>
+                    <span style="margin-left: 10px">@Model.QuotationId</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF" colspan="4">
+                    <strong>Cargo Description:</strong>
+                    <span style="margin-left: 10px">@Model.CargoDescription</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF" colspan="4">
+                    <strong>Remarks:</strong>
+                    <span style="margin-left: 10px">@Model.Remarks</span>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<div class="d-inline-flex gap-3 mt-3">
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="BookingId" />
+        <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+    </form>
+</div>

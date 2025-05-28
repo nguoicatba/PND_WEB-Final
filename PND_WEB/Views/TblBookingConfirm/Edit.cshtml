@@ -1,0 +1,220 @@
+﻿@model PND_WEB.Models.TblBookingConfirm
+
+@{
+    ViewData["Title"] = "Edit";
+
+    bool isReadOnly = Model.Status == "Hoàn thành" || Model.Status == "Đã hủy";
+    var staffAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
+    var commonAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
+    var dateAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "datetime-local" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } };
+    var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT BOOKING: @Model.BookingId</b></div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="BookingId" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Status" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Status" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="Status" class="form-control">
+                                    <option value="Đã chốt, đang chờ lấy hàng">Đã chốt, đang chờ lấy hàng</option>
+                                    <option value="Đã lấy hàng">Đã lấy hàng</option>
+                                    <option value="Hoàn thành">Hoàn thành</option>
+                                    <option value="Đã hủy">Đã hủy</option>
+                                </select>
+                            }
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="StaffName" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.StaffName, staffAttr)
+                            <span asp-validation-for="StaffName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Contact" class="control-label"></label>
+                            <input asp-for="Contact" class="form-control" />
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="BookingDate" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.BookingDate, dateAttr)
+                            <span asp-validation-for="BookingDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CustomerId" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.CustomerId, commonAttr)
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="PICcompany" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.PICcompany, commonAttr)
+                            <span asp-validation-for="PICcompany" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="QuotationId" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.QuotationId, commonAttr)
+                            <span asp-validation-for="QuotationId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GoodType" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="GoodType" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="GoodType" class="form-control">
+                                    <option value="FCL">FCL</option>
+                                    <option value="LCL">LCL</option>
+                                    <option value="Air">Air</option>
+                                </select>
+                            }
+                            <span asp-validation-for="GoodType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETD" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ETD, dateAttr)
+                            <span asp-validation-for="ETD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETA" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ETA, dateAttr)
+                            <span asp-validation-for="ETA" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="POL" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="POL" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="POL" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                    @if (Model.POL != null)
+                                    {
+                                        <option value="@Model.POL" selected="selected">@Model.POL</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="POL" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="POD" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="POD" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="POD" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                    @if (Model.POD != null)
+                                    {
+                                        <option value="@Model.POD" selected="selected">@Model.POD</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="POD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="VesselName" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.VesselName, commonAttr)
+                            <span asp-validation-for="VesselName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerType" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ContainerType, commonAttr)
+                            <span asp-validation-for="ContainerType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerQuantity" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ContainerQuantity, commonAttr)
+                            <span asp-validation-for="ContainerQuantity" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="PackageQuantity" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.PackageQuantity, commonAttr)
+                            <span asp-validation-for="PackageQuantity" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="FlightNumber" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.FlightNumber, commonAttr)
+                            <span asp-validation-for="FlightNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Airline" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Airline, commonAttr)
+                            <span asp-validation-for="Airline" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Volume" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Volume, commonAttr)
+                            <span asp-validation-for="Volume" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="GrossWeight" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.GrossWeight, commonAttr)
+                            <span asp-validation-for="GrossWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="ChargeableWeight" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ChargeableWeight, commonAttr)
+                            <span asp-validation-for="ChargeableWeight" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="CargoDescription" class="control-label"></label>
+                            @Html.TextAreaFor(model => model.CargoDescription, new Dictionary<string, object> { { "class", "form-control" }, { "rows", "3" } })
+                            <span asp-validation-for="CargoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="Remarks" class="control-label"></label>
+                            @Html.TextAreaFor(model => model.Remarks, new Dictionary<string, object> { { "class", "form-control" }, { "rows", "3" } })
+                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" @disabledAttr />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/components/SelectList.js"></script>
+}

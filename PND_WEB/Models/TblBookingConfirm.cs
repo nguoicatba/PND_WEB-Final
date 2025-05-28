@@ -125,9 +125,13 @@ namespace PND_WEB.Models
         [Display(Name = "Số liên lạc nhân viên")]
         public string? Contact { get; set; }
 
-        [Column("PICcompany")]
+        [Column("PIC_company")]
         [Display(Name = "Người đại diện công ty")]
         public string? PICcompany { get; set; }
+
+        [Column("Quotation_Id")]
+        [Display(Name = "Mã báo giá")]
+        public string? QuotationId { get; set; }
 
         // Navigation property
         [ForeignKey("CustomerId")]

@@ -1,5 +1,78 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model IEnumerable<PND_WEB.Models.TblBookingConfirm>
 @{
+    ViewData["Title"] = "Index";
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Booking", SubTitle = "Danh sách booking" })
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
+                <tr>
+                    <th>Action</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BookingId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StaffName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PICcompany)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-controller="" asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-success btn-xs">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a asp-controller="" asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            <a asp-controller="" asp-action="ExportPDFBooking" asp-route-id="@item.BookingId" class="btn btn-info btn-xs" target="_blank">
+                                <i class="fa fa-print"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-controller="" asp-action="DetailsCharges" asp-route-id="@item.BookingId">@Html.DisplayFor(modelItem => item.BookingId)</a>
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Status)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contact)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PICcompany)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
