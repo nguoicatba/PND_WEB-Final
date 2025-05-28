@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     // Select2 for Cport
     select2_cport();
     // Select2 for two columns
@@ -14,7 +13,7 @@ $(document).ready(function () {
     // select supplier
     select2_supplier(); 
    
-
+    select2_customer();
 })
 
 // Select2 for supplier
@@ -505,9 +504,9 @@ function select2_customer() {
             },
             dropdownAutoWidth: true,
             minimumInputLength: 0,
-            templateResult: formatPort,
-            templateSelection: SelectPort,
-            placeholder: 'Select Port',
+            templateResult: formatCustomer,
+            templateSelection: SelectCustomer,
+            placeholder: 'Select Customer',
             allowClear: true,
             theme: 'bootstrap4',
             width: '100%',
