@@ -4,15 +4,19 @@
     ViewData["Title"] = "Edit";
 
     bool isReadOnly = Model.Status == "Hoàn thành" || Model.Status == "Đã hủy";
+
     var staffAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
-        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
+        : new Dictionary<string, object> { { "class", "form-control" } };
+
     var commonAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
+
     var dateAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "datetime-local" } }
         : new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } };
+
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
 
@@ -85,9 +89,13 @@
                             else
                             {
                                 <select asp-for="GoodType" class="form-control">
-                                    <option value="FCL">FCL</option>
-                                    <option value="LCL">LCL</option>
-                                    <option value="Air">Air</option>
+                                    <option value="AI">AI</option>
+                                    <option value="AE">AE</option>
+                                    <option value="FCLI">FCLI</option>
+                                    <option value="FCLE">FCLE</option>
+                                    <option value="LCLI">LCLI</option>
+                                    <option value="LCLE">LCLE</option>
+                                    <option value="LGT">LGT</option>
                                 </select>
                             }
                             <span asp-validation-for="GoodType" class="text-danger"></span>

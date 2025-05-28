@@ -60,9 +60,13 @@
                         <div class="form-group col-4">
                             <label asp-for="GoodType" class="control-label"></label>
                             <select asp-for="GoodType" class="form-control">
-                                <option value="FCL">FCL</option>
-                                <option value="LCL">LCL</option>
-                                <option value="Air">Air</option>
+                                <option value="AI">AI</option>
+                                <option value="AE">AE</option>
+                                <option value="FCLI">FCLI</option>
+                                <option value="FCLE">FCLE</option>
+                                <option value="LCLI">LCLI</option>
+                                <option value="LCLE">LCLE</option>
+                                <option value="LGT">LGT</option>
                             </select>
                             <span asp-validation-for="GoodType" class="text-danger"></span>
                         </div>
@@ -79,33 +83,33 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label asp-for="POL" class="control-label"></label>
+                            <label asp-for="POL" class="control-label" id="polLabel"></label>
                             <select asp-for="POL" class="form-control select-port" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                             </select>
                             <span asp-validation-for="POL" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
-                            <label asp-for="POD" class="control-label"></label>
+                            <label asp-for="POD" class="control-label" id="podLabel"></label>
                             <select asp-for="POD" class="form-control select-port" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                             </select>
                             <span asp-validation-for="POD" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
-                            <label asp-for="VesselName" class="control-label"></label>
-                            <input asp-for="VesselName" class="form-control" />
+                            <label asp-for="VesselName" id="lbvesselname" class="control-label"></label>
+                            <input asp-for="VesselName" id="vesselname" class="form-control" />
                             <span asp-validation-for="VesselName" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label asp-for="ContainerType" class="control-label"></label>
+                            <label asp-for="ContainerType"  class="control-label"></label>
                             <input asp-for="ContainerType" class="form-control" />
                             <span asp-validation-for="ContainerType" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
-                            <label asp-for="ContainerQuantity" class="control-label"></label>
+                            <label asp-for="ContainerQuantity"  class="control-label"></label>
                             <input asp-for="ContainerQuantity" class="form-control" />
-                            <span asp-validation-for="ContainerQuantity" class="text-danger"></span>
+                            <span asp-validation-for="ContainerQuantity" id="duongbien" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
                             <label asp-for="PackageQuantity" class="control-label"></label>
@@ -113,6 +117,20 @@
                             <span asp-validation-for="PackageQuantity" class="text-danger"></span>
                         </div>
                     </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="FlightNumber" id="flightNumberGroup1" class="control-label"></label>
+                            <input asp-for="FlightNumber" id="flightNumberGroup" class="form-control" />
+                            <span asp-validation-for="FlightNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Airline" id="airlineGroup1" class="control-label"></label>
+                            <input asp-for="Airline" id="airlineGroup" class="form-control" />
+                            <span asp-validation-for="Airline" class="text-danger"></span>
+                        </div>
+                    </div>
+
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="GrossWeight" class="control-label"></label>
@@ -130,6 +148,7 @@
                             <span asp-validation-for="Volume" class="text-danger"></span>
                         </div>
                     </div>
+
                     <div class="form-row">
                         <div class="form-group col-6">
                             <label asp-for="CargoDescription" class="control-label"></label>
@@ -140,18 +159,6 @@
                             <label asp-for="Remarks" class="control-label"></label>
                             <textarea asp-for="Remarks" class="form-control"></textarea>
                             <span asp-validation-for="Remarks" class="text-danger"></span>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-6">
-                            <label asp-for="FlightNumber" class="control-label"></label>
-                            <input asp-for="FlightNumber" class="form-control" />
-                            <span asp-validation-for="FlightNumber" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
-                            <label asp-for="Airline" class="control-label"></label>
-                            <input asp-for="Airline" class="form-control" />
-                            <span asp-validation-for="Airline" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="form-group">
@@ -167,4 +174,36 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/components/SelectList.js"></script>
+
+    <script>
+        function toggleAirFields() {
+            const selected = $('#GoodType').val();
+            const isAI = selected === 'AI' || selected === 'AI';
+
+            // Ẩn/hiện FlightNumber và Airline
+            $('#airlineGroup').toggle(isAI);
+            $('#airlineGroup1').toggle(isAI);
+            $('#flightNumberGroup').toggle(isAI);
+            $('#flightNumberGroup1').toggle(isAI);
+
+
+            $('#vesselname').toggle(!isAI);
+            $('#lbvesselname').toggle(!isAI);
+            
+            // Đổi nhãn POD
+            $('#podLabel').text(isAI ? 'Sân bay đến' : 'Cảng đến');
+            $('#polLabel').text(isAI ? 'Sân bay đi' : 'Cảng đi');
+        }
+
+        $(document).ready(function () {
+            $('#GoodType').attr('id', 'GoodType');
+            toggleAirFields();
+
+            $('#GoodType').on('change', function () {
+                toggleAirFields();
+            });
+        });
+    </script>
+
+
 }

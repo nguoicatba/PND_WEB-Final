@@ -24,6 +24,26 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
 
+        // GET: TblBookingConfirm/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var booking = await _context.TblBookingConfirms
+                .Include(b => b.Customer)
+                .FirstOrDefaultAsync(m => m.BookingId == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
+        }
+
         // GET: TblBookingConfirm/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -195,7 +215,7 @@ namespace PND_WEB.Controllers
                 BookingDate = DateTime.Today,
                 ETD = DateTime.Today,
                 ETA = DateTime.Today.AddDays(1),
-                GoodType = "FCL" // Default good type
+                GoodType = "AI" // Default good type
             };
             return View(model);
         }

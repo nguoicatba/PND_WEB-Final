@@ -1,184 +1,135 @@
 ﻿@using PND_WEB.ViewModels
-@model QuotationsEditDeleteDetailController
+@model PND_WEB.Models.TblBookingConfirm
 
 @{
     ViewData["Title"] = "Details";
-
-    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
-    var staffNameAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
-        : new Dictionary<string, object> { { "class", "form-control" } };
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin báo giá", SubTitle = "Chi tiết thông tin báo giá" })
 
-<div class="card card-default" id="cardDemo14">
-    <div class="card-header bg-success">About Quotation:</div>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin Booking", SubTitle = "Chi tiết thông tin Booking" })
+
+<div class="card card-default">
+    <div class="card-header bg-success">Thông tin Booking:</div>
     <div class="card-body">
         <table class="table table-bordered">
             <tr>
                 <td style="border: #FFF">
-                    <strong>
-                        Mã báo giá:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
+                    <strong>Mã Booking:</strong>
+                    <span style="margin-left: 10px">@Model.BookingId</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Trạng thái:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
+                    <strong>Trạng thái:</strong>
+                    <span style="margin-left: 10px">@Model.Status</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Nhân viên:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
+                    <strong>Nhân viên:</strong>
+                    <span style="margin-left: 10px">@Model.StaffName</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Liên lạc nhân viên:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
+                    <strong>Liên lạc nhân viên:</strong>
+                    <span style="margin-left: 10px">@Model.Contact</span>
                 </td>
             </tr>
             <tr>
                 <td style="border: #FFF">
-                    <strong>
-                        Khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
+                    <strong>Khách hàng:</strong>
+                    <span style="margin-left: 10px">@Model.CustomerId</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Liên hệ khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
+                    <strong>Người liên hệ:</strong>
+                    <span style="margin-left: 10px">@Model.PICcompany</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Ngày tạo:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
+                    <strong>Ngày tạo:</strong>
+                    <span style="margin-left: 10px">@Model.CreatedDate.ToString("dd/MM/yyyy")</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Hiệu lực:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
+                    <strong>Ngày cập nhật:</strong>
+                    <span style="margin-left: 10px">@(Model.UpdatedDate?.ToString("dd/MM/yyyy"))</span>
                 </td>
             </tr>
             <tr>
                 <td style="border: #FFF">
-                    <strong>
-                        Điều khoản:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
+                    <strong>Loại hàng:</strong>
+                    <span style="margin-left: 10px">@Model.GoodType</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Hàng hóa:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
+                    <strong>Mã báo giá:</strong>
+                    <span style="margin-left: 10px">@Model.QuotationId</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Khối lượng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
+                    <strong>Ngày khởi hành:</strong>
+                    <span style="margin-left: 10px">@Model.ETD.ToString("dd/MM/yyyy")</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Ngày đến:</strong>
+                    <span style="margin-left: 10px">@Model.ETA.ToString("dd/MM/yyyy")</span>
                 </td>
             </tr>
             <tr>
                 <td style="border: #FFF">
-                    <strong>
-                        Điểm đi (POL):
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
+                    <strong>Điểm đi (POL):</strong>
+                    <span style="margin-left: 10px">@Model.POL</span>
                 </td>
                 <td style="border: #FFF">
-                    <strong>
-                        Điểm đến (POD):
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
+                    <strong>Điểm đến (POD):</strong>
+                    <span style="margin-left: 10px">@Model.POD</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Tên tàu:</strong>
+                    <span style="margin-left: 10px">@Model.VesselName</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Hãng hàng không:</strong>
+                    <span style="margin-left: 10px">@Model.Airline</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Loại container:</strong>
+                    <span style="margin-left: 10px">@Model.ContainerType</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Số lượng container:</strong>
+                    <span style="margin-left: 10px">@Model.ContainerQuantity</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Số chuyến bay:</strong>
+                    <span style="margin-left: 10px">@Model.FlightNumber</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Số lượng kiện:</strong>
+                    <span style="margin-left: 10px">@Model.PackageQuantity</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Trọng lượng (GW):</strong>
+                    <span style="margin-left: 10px">@(Model.GrossWeight?.ToString("N2"))</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Trọng lượng tính cước:</strong>
+                    <span style="margin-left: 10px">@(Model.ChargeableWeight?.ToString("N2"))</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Thể tích:</strong>
+                    <span style="margin-left: 10px">@(Model.Volume?.ToString("N2"))</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Ghi chú:</strong>
+                    <span style="margin-left: 10px">@Model.Remarks</span>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4" style="border: #FFF">
+                    <strong>Mô tả hàng hóa:</strong>
+                    <span style="margin-left: 10px">@Model.CargoDescription</span>
                 </td>
             </tr>
         </table>
     </div>
 </div>
 
-@{
-    float totalAmount = 0f;
-}
-<div class="card card-default" id="cardDemo14">
-    <div class="card-header bg-success">About QuotationCharges:</div>
-    <div class="card-body">
-        @if (!isReadOnly)
-        {
-            <p>
-                <a asp-action="CreateCharges" asp-route-id="@Model.Quotation.QuotationId" class="btn btn-primary btn-xs">Create New</a>
-            </p>
-        }
-        <table class="table table-striped my-4 w-100" id="datatable3">
-            <thead class="table-primary">
-                <tr>
-                    @if (!isReadOnly)
-                    {
-                        <th></th>
-                    }
-                    <th>Tên phí</th>
-                    <th>Số lượng</th>
-                    <th>Đơn vị</th>
-                    <th>Giá</th>
-                    <th>Tiền tệ</th>
-                    <th>Ghi chú</th>
-                    <th>Thành tiền</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.QuotationsCharges)
-                {
-                    float rate = item.Rate.HasValue ? (float)item.Rate.Value : 0f;
-                    float quantity = item.Quantity.HasValue ? (float)item.Quantity : 0f;
-                    float amount = quantity * rate;
-                    totalAmount += amount;
-                    <tr>
-                        @if (!isReadOnly)
-                        {
-                            <td>
-                                <a asp-action="EditCharges" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                <a asp-action="DeleteCharges" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                            </td>
-                        }
-                        <td>@item.ChargeName</td>
-                        <td>@item.Quantity</td>
-                        <td>@item.Unit</td>
-                        <td>@item.Rate?.ToString("N2")</td>
-                        <td>@item.Currency</td>
-                        <td>@item.Notes</td>
-                        <td>
-                            @if (item.Rate.HasValue)
-                            {
-                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
-                                ;
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-            <tfoot>
-                <tr>
-                    @if (!isReadOnly)
-                    {
-                        <td colspan="7" class="text-end"><strong>Tổng cộng:</strong></td>
-                    }
-                    else
-                    {
-                        <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
-                    }
-                    <td><strong>@totalAmount.ToString("N2")</strong></td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model.BookingId" class="btn btn-success btn-xs">Edit</a>
+    <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
 </div>
-
-<a asp-controller="Quotations" class="btn btn-info btn-xs" asp-action="Index">Back to List</a>
