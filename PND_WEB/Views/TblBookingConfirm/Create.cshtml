@@ -41,11 +41,8 @@
                         </div>
                         <div class="form-group col-3">
                             <label asp-for="CustomerId" class="control-label"></label>
-                            @Html.DropDownListFor(model => model.CustomerId,
-                            (IEnumerable<SelectListItem>)ViewBag.CustomerList,
-                                                        "-- Chọn khách hàng --",
-                                                        new { @class = "form-control" })
-
+                            <select asp-for="CustomerId" class="form-control select-port" data-url="@Url.Action("CustomerGet", "TblBookingConfirm")">
+                            </select>
                             <span asp-validation-for="CustomerId" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
@@ -170,35 +167,4 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/components/SelectList.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Initialize form validation
-            $("#bookingForm").validate({
-                rules: {
-                    CustomerId: "required",
-                    BookingDate: "required",
-                    GoodType: "required",
-                    ETD: "required",
-                    ETA: "required"
-                },
-                messages: {
-                    CustomerId: "Vui lòng chọn khách hàng",
-                    BookingDate: "Vui lòng nhập ngày đặt",
-                    GoodType: "Vui lòng chọn loại hàng",
-                    ETD: "Vui lòng nhập ngày khởi hành",
-                    ETA: "Vui lòng nhập ngày đến"
-                }
-            });
-
-            // Format dates for display
-            var dates = ['BookingDate', 'ETD', 'ETA'];
-            dates.forEach(function(dateField) {
-                var value = $('#' + dateField).val();
-                if (value) {
-                    var date = new Date(value);
-                    $('#' + dateField).val(date.toISOString().split('T')[0]);
-                }
-            });
-        });
-    </script>
 }

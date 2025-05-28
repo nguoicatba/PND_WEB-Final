@@ -186,17 +186,6 @@ namespace PND_WEB.Controllers
         {
             var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
-
-            // Get list of customers for dropdown
-            var customerss = await _context.TblCustomers.ToListAsync();
-
-            ViewBag.CustomerList = customerss.Select(c => new SelectListItem
-            {
-                Value = c.CustomerId,
-                Text = c.CompanyName
-            }).ToList();
-
-
             var model = new TblBookingConfirm
             {
                 BookingId = await PredictBookingCode(),
@@ -210,6 +199,7 @@ namespace PND_WEB.Controllers
             };
             return View(model);
         }
+        
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -217,46 +207,13 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
-                try
-                {
-                    // Check if Customer exists
-                    var customerExists = await _context.TblCustomers.AnyAsync(c => c.CustomerId == booking.CustomerId);
-                    if (!customerExists)
-                    {
-                        ModelState.AddModelError("CustomerId", "Customer ID không tồn tại trong hệ thống");
-                        booking.BookingId = await PredictBookingCode();
-                        // Nạp lại danh sách khách hàng
-                        ViewBag.CustomerList = (await _context.TblCustomers.ToListAsync())
-                            .Select(c => new SelectListItem
-                            {
-                                Value = c.CustomerId,
-                                Text = c.CompanyName
-                            }).ToList();
+                booking.BookingId = await GenerateBookingCode();
 
-                        return View(booking);
-                    }
-
-                    booking.BookingId = await GenerateBookingCode();
-                    booking.CreatedDate = DateTime.Now;
-                    _context.Add(booking);
-                    await _context.SaveChangesAsync();
-                    return RedirectToAction(nameof(Index));
-                }
-                catch (Exception ex)
-                {
-                    ModelState.AddModelError("", "Error saving booking: " + ex.Message);
-                }
+                _context.Add(booking);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
-
-            // Nạp lại ViewBag nếu có lỗi model
-            ViewBag.CustomerList = (await _context.TblCustomers.ToListAsync())
-                .Select(c => new SelectListItem
-                {
-                    Value = c.CustomerId,
-                    Text = c.CompanyName
-                }).ToList();
-
-            booking.BookingId = await PredictBookingCode(); // Giữ nguyên để hiện lại
+            booking.BookingId = await PredictBookingCode();
             return View(booking);
         }
 
@@ -294,6 +251,43 @@ namespace PND_WEB.Controllers
                 {
                     header_code = "Code",
                     header_name = "Port Name"
+                }
+            });
+        }
+
+        public async Task<JsonResult> CustomerGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.CustomerId,
+                text = data.CompanyName,
+                code = data.CustomerId,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Customer",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "CustomerID",
+                    header_name = "CompanyName"
                 }
             });
         }

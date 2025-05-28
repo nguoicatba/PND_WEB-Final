@@ -11,13 +11,13 @@ namespace PND_WEB.Models
         [MaxLength(20)]
         [Required(ErrorMessage = "Không được để trống")]
         [Display(Name = "Booking ID")]
-        public string BookingId { get; set; } = null!;
+        public string? BookingId { get; set; }
 
         [Column("Customer_ID")]
         [MaxLength(20)]
         [Required(ErrorMessage = "Không được để trống")]
         [Display(Name = "Customer ID")]
-        public string CustomerId { get; set; } = null!;
+        public string? CustomerId { get; set; }
 
         [Column("Booking_Date")]
         [Required(ErrorMessage = "Không được để trống")]
@@ -28,7 +28,7 @@ namespace PND_WEB.Models
         [MaxLength(20)]
         [Required(ErrorMessage = "Không được để trống")]
         [Display(Name = "Loại hàng")]
-        public string GoodType { get; set; } = null!; // FCL, LCL, Air, etc.
+        public string? GoodType { get; set; } // FCL, LCL, Air, etc.
 
         // Sea Transport Fields
         [Column("ETD")]
@@ -135,6 +135,6 @@ namespace PND_WEB.Models
 
         // Navigation property
         [ForeignKey("CustomerId")]
-        public virtual TblCustomer Customer { get; set; } = null!;
+        public virtual TblCustomer? Customer { get; set; }
     }
 } 
