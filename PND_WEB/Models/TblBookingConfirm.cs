@@ -133,6 +133,16 @@ namespace PND_WEB.Models
         [Display(Name = "Mã báo giá")]
         public string? QuotationId { get; set; }
 
+        [Column("CNEE")]
+        [MaxLength(200)]
+        [Display(Name = "Người nhận hàng")]
+        public string? CNEE { get; set; }
+
+        [Column("Shipper")]
+        [MaxLength(200)]
+        [Display(Name = "Người gửi hàng")]
+        public string? Shipper { get; set; }
+
         // Navigation property
         [ForeignKey("CustomerId")]
         public virtual TblCustomer? Customer { get; set; }
