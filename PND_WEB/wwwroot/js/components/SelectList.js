@@ -254,11 +254,12 @@ function select2_two_columns() {
                 },
                 cache: true
             },
+            dropdownAutoWidth: true,
             minimumInputLength: 0,
             templateResult: formatState2,
             templateSelection: formatState,
-            dropdownAutoWidth: true,
-            allowClear: true,
+            placeholder: 'Select Item',
+            
             theme: 'bootstrap4',
             width: '100%',
         });

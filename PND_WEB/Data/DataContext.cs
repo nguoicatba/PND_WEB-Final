@@ -80,6 +80,8 @@ namespace PND_WEB.Data
 
         public DbSet<TblBookingConfirm> TblBookingConfirms { get; set; }
 
+        public DbSet<TblHblCharges> TblHblCharges { get; set; }
+
 
 
 

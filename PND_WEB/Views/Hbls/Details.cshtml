@@ -29,6 +29,10 @@
                             <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.Hbl>Hóa đơn bán</a>
                         </li>
 
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyCharge" asp-action="Index" asp-route-id=@Model.Hbl> Giá mua</a>
+                        </li>
+
                         @if (ViewBag.GoodType == "LGT")
                         {
                             <li class="nav-item" role="presentation">
@@ -215,7 +219,7 @@
                         </div>
                         <div>
                             <a asp-action="Edit" asp-route-id="@Model?.Hbl">Edit</a> |
-                            <a asp-action="Index">Back to List</a>
+                            <a asp-action="Index" asp-route-id="@Model?.RequestId">Back to List</a>
                         </div>
 
                     </div>

@@ -1,0 +1,114 @@
+﻿@model PND_WEB.ViewModels.BuyChargeVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
+
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About HBL: @Model.HBL_Id</div>
+            <div class="card-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" href="#home" aria-controls="home" role="tab" data-toggle="tab">Chi tiết HBL</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="Container" asp-action="Index" asp-route-id=@Model.HBL_Id>Container</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_Id>Hóa đơn mua</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.HBL_Id>Hóa đơn bán</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Giá mua</a>
+                        </li>
+                        @* @if (ViewBag.GoodType == "LGT") *@
+                        @* { *@
+                        @*     <li class="nav-item" role="presentation"> *@
+                        @*         <a class="nav-link" asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_Id>Cược công</a> *@
+                        @*     </li> *@
+                        @* } *@
+                    </ul>
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        
+                                <p>
+                                    <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-primary btn-xs">New Charge</a>
+                                </p>
+
+                                <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
+                                     <thead class="bg bg-secondary">
+                                        <tr>
+                                            <th>
+                                                 Action
+                                   
+                                            </th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SupplierId)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SupplierName)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerName)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerUnit)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerQuantity)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerPrice)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].Currency)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].ExchangeRate)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerVat)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].MVat)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].Checked)</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model._charges)
+                                        {
+                                            <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
+                                                @if (item.Checked == false || item.Checked == null)
+                                                {
+                                                    <td>
+                                                        <button class="btn btn-warning btn-xs" id="edit_value"><i class="fa fa-edit"></i></button>
+                                                        <button class="btn btn-danger btn-xs" id="delete_value"><i class="fa fa-trash"></i></button>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                                <td>@item.SupplierId</td>
+                                                <td>@item.SupplierName</td>
+                                                <td>@item.SerName</td>
+                                                <td>@item.SerUnit</td>
+                                                <td>@item.SerQuantity</td>
+                                                <td>@item.SerPrice</td>
+                                                <td>@item.Currency</td>
+                                                <td>@item.ExchangeRate</td>
+                                                <td>@item.SerVat</td>
+                                                <td>@item.MVat</td>
+                                                <td>@item.Checked</td>
+                                                <td>@((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="12" class="text-right">Total:</td>
+                                            <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0))</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                           
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div>
+
