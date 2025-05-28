@@ -117,7 +117,7 @@
                             }
                             else
                             {
-                                <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pol" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Pol != null)
                                     {
                                         <option value="@Model.Pol" selected="selected">@Model.Pol</option>
@@ -134,7 +134,7 @@
                             }
                             else
                             {
-                                <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Adds" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Adds != null)
                                     {
                                         <option value="@Model.Adds" selected="selected">@Model.Adds</option>
@@ -151,7 +151,7 @@
                             }
                             else
                             {
-                                <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pod" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Pod != null)
                                     {
                                         <option value="@Model.Pod" selected="selected">@Model.Pod</option>

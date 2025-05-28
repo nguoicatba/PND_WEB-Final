@@ -257,6 +257,7 @@ function select2_two_columns() {
             templateResult: formatState2,
             templateSelection: formatState,
             dropdownAutoWidth: true,
+            placeholder: '',
             allowClear: true,
             theme: 'bootstrap4',
             width: '100%',

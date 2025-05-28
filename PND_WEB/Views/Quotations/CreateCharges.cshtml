@@ -22,7 +22,7 @@
                         <div class="form-group col-4">
                             <div id="autocomplete-wrapper" style="position: relative;">
                                 <label asp-for="ChargeName" class="control-label"></label>
-                                <select asp-for="ChargeName" class="form-control select-fee" data-url="@Url.Action("FeeGet", "Quotations")">
+                                <select asp-for="ChargeName" class="form-control select2-not-tag" data-url="@Url.Action("FeeGet", "Quotations")">
                                 </select>
                                 <span asp-validation-for="ChargeName" class="text-danger"></span>
                             </div>
