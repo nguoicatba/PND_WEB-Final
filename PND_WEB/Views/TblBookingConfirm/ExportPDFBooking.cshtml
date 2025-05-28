@@ -1,0 +1,225 @@
+﻿@model PND_WEB.Models.TblBookingConfirm
+@{
+    Layout = null;
+    var imagePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "app", "img", "logo-pnd-export-pdf.jpg");
+
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <style>
+        body {
+            font-family: 'Times New Roman';
+            font-size: 16px;
+            margin: 30px;
+        }
+
+        .center {
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .bold {
+            font-weight: bold;
+        }
+        .left-right{
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        .left{
+            width: 50%;
+            float: left;
+        }
+
+        .right{
+            width: 50%;
+            float: right;
+        }
+
+        .left2 {
+            width: 30%;
+            float: left;
+        }
+
+        .right2 {
+            width: 70%;
+            float: right;
+        }
+
+        .left3 {
+            width: 33%;
+            float: left;
+        }
+
+        .right3 {
+            width: 33%;
+            float: right;
+        }
+
+        .left4 {
+            width: 20%;
+            float: left;
+        }
+
+        .right4 {
+            width: 80%;
+            float: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="left-right">
+        <div class="left2">
+            <img src="@imagePath" />
+        </div>
+        <div class="right2">
+            <p><strong>PND LOGISTICS TRANSPORT CO., LTD - HAI PHONG HEAD OFFICE</strong></p>
+            ADD: No 24A, Area 15, Dang Hai Ward, Hai An District, Hai Phong City, Vietnam<br>
+            TEL: __________________ EMAIL: __________________<br>
+            WEBSITE: <span style="color: green;">http://pnd-logistics.com</span>
+            @* <span style="color: green;"></span> *@
+            <hr style="border: 3px solid lawngreen" />
+        </div>
+    </div>
+
+
+    <div style="text-align:center;">
+        <h1>BOOKING COMFIRMATION</h1>
+    </div>
+    <br />
+    <hr style="border: 3px solid lawngreen" />
+    <div class="left-right">
+        <div class="left3" style="color: dimgray">
+            <div><strong>BOOKING NO :</strong></div><br />
+            <span>@Model.BookingId</span>
+        </div>
+        <div class="left3" style="color: dimgray">
+            <div><strong>SERVIVE :</strong></div><br />
+            <span>@Model.GoodType</span>
+        </div>
+        <div class="right3" style="color: dimgray">
+            <div><strong>BOOKING DATE :</strong></div><br />
+            <span>@Model.BookingDate.ToString("dd/MM/yyyy")</span>
+        </div>
+    </div>
+    <br />
+    <hr style="border: 3px solid lawngreen" />
+
+    <br />
+    <div class="left-right">
+        @if (Model.GoodType == "AI" || Model.GoodType == "AE")
+        {
+            <div class="left" style="color: dimgray">
+                <div><strong>FLIGHT NUMBER : </strong>@Model.FlightNumber</div>
+            </div>
+            <div class="right" style="color: dimgray">
+                <div><strong>AIRLINE : </strong>@Model.Airline</div>
+            </div>
+        }
+        else
+        {
+            <div class="left4" style="color: dimgray">
+                
+            <div><strong>VESSEL NAME :</strong></div>
+            </div>
+            <div class="right4" style="color: dimgray">
+                <span>@Model.VesselName</span>
+            </div>
+        }
+
+    </div>
+
+    <div class="left-right">
+        <div class="left" style="color: dimgray">
+            <div><strong>POL : </strong>@Model.POL</div>
+        </div>
+        <div class="right" style="color: dimgray">
+            <div><strong>POD : </strong>@Model.POD</div>
+        </div>
+    </div>
+
+    <br />
+    <hr style="border: 3px solid lawngreen" />
+    <br />
+
+    <div class="left-right">
+        <div class="left3" style="color: dimgray">
+            <div><strong>CONTAINER TYPE :</strong></div>
+            <span>@Model.ContainerType</span>
+        </div>
+        <div class="left3" style="color: dimgray">
+            <div><strong>CONTAINER QUANTITY :</strong></div>
+            <span>@Model.ContainerQuantity</span>
+        </div>
+        <div class="right3" style="color: dimgray">
+            <div><strong>NUMBER OF PACKAGE :</strong></div>
+            <span>@Model.PackageQuantity</span>
+        </div>
+    </div>
+
+    <div class="left-right">
+        <div class="left3" style="color: dimgray">
+            <div><strong>GROSS WEIGHT :</strong></div>
+            <span>@Model.GrossWeight (KG)</span>
+        </div>
+        <div class="left3" style="color: dimgray">
+            <div><strong>CHARGEABLE WEIGHT :</strong></div>
+            <span>@Model.ChargeableWeight (KG)</span>
+        </div>
+        <div class="right3" style="color: dimgray">
+            <div><strong>VOLUME :</strong></div>
+            <span>@Model.Volume</span>
+        </div>
+    </div>
+
+    <div class="left-right">
+        <div class="left4" style="color: dimgray">
+            <div><strong>REMARK :</strong></div>
+        </div>
+        <div class="right4" style="color: dimgray">
+            @Model.Remarks
+        </div>
+    </div>
+
+    <br />
+    <hr style="border: 3px solid lawngreen" />
+    <br />
+    <br />
+
+    <div class="left-right" style="text-align:center">
+        <div class="left3" style="color: dimgray">
+            <div><strong>CUSTOMER</strong></div><br />
+            <span>@Model.GrossWeight</span><br />
+        </div>
+        <div class="left3" style="color: dimgray">
+            <div><strong>STAFF NAME</strong></div><br />
+            <span>@Model.StaffName</span><br />
+        </div>
+        <div class="right3" style="color: dimgray">
+            <div><strong>CEO</strong></div><br />
+            <span>@Model.PICcompany</span><br />
+        </div>
+    </div>
+</body>
+</html>

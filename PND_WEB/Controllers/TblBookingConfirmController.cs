@@ -1,4 +1,5 @@
 ﻿using Azure;
+using DinkToPdf;
 using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
 using PND_WEB.Models;
 using PND_WEB.Services;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -105,6 +107,7 @@ namespace PND_WEB.Controllers
                 Status = "Chờ lấy hàng",
                 StaffName = user.Staff_Name,
                 CreatedDate = DateTime.Now,
+                BookingDate = DateTime.Now,
                 ETD = DateTime.Today,
                 ETA = DateTime.Today.AddDays(15),
                 GoodType = "AI" // Default good type
@@ -123,6 +126,7 @@ namespace PND_WEB.Controllers
                 var user = await _userManager.FindByNameAsync(username);
                 booking.BookingId = await GenerateBookingCode();
                 booking.CreatedDate = DateTime.Now;
+                booking.BookingDate = DateTime.Now;
                 booking.StaffName = user.Staff_Name;
                 booking.ETD = DateTime.Today;
                 booking.ETA = DateTime.Today.AddDays(15);
@@ -329,6 +333,40 @@ namespace PND_WEB.Controllers
                     header_name = "CompanyName"
                 }
             });
+        }
+
+
+
+        //ExportPDF
+        public async Task<IActionResult> ExportPDFBooking(string id)
+        {
+            var booking = await _context.TblBookingConfirms
+                                          .Include(q => q.Customer)
+                                          .FirstOrDefaultAsync(q => q.BookingId == id);
+
+            if (booking == null)
+                return NotFound();
+
+
+            string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFBooking", booking);
+
+            var doc = new HtmlToPdfDocument()
+            {
+                GlobalSettings = {
+                    PaperSize = PaperKind.A4,
+                    Orientation = Orientation.Portrait
+                },
+                Objects = {
+                    new ObjectSettings()
+                    {
+                        HtmlContent = htmlContent
+                    }
+                }
+            };
+
+            var file = _converter.Convert(doc);
+            Response.Headers.Add("Content-Disposition", "inline; filename=Booking.pdf");
+            return File(file, "application/pdf");
         }
     }
 }
