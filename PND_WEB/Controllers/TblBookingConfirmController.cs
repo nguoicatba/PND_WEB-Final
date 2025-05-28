@@ -1,4 +1,5 @@
-﻿using DinkToPdf.Contracts;
+﻿using Azure;
+using DinkToPdf.Contracts;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -24,115 +25,7 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
 
-        // GET: TblBookingConfirm/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.TblBookingConfirms
-                .Include(b => b.Customer)
-                .FirstOrDefaultAsync(m => m.BookingId == id);
-
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // GET: TblBookingConfirm/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.TblBookingConfirms
-                .Include(b => b.Customer)
-                .FirstOrDefaultAsync(m => m.BookingId == id);
-
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // POST: TblBookingConfirm/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId")] TblBookingConfirm booking)
-        {
-            if (id != booking.BookingId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    booking.UpdatedDate = DateTime.Now;
-                    _context.Update(booking);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!await _context.TblBookingConfirms.AnyAsync(e => e.BookingId == id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(booking);
-        }
-
-        // GET: TblBookingConfirm/Delete/5
-        public async Task<IActionResult> Delete(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var booking = await _context.TblBookingConfirms
-                .Include(b => b.Customer)
-                .FirstOrDefaultAsync(m => m.BookingId == id);
-
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            return View(booking);
-        }
-
-        // POST: TblBookingConfirm/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
-        {
-            var booking = await _context.TblBookingConfirms.FindAsync(id);
-            if (booking == null)
-            {
-                return NotFound();
-            }
-
-            _context.TblBookingConfirms.Remove(booking);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
+        
 
         // FUNCTIONS
         public async Task<string> PredictBookingCode()
@@ -212,9 +105,8 @@ namespace PND_WEB.Controllers
                 Status = "Chờ lấy hàng",
                 StaffName = user.Staff_Name,
                 CreatedDate = DateTime.Now,
-                BookingDate = DateTime.Today,
                 ETD = DateTime.Today,
-                ETA = DateTime.Today.AddDays(1),
+                ETA = DateTime.Today.AddDays(15),
                 GoodType = "AI" // Default good type
             };
             return View(model);
@@ -227,7 +119,14 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var username = User.Identity.Name;
+                var user = await _userManager.FindByNameAsync(username);
                 booking.BookingId = await GenerateBookingCode();
+                booking.CreatedDate = DateTime.Now;
+                booking.StaffName = user.Staff_Name;
+                booking.ETD = DateTime.Today;
+                booking.ETA = DateTime.Today.AddDays(15);
+                booking.Status = "Chờ lấy hàng";
 
                 _context.Add(booking);
                 await _context.SaveChangesAsync();
@@ -238,6 +137,126 @@ namespace PND_WEB.Controllers
         }
 
 
+        // GET: TblBookingConfirm/Details/5
+        public async Task<IActionResult> Details(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var booking = await _context.TblBookingConfirms
+                .Include(b => b.Customer)
+                .FirstOrDefaultAsync(m => m.BookingId == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
+        }
+
+        // GET: TblBookingConfirm/Edit/5
+        public async Task<IActionResult> Edit(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var booking = await _context.TblBookingConfirms.FindAsync(id);
+            ViewBag.StatusList = new List<SelectListItem>
+            {
+                new SelectListItem { Value = "Chờ lấy hàng", Text = "Chờ lấy hàng" },
+                new SelectListItem { Value = "Đang vận chuyển", Text = "Đang vận chuyển" },
+                new SelectListItem { Value = "Đã hủy", Text = "Đã hủy" },
+                new SelectListItem { Value = "Hoàn thành", Text = "Hoàn thành" }
+            };
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
+        }
+
+        // POST: TblBookingConfirm/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(string id, [Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId")] TblBookingConfirm booking)
+        {
+            if (id != booking.BookingId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    booking.UpdatedDate = DateTime.Now;
+                    _context.Update(booking);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!await _context.TblBookingConfirms.AnyAsync(e => e.BookingId == id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(booking);
+        }
+
+        // GET: TblBookingConfirm/Delete/5
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var booking = await _context.TblBookingConfirms
+                .Include(b => b.Customer)
+                .FirstOrDefaultAsync(m => m.BookingId == id);
+
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            return View(booking);
+        }
+
+        // POST: TblBookingConfirm/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(string id)
+        {
+            var booking = await _context.TblBookingConfirms.FindAsync(id);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            _context.TblBookingConfirms.Remove(booking);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
+        /// <summary>
+        ///âsss
         public async Task<JsonResult> PortGet(string q = "", int page = 1)
         {
             int pageSize = 10;

@@ -33,17 +33,15 @@
                             <label asp-for="Status" class="control-label"></label>
                             @if (isReadOnly)
                             {
-                                <input asp-for="Status" class="form-control" readonly />
-                            }
+                                @Html.DropDownListFor(model => model.Status, (IEnumerable<SelectListItem>)ViewBag.StatusList,
+                                new { @class = "form-control", disabled = "disabled" })
+                            @Html.HiddenFor(model => model.Status)
+                                                        }
                             else
                             {
-                                <select asp-for="Status" class="form-control">
-                                    <option value="Đã chốt, đang chờ lấy hàng">Đã chốt, đang chờ lấy hàng</option>
-                                    <option value="Đã lấy hàng">Đã lấy hàng</option>
-                                    <option value="Hoàn thành">Hoàn thành</option>
-                                    <option value="Đã hủy">Đã hủy</option>
-                                </select>
-                            }
+                                @Html.DropDownListFor(model => model.Status, (IEnumerable<SelectListItem>)ViewBag.StatusList,
+                                new { @class = "form-control" })
+                                                        }
                             <span asp-validation-for="Status" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
@@ -65,7 +63,19 @@
                         </div>
                         <div class="form-group col-3">
                             <label asp-for="CustomerId" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.CustomerId, commonAttr)
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="CustomerId" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="CustomerId" class="form-control select-port" data-url="@Url.Action("CustomerGet", "TblBookingConfirm")">
+                                    @if (Model.CustomerId != null)
+                                    {
+                                        <option value="@Model.CustomerId" selected="selected">@Model.CustomerId</option>
+                                    }
+                                </select>
+                            }
                             <span asp-validation-for="CustomerId" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
@@ -120,7 +130,7 @@
                             }
                             else
                             {
-                                <select asp-for="POL" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="POL" class="form-control select-port" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                                     @if (Model.POL != null)
                                     {
                                         <option value="@Model.POL" selected="selected">@Model.POL</option>
@@ -137,7 +147,7 @@
                             }
                             else
                             {
-                                <select asp-for="POD" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="POD" class="form-control select-port" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                                     @if (Model.POD != null)
                                     {
                                         <option value="@Model.POD" selected="selected">@Model.POD</option>
