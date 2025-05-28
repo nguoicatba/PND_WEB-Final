@@ -27,11 +27,12 @@ namespace PND_WEB.Controllers
         // GET: Quotations
         public IActionResult Index()
         {
+            
             if (User.IsInRole("Sale"))
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("Quotations", "IndexAdmin"))
+            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("Quotations", "IndexAdmin") || User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction(nameof(IndexAdmin));
             }
@@ -403,39 +404,7 @@ namespace PND_WEB.Controllers
 
         //AutoComplete 
 
-        [HttpPost]
-        public JsonResult AutoCompleteCustomers(string prefix)
-        {
-            prefix = prefix?.ToLower(); // chuẩn hóa từ khóa
 
-            var customers = _context.TblCustomers
-                .Where(c =>
-                    (!string.IsNullOrEmpty(c.CompanyName) && c.CompanyName.ToLower().Contains(prefix)) ||
-                    (string.IsNullOrEmpty(c.CompanyName) && c.DutyPerson.ToLower().Contains(prefix)))
-                .Select(c => new
-                {
-                    label = !string.IsNullOrEmpty(c.CompanyName) ? c.CompanyName : c.DutyPerson,
-                    label2 = c.Contact
-                })
-                .ToList();
-
-            return Json(customers);
-        }
-
-
-        [HttpPost]
-        public JsonResult AutoCompleteFees(string prefix)
-        {
-            var fees = (from fee in this._context.Fees
-                            where fee.Fee1.Contains(prefix)
-                            select new
-                            {
-                                label = fee.Fee1,
-                                val = fee.Code
-                            }).ToList();
-
-            return Json(fees);
-        }
 
         [HttpPost]
         public JsonResult AutoCompleteUnits(string prefix)
@@ -524,6 +493,44 @@ namespace PND_WEB.Controllers
                 {
                     header_code = "Code",
                     header_name = "Fee"
+                }
+            });
+        }
+
+
+        public async Task<JsonResult> CustomerGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.CompanyName,
+                text = data.CompanyName,
+                code = data.CustomerId,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Customer",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "CustomerID",
+                    header_name = "CompanyName"
                 }
             });
         }

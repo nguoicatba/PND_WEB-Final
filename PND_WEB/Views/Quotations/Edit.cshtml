@@ -60,15 +60,19 @@
                         <div class="form-group col-3">
                             <div id="autocomplete-wrapper" style="position: relative;">
                                 <label asp-for="CusTo" class="control-label"></label>
-                                @Html.TextBoxFor(model => model.CusTo, isReadOnly
-                                         ? new Dictionary<string, object> {
-                                { "class", "form-control" },
-                                { "readonly", "readonly" }
+                                @if (isReadOnly)
+                                {
+                                    <input asp-for="CusTo" class="form-control" readonly />
                                 }
-                                         : new Dictionary<string, object> {
-                                { "class", "form-control" },
-                                { "id", "custos" }
-                                })
+                                else
+                                {
+                                    <select asp-for="CusTo" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "Quotations")">
+                                        @if (Model.CusTo != null)
+                                        {
+                                            <option value="@Model.CusTo" selected="selected">@Model.CusTo</option>
+                                        }
+                                    </select>
+                                }
                                 <span asp-validation-for="CusTo" class="text-danger"></span>
                             </div>
                         </div>

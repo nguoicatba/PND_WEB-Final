@@ -42,7 +42,8 @@
                         <div class="form-group col-3">
                             <div id="autocomplete-wrapper" style="position: relative;">
                                 <label asp-for="CusTo"  class="control-label"></label>
-                                <input asp-for="CusTo" id="custo" class="form-control" />
+                                <select asp-for="CusTo" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "Quotations")">
+                                </select>
                                 <span asp-validation-for="CusTo" class="text-danger"></span>
                             </div>
                         </div>

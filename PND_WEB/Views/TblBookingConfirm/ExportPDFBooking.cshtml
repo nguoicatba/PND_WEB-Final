@@ -125,8 +125,15 @@
     </div>
     <br />
     <hr style="border: 3px solid lawngreen" />
-
     <br />
+    <div class="left-right">
+        <div class="left" style="color: dimgray">
+            <div><strong>SHIPPER : </strong>@Model.Shipper</div>
+        </div>
+        <div class="right" style="color: dimgray">
+            <div><strong>CNEE : </strong>@Model.CNEE</div>
+        </div>
+    </div>
     <div class="left-right">
         @if (Model.GoodType == "AI" || Model.GoodType == "AE")
         {

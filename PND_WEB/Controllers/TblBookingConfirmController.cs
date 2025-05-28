@@ -118,7 +118,7 @@ namespace PND_WEB.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId")] TblBookingConfirm booking)
+        public async Task<IActionResult> Create([Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId,CNEE,Shipper")] TblBookingConfirm booking)
         {
             if (ModelState.IsValid)
             {
@@ -189,7 +189,7 @@ namespace PND_WEB.Controllers
         // POST: TblBookingConfirm/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId")] TblBookingConfirm booking)
+        public async Task<IActionResult> Edit(string id, [Bind("BookingId,CustomerId,BookingDate,GoodType,ETD,ETA,POL,POD,VesselName,ContainerType,ContainerQuantity,FlightNumber,Airline,PackageQuantity,GrossWeight,ChargeableWeight,Volume,CargoDescription,Status,Remarks,CreatedDate,UpdatedDate,StaffName,Contact,PICcompany,QuotationId,Shipper,CNEE")] TblBookingConfirm booking)
         {
             if (id != booking.BookingId)
             {
@@ -335,6 +335,80 @@ namespace PND_WEB.Controllers
             });
         }
 
+        public async Task<JsonResult> ShipperGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.TblShippers.Where(data => data.Shipper.ToLower().Contains(q.ToLower()) || data.SpersonInCharge.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Shipper,
+                text = data.SpersonInCharge,
+                code = data.Shipper,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Shipper",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Shipper",
+                    header_name = "PersonInCharge"
+                }
+            });
+        }
+
+
+        public async Task<JsonResult> CneeGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.TblCnees.Where(data => data.Cnee.ToLower().Contains(q.ToLower()) || data.CpersonInCharge.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Cnee,
+                text = data.CpersonInCharge,
+                code = data.Cnee,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Shipper",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Cnee",
+                    header_name = "PersonInCharge"
+                }
+            });
+        }
 
 
         //ExportPDF

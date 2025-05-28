@@ -57,6 +57,20 @@
                         </div>
                     </div>
                     <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="Shipper" class="control-label"></label>
+                            <select asp-for="Shipper" class="form-control select2-not-tag" data-url="@Url.Action("ShipperGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="Shipper" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="CNEE" class="control-label"></label>
+                            <select asp-for="CNEE" class="form-control select2-not-tag" data-url="@Url.Action("CneeGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="CNEE" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="GoodType" class="control-label"></label>
                             <select asp-for="GoodType" class="form-control">

@@ -115,7 +115,42 @@
                             <span asp-validation-for="QuotationId" class="text-danger"></span>
                         </div>
                     </div>
-
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="Shipper" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Shipper" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="Shipper" class="form-control select2-not-tag" data-url="@Url.Action("ShipperGet", "TblBookingConfirm")">
+                                    @if (Model.Shipper != null)
+                                    {
+                                        <option value="@Model.Shipper" selected="selected">@Model.Shipper</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="Shipper" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="CNEE" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="CNEE" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="CNEE" class="form-control select2-not-tag" data-url="@Url.Action("CneeGet", "TblBookingConfirm")">
+                                    @if (Model.CNEE != null)
+                                    {
+                                        <option value="@Model.CNEE" selected="selected">@Model.CNEE</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="CNEE" class="text-danger"></span>
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="GoodType" class="control-label"></label>

@@ -67,6 +67,14 @@
             </tr>
             <tr>
                 <td style="border: #FFF">
+                    <strong>Người gửi hàng :</strong>
+                    <span style="margin-left: 10px">@Model.Shipper</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>Người nhận hàng :</strong>
+                    <span style="margin-left: 10px">@Model.CNEE</span>
+                </td>
+                <td style="border: #FFF">
                     <strong>Điểm đi (POL):</strong>
                     <span style="margin-left: 10px">@Model.POL</span>
                 </td>
@@ -74,6 +82,8 @@
                     <strong>Điểm đến (POD):</strong>
                     <span style="margin-left: 10px">@Model.POD</span>
                 </td>
+            </tr>
+            <tr>
                 <td style="border: #FFF">
                     <strong>Tên tàu:</strong>
                     <span style="margin-left: 10px">@Model.VesselName</span>
@@ -82,8 +92,6 @@
                     <strong>Hãng hàng không:</strong>
                     <span style="margin-left: 10px">@Model.Airline</span>
                 </td>
-            </tr>
-            <tr>
                 <td style="border: #FFF">
                     <strong>Loại container:</strong>
                     <span style="margin-left: 10px">@Model.ContainerType</span>
@@ -92,6 +100,8 @@
                     <strong>Số lượng container:</strong>
                     <span style="margin-left: 10px">@Model.ContainerQuantity</span>
                 </td>
+            </tr>
+            <tr>
                 <td style="border: #FFF">
                     <strong>Số chuyến bay:</strong>
                     <span style="margin-left: 10px">@Model.FlightNumber</span>
@@ -100,8 +110,6 @@
                     <strong>Số lượng kiện:</strong>
                     <span style="margin-left: 10px">@Model.PackageQuantity</span>
                 </td>
-            </tr>
-            <tr>
                 <td style="border: #FFF">
                     <strong>Trọng lượng (GW):</strong>
                     <span style="margin-left: 10px">@(Model.GrossWeight?.ToString("N2"))</span>
@@ -110,6 +118,12 @@
                     <strong>Trọng lượng tính cước:</strong>
                     <span style="margin-left: 10px">@(Model.ChargeableWeight?.ToString("N2"))</span>
                 </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>Mô tả hàng hóa:</strong>
+                    <span style="margin-left: 10px">@Model.CargoDescription</span>
+                </td>
                 <td style="border: #FFF">
                     <strong>Thể tích:</strong>
                     <span style="margin-left: 10px">@(Model.Volume?.ToString("N2"))</span>
@@ -117,12 +131,6 @@
                 <td style="border: #FFF">
                     <strong>Ghi chú:</strong>
                     <span style="margin-left: 10px">@Model.Remarks</span>
-                </td>
-            </tr>
-            <tr>
-                <td colspan="4" style="border: #FFF">
-                    <strong>Mô tả hàng hóa:</strong>
-                    <span style="margin-left: 10px">@Model.CargoDescription</span>
                 </td>
             </tr>
         </table>
