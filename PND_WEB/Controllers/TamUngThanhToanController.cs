@@ -492,7 +492,7 @@ namespace PND_WEB.Controllers
             var items = paginatedData.Select(data => new
             {
                 id = data.Fee1,
-                text = data.Fee1,
+                text = data.Code,
                 code = data.Code,
                 disabled = false
             }).ToList();
@@ -514,8 +514,8 @@ namespace PND_WEB.Controllers
 
                 header = new
                 {
-                    header_code = "Code",
-                    header_name = "Fee"
+                    header_code = "Fee",
+                    header_name = "Code"
                 }
             });
         }
