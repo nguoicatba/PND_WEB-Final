@@ -1,4 +1,4 @@
-@model PND_WEB.ViewModels.BuyChargeEM
+@model PND_WEB.ViewModels.SellChargeEM
 
 @{
     ViewData["Title"] = "Edit";
@@ -9,13 +9,13 @@
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <!-- START card-->
         <div class="card card-default">
-            <div class="card-header bg-success">Edit Buy Charge</div>
+            <div class="card-header bg-success">Edit Sell Charge</div>
             <div class="card-body">
                 <form asp-action="Edit" id="editForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="ChargeId" />
                     <input type="hidden" asp-for="HblId" />
-
+                    
                     <div class="form-group">
                         <label asp-for="SupplierId" class="control-label"></label>
                         <select asp-for="SupplierId" class="form-control select2-not-tag" data-url="@Url.Action("SupplierGet", "SellCharge")">
