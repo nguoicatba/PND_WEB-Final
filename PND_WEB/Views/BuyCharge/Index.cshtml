@@ -63,21 +63,66 @@
                                                 <td>@item.SupplierName</td>
                                                 <td>@item.SerName</td>
                                                 <td>@item.SerUnit</td>
-                                                <td>@item.SerQuantity</td>
-                                                <td>@item.SerPrice</td>
+                                                <td>
+                                                    @if (item.SerQuantity.HasValue)
+                                                    {
+                                                        @item.SerQuantity.Value.ToString("N3")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">N/A</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                    @if (item.SerPrice.HasValue)
+                                                    {
+                                                        @item.SerPrice.Value.ToString("N2")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">N/A</span>
+                                                    }
+                                                </td>
                                                 <td>@item.Currency</td>
-                                                <td>@item.ExchangeRate</td>
-                                                <td>@item.SerVat</td>
-                                                <td>@item.MVat</td>
+                                                <td>
+                                                    @if (item.ExchangeRate.HasValue)
+                                                    {
+                                                        @item.ExchangeRate.Value.ToString("N2")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">N/A</span>
+                                                    }
+                                                </td>
+                                                <td>
+                                                        @if (item.SerVat.HasValue)
+                                                        {
+                                                            @item.SerVat.Value.ToString("N3")
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-danger">N/A</span>
+                                                        }
+                                                </td>
+                                                <td>
+                                                        @if (item.MVat.HasValue)
+                                                        {
+                                                            @item.MVat.Value.ToString("N2")
+                                                        }
+                                                        else
+                                                        {
+                                                            <span class="text-danger">N/A</span>
+                                                        }
+                                                </td>
                                                 <td>@item.Checked</td>
-                                                <td>@((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0))</td>
+                                                <td>@(((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2"))</td>
                                             </tr>
                                         }
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td colspan="12" class="text-right">Total:</td>
-                                            <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0))</td>
+                                            <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -90,3 +135,4 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id })

@@ -27,11 +27,18 @@ namespace PND_WEB.Controllers
                 _charges = SellCharges.Select(c => new SellChargeEM
                 {
                     ChargeId = c.ChargeId,
-                    SupplierId = c.SupplierId,
-                    SupplierName = _context.TblSuppliers
-                        .Where(s => s.SupplierId == c.SupplierId)
-                        .Select(s => s.NameSup)
+
+                    CustomerID = c.CustomerId,
+                    CustomerName = _context.TblCustomers
+                    .Where(s => s.CustomerId == c.CustomerId)
+                    .Select(s => s.CompanyName)
+                    .FirstOrDefault() == null
+                    ? "Unknown Customer"
+                    : _context.TblCustomers
+                        .Where(s => s.CustomerId == c.CustomerId)
+                        .Select(s => s.CompanyName)
                         .FirstOrDefault(),
+
                     SerName = c.SerName,
                     SerUnit = c.SerUnit,
                     SerQuantity = c.SerQuantity,
@@ -59,7 +66,7 @@ namespace PND_WEB.Controllers
             {
                 HblId = id,
                 CreatedDate = DateTime.Now,
-                Sell = false
+                Sell = true,
             };
             return View(sellChargeEM);
         }
@@ -73,7 +80,8 @@ namespace PND_WEB.Controllers
                 var charge = new TblHblCharges
                 {
                     ChargeId = Guid.NewGuid().ToString(),
-                    SupplierId = sellChargeEM.SupplierId,
+                    CustomerId = sellChargeEM.CustomerID,
+
                     SerName = sellChargeEM.SerName,
                     SerUnit = sellChargeEM.SerUnit,
                     SerQuantity = sellChargeEM.SerQuantity,
@@ -112,10 +120,10 @@ namespace PND_WEB.Controllers
             var sellChargeEM = new SellChargeEM
             {
                 ChargeId = charge.ChargeId,
-                SupplierId = charge.SupplierId,
-                SupplierName = await _context.TblSuppliers
-                    .Where(s => s.SupplierId == charge.SupplierId)
-                    .Select(s => s.NameSup)
+                CustomerID = charge.CustomerId,
+                CustomerName = await _context.TblCustomers
+                    .Where(s => s.CustomerId == charge.CustomerId)
+                    .Select(s => s.CompanyName)
                     .FirstOrDefaultAsync(),
                 SerName = charge.SerName,
                 SerUnit = charge.SerUnit,
@@ -155,7 +163,7 @@ namespace PND_WEB.Controllers
                         return NotFound();
                     }
 
-                    charge.SupplierId = sellChargeEM.SupplierId;
+                    charge.CustomerId= sellChargeEM.CustomerID;
                     charge.SerName = sellChargeEM.SerName;
                     charge.SerUnit = sellChargeEM.SerUnit;
                     charge.SerQuantity = sellChargeEM.SerQuantity;
@@ -203,10 +211,11 @@ namespace PND_WEB.Controllers
             var sellChargeEM = new SellChargeEM
             {
                 ChargeId = charge.ChargeId,
-                SupplierId = charge.SupplierId,
-                SupplierName = await _context.TblSuppliers
-                    .Where(s => s.SupplierId == charge.SupplierId)
-                    .Select(s => s.NameSup)
+
+                CustomerID = charge.CustomerId,
+                CustomerName = await _context.TblCustomers
+                    .Where(s => s.CustomerId == charge.CustomerId)
+                    .Select(s => s.CompanyName)
                     .FirstOrDefaultAsync(),
                 SerName = charge.SerName,
                 SerUnit = charge.SerUnit,
@@ -247,17 +256,17 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> CurrencyGet(string q = "", int page = 1)
+        public async Task<JsonResult> CustomerGet(string q = "", int page = 1)
         {
             int pageSize = 10;
-            var query = q == "" ? _context.Currencies : _context.Currencies.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CurrName.ToLower().Contains(q.ToLower()));
+            var query = q == "" ? _context.TblCustomers : _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.Code,
-                text = data.CurrName,
+                id = data.CustomerId,
+                text = data.CompanyName,
                 disabled = false
             }).ToList();
 
@@ -266,7 +275,7 @@ namespace PND_WEB.Controllers
                 items.Insert(0, new
                 {
                     id = "-1",
-                    text = "Select Currency",
+                    text = "Select Customer",
                     disabled = true
                 });
             }
@@ -278,47 +287,12 @@ namespace PND_WEB.Controllers
                 header = new
                 {
                     header_code = "Code",
-                    header_name = "Currency Name"
+                    header_name = "Customer Name"
                 }
             });
         }
 
-        [HttpGet]
-        public async Task<JsonResult> SupplierGet(string q = "", int page = 1)
-        {
-            int pageSize = 10;
-            var query = q == "" ? _context.TblSuppliers : _context.TblSuppliers.Where(data => data.SupplierId.ToLower().Contains(q.ToLower()) || data.NameSup.ToLower().Contains(q.ToLower()));
-            var totalCount = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            var items = paginatedData.Select(data => new
-            {
-                id = data.SupplierId,
-                text = data.NameSup,
-                disabled = false
-            }).ToList();
-
-            if (page == 1)
-            {
-                items.Insert(0, new
-                {
-                    id = "-1",
-                    text = "Select Supplier",
-                    disabled = true
-                });
-            }
-
-            return Json(new
-            {
-                items = items,
-                total_count = totalCount,
-                header = new
-                {
-                    header_code = "Code",
-                    header_name = "Supplier Name"
-                }
-            });
-        }
+      
 
         [HttpGet]
         public async Task<JsonResult> FeeGet(string q = "", int page = 1)

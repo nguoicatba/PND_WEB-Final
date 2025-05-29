@@ -30,8 +30,8 @@
                                                  Action
                                    
                                             </th>
-                                            <th>@Html.DisplayNameFor(model => model._charges[0].SupplierId)</th>
-                                            <th>@Html.DisplayNameFor(model => model._charges[0].SupplierName)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].CustomerID)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].CustomerName)</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].SerName)</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].SerUnit)</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].SerQuantity)</th>
@@ -59,8 +59,8 @@
                                                 {
                                                     <td></td>
                                                 }
-                                                <td>@item.SupplierId</td>
-                                                <td>@item.SupplierName</td>
+                                                <td>@item.CustomerID</td>
+                                                <td>@item.CustomerName</td>
                                                 <td>@item.SerName</td>
                                                 <td>@item.SerUnit</td>
                                                 <td>@item.SerQuantity</td>
@@ -89,3 +89,5 @@
        
     </div>
 </div> 
+
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id })

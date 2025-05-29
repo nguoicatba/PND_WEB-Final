@@ -38,13 +38,13 @@
 
                     <div class="form-group">
                         <label asp-for="SerQuantity" class="control-label"></label>
-                        <input asp-for="SerQuantity" class="form-control" type="number" step="0.01" />
+                        <input asp-for="SerQuantity" class="form-control" type="number" step="0.1" min="0" />
                         <span asp-validation-for="SerQuantity" class="text-danger"></span>
                     </div>
 
                     <div class="form-group">
                         <label asp-for="SerPrice" class="control-label"></label>
-                        <input asp-for="SerPrice" class="form-control" type="number" step="0.01" />
+                        <input asp-for="SerPrice" class="form-control" type="number" step="0.01" min="0" />
                         <span asp-validation-for="SerPrice" class="text-danger"></span>
                     </div>
 
@@ -56,7 +56,7 @@
 
                     <div class="form-group">
                         <label asp-for="ExchangeRate" class="control-label"></label>
-                        <input asp-for="ExchangeRate" class="form-control" type="number" step="0.01" />
+                        <input asp-for="ExchangeRate" class="form-control" type="number" step="1" min="0" max="100" />
                         <span asp-validation-for="ExchangeRate" class="text-danger"></span>
                     </div>
 

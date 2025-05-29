@@ -6,14 +6,16 @@ namespace PND_WEB.ViewModels
     public class SellChargeEM
     {
         [Key]
-        [Column("Charge_ID")]
+       
         public string ChargeId { get; set; } = null!;
 
-        [Column("Supplier_ID")]
+       
         [MaxLength(20)]
-        public string? SupplierId { get; set; }
+        [Display(Name = "Customer Code")]
+        public string? CustomerID { get; set; }
 
-        public string? SupplierName { get; set; }
+        [Display(Name = "Customer Name")]
+        public string? CustomerName { get; set; }
 
         [Column("Ser_Name")]
         [MaxLength(255)]
