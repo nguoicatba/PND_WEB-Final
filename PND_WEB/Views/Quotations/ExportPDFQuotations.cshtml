@@ -8,6 +8,13 @@
     var charges = Model.QuotationsCharges;
     float totalAmount = 0;
     var imagePath = System.IO.Path.Combine(System.IO.Directory.GetCurrentDirectory(), "wwwroot", "app", "img", "logo-pnd-export-pdf.jpg");
+    
+    // Get port names from the codes
+    var polName = quotation.Pol != null ? Model.Cports?.FirstOrDefault(p => p.Code == quotation.Pol)?.PortName ?? quotation.Pol : "";
+    var podName = quotation.Pod != null ? Model.Cports?.FirstOrDefault(p => p.Code == quotation.Pod)?.PortName ?? quotation.Pod : "";
+
+    var polName = quotation.Pol != null ? Model.Cports?.FirstOrDefault(p => p.Code == quotation.Pol)?.PortName ?? quotation.Pol : "";
+    var podName = quotation.Pod != null ? Model.Cports?.FirstOrDefault(p => p.Code == quotation.Pod)?.PortName ?? quotation.Pod : "";
 }
 
 <!DOCTYPE html>
@@ -107,7 +114,7 @@
     </div>
 
     <div class="center">
-        <h3 style="color: royalblue;">CONTACT:</h3><div> @quotation.CusContact</div>
+        <h3 style="color: royalblue;">CONTACT:</h3><div> @quotation.CusTo :  @quotation.CusContact</div>
         <h3 style="color: royalblue;">DATEVALID :</h3><div>  </div>
         <p>
             <strong>
@@ -125,13 +132,13 @@
 
     <div class="left-right">
         <div class="left">
-            <strong style="color: royalblue;">Place of receipt:</strong> @quotation.Pol<br /><br />
-            <strong style="color: royalblue;">Place of delivery:</strong> @quotation.Pod<br /><br />
+            <strong style="color: royalblue;">Place of receipt:</strong> @polName<br /><br />
+            <strong style="color: royalblue;">Place of delivery:</strong> @podName<br /><br />
             <strong style="color: royalblue;">Commodity:</strong> @quotation.Commodity<br />
         </div>
         <div class="right">
-            <strong style="color: royalblue;">POL:</strong> @quotation.Pol<br /><br />
-            <strong style="color: royalblue;">POD:</strong> @quotation.Pod<br /><br />
+            <strong style="color: royalblue;">POL:</strong> @polName<br /><br />
+            <strong style="color: royalblue;">POD:</strong> @podName<br /><br />
             <strong style="color: royalblue;">Volume/Term:</strong> @quotation.Vol<br />
         </div>
     </div>

@@ -430,7 +430,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.PortName,
+                id = data.Code,
                 text = data.PortName,
                 code = data.Code,
                 disabled = false
@@ -468,7 +468,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.Fee1,
+                id = data.Code,
                 text = data.Fee1,
                 code = data.Code,
                 disabled = false
@@ -507,7 +507,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.CompanyName,
+                id = data.CustomerId,
                 text = data.CompanyName,
                 code = data.CustomerId,
                 disabled = false
@@ -548,10 +548,15 @@ namespace PND_WEB.Controllers
             if (quotation == null)
                 return NotFound();
 
+            // Get all ports that are used in this quotation
+            var portCodes = new[] { quotation.Pol, quotation.Pod }.Where(p => p != null).ToList();
+            var ports = await _context.Cports.Where(p => portCodes.Contains(p.Code)).ToListAsync();
+
             var viewModel = new QuotationsEditDeleteDetailController
             {
                 Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
+                QuotationsCharges = quotation.QuotationsCharges.ToList(),
+                Cports = ports
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
