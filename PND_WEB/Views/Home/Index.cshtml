@@ -1,16 +1,137 @@
 ﻿
-
-@* test *@
 @model PND_WEB.ViewModels.TuttViewModel
 
-
-
-
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "PND Logistics - Hệ thống quản lý";
 }
 
+@await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "Hệ thống quản lý PND Logistics" })
 
+<div class="container-fluid mt-4">
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Đơn hàng hôm nay</h6>
+                            <h2 class="mt-2 mb-0">X</h2>
+                        </div>
+                        <i class="fas fa-shipping-fast fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Đơn hoàn thành</h6>
+                            <h2 class="mt-2 mb-0">X</h2>
+                        </div>
+                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">Đang vận chuyển</h6>
+                            <h2 class="mt-2 mb-0">X</h2>
+                        </div>
+                        <i class="fas fa-truck fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "" })
+        <!-- Recent Orders -->
+        <div class="col-md-12">
+            <div class="card h-100">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Đơn hàng gần đây</h5>
+                    <a href="#" class="btn btn-sm btn-primary">Xem tất cả</a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Mã đơn</th>
+                                    <th>Khách hàng</th>
+                                    <th>Trạng thái</th>
+                                    <th>Ngày tạo</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>#ORD001</td>
+                                    <td>Công ty ABC</td>
+                                    <td><span class="badge bg-success">Hoàn thành</span></td>
+                                    <td>15/03/2024</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD002</td>
+                                    <td>Công ty XYZ</td>
+                                    <td><span class="badge bg-warning">Đang giao</span></td>
+                                    <td>15/03/2024</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+                                </tr>
+                                <tr>
+                                    <td>#ORD003</td>
+                                    <td>Công ty DEF</td>
+                                    <td><span class="badge bg-info">Mới</span></td>
+                                    <td>15/03/2024</td>
+                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Thông báo mới</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"></h6>
+                                <small></small>
+                            </div>
+                            <p class="mb-1"></p>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"></h6>
+                                <small></small>
+                            </div>
+                            <p class="mb-1"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+}
