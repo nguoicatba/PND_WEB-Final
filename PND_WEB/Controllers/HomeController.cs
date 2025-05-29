@@ -37,7 +37,8 @@ namespace PND_WEB.Controllers
             ViewBag.CompletedBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Hoàn thành");
             ViewBag.WaitBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Đang vận chuyển");
 
-            //ViewBag.TodayBookingsCount = _context.TblBookingConfirms.Count(q => q.BookingId.prefix(BK);
+            string todayPrefix = $"BK{DateTime.Now:yyyyMM}";
+            ViewBag.TodayBookingsCount = _context.TblBookingConfirms.Count(q => q.BookingId.StartsWith(todayPrefix));
 
             return View();
         }
