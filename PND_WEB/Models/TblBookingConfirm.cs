@@ -15,7 +15,7 @@ namespace PND_WEB.Models
 
         [Column("Customer_ID")]
         [MaxLength(20)]
-        [Required(ErrorMessage = "Không được để trống")]
+        [Required(ErrorMessage = "Không được để trống khách hàng")]
         [Display(Name = "Customer ID")]
         public string? CustomerId { get; set; }
 
@@ -32,12 +32,12 @@ namespace PND_WEB.Models
 
         // Sea Transport Fields
         [Column("ETD")]
-        [Required(ErrorMessage = "Không được để trống")]
+        [Required(ErrorMessage = "Không được để trống ngày khởi hành dự kiến")]
         [Display(Name = "Ngày khởi hành dự kiến")]
         public DateTime ETD { get; set; }
 
         [Column("ETA")]
-        [Required(ErrorMessage = "Không được để trống")]
+        [Required(ErrorMessage = "Không được để trống ngày đến dự kiến")]
         [Display(Name = "Ngày đến dự kiến")]
         public DateTime ETA { get; set; }
 

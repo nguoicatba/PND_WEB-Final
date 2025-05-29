@@ -11,8 +11,11 @@
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
     var dateAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "datetime-local" } }
-        : new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } };
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } };
+    var validDateAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "type", "date" } };
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
 
@@ -54,7 +57,7 @@
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="Qdate" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.Qdate, dateAttr)
+                            @Html.TextBoxFor(model => model.Qdate, "{0:yyyy-MM-dd}", dateAttr)
                             <span asp-validation-for="Qdate" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
@@ -91,7 +94,7 @@
                         </div>
                         <div class="form-group col-3">
                             <label asp-for="Valid" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.Valid, dateAttr)
+                            @Html.TextBoxFor(model => model.Valid, "{0:yyyy-MM-dd}", validDateAttr)
                             <span asp-validation-for="Valid" class="text-danger"></span>
                         </div>
                     </div>
