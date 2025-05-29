@@ -552,11 +552,17 @@ namespace PND_WEB.Controllers
             var portCodes = new[] { quotation.Pol, quotation.Pod }.Where(p => p != null).ToList();
             var ports = await _context.Cports.Where(p => portCodes.Contains(p.Code)).ToListAsync();
 
+            // Get customer data
+            var customer = await _context.TblCustomers
+                .Where(c => c.CustomerId == quotation.CusTo)
+                .ToListAsync();
+
             var viewModel = new QuotationsEditDeleteDetailController
             {
                 Quotation = quotation,
                 QuotationsCharges = quotation.QuotationsCharges.ToList(),
-                Cports = ports
+                Cports = ports,
+                Customer = customer
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
