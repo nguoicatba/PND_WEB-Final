@@ -31,8 +31,8 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
 
-       
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
             ViewBag.CompletedBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Hoàn thành");
             ViewBag.WaitBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Đang vận chuyển");
@@ -40,7 +40,13 @@ namespace PND_WEB.Controllers
             string todayPrefix = $"BK{DateTime.Now:yyyyMM}";
             ViewBag.TodayBookingsCount = _context.TblBookingConfirms.Count(q => q.BookingId.StartsWith(todayPrefix));
 
-            return View();
+            var booking = await _context.TblBookingConfirms
+                .OrderByDescending(q => q.BookingId)
+                .Take(5)
+                .ToListAsync();
+
+            return View(booking);
+
         }
 
         [ClaimAuthorize("Job", "Create")]

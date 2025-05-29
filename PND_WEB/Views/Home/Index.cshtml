@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<PND_WEB.Models.TblBookingConfirm>
+@{
     ViewData["Title"] = "PND Logistics - Hệ thống quản lý";
 }
 
@@ -28,7 +29,6 @@
                             <h6 class="mb-0">BOOKING COMLETED</h6>
                             <h2 class="mt-2 mb-0">@ViewBag.CompletedBookingsCount</h2>
                         </div>
-                        <i class="fas fa-check-circle fa-2x opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -41,7 +41,6 @@
                             <h6 class="mb-0">BOOKING WAIT</h6>
                             <h2 class="mt-2 mb-0">@ViewBag.WaitBookingsCount</h2>
                         </div>
-                        <i class="fas fa-truck fa-2x opacity-50"></i>
                     </div>
                 </div>
             </div>
@@ -54,43 +53,66 @@
         <div class="col-md-12">
             <div class="card h-100">
                 <div class="card-header bg-light d-flex justify-content-between align-items-center">
-                    <h5 class="card-title mb-0">Đơn hàng gần đây</h5>
-                    <a href="#" class="btn btn-sm btn-primary">Xem tất cả</a>
+                    <h5 class="card-title mb-0">RECENT BOOKING</h5>
+                    <a asp-controller="TblBookingConfirm" asp-action="Index" class="btn btn-primary btn-xs">
+                        WATCH ALL
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover">
-                            <thead>
+                        <table class="table table-striped my-4 w-100 nowrap border" >
+                            <thead class="">
                                 <tr>
-                                    <th>Mã đơn</th>
-                                    <th>Khách hàng</th>
-                                    <th>Trạng thái</th>
-                                    <th>Ngày tạo</th>
-                                    <th></th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.BookingId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StaffName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Contact)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PICcompany)
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>#ORD001</td>
-                                    <td>Công ty ABC</td>
-                                    <td><span class="badge bg-success">Hoàn thành</span></td>
-                                    <td>15/03/2024</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD002</td>
-                                    <td>Công ty XYZ</td>
-                                    <td><span class="badge bg-warning">Đang giao</span></td>
-                                    <td>15/03/2024</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
-                                </tr>
-                                <tr>
-                                    <td>#ORD003</td>
-                                    <td>Công ty DEF</td>
-                                    <td><span class="badge bg-info">Mới</span></td>
-                                    <td>15/03/2024</td>
-                                    <td><a href="#" class="btn btn-sm btn-outline-primary">Chi tiết</a></td>
-                                </tr>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BookingId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Status)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StaffName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Contact)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PICcompany)
+                                        </td>
+                                    </tr>
+                                }
                             </tbody>
                         </table>
                     </div>
