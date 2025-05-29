@@ -1,7 +1,4 @@
-﻿
-@model PND_WEB.ViewModels.TuttViewModel
-
-@{
+﻿@{
     ViewData["Title"] = "PND Logistics - Hệ thống quản lý";
 }
 
@@ -29,7 +26,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="mb-0">Đơn hoàn thành</h6>
-                            <h2 class="mt-2 mb-0">X</h2>
+                            <h2 class="mt-2 mb-0">@ViewBag.CompletedBookingsCount</h2>
                         </div>
                         <i class="fas fa-check-circle fa-2x opacity-50"></i>
                     </div>
@@ -42,7 +39,7 @@
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
                             <h6 class="mb-0">Đang vận chuyển</h6>
-                            <h2 class="mt-2 mb-0">X</h2>
+                            <h2 class="mt-2 mb-0">@ViewBag.WaitBookingsCount</h2>
                         </div>
                         <i class="fas fa-truck fa-2x opacity-50"></i>
                     </div>

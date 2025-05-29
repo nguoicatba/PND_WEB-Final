@@ -34,6 +34,11 @@ namespace PND_WEB.Controllers
        
         public IActionResult Index()
         {
+            ViewBag.CompletedBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Hoàn thành");
+            ViewBag.WaitBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Đang vận chuyển");
+
+            //ViewBag.TodayBookingsCount = _context.TblBookingConfirms.Count(q => q.BookingId.prefix(BK);
+
             return View();
         }
 
