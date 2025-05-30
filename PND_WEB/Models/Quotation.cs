@@ -23,6 +23,7 @@ public partial class Quotation
 
     public string? CusContact { get; set; }
 
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? Valid { get; set; }
 
     public string? Term { get; set; }

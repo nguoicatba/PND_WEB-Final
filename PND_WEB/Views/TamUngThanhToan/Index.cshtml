@@ -134,10 +134,24 @@
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ketoan == true ? "Đã duyệt" : "Chưa duyệt")
+                                    @if(item.Ketoan == true)
+                                    {
+                                        <span class="badge badge-success">Đã duyệt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-info">Chưa duyệt</span>
+                                    }
                                 </td>
                                 <td>
-                                    @(item.Ceo == true ? "Đã duyệt" : "Chưa duyệt")
+                                    @if (item.Ceo == true)
+                                    {
+                                        <span class="badge badge-success">Đã duyệt</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-info">Chưa duyệt</span>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -59,7 +59,18 @@
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ketoan == null ? "Chưa duyệt" : (item.Ketoan == true ? "Đã duyệt" : "Huỷ"))
+                                    @if (item.Ketoan == null)
+                                    {
+                                        <span class="badge badge-info">Chưa duyệt</span>
+                                    }
+                                    else if (item.Ketoan == true)
+                                    {
+                                        <span class="badge badge-success">Đã duyệt</span>
+                                    }
+                                    else if (item.Ketoan == false)
+                                    {
+                                        <span class="badge badge-inverse">Huỷ</span>
+                                    }
                                 </td>
                             </tr>
                         }

@@ -20,6 +20,7 @@ namespace PND_WEB.Models
         public string? CustomerId { get; set; }
 
         [Column("Booking_Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Required(ErrorMessage = "Không được để trống")]
         [Display(Name = "Ngày đặt")]
         public DateTime BookingDate { get; set; }
@@ -33,11 +34,13 @@ namespace PND_WEB.Models
         // Sea Transport Fields
         [Column("ETD")]
         [Required(ErrorMessage = "Không được để trống ngày khởi hành dự kiến")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Ngày khởi hành dự kiến")]
         public DateTime ETD { get; set; }
 
         [Column("ETA")]
         [Required(ErrorMessage = "Không được để trống ngày đến dự kiến")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Ngày đến dự kiến")]
         public DateTime ETA { get; set; }
 
@@ -110,6 +113,7 @@ namespace PND_WEB.Models
         public string? Remarks { get; set; }
 
         [Column("Created_Date")]
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
         [Display(Name = "Ngày tạo")]
         public DateTime CreatedDate { get; set; }
 
