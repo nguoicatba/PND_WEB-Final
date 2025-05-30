@@ -28,11 +28,11 @@ namespace PND_WEB.Controllers
         public IActionResult Index()
         {
             
-            if (User.IsInRole("Sale"))
+            if (User.HasClaim("Quotations", "IndexUser"))
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("Quotations", "IndexAdmin") || User.IsInRole("SuperAdmin"))
+            else if (User.HasClaim("Quotations", "IndexAdmin") || User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction(nameof(IndexAdmin));
             }

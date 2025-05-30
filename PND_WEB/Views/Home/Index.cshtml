@@ -48,6 +48,35 @@
     </div>
 
     <div class="row">
+        <!-- Top 3 Customers -->
+        <div class="col-md-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">TOP 3 CUSTOMERS WITH MOST BOOKINGS</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var customer in ViewBag.TopCustomers)
+                        {
+                            <div class="col-md-4">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <em class="fa fa-building-o fa-2x"></em>
+                                        </div>
+                                        <h5 class="card-title">@customer.CompanyName</h5>
+                                        <p class="card-text">
+                                            <span class="badge bg-primary">@customer.BookingCount Bookings</span>
+                                        </p>
+                                        <div class="text-muted">Customer ID: @customer.CustomerId</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <!-- Recent Orders -->
         <div class="col-md-12">
@@ -152,5 +181,8 @@
 </div>
 
 @section Scripts {
-    <script src="https://kit.fontawesome.com/your-code.js" crossorigin="anonymous"></script>
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/components/SelectList.js"></script>
 }
