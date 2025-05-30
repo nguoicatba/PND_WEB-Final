@@ -123,7 +123,22 @@
                                             @Html.DisplayFor(modelItem => item.BookingId)
                                         </td>
                                         <td>
-                                            @Html.DisplayFor(modelItem => item.Status)
+                                            @if (item.Status == "Hoàn thành")
+                                            {
+                                                <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Đã hủy")
+                                            {
+                                                <span class="badge badge-inverse">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Chờ lấy hàng")
+                                            {
+                                                <span class="badge badge-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Đang vận chuyển")
+                                            {
+                                                <span class="badge badge-purple">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
                                         </td>
                                         <td>
                                             @Html.DisplayFor(modelItem => item.StaffName)
