@@ -86,7 +86,21 @@ namespace PND_WEB.Controllers
 
         //Booking 
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
+        {
+
+            if (User.HasClaim("BookingComfirm", "IndexUser"))
+            {
+                return RedirectToAction(nameof(IndexUser));
+            }
+            else if (User.HasClaim("BookingComfirm", "IndexAdmin") || User.IsInRole("SuperAdmin"))
+            {
+                return RedirectToAction(nameof(IndexAdmin));
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> IndexUser()
         {
             var username = User.Identity.Name;
             var user = await _userManager.FindByNameAsync(username);
@@ -97,6 +111,16 @@ namespace PND_WEB.Controllers
 
             return View(booking);
         }
+
+        public async Task<IActionResult> IndexAdmin()
+        {
+            var booking = await _context.TblBookingConfirms
+                .ToListAsync();
+
+            return View(booking);
+        }
+
+        [ClaimAuthorize("BookingComfirm", "Create")]
         public async Task<IActionResult> Create()
         {
             var username = User.Identity.Name;
@@ -140,7 +164,7 @@ namespace PND_WEB.Controllers
             return View(booking);
         }
 
-
+        [ClaimAuthorize("BookingComfirm", "Details")]
         // GET: TblBookingConfirm/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -161,6 +185,7 @@ namespace PND_WEB.Controllers
             return View(booking);
         }
 
+        [ClaimAuthorize("BookingComfirm", "Edit")]
         // GET: TblBookingConfirm/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
@@ -240,6 +265,8 @@ namespace PND_WEB.Controllers
             return View(booking);
         }
 
+
+        [ClaimAuthorize("BookingComfirm", "Delete")]
         // POST: TblBookingConfirm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

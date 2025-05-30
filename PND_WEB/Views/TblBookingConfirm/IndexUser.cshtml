@@ -1,0 +1,93 @@
+﻿@model IEnumerable<PND_WEB.Models.TblBookingConfirm>
+@{
+    ViewData["Title"] = "Index";
+}
+@await Component.InvokeAsync("HeaderBody", new { Title = "Booking", SubTitle = "Danh sách booking" })
+
+<div class="card">
+    <div class="card-body">
+        <p>
+            <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>
+        </p>
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+            <thead class="">
+                <tr>
+                    <th>Action</th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.BookingId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Status)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.StaffName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CreatedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Contact)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CustomerId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PICcompany)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.BookingId" class="btn btn-success btn-xs">
+                                <i class="fa fa-edit"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.BookingId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                            <a asp-action="ExportPDFBooking" asp-route-id="@item.BookingId" class="btn btn-info btn-xs" target="_blank">
+                                <i class="fa fa-print"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a asp-action="Details" asp-route-id="@item.BookingId">@Html.DisplayFor(modelItem => item.BookingId)</a>
+                        </td>
+                        <td>
+                            @if (item.Status == "Hoàn thành")
+                            {
+                                <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                            else if (item.Status == "Đã hủy")
+                            {
+                                <span class="badge badge-inverse">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                            else if (item.Status == "Chờ lấy hàng")
+                            {
+                                <span class="badge badge-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                            else if (item.Status == "Đang vận chuyển")
+                            {
+                                <span class="badge badge-purple">@Html.DisplayFor(modelItem => item.Status)</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StaffName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Contact)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.CustomerId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PICcompany)
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

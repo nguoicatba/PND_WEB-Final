@@ -30,9 +30,18 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "CreateCharges", Description = "Chỉnh sửa phí báo giá" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "EditCharges", Description = "Xóa phí báo giá" },
 
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "IndexUser", Description = "Xem báo giá" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "IndexAdmin", Description = "Xem báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "IndexUser", Description = "Xem báo giá user" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "IndexAdmin", Description = "Xem báo giá admin" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Quotation", ClaimValue = "DetailsCharges", Description = "Xem chi tiết báo giá" },
+
+                    //booking confirm
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "Create", Description = "Tạo booking mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "Edit", Description = "Chỉnh booking giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "Delete", Description = "Xóa báo giá" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "Details", Description = "Xem chi tiết booking" },
+
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "IndexUser", Description = "Xem booking user" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BookingComfirm", ClaimValue = "IndexAdmin", Description = "Xem booking admin" },
 
 
                     // tạm ứng thanh toán check
