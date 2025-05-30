@@ -6,10 +6,10 @@ using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
-    public class SellChargeController : Controller
+    public class BehalfChargeController : Controller
     {
         private readonly DataContext _context;
-        public SellChargeController(DataContext context)
+        public BehalfChargeController(DataContext context)
         {
             _context = context;
         }
@@ -17,28 +17,21 @@ namespace PND_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> Index(string id)
         {
-            var SellCharges = await _context.TblHblCharges
-                .Where(c => c.HblId == id && c.Sell == true)
+            var BehalfCharges = await _context.TblHblCharges
+                .Where(c => c.HblId == id && c.Behalf == true)
                 .ToListAsync();
 
-            var sellChargeVM = new SellChargeVM
+            BehalfChargeVM behalfChargeVM = new BehalfChargeVM
             {
                 HBL_Id = id,
-                _charges = SellCharges.Select(c => new SellChargeEM
+                _charges = BehalfCharges.Select(c => new BehalfChargeEM
                 {
                     ChargeId = c.ChargeId,
-
-                    CustomerID = c.CustomerId,
-                    CustomerName = _context.TblCustomers
-                    .Where(s => s.CustomerId == c.CustomerId)
-                    .Select(s => s.CompanyName)
-                    .FirstOrDefault() == null
-                    ? "Unknown Customer"
-                    : _context.TblCustomers
-                        .Where(s => s.CustomerId == c.CustomerId)
-                        .Select(s => s.CompanyName)
+                    SupplierId = c.SupplierId,
+                    SupplierName = _context.TblSuppliers
+                        .Where(s => s.SupplierId == c.SupplierId)
+                        .Select(s => s.NameSup)
                         .FirstOrDefault(),
-
                     SerName = c.SerName,
                     SerUnit = c.SerUnit,
                     SerQuantity = c.SerQuantity,
@@ -51,56 +44,55 @@ namespace PND_WEB.Controllers
                     CreatedDate = c.CreatedDate,
                     UpdatedDate = c.UpdatedDate,
                     InvoiceNo = c.InvoiceNo,
-                    Sell = c.Sell,
+                    Behalf = c.Behalf,
                     HblId = c.HblId
                 }).ToList()
             };
 
-            return View(sellChargeVM);
+            return View(behalfChargeVM);
         }
 
         [HttpGet]
         public IActionResult Create(string id)
         {
-            var sellChargeEM = new SellChargeEM
+            var behalfChargeEM = new BehalfChargeEM
             {
                 HblId = id,
                 CreatedDate = DateTime.Now,
-                Sell = true,
+                Behalf = true
             };
-            return View(sellChargeEM);
+            return View(behalfChargeEM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(SellChargeEM sellChargeEM)
+        public async Task<IActionResult> Create(BehalfChargeEM behalfChargeEM)
         {
             if (ModelState.IsValid)
             {
                 var charge = new TblHblCharges
                 {
                     ChargeId = Guid.NewGuid().ToString(),
-                    CustomerId = sellChargeEM.CustomerID,
-
-                    SerName = sellChargeEM.SerName,
-                    SerUnit = sellChargeEM.SerUnit,
-                    SerQuantity = sellChargeEM.SerQuantity,
-                    SerPrice = sellChargeEM.SerPrice,
-                    Currency = sellChargeEM.Currency,
-                    ExchangeRate = sellChargeEM.ExchangeRate,
-                    SerVat = sellChargeEM.SerVat,
-                    MVat = sellChargeEM.MVat,
+                    SupplierId = behalfChargeEM.SupplierId,
+                    SerName = behalfChargeEM.SerName,
+                    SerUnit = behalfChargeEM.SerUnit,
+                    SerQuantity = behalfChargeEM.SerQuantity,
+                    SerPrice = behalfChargeEM.SerPrice,
+                    Currency = behalfChargeEM.Currency,
+                    ExchangeRate = behalfChargeEM.ExchangeRate,
+                    SerVat = behalfChargeEM.SerVat,
+                    MVat = behalfChargeEM.MVat,
                     Checked = false,
                     CreatedDate = DateTime.Now,
-                    Sell = true,
-                    HblId = sellChargeEM.HblId
+                    Behalf = true,
+                    HblId = behalfChargeEM.HblId
                 };
 
                 _context.Add(charge);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index), new { id = sellChargeEM.HblId });
+                return RedirectToAction(nameof(Index), new { id = behalfChargeEM.HblId });
             }
-            return View(sellChargeEM);
+            return View(behalfChargeEM);
         }
 
         [HttpGet]
@@ -117,13 +109,13 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var sellChargeEM = new SellChargeEM
+            var behalfChargeEM = new BehalfChargeEM
             {
                 ChargeId = charge.ChargeId,
-                CustomerID = charge.CustomerId,
-                CustomerName = await _context.TblCustomers
-                    .Where(s => s.CustomerId == charge.CustomerId)
-                    .Select(s => s.CompanyName)
+                SupplierId = charge.SupplierId,
+                SupplierName = await _context.TblSuppliers
+                    .Where(s => s.SupplierId == charge.SupplierId)
+                    .Select(s => s.NameSup)
                     .FirstOrDefaultAsync(),
                 SerName = charge.SerName,
                 SerUnit = charge.SerUnit,
@@ -137,18 +129,18 @@ namespace PND_WEB.Controllers
                 CreatedDate = charge.CreatedDate,
                 UpdatedDate = charge.UpdatedDate,
                 InvoiceNo = charge.InvoiceNo,
-                Sell = charge.Sell,
+                Behalf = charge.Behalf,
                 HblId = charge.HblId
             };
 
-            return View(sellChargeEM);
+            return View(behalfChargeEM);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, SellChargeEM sellChargeEM)
+        public async Task<IActionResult> Edit(string id, BehalfChargeEM behalfChargeEM)
         {
-            if (id != sellChargeEM.ChargeId)
+            if (id != behalfChargeEM.ChargeId)
             {
                 return NotFound();
             }
@@ -163,15 +155,15 @@ namespace PND_WEB.Controllers
                         return NotFound();
                     }
 
-                    charge.CustomerId= sellChargeEM.CustomerID;
-                    charge.SerName = sellChargeEM.SerName;
-                    charge.SerUnit = sellChargeEM.SerUnit;
-                    charge.SerQuantity = sellChargeEM.SerQuantity;
-                    charge.SerPrice = sellChargeEM.SerPrice;
-                    charge.Currency = sellChargeEM.Currency;
-                    charge.ExchangeRate = sellChargeEM.ExchangeRate;
-                    charge.SerVat = sellChargeEM.SerVat;
-                    charge.MVat = sellChargeEM.MVat;
+                    charge.SupplierId = behalfChargeEM.SupplierId;
+                    charge.SerName = behalfChargeEM.SerName;
+                    charge.SerUnit = behalfChargeEM.SerUnit;
+                    charge.SerQuantity = behalfChargeEM.SerQuantity;
+                    charge.SerPrice = behalfChargeEM.SerPrice;
+                    charge.Currency = behalfChargeEM.Currency;
+                    charge.ExchangeRate = behalfChargeEM.ExchangeRate;
+                    charge.SerVat = behalfChargeEM.SerVat;
+                    charge.MVat = behalfChargeEM.MVat;
                     charge.UpdatedDate = DateTime.Now;
 
                     _context.Update(charge);
@@ -179,7 +171,7 @@ namespace PND_WEB.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!await ChargeExists(sellChargeEM.ChargeId))
+                    if (!await ChargeExists(behalfChargeEM.ChargeId))
                     {
                         return NotFound();
                     }
@@ -188,9 +180,9 @@ namespace PND_WEB.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index), new { id = sellChargeEM.HblId });
+                return RedirectToAction(nameof(Index), new { id = behalfChargeEM.HblId });
             }
-            return View(sellChargeEM);
+            return View(behalfChargeEM);
         }
 
         [HttpGet]
@@ -208,14 +200,13 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            var sellChargeEM = new SellChargeEM
+            var behalfChargeEM = new BehalfChargeEM
             {
                 ChargeId = charge.ChargeId,
-
-                CustomerID = charge.CustomerId,
-                CustomerName = await _context.TblCustomers
-                    .Where(s => s.CustomerId == charge.CustomerId)
-                    .Select(s => s.CompanyName)
+                SupplierId = charge.SupplierId,
+                SupplierName = await _context.TblSuppliers
+                    .Where(s => s.SupplierId == charge.SupplierId)
+                    .Select(s => s.NameSup)
                     .FirstOrDefaultAsync(),
                 SerName = charge.SerName,
                 SerUnit = charge.SerUnit,
@@ -229,11 +220,11 @@ namespace PND_WEB.Controllers
                 CreatedDate = charge.CreatedDate,
                 UpdatedDate = charge.UpdatedDate,
                 InvoiceNo = charge.InvoiceNo,
-                Sell = charge.Sell,
+                Behalf = charge.Behalf,
                 HblId = charge.HblId
             };
 
-            return View(sellChargeEM);
+            return View(behalfChargeEM);
         }
 
         [HttpPost, ActionName("Delete")]
@@ -256,17 +247,17 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
-        public async Task<JsonResult> CustomerGet(string q = "", int page = 1)
+        public async Task<JsonResult> CurrencyGet(string q = "", int page = 1)
         {
             int pageSize = 10;
-            var query = q == "" ? _context.TblCustomers : _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var query = q == "" ? _context.Currencies : _context.Currencies.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CurrName.ToLower().Contains(q.ToLower()));
             var totalCount = await query.CountAsync();
             var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.CustomerId,
-                text = data.CompanyName,
+                id = data.Code,
+                text = data.CurrName,
                 disabled = false
             }).ToList();
 
@@ -275,7 +266,7 @@ namespace PND_WEB.Controllers
                 items.Insert(0, new
                 {
                     id = "-1",
-                    text = "Select Customer",
+                    text = "Select Currency",
                     disabled = true
                 });
             }
@@ -287,12 +278,10 @@ namespace PND_WEB.Controllers
                 header = new
                 {
                     header_code = "Code",
-                    header_name = "Customer Name"
+                    header_name = "Currency Name"
                 }
             });
         }
-
-      
 
         [HttpGet]
         public async Task<JsonResult> FeeGet(string q = "", int page = 1)
@@ -313,10 +302,12 @@ namespace PND_WEB.Controllers
                 unit = data.Unit,
                 disabled = false
             }).ToList();
+
             if (page == 1)
             {
                 items.Insert(0, new { id = "-1", text = "Select Fee", unit = "", disabled = true });
             }
+
             return Json(new
             {
                 items = items,
@@ -368,75 +359,40 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetBuyCharges(string hblId)
+        public async Task<JsonResult> SupplierGet(string q = "", int page = 1)
         {
-            var buyCharges = await _context.TblHblCharges
-                .Where(c => c.HblId == hblId && c.Buy == true)
-                .Select(c => new BuyChargeEM
-                {
-                    ChargeId = c.ChargeId,
-                    SupplierId = c.SupplierId,
-                    SupplierName = _context.TblSuppliers
-                        .Where(s => s.SupplierId == c.SupplierId)
-                        .Select(s => s.NameSup)
-                        .FirstOrDefault(),
-                    SerName = c.SerName,
-                    SerUnit = c.SerUnit,
-                    SerQuantity = c.SerQuantity,
-                    SerPrice = c.SerPrice,
-                    Currency = c.Currency,
-                    ExchangeRate = c.ExchangeRate,
-                    SerVat = c.SerVat,
-                    MVat = c.MVat,
-                    HblId = c.HblId
-                })
-                .ToListAsync();
-
-            return PartialView("_BuyChargesPartial", buyCharges);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> ImportBuyCharges([FromBody] ImportBuyCharges request)
-        {
-            if (request.ChargeIds == null)
+            int pageSize = 10;
+            var query = q == "" ? _context.TblSuppliers : _context.TblSuppliers.Where(data => data.SupplierId.ToLower().Contains(q.ToLower()) || data.NameSup.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
             {
-                return Json(new { success = false, message = "Invalid input data." });
-            }   
-            try
-            {
-                var buyCharges = await _context.TblHblCharges
-                    .Where(c => request.ChargeIds.Contains(c.ChargeId))
-                    .ToListAsync();
+                id = data.SupplierId,
+                text = data.NameSup,
+                disabled = false
+            }).ToList();
 
-              
-              
-                var newSellCharges = buyCharges.Select(bc => new TblHblCharges
+            if (page == 1)
+            {
+                items.Insert(0, new
                 {
-                    ChargeId = Guid.NewGuid().ToString(),
-                    CustomerId = null, // Set customer ID to null as requested
-                    SerName = bc.SerName,
-                    SerUnit = bc.SerUnit,
-                    SerQuantity = bc.SerQuantity,
-                    SerPrice = bc.SerPrice,
-                    Currency = bc.Currency,
-                    ExchangeRate = bc.ExchangeRate,
-                    SerVat = bc.SerVat,
-                    MVat = bc.MVat,
-                    Checked = false,
-                    CreatedDate = DateTime.Now,
-                    Sell = true,
-                    HblId = request.HblId
+                    id = "-1",
+                    text = "Select Supplier",
+                    disabled = true
                 });
-
-                await _context.TblHblCharges.AddRangeAsync(newSellCharges);
-                await _context.SaveChangesAsync();
-
-                return Json(new { success = true });
             }
-            catch (Exception ex)
+
+            return Json(new
             {
-                return Json(new { success = false, message = ex.Message });
-            }
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Supplier Name"
+                }
+            });
         }
     }
 } 
