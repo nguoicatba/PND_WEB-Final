@@ -35,7 +35,7 @@ namespace PND_WEB.Controllers
                 .ToListAsync();
 
             var groupedData = bookings
-                .GroupBy(q => q.BookingId.Substring(7, 2))
+                .GroupBy(q => q.BookingId.Substring(6, 2))
                 .Select(g => new ThongKeBookingViewModel
                 {
                     Thang = g.Key,
@@ -47,11 +47,11 @@ namespace PND_WEB.Controllers
             var staffMonthStats = bookings;
             if (!string.IsNullOrEmpty(thang))
             {
-                staffMonthStats = staffMonthStats.Where(q => q.BookingId.Substring(7, 2) == thang).ToList();
+                staffMonthStats = staffMonthStats.Where(q => q.BookingId.Substring(6, 2) == thang).ToList();
             }
 
             var staffMonthGrouped = staffMonthStats
-                .GroupBy(q => new { StaffName = q.StaffName, Month = q.BookingId.Substring(7, 2) })
+                .GroupBy(q => new { StaffName = q.StaffName, Month = q.BookingId.Substring(6, 2) })
                 .Select(g => new ThongKeNguoiDungTheoThangViewModel
                 {
                     StaffName = g.Key.StaffName,

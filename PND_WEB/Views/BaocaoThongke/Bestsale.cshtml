@@ -81,7 +81,7 @@
                                     <tr>
                                         <th>Nhân viên</th>
                                         <th>Tháng</th>
-                                        <th class="text-center">Số lượng vận đơn</th>
+                                        <th class="text-center">Số lượng booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -130,7 +130,7 @@
             var data = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
                 datasets: [{
-                    label: 'Vận đơn',
+                    label: 'Booking',
                     data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#9ED86E',
                     borderColor: '#9ED86E',
@@ -152,12 +152,12 @@
                         ticks: {
                             stepSize: 20,
                             callback: function(value) {
-                                return value + ' vận đơn';
+                                return value + ' booking';
                             }
                         },
                         title: {
                             display: true,
-                            text: 'Số lượng vận đơn'
+                            text: 'Số lượng booking'
                         }
                     },
                     x: {
@@ -194,7 +194,7 @@
             var staffData = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => $"'{x.StaffName} - Tháng {x.Thang}'")))],
                 datasets: [{
-                    label: 'Vận đơn',
+                    label: 'booking',
                     data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#4B89DC',
                     borderColor: '#4B89DC',
@@ -215,12 +215,12 @@
                         },
                         ticks: {
                             callback: function(value) {
-                                return value + ' vận đơn';
+                                return value + ' booking';
                             }
                         },
                         title: {
                             display: true,
-                            text: 'Số lượng vận đơn'
+                            text: 'Số lượng booking'
                         }
                     },
                     x: {
