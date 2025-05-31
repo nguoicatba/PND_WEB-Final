@@ -607,7 +607,7 @@ namespace PND_WEB.Data
                     // Tháng 1 (4 bookings)
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202501001",
+                        BookingId = "BK202501001",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 1, 15),
                         GoodType = "FCLI",
@@ -638,7 +638,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202501002",
+                        BookingId = "BK202501002",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 1, 18),
                         GoodType = "FCLE",
@@ -669,7 +669,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202501003",
+                        BookingId = "BK202501003",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 1, 22),
                         GoodType = "AI",
@@ -700,7 +700,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202501004",
+                        BookingId = "BK202501004",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 1, 25),
                         GoodType = "LCLI",
@@ -733,7 +733,7 @@ namespace PND_WEB.Data
                     // Tháng 2 (3 bookings)
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202502001",
+                        BookingId = "BK202502001",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 2, 5),
                         GoodType = "FCLE",
@@ -764,7 +764,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202502002",
+                        BookingId = "BK202502002",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 2, 15),
                         GoodType = "AE",
@@ -795,7 +795,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202502003",
+                        BookingId = "BK202502003",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 2, 25),
                         GoodType = "LCLI",
@@ -828,7 +828,7 @@ namespace PND_WEB.Data
                     // Tháng 3 (5 bookings)
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202503001",
+                        BookingId = "BK202503001",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 3, 2),
                         GoodType = "FCLI",
@@ -859,7 +859,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202503002",
+                        BookingId = "BK202503002",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 3, 8),
                         GoodType = "FCLE",
@@ -890,7 +890,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202503003",
+                        BookingId = "BK202503003",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 3, 15),
                         GoodType = "AI",
@@ -921,7 +921,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202503004",
+                        BookingId = "BK202503004",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 3, 22),
                         GoodType = "LCLE",
@@ -952,7 +952,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202503005",
+                        BookingId = "BK202503005",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 3, 28),
                         GoodType = "FCLI",
@@ -985,7 +985,7 @@ namespace PND_WEB.Data
                     // Tháng 4 (4 bookings)
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202504001",
+                        BookingId = "BK202504001",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 4, 5),
                         GoodType = "FCLE",
@@ -1016,7 +1016,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202504002",
+                        BookingId = "BK202504002",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 4, 12),
                         GoodType = "AE",
@@ -1047,7 +1047,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202504003",
+                        BookingId = "BK202504003",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 4, 18),
                         GoodType = "LCLI",
@@ -1078,7 +1078,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202504004",
+                        BookingId = "BK202504004",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 4, 25),
                         GoodType = "FCLI",
@@ -1111,7 +1111,7 @@ namespace PND_WEB.Data
                     // Tháng 5 (5 bookings)
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202505001",
+                        BookingId = "BK202505001",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 5, 3),
                         GoodType = "FCLE",
@@ -1142,7 +1142,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202505002",
+                        BookingId = "BK202505002",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 5, 10),
                         GoodType = "AI",
@@ -1173,7 +1173,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202505003",
+                        BookingId = "BK202505003",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 5, 15),
                         GoodType = "FCLI",
@@ -1204,7 +1204,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202505004",
+                        BookingId = "BK202505004",
                         CustomerId = "132132",
                         BookingDate = new DateTime(2025, 5, 20),
                         GoodType = "LCLE",
@@ -1235,7 +1235,7 @@ namespace PND_WEB.Data
                     },
                     new TblBookingConfirm
                     {
-                        BookingId = "BKC202505005",
+                        BookingId = "BK202505005",
                         CustomerId = "0108111428",
                         BookingDate = new DateTime(2025, 5, 25),
                         GoodType = "FCLE",
