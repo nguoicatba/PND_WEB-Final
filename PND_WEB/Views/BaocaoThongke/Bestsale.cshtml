@@ -5,7 +5,7 @@
         <div class="card card-default">
             <div class="card-header">
                 <div class="float-left">
-                    <h4 class="card-title mb-0">Số lượng vận đơn theo tháng năm @Model.Nam</h4>
+                    <h4 class="card-title mb-0">Số lượng booking theo tháng năm @Model.Nam</h4>
                 </div>
                 <div class="float-right">
                     <form method="get" class="form-inline">
@@ -40,11 +40,11 @@
                     <h4 class="card-title mb-0">
                         @if (string.IsNullOrEmpty(Model.Thang))
                         {
-                            <span>Số lượng vận đơn theo nhân viên và tháng năm @Model.Nam</span>
+                            <span>Số lượng booking theo nhân viên và tháng năm @Model.Nam</span>
                         }
                         else
                         {
-                            <span>Số lượng vận đơn theo nhân viên tháng @Model.Thang năm @Model.Nam</span>
+                            <span>Số lượng booking theo nhân viên tháng @Model.Thang năm @Model.Nam</span>
                         }
                     </h4>
                 </div>
