@@ -1,72 +1,79 @@
 @model PND_WEB.ViewModels.BehalfChargeVM
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Details";
 }
+
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
 
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <!-- START card-->
-        <div class="card card-default">
-            <div class="card-header bg-success">
-                <div class="row">
-                    <div class="col-md-6">
-                        <h4 class="m-0">Behalf Charges</h4>
-                    </div>
-                    <div class="col-md-6 text-right">
-                        <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-outline-light">Create New</a>
-                    </div>
-                </div>
-            </div>
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About HBL: @Model.HBL_Id</div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered table-hover">
-                        <thead>
-                            <tr>
-                                <th>Supplier</th>
-                                <th>Name Fee</th>
-                                <th>Unit</th>
-                                <th>Quantity</th>
-                                <th>Price</th>
-                                <th>Currency</th>
-                                <th>Exchange Rate</th>
-                                <th>VAT</th>
-                                <th>M VAT</th>
-                                <th>Created Date</th>
-                                <th>Updated Date</th>
-                                <th>Invoice No</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model._charges)
-                            {
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                    @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+                        <div class="d-flex align-items-center">
+                            <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
+                                <span class="btn-label">
+                                <i class="fa fa-plus-square-o"></i>
+                                </span>New Charge
+                            </a>
+                        </div>
+                        <br />
+
+                        <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
+                            <thead class="bg bg-secondary">
                                 <tr>
-                                    <td>@item.SupplierName</td>
-                                    <td>@item.SerName</td>
-                                    <td>@item.SerUnit</td>
-                                    <td>@item.SerQuantity</td>
-                                    <td>@item.SerPrice</td>
-                                    <td>@item.Currency</td>
-                                    <td>@item.ExchangeRate</td>
-                                    <td>@item.SerVat</td>
-                                    <td>@item.MVat</td>
-                                    <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                    <td>@(item.UpdatedDate.HasValue ? item.UpdatedDate.Value.ToString("dd/MM/yyyy") : "")</td>
-                                    <td>@item.InvoiceNo</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-warning btn-sm">Edit</a>
-                                            <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-sm">Delete</a>
-                                        </div>
-                                    </td>
+                                    <th>Action</th>
+                                    <th>Supplier</th>
+                                    <th>Name Fee</th>
+                                    <th>Unit</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Currency</th>
+                                    <th>Exchange Rate</th>
+                                    <th>VAT</th>
+                                    <th>M VAT</th>
+                                    <th>Created Date</th>
+                                    <th>Updated Date</th>
+                                    <th>Invoice No</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model._charges)
+                                {
+                                    <tr>
+                                        <td>
+                                            <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                            <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                        </td>
+                                        <td>@item.SupplierName</td>
+                                        <td>@item.SerName</td>
+                                        <td>@item.SerUnit</td>
+                                        <td>@item.SerQuantity</td>
+                                        <td>@item.SerPrice</td>
+                                        <td>@item.Currency</td>
+                                        <td>@item.ExchangeRate</td>
+                                        <td>@item.SerVat</td>
+                                        <td>@item.MVat</td>
+                                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
+                                        <td>@(item.UpdatedDate.HasValue ? item.UpdatedDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                                        <td>@item.InvoiceNo</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div> 
+</div>
+
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id }) 

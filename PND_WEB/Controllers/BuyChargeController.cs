@@ -246,6 +246,64 @@ namespace PND_WEB.Controllers
             return await _context.TblHblCharges.AnyAsync(e => e.ChargeId == id);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ApproveCharges([FromBody] ApproveChargesEM request)
+        {
+            if (!User.HasClaim("AllInvoice", "Check"))
+            {
+                return Json(new { success = false, message = "Unauthorized access." });
+            }
+
+            try
+            {
+                var chargeIds = request.chargegroup.Select(c => c.chargeid).ToList();
+                var charges = await _context.TblHblCharges
+                    .Where(c => chargeIds.Contains(c.ChargeId) && c.HblId == request.hblId)
+                    .ToListAsync();
+
+                if (!charges.Any())
+                {
+                    return Json(new { success = false, message = "No charges found to update." });
+                }
+
+                // Group charges by supplier for invoice number generation
+                var supplierGroups = charges.GroupBy(c => c.SupplierId);
+                foreach (var group in supplierGroups)
+                {
+                    string invoiceNo = null;
+                    var chargesToCheck = group.Where(c => 
+                        request.chargegroup.First(cg => cg.chargeid == c.ChargeId).isSelected && 
+                        (c.Checked == null || c.Checked == false)).ToList();
+
+                    if (chargesToCheck.Any())
+                    {
+                        // Generate invoice number: SUP{SupplierID}_{Timestamp}
+                        invoiceNo = $"SUP{group.Key}_{DateTime.Now:yyyyMMddHHmmss}";
+                    }
+
+                    foreach (var charge in group)
+                    {
+                        var chargeInfo = request.chargegroup.First(c => c.chargeid == charge.ChargeId);
+                        charge.Checked = chargeInfo.isSelected;
+                        charge.UpdatedDate = DateTime.Now;
+
+                        // Only set invoice number if we're checking the charge and it doesn't already have one
+                        if (chargeInfo.isSelected && string.IsNullOrEmpty(charge.InvoiceNo))
+                        {
+                            charge.InvoiceNo = invoiceNo;
+                        }
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Charges updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error updating charges: {ex.Message}" });
+            }
+        }
+
         [HttpGet]
         public async Task<JsonResult> CurrencyGet(string q = "", int page = 1)
         {

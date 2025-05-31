@@ -18,9 +18,14 @@
                     @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
                     <!-- Tab panes-->
                     <div class="tab-content">
-                        <p>
-                            <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-primary btn-xs">New Charge</a>
-                        </p>
+                        <div class="d-flex align-items-center">
+                            <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
+                                <span class="btn-label">
+                                <i class="fa fa-plus-square-o"></i>
+                                </span>New Charge
+                            </a>
+                        </div>
+                        <br />
 
                         <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
                             <thead class="bg bg-secondary">
