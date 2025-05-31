@@ -20,14 +20,16 @@ namespace PND_WEB.Controllers
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
         private readonly BudgetService _budgetService;
+        private readonly BudgetServiceStaff _budgetServiceStaff;
 
         public TamUngThanhToanCheckController(DataContext context, IConverter converter,
-            IViewRenderService viewRenderService, BudgetService budgetService)
+            IViewRenderService viewRenderService, BudgetService budgetService, BudgetServiceStaff budgetServicestaff)
         {
             _context = context;
             _converter = converter;
             _viewRenderService = viewRenderService;
             _budgetService = budgetService;
+            _budgetServiceStaff = budgetServicestaff;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -110,6 +112,28 @@ namespace PND_WEB.Controllers
         }
 
 
+        public IActionResult EditBudgetStaff()
+        {
+            var viewModel = new BudgetLimitViewModelStaff
+            {
+                LimitStaff = _budgetServiceStaff.GetLimit()
+            };
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult EditBudgetStaff(BudgetLimitViewModelStaff model)
+        {
+            if (ModelState.IsValid)
+            {
+                _budgetServiceStaff.SetLimit(model.LimitStaff);
+            }
+
+            return RedirectToAction(nameof(CheckCeo));
+        }
+
 
 
         //[ClaimAuthorize("TamUngThanhToanCheck", "Check")]
@@ -132,7 +156,7 @@ namespace PND_WEB.Controllers
             var tutts = await _context.TblTutts
                 .Include(t => t.TblTuttPhis)
                 .Where(t => t.xacnhanduyet == true)
-                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= 500000)
+                .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) >= (double)_budgetServiceStaff.GetLimit())
                 .ToListAsync();
 
             TuttViewCheckModel model = new TuttViewCheckModel
@@ -149,7 +173,7 @@ namespace PND_WEB.Controllers
             var tutts = await _context.TblTutts
                .Include(t => t.TblTuttPhis)
                .Where(t => t.xacnhanduyet == true)
-               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < 500000)
+               .Where(t => t.TblTuttPhis.Sum(p => p.SoTien ?? 0) < (double)_budgetServiceStaff.GetLimit())
                .ToListAsync();
 
             TuttViewCheckModel model = new TuttViewCheckModel

@@ -1,0 +1,36 @@
+﻿@model BudgetLimitViewModelStaff
+
+@{
+    ViewData["Title"] = "Sửa hạn mức";
+}
+
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa hạn mức tạm ứng / thanh toán cho nhân viên", SubTitle = "Sửa hạn mức tạm ứng / thanh toán" })
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">EDIT BUDGET STAFF</div>
+            <div class="card-body">
+                <form asp-action="EditBudgetStaff" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group">
+                        <label asp-for="LimitStaff" class="control-label">Hạn mức nhân viên</label>
+                        <input asp-for="LimitStaff" class="form-control" />
+                        <span asp-validation-for="LimitStaff" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-success btn-xs" />
+                        <a asp-action="CheckCeo" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
