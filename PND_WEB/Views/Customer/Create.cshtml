@@ -5,12 +5,12 @@
 }
 
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới khách hàng", SubTitle = "Thêm mới thông tin khách hàng" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm khách hàng", SubTitle = "khách hàng" })
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Tạo khách hàng</div>
+            <div class="card-header">CREATE CUSTOMER</div>
             <div class="card-body">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -72,18 +72,13 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
                     </div>
-
-
                 </form>
             </div>
         </div>
 
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-        <!-- END card-->
     </div>
 </div>
 
