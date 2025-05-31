@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div class="card-body">
-                <canvas id="quotationChart" style="height: 300px;"></canvas>
+                <canvas id="bookingChart" style="height: 300px;"></canvas>
             </div>
         </div>
     </div>
@@ -90,7 +90,7 @@
                                         <tr>
                                             <td>@stat.StaffName</td>
                                             <td>@stat.Thang</td>
-                                            <td class="text-center">@stat.SoLuongQuotation</td>
+                                            <td class="text-center">@stat.SoLuongBooking</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -126,12 +126,12 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             // Biểu đồ thống kê theo tháng
-            var ctx = document.getElementById('quotationChart').getContext('2d');
+            var ctx = document.getElementById('bookingChart').getContext('2d');
             var data = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
                 datasets: [{
                     label: 'Vận đơn',
-                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongQuotation))],
+                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#9ED86E',
                     borderColor: '#9ED86E',
                     borderWidth: 0,
@@ -195,7 +195,7 @@
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => $"'{x.StaffName} - Tháng {x.Thang}'")))],
                 datasets: [{
                     label: 'Vận đơn',
-                    data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongQuotation))],
+                    data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#4B89DC',
                     borderColor: '#4B89DC',
                     borderWidth: 0,

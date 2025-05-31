@@ -6,27 +6,27 @@ namespace PND_WEB.ViewModels
     {
         public int Nam { get; set; }
         public string Thang { get; set; }
-        public List<ThongKeQuotationViewModel> ThongKeTheoThang { get; set; } = new();
+        public List<ThongKeBookingViewModel> ThongKeTheoThang { get; set; } = new();
         public List<ThongKeNguoiDungViewModel> ThongKeTheoNguoiDung { get; set; } = new();
         public List<ThongKeNguoiDungTheoThangViewModel> ThongKeNguoiDungTheoThang { get; set; } = new();
     }
 
-    public class ThongKeQuotationViewModel
+    public class ThongKeBookingViewModel
     {
         public string Thang { get; set; }
-        public int SoLuongQuotation { get; set; }
+        public int SoLuongBooking { get; set; }
     }
 
     public class ThongKeNguoiDungViewModel
     {
         public string StaffName { get; set; }
-        public int SoLuongQuotation { get; set; }
+        public int SoLuongBooking { get; set; }
     }
 
     public class ThongKeNguoiDungTheoThangViewModel
     {
         public string StaffName { get; set; }
         public string Thang { get; set; }
-        public int SoLuongQuotation { get; set; }
+        public int SoLuongBooking { get; set; }
     }
 }

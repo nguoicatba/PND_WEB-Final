@@ -25,49 +25,49 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Bestsale(int? nam, string? thang)
         {
             int namThongKe = nam ?? DateTime.Now.Year;
-            string yearPattern = $"QTN{namThongKe}";
+            string yearPattern = $"BK{namThongKe}";
 
-            var excludedStatuses = new[] { "Đang đàm phán", "Đã hủy" };
+            var excludedStatuses = new[] { "Chờ lấy hàng", "Đã hủy" };
 
-            var quotations = await _context.Quotations
-                .Where(q => q.QuotationId.StartsWith(yearPattern)
-                         && !excludedStatuses.Contains(q.Qsatus))
+            var bookings = await _context.TblBookingConfirms
+                .Where(q => q.BookingId.StartsWith(yearPattern)
+                         && !excludedStatuses.Contains(q.Status))
                 .ToListAsync();
 
-            var groupedData = quotations
-                .GroupBy(q => q.QuotationId.Substring(7, 2))
-                .Select(g => new ThongKeQuotationViewModel
+            var groupedData = bookings
+                .GroupBy(q => q.BookingId.Substring(7, 2))
+                .Select(g => new ThongKeBookingViewModel
                 {
                     Thang = g.Key,
-                    SoLuongQuotation = g.Count()
+                    SoLuongBooking = g.Count()
                 })
                 .OrderBy(x => x.Thang)
                 .ToList();
 
-            var staffMonthStats = quotations;
+            var staffMonthStats = bookings;
             if (!string.IsNullOrEmpty(thang))
             {
-                staffMonthStats = staffMonthStats.Where(q => q.QuotationId.Substring(7, 2) == thang).ToList();
+                staffMonthStats = staffMonthStats.Where(q => q.BookingId.Substring(7, 2) == thang).ToList();
             }
 
             var staffMonthGrouped = staffMonthStats
-                .GroupBy(q => new { StaffName = q.StaffName, Month = q.QuotationId.Substring(7, 2) })
+                .GroupBy(q => new { StaffName = q.StaffName, Month = q.BookingId.Substring(7, 2) })
                 .Select(g => new ThongKeNguoiDungTheoThangViewModel
                 {
                     StaffName = g.Key.StaffName,
                     Thang = g.Key.Month,
-                    SoLuongQuotation = g.Count()
+                    SoLuongBooking = g.Count()
                 })
                 .OrderBy(x => x.StaffName)
                 .ThenBy(x => x.Thang)
                 .ToList();
 
-            //bổ sung tháng không có báo giá
+            //bổ sung tháng không có booking
             var allMonths = Enumerable.Range(1, 12)
-                .Select(month => new ThongKeQuotationViewModel
+                .Select(month => new ThongKeBookingViewModel
                 {
                     Thang = month.ToString("00"),
-                    SoLuongQuotation = groupedData.FirstOrDefault(x => x.Thang == month.ToString("00"))?.SoLuongQuotation ?? 0
+                    SoLuongBooking = groupedData.FirstOrDefault(x => x.Thang == month.ToString("00"))?.SoLuongBooking ?? 0
                 })
                 .ToList();
 
