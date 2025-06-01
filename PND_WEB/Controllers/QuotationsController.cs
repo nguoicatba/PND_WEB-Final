@@ -468,8 +468,8 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.Code,
-                text = data.Fee1,
+                id = data.Fee1,
+                text = data.Code,
                 code = data.Code,
                 disabled = false
             }).ToList();
@@ -491,8 +491,8 @@ namespace PND_WEB.Controllers
 
                 header = new
                 {
-                    header_code = "Code",
-                    header_name = "Fee"
+                    header_code = "Fee",
+                    header_name = "Code"
                 }
             });
         }
