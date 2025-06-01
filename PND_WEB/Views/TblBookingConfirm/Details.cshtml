@@ -14,92 +14,101 @@
             <div class="col-md-6">
                 <h5 class="border-bottom" style="background-color: lightgreen;">Basic info</h5>
                 <dl class="row">
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.BookingId)</dt>
+                    <dt class="col-sm-4">Booking ID</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.BookingId)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                    <dt class="col-sm-4">Status</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.StaffName)</dt>
+                    <dt class="col-sm-4">Staff Name</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffName)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Contact)</dt>
+                    <dt class="col-sm-4">Contact</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Contact)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CustomerId)</dt>
+                    <dt class="col-sm-4">Customer ID</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.CustomerId)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PICcompany)</dt>
+                    <dt class="col-sm-4">Company PIC</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.PICcompany)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedDate)</dt>
+                    <dt class="col-sm-4">Created Date</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedDate)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.UpdatedDate)</dt>
+                    <dt class="col-sm-4">Updated Date</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.UpdatedDate)</dd>
                 </dl>
 
                 <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Shipping info</h5>
                 <dl class="row">
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Shipper)</dt>
+                    <dt class="col-sm-4">Shipper</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Shipper)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CNEE)</dt>
+                    <dt class="col-sm-4">Consignee</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.CNEE)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.POL)</dt>
+                    <dt class="col-sm-4">POL</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.POL)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.POD)</dt>
+                    <dt class="col-sm-4">POD</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.POD)</dd>
                 </dl>
             </div>
             <div class="col-md-6">
                 <h5 class="border-bottom" style="background-color: lightgreen;">Commodity info</h5>
                 <dl class="row">
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GoodType)</dt>
+                    <dt class="col-sm-4">Good Type</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.GoodType)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.QuotationId)</dt>
+                    <dt class="col-sm-4">Quotation ID</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.QuotationId)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ETD)</dt>
+                    <dt class="col-sm-4">ETD</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ETD)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ETA)</dt>
+                    <dt class="col-sm-4">ETA</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ETA)</dd>
+                </dl>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.VesselName)</dt>
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Vessel info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Vessel Name</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.VesselName)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Airline)</dt>
-                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Airline)</dd>
-
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContainerType)</dt>
+                    <dt class="col-sm-4">Container Type</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerType)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContainerQuantity)</dt>
+                    <dt class="col-sm-4">Container Qty</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerQuantity)</dd>
+                </dl>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FlightNumber)</dt>
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Air info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Airline</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Airline)</dd>
+
+                    <dt class="col-sm-4">Flight Number</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.FlightNumber)</dd>
+                </dl>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PackageQuantity)</dt>
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Cargo Details</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Package Qty</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.PackageQuantity)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GrossWeight)</dt>
+                    <dt class="col-sm-4">Gross Weight</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.GrossWeight)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ChargeableWeight)</dt>
+                    <dt class="col-sm-4">Chargeable Weight</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.ChargeableWeight)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Volume)</dt>
+                    <dt class="col-sm-4">Volume</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Volume)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CargoDescription)</dt>
+                    <dt class="col-sm-4">Cargo Description</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.CargoDescription)</dd>
 
-                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Remarks)</dt>
+                    <dt class="col-sm-4">Remarks</dt>
                     <dd class="col-sm-8">@Html.DisplayFor(model => model.Remarks)</dd>
                 </dl>
             </div>
