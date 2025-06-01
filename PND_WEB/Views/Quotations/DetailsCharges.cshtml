@@ -14,94 +14,55 @@
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">About Quotation:</div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.QuotationId)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.QuotationId)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Qsatus)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Qsatus)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.StaffName)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.StaffName)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Contact)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Contact)</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.CusTo)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.CusTo)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.CusContact)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.CusContact)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Qdate)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Qdate)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Valid)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Valid)</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Term)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Term)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Commodity)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Commodity)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Vol)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Vol)</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Pol)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Pol)</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        @Html.DisplayNameFor(model => model.Quotation.Pod)
-                    </strong>
-                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Pod)</span>
-                </td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Basic Info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.QuotationId)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.QuotationId)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Qsatus)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Qsatus)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.StaffName)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.StaffName)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Contact)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Contact)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.CusTo)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.CusTo)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.CusContact)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.CusContact)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Shipping Details</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Qdate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Qdate)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Valid)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Valid)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Term)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Term)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Commodity)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Commodity)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Vol)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Vol)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Pol)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Pol)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Pod)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Pod)</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>
 
