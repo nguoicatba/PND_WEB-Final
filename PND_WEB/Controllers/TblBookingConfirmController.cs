@@ -298,7 +298,7 @@ namespace PND_WEB.Controllers
             var items = paginatedData.Select(data => new
             {
                 id = data.PortName,
-                text = data.PortName,
+                text = data.Code,
                 code = data.Code,
                 disabled = false
             }).ToList();
@@ -319,8 +319,8 @@ namespace PND_WEB.Controllers
                 total_count = totalCount,
                 header = new
                 {
-                    header_code = "Code",
-                    header_name = "Port Name"
+                    header_code = "Port Name",
+                    header_name = "Code"
                 }
             });
         }
