@@ -19,7 +19,7 @@
         : new Dictionary<string, object> { { "class", "form-control" }, { "type", "date" } };
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
-
+@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa thông tin báo giá", SubTitle = "Sửa thông tin báo giá" })
 <div class="row">
     <div class="col">
         <div class="card card-default">

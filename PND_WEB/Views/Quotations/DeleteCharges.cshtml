@@ -3,58 +3,60 @@
 @{
     ViewData["Title"] = "Delete";
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa thông tin phí báo giá", SubTitle = "Xóa thông tin phí báo giá" })
 
-<center><h1>DELETE QUOTATIONCHARGES</h1></center>
-<h3>Chi tiết phí</h3>
-<div class="card">
-    <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Tên phí:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.ChargeName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Số lượng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quantity</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Đơn vị:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Unit</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Giá:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Rate</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Tiền tệ:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Currency</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Ghi chú:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Notes</span>
-                </td>
-            </tr>
-        </table>
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">DELETE QUOTATIONCHARGES</div>
+            <div class="card-body">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        Tên phí
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.ChargeName)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Số lượng
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Quantity)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Đơn vị
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Unit)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Giá
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Rate)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Tiền tệ
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Currency)
+                    </dd>
+                    <dt class="col-sm-2">
+                        Ghi chú
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.Notes)
+                    </dd>
+                </dl>
+                <form asp-action="DeleteCharges">
+                    @if (Model.Quotation.Qsatus != "Đã hủy" && Model.Quotation.Qsatus != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
+                    {
+                        <input type="hidden" asp-for="ChargeId" />
+                        <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
+                    }
+                    <a asp-action="DetailsCharges" class="btn btn-info btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
-<form asp-action="DeleteCharges">
-    @if (Model.Quotation.Qsatus != "Đã hủy" && Model.Quotation.Qsatus != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
-        {
-            <input type="hidden" asp-for="ChargeId" />
-            <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> 
-        }
-    <a asp-action="DetailsCharges" class="btn btn-info btn-xs" asp-route-id="@Model.QuotationId">Back to List</a>
-</form>
