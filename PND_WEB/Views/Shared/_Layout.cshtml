@@ -355,7 +355,7 @@
                         
                         @* điều kiện vào check *@
 
-                        @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
+                        @if (User.IsInRole("CEO") || User.IsInRole("Accountant") || User.IsInRole("SuperAdmin"))
                         {
                             <li>
                                 <a asp-controller="TamUngThanhToanCheck" asp-action="Check">

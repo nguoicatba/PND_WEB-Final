@@ -140,7 +140,7 @@ namespace PND_WEB.Controllers
 
         public IActionResult Check()
         {
-            if (User.IsInRole("CEO"))
+            if (User.IsInRole("CEO") || User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction(nameof(CheckCeo));
             }
