@@ -155,7 +155,7 @@
 </div>
 <div class="d-inline-flex gap-3">
         <form asp-action="Delete">
-        @if (Model.Quotation.Qsatus != "Đã hủy" || Model.Quotation.Qsatus != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
+        @if (Model.Quotation.Qsatus != "Đã hủy" && Model.Quotation.Qsatus != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
         {
             <input type="hidden" asp-for="@Model.Quotation.QuotationId" />
             <input type="submit" value="Delete" class="btn btn-danger btn-xs" />

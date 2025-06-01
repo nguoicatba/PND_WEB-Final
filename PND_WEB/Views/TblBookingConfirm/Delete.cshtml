@@ -136,8 +136,11 @@
 
 <div class="d-inline-flex gap-3 mt-3">
     <form asp-action="Delete">
-        <input type="hidden" asp-for="BookingId" />
-        <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+        @if (Model.Status != "Đã hủy" && Model.Status != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
+        {
+            <input type="hidden" asp-for="BookingId" />
+            <input type="submit" value="Delete" class="btn btn-danger btn-xs" />
+        }
         <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
     </form>
 </div>
