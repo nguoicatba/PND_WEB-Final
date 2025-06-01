@@ -38,8 +38,8 @@
                     <dd class="col-sm-10">
                         @{
                             bool? daDuyet = Model.tutt.xacnhanduyet;
-                            string trangThai = daDuyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Cần duyệt"
+                            string trangThai = daDuyet == true ? "Cần duyệt"
+                            : daDuyet == false ? "Chưa duyệt"
                             : "Chưa duyệt";
                         }
                         <span>@trangThai</span>
