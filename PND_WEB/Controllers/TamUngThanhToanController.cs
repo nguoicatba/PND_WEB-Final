@@ -376,7 +376,7 @@ namespace PND_WEB.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> TuttEdit(int id)
+        public async Task<IActionResult> TuttEdit(int? id)
         {
             if (id == null)
             {
@@ -394,6 +394,8 @@ namespace PND_WEB.Controllers
             };
             return View(tuttEditModel);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttEdit(int id, TuttEditModel tuttEditModel)

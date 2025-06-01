@@ -268,7 +268,7 @@ namespace PND_WEB.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> CarrierDelete(int id)
+        public async Task<IActionResult> CarrierDelete(int? id)
         {
             if (id == null)
             {
