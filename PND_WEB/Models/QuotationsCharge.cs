@@ -11,22 +11,22 @@ public partial class QuotationsCharge
 
     public string? QuotationId { get; set; }
 
-    [Display(Name = "Tên phí")]
+    [Display(Name = "Fee Name")]
     public string? ChargeName { get; set; }
 
-    [Display(Name = "Số lượng")]
+    [Display(Name = "Quantity")]
     public double? Quantity { get; set; }
 
-    [Display(Name = "Đơn vị")]
+    [Display(Name = "Unit")]
     public string? Unit { get; set; }
 
-    [Display(Name = "Giá")]
+    [Display(Name = "Rate")]
     public double? Rate { get; set; }
 
-    [Display(Name = "Tiền tệ")]
+    [Display(Name = "Currency")]
     public string? Currency { get; set; }
 
-    [Display(Name = "Ghi chú")]
+    [Display(Name = "Notes")]
     public string? Notes { get; set; }
 
     public virtual Quotation? Quotation { get; set; }

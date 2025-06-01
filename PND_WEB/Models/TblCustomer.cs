@@ -20,16 +20,16 @@ namespace PND_WEB.Models
 
         [Column("Company_Namekd")] 
         [MaxLength(255)]
-        [Display(Name = "Company Name không dấu")]
+        [Display(Name = "Company Name Unsigned")]
         public string? CompanyNamekd { get; set; }
 
         [Column("Com_Address")]
-        [Display(Name = "Địa chỉ công ty")]
+        [Display(Name = "Address")]
         [MaxLength(1000)]
         public string? ComAddress { get; set; }
 
         [Column("Com_Addresskd")]
-        [Display(Name = "Địa chỉ công ty không dấu")]
+        [Display(Name = "Address Unsigned")]
         [MaxLength(1000)]
         public string? ComAddresskd { get; set; }
 
@@ -39,7 +39,7 @@ namespace PND_WEB.Models
         public string? Website { get; set; }
 
         [Column("Duty_Person")]
-        [Display(Name = "Người phụ trách")]
+        [Display(Name = "Duty Person")]
         [MaxLength(255)]
         public string? DutyPerson { get; set; }
 

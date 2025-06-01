@@ -97,13 +97,13 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-4">
-                            <label asp-for="POL" class="control-label" id="polLabel"></label>
+                            <label asp-for="POL" class="control-label"></label>
                             <select asp-for="POL" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                             </select>
                             <span asp-validation-for="POL" class="text-danger"></span>
                         </div>
                         <div class="form-group col-4">
-                            <label asp-for="POD" class="control-label" id="podLabel"></label>
+                            <label asp-for="POD" class="control-label"></label>
                             <select asp-for="POD" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
                             </select>
                             <span asp-validation-for="POD" class="text-danger"></span>
@@ -204,9 +204,6 @@
             $('#vesselname').toggle(!isAI);
             $('#lbvesselname').toggle(!isAI);
             
-            // Đổi nhãn POD
-            $('#podLabel').text(isAI ? 'Sân bay đến' : 'Cảng đến');
-            $('#polLabel').text(isAI ? 'Sân bay đi' : 'Cảng đi');
         }
 
         $(document).ready(function () {
