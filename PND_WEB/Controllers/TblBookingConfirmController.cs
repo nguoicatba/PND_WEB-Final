@@ -246,6 +246,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: TblBookingConfirm/Delete/5
+        [ClaimAuthorize("BookingComfirm", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -266,7 +267,6 @@ namespace PND_WEB.Controllers
         }
 
 
-        [ClaimAuthorize("BookingComfirm", "Delete")]
         // POST: TblBookingConfirm/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
