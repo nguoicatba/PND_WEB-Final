@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Edit";
 
-    bool isReadOnly = Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy";
+    var userRole = User.IsInRole("CEO") || User.IsInRole("SuperAdmin");
+    bool isReadOnly = !userRole && (Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy");
     var staffAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
