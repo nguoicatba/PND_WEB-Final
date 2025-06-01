@@ -13,97 +13,106 @@
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About TUTT: @Model.tutt.SoTutt</div>
             <div class="card-body">
-                <dl class="row">
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.Ngay)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.tutt.Ngay)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.NhanvienTutt)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.tutt.NhanvienTutt)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.NoiDung)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.tutt.NoiDung)
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.xacnhanduyet)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @{
-                            bool? daDuyet = Model.tutt.xacnhanduyet;
-                            string trangThai = daDuyet == true ? "Cần duyệt"
-                            : daDuyet == false ? "Chưa duyệt"
-                            : "Chưa duyệt";
-                        }
-                        <span>@trangThai</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.Ketoan)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @{
-                            bool? ketoanduyet = Model.tutt.Ketoan;
-                            string ketquaduyetketoan = ketoanduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Chưa duyệt"
-                            : "Chưa duyệt";
-                        }
-                        <span>@ketquaduyetketoan</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.Ceo)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @{
-                            bool? ceoduyet = Model.tutt.Ceo;
-                            string ketquaduyetceo = ceoduyet == true ? "Đã duyệt"
-                            : daDuyet == false ? "Chưa duyệt"
-                            : "Chưa duyệt";
-                        }
-                        <span>@ketquaduyetceo</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.Tu)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @{
-                            bool? tamung = Model.tutt.Tu;
-                            string ketquatu = tamung == true ? "Tạm ứng"
-                            : daDuyet == false ? "Trống"
-                            : "Trống";
-                            string mau1 = tamung == true ? "text-dark" : "text-white";
-                        }
-                        <span class="@mau1">@ketquatu</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.Tt)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @{
-                            bool? thanhtoan = Model.tutt.Tt;
-                            string ketquatt = thanhtoan == true ? "Thanh toán"
-                            : daDuyet == false ? "Trống"
-                            : "Trống";
-                            string mau2 = thanhtoan == true ? "text-dark" : "text-white";
-                        }
-                        <span class="@mau2">@ketquatt</span>
-                    </dd>
-                    <dt class="col-sm-2">
-                        @Html.DisplayNameFor(model => model.tutt.GhiChu)
-                    </dt>
-                    <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.tutt.GhiChu)
-                    </dd>
-                </dl>
+                <div class="row">
+                    <div class="col-md-6">
+                        <h5 class="border-bottom" style="background-color: lightgreen;">Basic info</h5>
+                        <dl class="row">
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.Ngay)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.tutt.Ngay)
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.NhanvienTutt)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.tutt.NhanvienTutt)
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.NoiDung)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.tutt.NoiDung)
+                            </dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <h5 class="border-bottom" style="background-color: lightgreen;">Check info</h5>
+                        <dl class="row">
+
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.xacnhanduyet)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @{
+                                    bool? daDuyet = Model.tutt.xacnhanduyet;
+                                    string trangThai = daDuyet == true ? "Cần duyệt"
+                                    : daDuyet == false ? "Chưa duyệt"
+                                    : "Chưa duyệt";
+                                }
+                                <span>@trangThai</span>
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.Ketoan)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @{
+                                    bool? ketoanduyet = Model.tutt.Ketoan;
+                                    string ketquaduyetketoan = ketoanduyet == true ? "Đã duyệt"
+                                    : daDuyet == false ? "Chưa duyệt"
+                                    : "Chưa duyệt";
+                                }
+                                <span>@ketquaduyetketoan</span>
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.Ceo)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @{
+                                    bool? ceoduyet = Model.tutt.Ceo;
+                                    string ketquaduyetceo = ceoduyet == true ? "Đã duyệt"
+                                    : daDuyet == false ? "Chưa duyệt"
+                                    : "Chưa duyệt";
+                                }
+                                <span>@ketquaduyetceo</span>
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.Tu)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @{
+                                    bool? tamung = Model.tutt.Tu;
+                                    string ketquatu = tamung == true ? "Tạm ứng"
+                                    : daDuyet == false ? "Trống"
+                                    : "Trống";
+                                    string mau1 = tamung == true ? "text-dark" : "text-white";
+                                }
+                                <span class="@mau1">@ketquatu</span>
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.Tt)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @{
+                                    bool? thanhtoan = Model.tutt.Tt;
+                                    string ketquatt = thanhtoan == true ? "Thanh toán"
+                                    : daDuyet == false ? "Trống"
+                                    : "Trống";
+                                    string mau2 = thanhtoan == true ? "text-dark" : "text-white";
+                                }
+                                <span class="@mau2">@ketquatt</span>
+                            </dd>
+                            <dt class="col-sm-2">
+                                @Html.DisplayNameFor(model => model.tutt.GhiChu)
+                            </dt>
+                            <dd class="col-sm-10">
+                                @Html.DisplayFor(model => model.tutt.GhiChu)
+                            </dd>
+                        </dl>
+                    </div>
+                </div>
             </div>
-
-
         </div>
         <!-- END card-->
     </div>
@@ -123,7 +132,6 @@
             <thead class="">
                 <tr>
                     <th>Action</th>
-                    <th>@Html.DisplayNameFor(model => model.tuttphi[0].Id)</th>
                     <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
                     <th>
                         @Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)
