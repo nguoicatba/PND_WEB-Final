@@ -10,130 +10,100 @@
 <div class="card card-default">
     <div class="card-header bg-success">Thông tin Booking:</div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Mã Booking:</strong>
-                    <span style="margin-left: 10px">@Model.BookingId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Trạng thái:</strong>
-                    <span style="margin-left: 10px">@Model.Status</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Nhân viên:</strong>
-                    <span style="margin-left: 10px">@Model.StaffName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Liên lạc nhân viên:</strong>
-                    <span style="margin-left: 10px">@Model.Contact</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Khách hàng:</strong>
-                    <span style="margin-left: 10px">@Model.CustomerId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>CEO:</strong>
-                    <span style="margin-left: 10px">@Model.PICcompany</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Ngày tạo:</strong>
-                    <span style="margin-left: 10px">@Model.CreatedDate.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Ngày cập nhật:</strong>
-                    <span style="margin-left: 10px">@(Model.UpdatedDate?.ToString("dd/MM/yyyy"))</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Loại hàng:</strong>
-                    <span style="margin-left: 10px">@Model.GoodType</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Mã báo giá:</strong>
-                    <span style="margin-left: 10px">@Model.QuotationId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Ngày khởi hành:</strong>
-                    <span style="margin-left: 10px">@Model.ETD.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Ngày đến:</strong>
-                    <span style="margin-left: 10px">@Model.ETA.ToString("dd/MM/yyyy")</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Người gửi hàng :</strong>
-                    <span style="margin-left: 10px">@Model.Shipper</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Người nhận hàng :</strong>
-                    <span style="margin-left: 10px">@Model.CNEE</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Điểm đi (POL):</strong>
-                    <span style="margin-left: 10px">@Model.POL</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Điểm đến (POD):</strong>
-                    <span style="margin-left: 10px">@Model.POD</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Tên tàu:</strong>
-                    <span style="margin-left: 10px">@Model.VesselName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Hãng hàng không:</strong>
-                    <span style="margin-left: 10px">@Model.Airline</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Loại container:</strong>
-                    <span style="margin-left: 10px">@Model.ContainerType</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Số lượng container:</strong>
-                    <span style="margin-left: 10px">@Model.ContainerQuantity</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Số chuyến bay:</strong>
-                    <span style="margin-left: 10px">@Model.FlightNumber</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Số lượng kiện:</strong>
-                    <span style="margin-left: 10px">@Model.PackageQuantity</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Trọng lượng (GW):</strong>
-                    <span style="margin-left: 10px">@(Model.GrossWeight?.ToString("N2"))</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Trọng lượng tính cước:</strong>
-                    <span style="margin-left: 10px">@(Model.ChargeableWeight?.ToString("N2"))</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Mô tả hàng hóa:</strong>
-                    <span style="margin-left: 10px">@Model.CargoDescription</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Thể tích:</strong>
-                    <span style="margin-left: 10px">@(Model.Volume?.ToString("N2"))</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Ghi chú:</strong>
-                    <span style="margin-left: 10px">@Model.Remarks</span>
-                </td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Basic info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.BookingId)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.BookingId)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Status)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.StaffName)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffName)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Contact)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Contact)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CustomerId)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CustomerId)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PICcompany)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.PICcompany)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CreatedDate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CreatedDate)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.UpdatedDate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.UpdatedDate)</dd>
+                </dl>
+
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Shipping info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Shipper)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Shipper)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CNEE)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CNEE)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.POL)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.POL)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.POD)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.POD)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Commodity info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GoodType)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.GoodType)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.QuotationId)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.QuotationId)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ETD)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ETD)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ETA)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ETA)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.VesselName)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.VesselName)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Airline)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Airline)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContainerType)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerType)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ContainerQuantity)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerQuantity)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.FlightNumber)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.FlightNumber)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PackageQuantity)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.PackageQuantity)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GrossWeight)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.GrossWeight)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.ChargeableWeight)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ChargeableWeight)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Volume)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Volume)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CargoDescription)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CargoDescription)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Remarks)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Remarks)</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>
 
