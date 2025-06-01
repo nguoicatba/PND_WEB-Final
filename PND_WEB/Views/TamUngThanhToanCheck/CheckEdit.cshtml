@@ -5,6 +5,7 @@
 
     bool readonlyMode = (Model.Ceo == true || Model.Ketoan == true);
 }
+@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa thông tin tạm ứng thanh toán", SubTitle = "Sửa thông tin tạm ứng thanh toán" })
 <div class="row">
     <div class="col">
         <div class="card card-default">
