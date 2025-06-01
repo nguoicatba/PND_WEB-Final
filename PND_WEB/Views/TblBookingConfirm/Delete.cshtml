@@ -4,138 +4,116 @@
     ViewData["Title"] = "Delete";
 }
 
-<center><h1>DELETE BOOKING</h1></center>
-<h3>Are you sure you want to delete this booking?</h3>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Booking", SubTitle = "Xác nhận xóa thông tin Booking" })
 
-<div class="card">
+<div class="card card-default">
+    <div class="card-header bg-danger">Bạn có chắc chắn muốn xóa Booking này?</div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Booking ID:</strong>
-                    <span style="margin-left: 10px">@Model.BookingId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Status:</strong>
-                    <span style="margin-left: 10px">@Model.Status</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Staff Name:</strong>
-                    <span style="margin-left: 10px">@Model.StaffName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Staff Contact:</strong>
-                    <span style="margin-left: 10px">@Model.Contact</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Customer ID:</strong>
-                    <span style="margin-left: 10px">@Model.CustomerId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>PIC Company:</strong>
-                    <span style="margin-left: 10px">@Model.PICcompany</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Booking Date:</strong>
-                    <span style="margin-left: 10px">@Model.BookingDate.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Good Type:</strong>
-                    <span style="margin-left: 10px">@Model.GoodType</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Shipper:</strong>
-                    <span style="margin-left: 10px">@Model.Shipper</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Cnee:</strong>
-                    <span style="margin-left: 10px">@Model.CNEE</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>ETD:</strong>
-                    <span style="margin-left: 10px">@Model.ETD.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>ETA:</strong>
-                    <span style="margin-left: 10px">@Model.ETA.ToString("dd/MM/yyyy")</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>POL:</strong>
-                    <span style="margin-left: 10px">@Model.POL</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>POD:</strong>
-                    <span style="margin-left: 10px">@Model.POD</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Vessel Name:</strong>
-                    <span style="margin-left: 10px">@Model.VesselName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Container Type:</strong>
-                    <span style="margin-left: 10px">@Model.ContainerType</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Container Quantity:</strong>
-                    <span style="margin-left: 10px">@Model.ContainerQuantity</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Package Quantity:</strong>
-                    <span style="margin-left: 10px">@Model.PackageQuantity</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Flight Number:</strong>
-                    <span style="margin-left: 10px">@Model.FlightNumber</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Airline:</strong>
-                    <span style="margin-left: 10px">@Model.Airline</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>Gross Weight:</strong>
-                    <span style="margin-left: 10px">@Model.GrossWeight</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Chargeable Weight:</strong>
-                    <span style="margin-left: 10px">@Model.ChargeableWeight</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Volume:</strong>
-                    <span style="margin-left: 10px">@Model.Volume</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>Quotation ID:</strong>
-                    <span style="margin-left: 10px">@Model.QuotationId</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF" colspan="4">
-                    <strong>Cargo Description:</strong>
-                    <span style="margin-left: 10px">@Model.CargoDescription</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF" colspan="4">
-                    <strong>Remarks:</strong>
-                    <span style="margin-left: 10px">@Model.Remarks</span>
-                </td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Basic info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Booking ID</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.BookingId)</dd>
+
+                    <dt class="col-sm-4">Status</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Status)</dd>
+
+                    <dt class="col-sm-4">Staff Name</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.StaffName)</dd>
+
+                    <dt class="col-sm-4">Contact</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Contact)</dd>
+
+                    <dt class="col-sm-4">Customer ID</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CustomerId)</dd>
+
+                    <dt class="col-sm-4">Company PIC</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.PICcompany)</dd>
+
+                    <dt class="col-sm-4">Booking Date</dt>
+                    <dd class="col-sm-8">@Model.BookingDate.ToString("dd/MM/yyyy")</dd>
+                </dl>
+
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Shipping info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Shipper</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Shipper)</dd>
+
+                    <dt class="col-sm-4">Consignee</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CNEE)</dd>
+
+                    <dt class="col-sm-4">POL</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.POL)</dd>
+
+                    <dt class="col-sm-4">POD</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.POD)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Commodity info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Good Type</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.GoodType)</dd>
+
+                    <dt class="col-sm-4">Quotation ID</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.QuotationId)</dd>
+
+                    <dt class="col-sm-4">ETD</dt>
+                    <dd class="col-sm-8">@Model.ETD.ToString("dd/MM/yyyy")</dd>
+
+                    <dt class="col-sm-4">ETA</dt>
+                    <dd class="col-sm-8">@Model.ETA.ToString("dd/MM/yyyy")</dd>
+                </dl>
+
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Vessel info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Vessel Name</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.VesselName)</dd>
+
+                    <dt class="col-sm-4">Container Type</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerType)</dd>
+
+                    <dt class="col-sm-4">Container Quantity</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ContainerQuantity)</dd>
+                </dl>
+
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Air info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Airline</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Airline)</dd>
+
+                    <dt class="col-sm-4">Flight Number</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.FlightNumber)</dd>
+                </dl>
+
+                <h5 class="border-bottom mt-4" style="background-color: lightgreen;">Cargo Details</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">Package Quantity</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.PackageQuantity)</dd>
+
+                    <dt class="col-sm-4">Gross Weight</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.GrossWeight)</dd>
+
+                    <dt class="col-sm-4">Chargeable Weight</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.ChargeableWeight)</dd>
+
+                    <dt class="col-sm-4">Volume</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Volume)</dd>
+
+                    <dt class="col-sm-4">Cargo Description</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.CargoDescription)</dd>
+
+                    <dt class="col-sm-4">Remarks</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Remarks)</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>
 
-<div class="d-inline-flex gap-3 mt-3">
-    <form asp-action="Delete">
+<div class="mt-3">
+    <form asp-action="Delete" class="d-inline">
         @if (Model.Status != "Đã hủy" && Model.Status != "Hoàn thành" || (User.IsInRole("CEO") || User.IsInRole("SuperAdmin")))
         {
             <input type="hidden" asp-for="BookingId" />
