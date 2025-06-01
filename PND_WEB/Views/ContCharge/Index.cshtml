@@ -21,15 +21,29 @@
                         <div class="d-flex align-items-center">
                             <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
                                 <span class="btn-label">
-                                <i class="fa fa-plus-square-o"></i>
+                                    <i class="fa fa-plus-square-o"></i>
                                 </span>New Charge
                             </a>
+                            @if (User.HasClaim("AllInvoice", "Check"))
+                            {
+                                <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
+                                    <span class="btn-label">
+                                        <i class="fa fa-save"></i>
+                                    </span>Save Data
+                                </button>
+                            }
                         </div>
                         <br />
 
                         <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
                             <thead class="bg bg-secondary">
                                 <tr>
+                                    @if (User.HasClaim("AllInvoice", "Check"))
+                                    {
+                                        <th>
+                                            <input type="checkbox" id="selectAll" />
+                                        </th>
+                                    }
                                     <th>Action</th>
                                     <th>@Html.DisplayNameFor(model => model._charges[0].SupplierId)</th>
                                     <th>@Html.DisplayNameFor(model => model._charges[0].SupplierName)</th>
@@ -49,6 +63,16 @@
                                 @foreach (var item in Model._charges)
                                 {
                                     <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
+                                        @if (User.HasClaim("AllInvoice", "Check"))
+                                        {
+                                            <td>
+                                                <input type="checkbox" class="charge-checkbox" 
+                                                       value="@item.ChargeId" 
+                                                       data-checked="@item.Checked"
+                                                       data-supplier="@item.SupplierId"
+                                                       @(item.Checked == true ? "checked" : "") />
+                                            </td>
+                                        }
                                         @if (item.Checked == false || item.Checked == null)
                                         {
                                             <td>
@@ -69,16 +93,7 @@
                                         <td>@item.Currency</td>
                                         <td>@item.ExchangeRate</td>
                                         <td>@item.SerVat</td>
-                                        <td>
-                                            @if (item.MVat.HasValue)
-                                            {
-                                                @item.MVat.Value.ToString("N2")
-                                            }
-                                            else
-                                            {
-                                                <span class="text-danger">N/A</span>
-                                            }
-                                        </td>
+                                        <td>@item.MVat</td>
                                         <td>@item.Checked</td>
                                         <td>@(((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2"))</td>
                                     </tr>
@@ -86,7 +101,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="12" class="text-right">Total:</td>
+                                    <td colspan="13" class="text-right">Total:</td>
                                     <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
                                 </tr>
                             </tfoot>
@@ -98,4 +113,52 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id }) 
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id })
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Handle select all checkbox
+            $("#selectAll").change(function () {
+                $(".charge-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle save checked charges
+            $("#saveCheckedCharges").click(function () {
+                var chargegroup = [];
+
+                $('.charge-checkbox').each(function () {
+                    chargegroup.push({
+                        chargeid: $(this).val(),
+                        isSelected: $(this).is(':checked')
+                    });
+                });
+
+                if (chargegroup.length === 0) {
+                    alert('No charges found to update.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ApproveCharges", "ContCharge")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        chargegroup: chargegroup,
+                        hblId: '@Model.HBL_Id'
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Error updating charges: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error occurred while updating charges.');
+                    }
+                });
+            });
+        });
+    </script>
+} 

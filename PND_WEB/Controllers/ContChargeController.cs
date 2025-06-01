@@ -394,5 +394,45 @@ namespace PND_WEB.Controllers
                 }
             });
         }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveCharges([FromBody] ApproveChargesEM request)
+        {
+            if (!User.HasClaim("AllInvoice", "Check"))
+            {
+                return Json(new { success = false, message = "Unauthorized access." });
+            }
+
+            try
+            {
+                var chargeIds = request.chargegroup.Select(c => c.chargeid).ToList();
+                var charges = await _context.TblHblCharges
+                    .Where(c => chargeIds.Contains(c.ChargeId) && c.HblId == request.hblId)
+                    .ToListAsync();
+
+                if (!charges.Any())
+                {
+                    return Json(new { success = false, message = "No charges found to update." });
+                }
+
+                foreach (var charge in charges)
+                {
+                    var chargeGroup = request.chargegroup.FirstOrDefault(cg => cg.chargeid == charge.ChargeId);
+                    if (chargeGroup != null)
+                    {
+                        charge.Checked = chargeGroup.isSelected;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Charges updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error updating charges: {ex.Message}" });
+            }
+        }
+
+      
     }
 } 

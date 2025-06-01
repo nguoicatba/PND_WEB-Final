@@ -9,7 +9,7 @@
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <!-- START card-->
         <div class="card card-default">
-            <div class="card-header bg-success">Create Cont Charge</div>
+            <div class="card-header bg-success">Create Container Charge</div>
             <div class="card-body">
                 <form asp-action="Create" id="createForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -72,7 +72,7 @@
                     </div>
 
                     <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-success" />
+                        <input type="submit" value="Create" class="btn btn-primary" />
                         <a asp-action="Index" asp-route-id="@Model.HblId" class="btn btn-secondary">Back to List</a>
                     </div>
                 </form>
@@ -83,4 +83,5 @@
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/components/SelectList.js"></script>
 } 

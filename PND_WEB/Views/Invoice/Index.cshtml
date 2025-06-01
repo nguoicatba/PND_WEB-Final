@@ -1,0 +1,166 @@
+@model IEnumerable<PND_WEB.ViewModels.InvoiceVM>
+
+@{
+    ViewData["Title"] = "Invoice List";
+}
+
+<div class="container-fluid">
+    <h2>Invoice List</h2>
+
+    <!-- Advanced Search Card -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="mb-0">
+                <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#searchCollapse">
+                    <i class="fas fa-search"></i> Tìm kiếm nâng cao
+                </button>
+            </h5>
+        </div>
+        <div class="collapse show" id="searchCollapse">
+            <div class="card-body">
+                <form id="searchForm" method="get">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Số Job</label>
+                                <input type="text" class="form-control" name="jobNo" id="jobNo" value="@ViewBag.JobNo">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Số House</label>
+                                <input type="text" class="form-control" name="hbl" id="hbl" value="@ViewBag.Hbl">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Số Invoice</label>
+                                <input type="text" class="form-control" name="invoiceNo" id="invoiceNo" value="@ViewBag.InvoiceNo">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Loại Invoice</label>
+                                <select class="form-control" name="type" id="type">
+                                    <option value="">Tất cả</option>
+                                    @* <option value="sellcharge" @(ViewBag.Type == "sellcharge" ? "selected" : "")>Sell Charge</option> *@
+                                    @* <option value="buycharge" @(ViewBag.Type == "buycharge" ? "selected" : "")>Buy Charge</option> *@
+                                    @* <option value="debit" @(ViewBag.Type == "debit" ? "selected" : "")>Debit</option> *@
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Từ ngày</label>
+                                <input type="date" class="form-control" name="fromDate" id="fromDate" value="@ViewBag.FromDate">
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Đến ngày</label>
+                                <input type="date" class="form-control" name="toDate" id="toDate" value="@ViewBag.ToDate">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group" style="margin-top: 32px;">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-search"></i> Tìm kiếm
+                                </button>
+                                <button type="button" class="btn btn-secondary" id="resetSearch">
+                                    <i class="fas fa-undo"></i> Làm mới
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered" id="invoiceTable">
+                    <thead>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.InvoiceNo)</th>
+                            <th>@Html.DisplayNameFor(model => model.InvoiceType)</th>
+                            <th>@Html.DisplayNameFor(model => model.Partner)</th>
+                            <th>@Html.DisplayNameFor(model => model.PartnerType)</th>
+                            <th>@Html.DisplayNameFor(model => model.Currency)</th>
+                            <th>@Html.DisplayNameFor(model => model.ExchangeRate)</th>
+                            <th>@Html.DisplayNameFor(model => model.DebitDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.PaymentDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.InvoiceDate)</th>
+                            <th>@Html.DisplayNameFor(model => model.Hbl)</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>@Html.DisplayFor(modelItem => item.InvoiceNo)</td>
+                                <td>@Html.DisplayFor(modelItem => item.InvoiceType)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Partner)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PartnerType)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Currency)</td>
+                                <td>@Html.DisplayFor(modelItem => item.ExchangeRate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.DebitDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.PaymentDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.InvoiceDate)</td>
+                                <td>@Html.DisplayFor(modelItem => item.Hbl)</td>
+                                <td>
+                                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">
+                                        <i class="fas fa-info-circle"></i> Details
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var table = $('#invoiceTable').DataTable({
+                "order": [[0, "desc"]],
+                "pageLength": 25,
+                "language": {
+                    "search": "Tìm kiếm:",
+                    "lengthMenu": "Hiển thị _MENU_ dòng",
+                    "info": "Hiển thị _START_ đến _END_ của _TOTAL_ dòng",
+                    "infoEmpty": "Hiển thị 0 đến 0 của 0 dòng",
+                    "infoFiltered": "(lọc từ _MAX_ dòng)",
+                    "paginate": {
+                        "first": "Đầu",
+                        "last": "Cuối",
+                        "next": "Tiếp",
+                        "previous": "Trước"
+                    }
+                }
+            });
+
+            // Reset search form and redirect to base URL
+            $('#resetSearch').click(function() {
+                window.location.href = window.location.pathname;
+            });
+
+            // Initialize date pickers with default date format
+            $('#fromDate, #toDate').on('change', function() {
+                if ($('#fromDate').val() && $('#toDate').val()) {
+                    if ($('#fromDate').val() > $('#toDate').val()) {
+                        alert('Ngày bắt đầu không thể lớn hơn ngày kết thúc');
+                        $(this).val('');
+                    }
+                }
+            });
+        });
+    </script>
+} 

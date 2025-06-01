@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PND_WEB.Data;
 
@@ -11,9 +12,11 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20250601160747_Init106")]
+    partial class Init106
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -561,66 +564,6 @@ namespace PND_WEB.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("INVOICE");
-                });
-
-            modelBuilder.Entity("PND_WEB.Models.InvoiceCharge", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<bool?>("Checked")
-                        .HasColumnType("bit")
-                        .HasColumnName("Checked");
-
-                    b.Property<string>("Currency")
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)")
-                        .HasColumnName("Currency");
-
-                    b.Property<float?>("ExchangeRate")
-                        .HasColumnType("real")
-                        .HasColumnName("Exchange_rate");
-
-                    b.Property<string>("InvoiceId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("Invoice_ID");
-
-                    b.Property<float?>("MVat")
-                        .HasColumnType("real")
-                        .HasColumnName("M_VAT");
-
-                    b.Property<string>("SerName")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)")
-                        .HasColumnName("Ser_Name");
-
-                    b.Property<float?>("SerPrice")
-                        .HasColumnType("real")
-                        .HasColumnName("Ser_Price");
-
-                    b.Property<float?>("SerQuantity")
-                        .HasColumnType("real")
-                        .HasColumnName("Ser_Quantity");
-
-                    b.Property<string>("SerUnit")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)")
-                        .HasColumnName("Ser_Unit");
-
-                    b.Property<float?>("SerVat")
-                        .HasColumnType("real")
-                        .HasColumnName("Ser_VAT");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("InvoiceId");
-
-                    b.ToTable("INVOICE_CHARGE");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.InvoiceType", b =>
@@ -2077,17 +2020,6 @@ namespace PND_WEB.Migrations
                     b.Navigation("CodeNavigation");
                 });
 
-            modelBuilder.Entity("PND_WEB.Models.InvoiceCharge", b =>
-                {
-                    b.HasOne("PND_WEB.Models.Invoice", "Invoice")
-                        .WithMany("InvoiceCharges")
-                        .HasForeignKey("InvoiceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Invoice");
-                });
-
             modelBuilder.Entity("PND_WEB.Models.QuotationsCharge", b =>
                 {
                     b.HasOne("PND_WEB.Models.Quotation", "Quotation")
@@ -2228,11 +2160,6 @@ namespace PND_WEB.Migrations
                     b.Navigation("CarrierActions");
 
                     b.Navigation("TblJobs");
-                });
-
-            modelBuilder.Entity("PND_WEB.Models.Invoice", b =>
-                {
-                    b.Navigation("InvoiceCharges");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Quotation", b =>

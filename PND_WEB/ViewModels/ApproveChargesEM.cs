@@ -4,8 +4,8 @@ namespace PND_WEB.ViewModels
 {
     public class ApproveChargesEM
     {
-        public string hblId { get; set; }
         public List<ChargeGroup> chargegroup { get; set; }
+        public string hblId { get; set; }
     }
 
     public class ChargeGroup

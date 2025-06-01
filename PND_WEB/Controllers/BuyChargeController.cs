@@ -246,6 +246,26 @@ namespace PND_WEB.Controllers
             return await _context.TblHblCharges.AnyAsync(e => e.ChargeId == id);
         }
 
+        public async Task<string> GenerateCode(string prefix)
+        {
+            string Date = DateTime.Now.ToString("yyyyMMdd");
+            var lastInvoice = await _context.invoices
+                .Where(i => i.InvoiceNo.StartsWith(prefix) && i.InvoiceNo.Contains(Date))
+                .OrderByDescending(i => i.InvoiceDate)
+                .FirstOrDefaultAsync();
+            if (lastInvoice == null)
+            {
+                return $"{prefix}{Date}0001";
+            }
+            else
+            {
+                string lastCode = lastInvoice.InvoiceNo.Substring(prefix.Length + Date.Length);
+                int newCode = int.Parse(lastCode) + 1;
+                return $"{prefix}{Date}{newCode:D4}";
+
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> ApproveCharges([FromBody] ApproveChargesEM request)
         {
@@ -267,33 +287,76 @@ namespace PND_WEB.Controllers
                 }
 
                 // Group charges by supplier for invoice number generation
-                var supplierGroups = charges.GroupBy(c => c.SupplierId);
-                foreach (var group in supplierGroups)
+                var listinvoie = await _context.invoices
+                    .Where(i => i.Hbl == request.hblId && i.Type == "Debit Note").ToListAsync();
+
+                foreach (var charge in charges)
                 {
-                    string invoiceNo = null;
-                    var chargesToCheck = group.Where(c => 
-                        request.chargegroup.First(cg => cg.chargeid == c.ChargeId).isSelected && 
-                        (c.Checked == null || c.Checked == false)).ToList();
-
-                    if (chargesToCheck.Any())
+                    var chargeGroup = request.chargegroup.FirstOrDefault(cg => cg.chargeid == charge.ChargeId);
+                    if (chargeGroup != null)
                     {
-                        // Generate invoice number: SUP{SupplierID}_{Timestamp}
-                        invoiceNo = $"SUP{group.Key}_{DateTime.Now:yyyyMMddHHmmss}";
-                    }
-
-                    foreach (var charge in group)
-                    {
-                        var chargeInfo = request.chargegroup.First(c => c.chargeid == charge.ChargeId);
-                        charge.Checked = chargeInfo.isSelected;
-                        charge.UpdatedDate = DateTime.Now;
-
-                        // Only set invoice number if we're checking the charge and it doesn't already have one
-                        if (chargeInfo.isSelected && string.IsNullOrEmpty(charge.InvoiceNo))
-                        {
-                            charge.InvoiceNo = invoiceNo;
-                        }
+                        charge.Checked = chargeGroup.isSelected;
                     }
                 }
+
+                foreach (var invoice in listinvoie)
+                {
+                    var existingCharges = charges.Where(c => c.SupplierId == invoice.Partner && c.Checked == true).ToList();
+                    if (!existingCharges.Any())
+                    {
+                        var charge_invoice = await _context.InvoiceCharges
+                            .Where(ic => ic.InvoiceId == invoice.Id)
+                            .ToListAsync();
+                        _context.InvoiceCharges.RemoveRange(charge_invoice);
+                        _context.invoices.Remove(invoice);
+                    }
+
+                }
+
+
+
+                foreach (var charge in charges)
+                {
+                    if (charge.Checked == true)
+                    {
+                        var existingInvoice = await _context.invoices
+                            .FirstOrDefaultAsync(i => i.Partner == charge.SupplierId && i.Hbl == charge.HblId && i.Type == "Debit Note");
+                        if (existingInvoice == null)
+                        {
+                            var newInvoice = new Invoice
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                Partner = charge.SupplierId,
+                                InvoiceNo = await GenerateCode("DBN"),
+                                Type = "Debit Note",
+                                Currency = "USD",
+                                ExchangeRate = 1.0f,
+                                DebitDate = DateTime.Now,
+                                PaymentDate = DateTime.Now,
+                                InvoiceDate = DateTime.Now,
+                                Hbl = charge.HblId,
+
+                            };
+                            _context.invoices.Add(newInvoice);
+                            await _context.SaveChangesAsync();
+
+                            charge.InvoiceNo = newInvoice.InvoiceNo;
+
+                        }
+                        else
+                        {
+                            charge.InvoiceNo = existingInvoice.InvoiceNo;
+                        }
+                    }
+                    else
+                    {
+                        charge.InvoiceNo = "";
+                    }
+
+                }
+
+
+
 
                 await _context.SaveChangesAsync();
                 return Json(new { success = true, message = "Charges updated successfully." });

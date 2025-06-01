@@ -24,35 +24,67 @@
                                 <i class="fa fa-plus-square-o"></i>
                                 </span>New Charge
                             </a>
+                            @if (User.HasClaim("AllInvoice", "Check"))
+                            {
+                                <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
+                                    <span class="btn-label">
+                                        <i class="fa fa-save"></i>
+                                    </span>Save Data
+                                </button>
+                            }
                         </div>
                         <br />
 
                         <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
                             <thead class="bg bg-secondary">
                                 <tr>
+                                    @if (User.HasClaim("AllInvoice", "Check"))
+                                    {
+                                        <th>
+                                            <input type="checkbox" id="selectAll" />
+                                        </th>
+                                    }
                                     <th>Action</th>
-                                    <th>Supplier</th>
-                                    <th>Name Fee</th>
-                                    <th>Unit</th>
-                                    <th>Quantity</th>
-                                    <th>Price</th>
-                                    <th>Currency</th>
-                                    <th>Exchange Rate</th>
-                                    <th>VAT</th>
-                                    <th>M VAT</th>
-                                    <th>Created Date</th>
-                                    <th>Updated Date</th>
-                                    <th>Invoice No</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SupplierId)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SupplierName)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SerName)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SerUnit)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SerQuantity)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SerPrice)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].Currency)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].ExchangeRate)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].SerVat)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].MVat)</th>
+                                    <th>@Html.DisplayNameFor(model => model._charges[0].Checked)</th>
+                                    <th>Amount</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var item in Model._charges)
                                 {
-                                    <tr>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                            <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                                        </td>
+                                    <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
+                                        @if (User.HasClaim("AllInvoice", "Check"))
+                                        {
+                                            <td>
+                                                <input type="checkbox" class="charge-checkbox" 
+                                                       value="@item.ChargeId" 
+                                                       data-checked="@item.Checked"
+                                                       data-supplier="@item.SupplierId"
+                                                       @(item.Checked == true ? "checked" : "") />
+                                            </td>
+                                        }
+                                        @if (item.Checked == false || item.Checked == null)
+                                        {
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                                <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
+                                        <td>@item.SupplierId</td>
                                         <td>@item.SupplierName</td>
                                         <td>@item.SerName</td>
                                         <td>@item.SerUnit</td>
@@ -62,12 +94,17 @@
                                         <td>@item.ExchangeRate</td>
                                         <td>@item.SerVat</td>
                                         <td>@item.MVat</td>
-                                        <td>@item.CreatedDate.ToString("dd/MM/yyyy")</td>
-                                        <td>@(item.UpdatedDate.HasValue ? item.UpdatedDate.Value.ToString("dd/MM/yyyy") : "")</td>
-                                        <td>@item.InvoiceNo</td>
+                                        <td>@item.Checked</td>
+                                        <td>@(((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2"))</td>
                                     </tr>
                                 }
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="13" class="text-right">Total:</td>
+                                    <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -76,4 +113,52 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id }) 
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id })
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            // Handle select all checkbox
+            $("#selectAll").change(function () {
+                $(".charge-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle save checked charges
+            $("#saveCheckedCharges").click(function () {
+                var chargegroup = [];
+
+                $('.charge-checkbox').each(function () {
+                    chargegroup.push({
+                        chargeid: $(this).val(),
+                        isSelected: $(this).is(':checked')
+                    });
+                });
+
+                if (chargegroup.length === 0) {
+                    alert('No charges found to update.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ApproveCharges", "BehalfCharge")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        chargegroup: chargegroup,
+                        hblId: '@Model.HBL_Id'
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Error updating charges: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error occurred while updating charges.');
+                    }
+                });
+            });
+        });
+    </script>
+} 

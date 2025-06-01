@@ -82,6 +82,10 @@ namespace PND_WEB.Data
 
         public DbSet<TblHblCharges> TblHblCharges { get; set; }
 
+        public DbSet<Invoice> invoices { get; set; }
+
+        public DbSet<InvoiceCharge> InvoiceCharges { get; set; }
+
 
 
 

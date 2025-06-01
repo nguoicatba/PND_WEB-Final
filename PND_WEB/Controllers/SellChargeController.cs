@@ -27,18 +27,11 @@ namespace PND_WEB.Controllers
                 _charges = SellCharges.Select(c => new SellChargeEM
                 {
                     ChargeId = c.ChargeId,
-
                     CustomerID = c.CustomerId,
                     CustomerName = _context.TblCustomers
-                    .Where(s => s.CustomerId == c.CustomerId)
-                    .Select(s => s.CompanyName)
-                    .FirstOrDefault() == null
-                    ? "Unknown Customer"
-                    : _context.TblCustomers
                         .Where(s => s.CustomerId == c.CustomerId)
                         .Select(s => s.CompanyName)
-                        .FirstOrDefault(),
-
+                        .FirstOrDefault() ?? "Unknown Customer",
                     SerName = c.SerName,
                     SerUnit = c.SerUnit,
                     SerQuantity = c.SerQuantity,
@@ -436,6 +429,117 @@ namespace PND_WEB.Controllers
             catch (Exception ex)
             {
                 return Json(new { success = false, message = ex.Message });
+            }
+        }
+
+        private async Task<string> GenerateCode(string prefix)
+        {
+            string Date = DateTime.Now.ToString("yyyyMMdd");
+            var lastInvoice = await _context.invoices
+                .Where(i => i.InvoiceNo.StartsWith(prefix) && i.InvoiceNo.Contains(Date))
+                .OrderByDescending(i => i.InvoiceDate)
+                .FirstOrDefaultAsync();
+            if (lastInvoice == null)
+            {
+                return $"{prefix}{Date}0001";
+            }
+            else
+            {
+                string lastCode = lastInvoice.InvoiceNo.Substring(prefix.Length + Date.Length);
+                int newCode = int.Parse(lastCode) + 1;
+                return $"{prefix}{Date}{newCode:D4}";
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ApproveCharges([FromBody] ApproveChargesEM request)
+        {
+            if (!User.HasClaim("AllInvoice", "Check"))
+            {
+                return Json(new { success = false, message = "Unauthorized access." });
+            }
+
+            try
+            {
+                var chargeIds = request.chargegroup.Select(c => c.chargeid).ToList();
+                var charges = await _context.TblHblCharges
+                    .Where(c => chargeIds.Contains(c.ChargeId) && c.HblId == request.hblId)
+                    .ToListAsync();
+
+                if (!charges.Any())
+                {
+                    return Json(new { success = false, message = "No charges found to update." });
+                }
+
+                // Group charges by customer for invoice number generation
+                var listinvoie = await _context.invoices
+                    .Where(i => i.Hbl == request.hblId && i.Type == "Credit Note").ToListAsync();
+
+                foreach (var charge in charges)
+                {
+                    var chargeGroup = request.chargegroup.FirstOrDefault(cg => cg.chargeid == charge.ChargeId);
+                    if (chargeGroup != null)
+                    {
+                        charge.Checked = chargeGroup.isSelected;
+                    }
+                }
+
+                foreach (var invoice in listinvoie)
+                {
+                    var existingCharges = charges.Where(c => c.CustomerId == invoice.Partner && c.Checked == true).ToList();
+                    if (!existingCharges.Any())
+                    {
+                        var charge_invoice = await _context.InvoiceCharges
+                            .Where(ic => ic.InvoiceId == invoice.Id)
+                            .ToListAsync();
+                        _context.InvoiceCharges.RemoveRange(charge_invoice);
+                        _context.invoices.Remove(invoice);
+                    }
+                }
+
+                foreach (var charge in charges)
+                {
+                    if (charge.Checked == true)
+                    {
+                        var existingInvoice = await _context.invoices
+                            .FirstOrDefaultAsync(i => i.Partner == charge.CustomerId && i.Hbl == charge.HblId && i.Type == "Credit Note");
+                        if (existingInvoice == null)
+                        {
+                            var newInvoice = new Invoice
+                            {
+                                Id = Guid.NewGuid().ToString(),
+                                Partner = charge.CustomerId,
+                                InvoiceNo = await GenerateCode("CDN"),
+                                Type = "Credit Note",
+                                Currency = "USD",
+                                ExchangeRate = 1.0f,
+                                DebitDate = DateTime.Now,
+                                PaymentDate = DateTime.Now,
+                                InvoiceDate = DateTime.Now,
+                                Hbl = charge.HblId,
+                            };
+                            _context.invoices.Add(newInvoice);
+                            await _context.SaveChangesAsync();
+
+                            charge.InvoiceNo = newInvoice.InvoiceNo;
+                        }
+                        else
+                        {
+                            charge.InvoiceNo = existingInvoice.InvoiceNo;
+                        }
+                    }
+                    else
+                    {
+                        charge.InvoiceNo = "";
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+                return Json(new { success = true, message = "Charges updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = $"Error updating charges: {ex.Message}" });
             }
         }
     }

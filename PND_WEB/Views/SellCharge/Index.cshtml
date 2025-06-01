@@ -26,6 +26,14 @@
                                         <i class="fa fa-plus-square-o"></i>
                                         </span>New Charge
                                     </a>
+                                    @if (User.HasClaim("AllInvoice", "Check"))
+                                    {
+                                        <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
+                                            <span class="btn-label">
+                                            <i class="fa fa-save"></i>
+                                            </span>Save Data
+                                        </button>
+                                    }
                                     <div class="dropdown">
                                         <button class="btn btn-secondary dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                             <span class="btn-label">
@@ -43,10 +51,16 @@
                                 <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
                                      <thead class="bg bg-secondary">
                                         <tr>
+                                            @if (User.HasClaim("AllInvoice", "Check"))
+                                            {
+                                                <th>
+                                                    <input type="checkbox" id="selectAll" />
+                                                </th>
+                                            }
                                             <th>
                                                  Action
-                                   
                                             </th>
+                                            <th>Invoice No</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].CustomerID)</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].CustomerName)</th>
                                             <th>@Html.DisplayNameFor(model => model._charges[0].SerName)</th>
@@ -65,17 +79,28 @@
                                         @foreach (var item in Model._charges)
                                         {
                                             <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
+                                                @if (User.HasClaim("AllInvoice", "Check"))
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" class="charge-checkbox" 
+                                                               value="@item.ChargeId" 
+                                                               data-checked="@item.Checked"
+                                                               data-customer="@item.CustomerID"
+                                                               @(item.Checked == true ? "checked" : "") />
+                                                    </td>
+                                                }
                                                 @if (item.Checked == false || item.Checked == null)
                                                 {
                                                     <td>
-                                                <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                                <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                                        <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                                        <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
                                                     </td>
                                                 }
                                                 else
                                                 {
                                                     <td></td>
                                                 }
+                                                <td>@item.InvoiceNo</td>
                                                 <td>@item.CustomerID</td>
                                                 <td>@item.CustomerName</td>
                                                 <td>@item.SerName</td>
@@ -181,6 +206,48 @@
                         } else {
                             alert('Error importing charges: ' + response.message);
                         }
+                    }
+                });
+            });
+
+            // Handle select all checkbox
+            $("#selectAll").change(function () {
+                $(".charge-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle save checked charges
+            $("#saveCheckedCharges").click(function () {
+                var chargegroup = [];
+
+                $('.charge-checkbox').each(function () {
+                    chargegroup.push({
+                        chargeid: $(this).val(),
+                        isSelected: $(this).is(':checked')
+                    });
+                });
+
+                if (chargegroup.length === 0) {
+                    alert('No charges found to update.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ApproveCharges", "SellCharge")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        chargegroup: chargegroup,
+                        hblId: '@Model.HBL_Id'
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Error updating charges: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error occurred while updating charges.');
                     }
                 });
             });
