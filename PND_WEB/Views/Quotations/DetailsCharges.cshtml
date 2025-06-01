@@ -18,87 +18,87 @@
             <tr>
                 <td style="border: #FFF">
                     <strong>
-                        Mã báo giá:
+                        @Html.DisplayNameFor(model => model.Quotation.QuotationId)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.QuotationId)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Trạng thái:
+                        @Html.DisplayNameFor(model => model.Quotation.Qsatus)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Qsatus)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Nhân viên:
+                        @Html.DisplayNameFor(model => model.Quotation.StaffName)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.StaffName)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Liên lạc nhân viên:
+                        @Html.DisplayNameFor(model => model.Quotation.Contact)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Liên hệ khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Ngày tạo:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Hiệu lực:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Contact)</span>
                 </td>
             </tr>
             <tr>
                 <td style="border: #FFF">
                     <strong>
-                        Điều khoản:
+                        @Html.DisplayNameFor(model => model.Quotation.CusTo)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.CusTo)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Hàng hóa:
+                        @Html.DisplayNameFor(model => model.Quotation.CusContact)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.CusContact)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Khối lượng:
+                        @Html.DisplayNameFor(model => model.Quotation.Qdate)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Qdate)</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        @Html.DisplayNameFor(model => model.Quotation.Valid)
+                    </strong>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Valid)</span>
                 </td>
             </tr>
             <tr>
                 <td style="border: #FFF">
                     <strong>
-                        Điểm đi (POL):
+                        @Html.DisplayNameFor(model => model.Quotation.Term)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Term)</span>
                 </td>
                 <td style="border: #FFF">
                     <strong>
-                        Điểm đến (POD):
+                        @Html.DisplayNameFor(model => model.Quotation.Commodity)
                     </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Commodity)</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        @Html.DisplayNameFor(model => model.Quotation.Vol)
+                    </strong>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Vol)</span>
+                </td>
+            </tr>
+            <tr>
+                <td style="border: #FFF">
+                    <strong>
+                        @Html.DisplayNameFor(model => model.Quotation.Pol)
+                    </strong>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Pol)</span>
+                </td>
+                <td style="border: #FFF">
+                    <strong>
+                        @Html.DisplayNameFor(model => model.Quotation.Pod)
+                    </strong>
+                    <span style="margin-left: 10px">@Html.DisplayFor(model => model.Quotation.Pod)</span>
                 </td>
             </tr>
         </table>
