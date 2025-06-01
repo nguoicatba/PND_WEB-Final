@@ -28,7 +28,8 @@ namespace PND_WEB.Models
         [MaxLength(1000)]
         public string? ComAddress { get; set; }
 
-        [Column("Com_Addresskd")] 
+        [Column("Com_Addresskd")]
+        [Display(Name = "Địa chỉ công ty không dấu")]
         [MaxLength(1000)]
         public string? ComAddresskd { get; set; }
 
