@@ -1,16 +1,17 @@
 ﻿@model PND_WEB.ViewModels.BaoCaoThongKeViewModel
 
-<div class="row mb-4">
-    <div class="col-12">
+<div class="row">
+    <div class="col">
         <div class="card card-default">
             <div class="card-header">
+
                 <div class="float-left">
                     <h4 class="card-title mb-0">Số lượng booking theo tháng năm @Model.Nam</h4>
                 </div>
                 <div class="float-right">
                     <form method="get" class="form-inline">
-                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="resetAndSubmit(this)">
-                            @for (int i = DateTime.Now.Year; i >= 2020; i--)
+                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
+                            @for (int i = DateTime.Now.Year; i >= 2019; i--)
                             {
                                 if (Model.Nam == i)
                                 {
@@ -38,7 +39,7 @@
 </div>
 
 <div class="row">
-    <div class="col-12">
+    <div class="col">
         <div class="card card-default">
             <div class="card-header">
                 <div class="float-left">
@@ -86,12 +87,12 @@
 
                     <div class="col-md-4">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-striped my-4 w-100 nowrap border">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Nhân viên</th>
                                         <th>Tháng</th>
-                                        <th class="text-center">Số lượng booking</th>
+                                        <th style="text-align:center">Số lượng booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -100,7 +101,7 @@
                                         <tr>
                                             <td>@stat.StaffName</td>
                                             <td>@stat.Thang</td>
-                                            <td class="text-center">@stat.SoLuongBooking</td>
+                                            <td style="text-align:center">@stat.SoLuongBooking</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -116,26 +117,8 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Function to reset month selection when changing year
-        function resetAndSubmit(yearSelect) {
-            // Create a form and add the year parameter
-            var form = document.createElement('form');
-            form.method = 'get';
-            
-            // Add the selected year
-            var yearInput = document.createElement('input');
-            yearInput.type = 'hidden';
-            yearInput.name = 'nam';
-            yearInput.value = yearSelect.value;
-            form.appendChild(yearInput);
-            
-            // Submit the form
-            document.body.appendChild(form);
-            form.submit();
-        }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Biểu đồ thống kê theo tháng
             var ctx = document.getElementById('bookingChart').getContext('2d');
             var data = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
