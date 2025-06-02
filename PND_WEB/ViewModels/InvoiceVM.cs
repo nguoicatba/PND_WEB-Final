@@ -40,7 +40,6 @@ namespace PND_WEB.ViewModels
         [Display(Name = "Invoice Type")]
         public string InvoiceType { get; set; }
 
-        [Display(Name = "Partner Type")]
-        public string PartnerType { get; set; }
+       
     }
 } 
