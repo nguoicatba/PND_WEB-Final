@@ -15,30 +15,8 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Hbls" asp-action="Details" asp-route-id=@Model.HBL_ID>Chi tiết HBL</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active">Container</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn mua</a>
-                        </li>
-
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn bán</a>
-                        </li>
-
-                        @if (ViewBag.GoodType == "LGT")
-                        {
-                            <li class="nav-item" role="presentation">
-                                <a class="nav-link" asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Cược công</a>
-                            </li>
-                        }
-
-
-                    </ul>
+                   
+                    @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_ID, isLGT = ViewBag.GoodType == "LGT" })
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <p>
@@ -113,3 +91,4 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_ID })

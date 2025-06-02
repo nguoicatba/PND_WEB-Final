@@ -17,8 +17,12 @@ namespace PND_WEB
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Cấu hình Razor Pages (nếu dùng)
+
+        
             builder.Services.AddRazorPages();
+            builder.Services.AddControllersWithViews(); 
+  
+
 
             // Load thư viện native cho DinkToPdf
             var architectureFolder = Environment.Is64BitProcess ? "64 bit" : "32 bit";

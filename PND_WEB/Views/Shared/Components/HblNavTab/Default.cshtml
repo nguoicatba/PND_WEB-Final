@@ -1,0 +1,51 @@
+﻿@model (string HBL_ID, bool isLGT)
+
+@{
+    var currentController = ViewContext.RouteData.Values["controller"].ToString();
+}
+<ul class="nav nav-tabs" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "Hbls" ? "nav-link active" : "nav-link")"
+        asp-controller="Hbls" asp-action="Details" asp-route-id="@Model.HBL_ID">Chi tiết HBL</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "Container" ? "nav-link active" : "nav-link")"
+        asp-controller="Container" asp-action="Index" asp-route-id=@Model.HBL_ID>Container</a>
+    </li>
+    @* <li class="nav-item" role="presentation"> *@
+    @*     <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn mua</a> *@
+    @* </li> *@
+
+    @* <li class="nav-item" role="presentation"> *@
+    @*     <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn bán</a> *@
+    @* </li> *@
+
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "BuyCharge" ? "nav-link active" : "nav-link")"
+        asp-controller="BuyCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Giá mua</a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "SellCharge" ? "nav-link active" : "nav-link")"
+        asp-controller="SellCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Giá bán</a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "BehalfCharge" ? "nav-link active" : "nav-link")"
+        asp-controller="BehalfCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Chi hộ</a>
+    </li>
+
+    <li class="nav-item" role="presentation">
+        <a class="@(currentController == "ContCharge" ? "nav-link active" : "nav-link")"
+        asp-controller="ContCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Cược container</a>
+    </li>
+
+    @if (Model.isLGT == true)
+    {
+        <li class="nav-item" role="presentation">
+            <a class="@(currentController == "ContInvoice" ? "nav-link active" : "nav-link")"
+            asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Phí cược công</a>
+        </li>
+    }
+
+</ul>

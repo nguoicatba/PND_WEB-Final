@@ -1,0 +1,94 @@
+@model PND_WEB.ViewModels.ContChargeEM
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default">
+            <div class="card-header bg-success">Edit Container Charge</div>
+            <div class="card-body">
+                <form asp-action="Edit" id="editForm">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="ChargeId" />
+                    <input type="hidden" asp-for="HblId" />
+
+                    <div class="form-group">
+                        <label asp-for="SupplierId" class="control-label"></label>
+                        <select asp-for="SupplierId" class="form-control select2-not-tag" data-url="@Url.Action("SupplierGet", "ContCharge")">
+                            <option value="@Model.SupplierId" selected="selected">@Model.SupplierName</option>
+                        </select>
+                        <span asp-validation-for="SupplierId" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SerName" class="control-label"></label>
+                        <select asp-for="SerName" class="form-control select-fee" data-url="@Url.Action("FeeGet", "ContCharge")">
+                            <option value="@Model.SerName" selected="selected">@Model.SerName</option>
+                        </select>
+                        <span asp-validation-for="SerName" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SerUnit" class="control-label"></label>
+                        <select asp-for="SerUnit" class="form-control select2-code" data-url="@Url.Action("UnitGet", "ContCharge")">
+                            <option value="@Model.SerUnit" selected="selected">@Model.SerUnit</option>
+                        </select>
+                        <span asp-validation-for="SerUnit" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SerQuantity" class="control-label"></label>
+                        <input asp-for="SerQuantity" class="form-control" type="number" step="0.1" min="0" />
+                        <span asp-validation-for="SerQuantity" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SerPrice" class="control-label"></label>
+                        <input asp-for="SerPrice" class="form-control" type="number" step="0.01" min="0" />
+                        <span asp-validation-for="SerPrice" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Currency" class="control-label"></label>
+                        <select asp-for="Currency" class="form-control select2-code" data-url="@Url.Action("CurrencyGet", "ContCharge")">
+                            <option value="@Model.Currency" selected="selected">@Model.Currency</option>
+                        </select>
+                        <span asp-validation-for="Currency" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="ExchangeRate" class="control-label"></label>
+                        <input asp-for="ExchangeRate" class="form-control" type="number" step="1" min="0" max="100" />
+                        <span asp-validation-for="ExchangeRate" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="SerVat" class="control-label"></label>
+                        <input asp-for="SerVat" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="SerVat" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="MVat" class="control-label"></label>
+                        <input asp-for="MVat" class="form-control" type="number" step="0.01" />
+                        <span asp-validation-for="MVat" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                        <a asp-action="Index" asp-route-id="@Model.HblId" class="btn btn-secondary">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/components/SelectList.js"></script>
+} 

@@ -128,15 +128,17 @@
                 <a asp-action="TuttCreate" asp-route-id="@Model.tutt.SoTutt" class="btn btn-primary btn-xs">Create New</a>
             </p>
         }
-        <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
+        <table class="table table-striped my-4 w-100 nowrap border" id="datatable1">
             <thead class="">
                 <tr>
                     <th>Action</th>
+
                     <th>@Html.DisplayNameFor(model => model.tuttphi[0].SoHoaDon)</th>
+
                     <th>
                         @Html.DisplayNameFor(model => model.tuttphi[0].TenPhi)
                     </th>
-                    <th>
+                    <th class="text-start">
                         @Html.DisplayNameFor(model => model.tuttphi[0].SoTien)
                     </th>
                     <th>
@@ -148,20 +150,28 @@
                 @foreach (var item in Model.tuttphi )
                 {
                     <tr>
-                        <td>
-                            @if (Model.tutt.Ceo != true && Model.tutt.Ketoan != true)
-                            {
+                        @if (Model.tutt.Ceo != true && Model.tutt.Ketoan != true)
+                        {
+                            <td>
+
                                 <a asp-action="TuttEdit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                                 <a asp-action="TuttDelete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                            }
-                        </td>
+
+                            </td>
+                        }
+                        else
+                        {
+                           <td></td>
+                        }
+                      
+
                         <td>
                             @Html.DisplayFor(modelItem => item.SoHoaDon)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.TenPhi)
                         </td>
-                        <td>
+                        <td class="text-start">
                             @Html.DisplayFor(modelItem => item.SoTien)
                         </td>
                         <td>
@@ -172,12 +182,12 @@
 
             </tbody>
             <tfoot>
-                <tr class="fw-bold table">
+                <tr>
                     <td colspan="3" class="text-end">Tổng tiền:</td>
                     <td>
                         @String.Format("{0:N0}", Model.tuttphi.Sum(x => x.SoTien))
                     </td>
-                    <td></td>
+                    
                 </tr>
             </tfoot>
 

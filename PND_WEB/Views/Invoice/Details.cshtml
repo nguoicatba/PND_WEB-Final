@@ -1,0 +1,196 @@
+@model PND_WEB.ViewModels.InvoiceDetailsVM
+
+@{
+    ViewData["Title"] = "Chi tiết Invoice";
+}
+
+
+
+<!-- Invoice Details Card -->
+<div class="card mb-3">
+    <div class="card-header">
+        <h5 class="mb-0">Thông tin chi tiết</h5>
+    </div>
+    <div class="card-body">
+        <form id="invoiceForm" asp-controller="Invoice" asp-action="UpdateInvoice" method="post">
+            <input type="hidden" asp-for="Invoice.Id" />
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.InvoiceNo"></label>
+                        <input class="form-control" value="@Model.Invoice.InvoiceNo" readonly="readonly" />
+                        <input type="hidden" asp-for="Invoice.InvoiceNo" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.Type"></label>
+                        <input class="form-control" value="@Model.Invoice.Type" readonly="readonly" />
+                        <input type="hidden" asp-for="Invoice.Type" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.Hbl"></label>
+                        <input class="form-control" value="@Model.Invoice.Hbl" readonly="readonly" />
+                        <input type="hidden" asp-for="Invoice.Hbl" />
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.Partner"></label>
+                        <input class="form-control" value="@Model.Invoice.Partner" readonly="readonly" />
+                        <input type="hidden" asp-for="Invoice.Partner" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.Currency"></label>
+                        <input asp-for="Invoice.Currency" class="form-control" />
+                        <span asp-validation-for="Invoice.Currency" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.ExchangeRate"></label>
+                        <input asp-for="Invoice.ExchangeRate" class="form-control" />
+                        <span asp-validation-for="Invoice.ExchangeRate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.DebitDate"></label>
+                        <input class="form-control" value="@Model.Invoice.DebitDate?.ToString("yyyy-MM-dd")" type="date" readonly="readonly" />
+                        <input type="hidden" asp-for="Invoice.DebitDate" />
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.PaymentDate"></label>
+                        <input asp-for="Invoice.PaymentDate" class="form-control" type="date" />
+                        <span asp-validation-for="Invoice.PaymentDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Invoice.InvoiceDate"></label>
+                        <input asp-for="Invoice.InvoiceDate" class="form-control" type="date" />
+                        <span asp-validation-for="Invoice.InvoiceDate" class="text-danger"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-primary" asp-controller="Invoice" asp-action="UpdateInvoice">
+                        <i class="fa fa-save"></i> Lưu thay đổi
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">
+                        <i class="fa fa-arrow-left"></i> Quay lại
+                    </a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Charges Table Card -->
+<div class="card">
+    <div class="card-header">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Danh sách phí</h5>
+            <div>
+                <button type="button" class="btn btn-primary btn-sm" id="saveSelectedCharges">
+                    <i class="fa fa-save"></i> Lưu trạng thái
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-striped table-bordered" id="datatable1">
+            <thead>
+                <tr>
+                    <th>
+                        <input type="checkbox" id="checkAll" />
+                    </th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].SerName)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].SerUnit)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].SerQuantity)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].SerPrice)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].Currency)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].ExchangeRate)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].SerVat)</th>
+                    <th>@Html.DisplayNameFor(model => model.Charges[0].MVat)</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < Model.Charges.Count; i++)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" class="charge-checkbox" 
+                                   data-charge-id="@Model.Charges[i].Id"
+                                   @(Model.Charges[i].Checked == true ? "checked" : "") />
+                        </td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].SerName)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].SerUnit)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].SerQuantity)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].SerPrice)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].Currency)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].ExchangeRate)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].SerVat)</td>
+                        <td>@Html.DisplayFor(m => m.Charges[i].MVat)</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    @Html.AntiForgeryToken()
+    <script>
+        $(document).ready(function () {
+            $("#checkAll").change(function () {
+                $(".charge-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            $("#saveSelectedCharges").click(function() {
+                var selectedCharges = [];
+                $(".charge-checkbox").each(function() {
+                    selectedCharges.push({
+                        ChargeId: $(this).data('charge-id'),
+                        IsChecked: $(this).is(':checked')
+                    });
+                });
+                console.log(selectedCharges);
+                var token = $('input[name="__RequestVerificationToken"]').val();
+
+                $.ajax({
+                    url: '@Url.Action("SaveSelectedCharges", "Invoice")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(selectedCharges),
+                    headers: {
+                        'RequestVerificationToken': token
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            alert('Lưu trạng thái thành công');
+                            location.reload();
+                        } else {
+                            alert('Lỗi khi lưu trạng thái: ' + (response.message || ''));
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        alert('Lỗi khi lưu trạng thái: ' + error);
+                    }
+                });
+            });
+        });
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+} 

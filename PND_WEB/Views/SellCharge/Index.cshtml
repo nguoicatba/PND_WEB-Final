@@ -1,0 +1,256 @@
+@model PND_WEB.ViewModels.SellChargeVM
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
+
+<div class="row">
+    <div class="col-xl-12">
+        <partial name="_StatusMessage" model="@TempData["status"]" />
+        <!-- START card-->
+        <div class="card card-default" id="cardDemo14">
+            <div class="card-header bg-success">About HBL: @Model.HBL_Id</div>
+            <div class="card-body">
+                <div role="tabpanel">
+                    <!-- Nav tabs-->
+                     @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
+                    <!-- Tab panes-->
+                    <div class="tab-content">
+
+                                <div class="d-flex align-items-center">
+
+                                <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
+                                        <span class="btn-label">
+                                        <i class="fa fa-plus-square-o"></i>
+                                        </span>New Charge
+                                    </a>
+                                    @if (User.HasClaim("AllInvoice", "Check"))
+                                    {
+                                        <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
+                                            <span class="btn-label">
+                                            <i class="fa fa-save"></i>
+                                            </span>Save Data
+                                        </button>
+                                    }
+                                    <div class="dropdown">
+                                        <button class="btn btn-secondary dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <span class="btn-label">
+                                            <i class="fa fa-long-arrow-down"></i>
+                                            </span>Get Charge
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#getBuyChargesModal">Giá mua</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br />
+
+
+                                <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
+                                     <thead class="bg bg-secondary">
+                                        <tr>
+                                            @if (User.HasClaim("AllInvoice", "Check"))
+                                            {
+                                                <th>
+                                                    <input type="checkbox" id="selectAll" />
+                                                </th>
+                                            }
+                                            <th>
+                                                 Action
+                                            </th>
+                                            <th>Invoice No</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].CustomerID)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].CustomerName)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerName)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerUnit)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerQuantity)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerPrice)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].Currency)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].ExchangeRate)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].SerVat)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].MVat)</th>
+                                            <th>@Html.DisplayNameFor(model => model._charges[0].Checked)</th>
+                                            <th>Amount</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var item in Model._charges)
+                                        {
+                                            <tr style="@(item.Checked == true ? "background-color: #d4edda;" : "")">
+                                                @if (User.HasClaim("AllInvoice", "Check"))
+                                                {
+                                                    <td>
+                                                        <input type="checkbox" class="charge-checkbox" 
+                                                               value="@item.ChargeId" 
+                                                               data-checked="@item.Checked"
+                                                               data-customer="@item.CustomerID"
+                                                               @(item.Checked == true ? "checked" : "") />
+                                                    </td>
+                                                }
+                                                @if (item.Checked == false || item.Checked == null)
+                                                {
+                                                    <td>
+                                                        <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                                        <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+                                                    <td></td>
+                                                }
+                                                <td>@item.InvoiceNo</td>
+                                                <td>@item.CustomerID</td>
+                                                <td>@item.CustomerName</td>
+                                                <td>@item.SerName</td>
+                                                <td>@item.SerUnit</td>
+                                                <td>@item.SerQuantity</td>
+                                                <td>@item.SerPrice</td>
+                                                <td>@item.Currency</td>
+                                                <td>@item.ExchangeRate</td>
+                                                <td>@item.SerVat</td>
+                                                <td>
+                                                    @if (item.MVat.HasValue)
+                                                    {
+                                                        @item.MVat.Value.ToString("N2")
+                                                    }
+                                                    else
+                                                    {
+                                                        <span class="text-danger">N/A</span>
+                                                    }
+                                                </td>
+                                                <td>@item.Checked</td>
+                                                <td>@(((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2"))</td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="12" class="text-right">Total:</td>
+                                            <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                           
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+</div> 
+
+
+
+@await Component.InvokeAsync("HblProfitFooter", new { hblId = Model.HBL_Id })
+
+@section Modal{
+    <!-- Modal -->
+    <div class="modal fade" id="getBuyChargesModal" tabindex="-1" role="dialog" aria-labelledby="getBuyChargesModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="getBuyChargesModalLabel">Select Buy Charges</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="buyChargesTable">
+                        Loading...
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="importSelectedCharges">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#getBuyChargesModal').on('show.bs.modal', function (e) {
+                $.get('@Url.Action("GetBuyCharges", "SellCharge")', { hblId: '@Model.HBL_Id' }, function (data) {
+                    $('#buyChargesTable').html(data);
+                });
+            });
+
+            $('#importSelectedCharges').click(function() {
+                var selectedCharges = [];
+                $('.charge-checkbox:checked').each(function() {
+                    selectedCharges.push($(this).val());
+                });
+
+                if (selectedCharges.length === 0) {
+                    alert('Please select at least one charge to import.');
+                    return;
+                }
+
+
+                var dataSend = JSON.stringify({ chargeIds: selectedCharges, hblId: '@Model.HBL_Id' });
+
+                console.log(dataSend);
+                $.ajax({
+                    url: '@Url.Action("ImportBuyCharges", "SellCharge")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: dataSend,
+                    
+                    
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Error importing charges: ' + response.message);
+                        }
+                    }
+                });
+            });
+
+            // Handle select all checkbox
+            $("#selectAll").change(function () {
+                $(".charge-checkbox").prop('checked', $(this).prop('checked'));
+            });
+
+            // Handle save checked charges
+            $("#saveCheckedCharges").click(function () {
+                var chargegroup = [];
+
+                $('.charge-checkbox').each(function () {
+                    chargegroup.push({
+                        chargeid: $(this).val(),
+                        isSelected: $(this).is(':checked')
+                    });
+                });
+
+                if (chargegroup.length === 0) {
+                    alert('No charges found to update.');
+                    return;
+                }
+
+                $.ajax({
+                    url: '@Url.Action("ApproveCharges", "SellCharge")',
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        chargegroup: chargegroup,
+                        hblId: '@Model.HBL_Id'
+                    }),
+                    success: function (response) {
+                        if (response.success) {
+                            window.location.reload();
+                        } else {
+                            alert('Error updating charges: ' + response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('Error occurred while updating charges.');
+                    }
+                });
+            });
+        });
+    </script>
+}
