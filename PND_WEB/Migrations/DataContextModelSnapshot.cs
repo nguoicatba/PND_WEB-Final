@@ -565,12 +565,9 @@ namespace PND_WEB.Migrations
 
             modelBuilder.Entity("PND_WEB.Models.InvoiceCharge", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
                         .HasColumnName("ID");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<bool?>("Checked")
                         .HasColumnType("bit")

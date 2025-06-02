@@ -43,8 +43,9 @@ xuất pdf:ok
 sinh mã hbl:
 lệnh do: ok
 
-28/5:
-sửa lại code y như ELSA@FMS bắt đầu từ invocie
+2/6/2025:
+
+sửa lại exchangerate buycharge
 
 
 

@@ -12,8 +12,8 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250518092600_Init229")]
-    partial class Init229
+    [Migration("20250602104327_Init5280208")]
+    partial class Init5280208
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -513,6 +513,116 @@ namespace PND_WEB.Migrations
                     b.ToTable("GOODS_TYPE");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.Invoice", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("ID");
+
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Currency");
+
+                    b.Property<DateTime?>("DebitDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Debit_date");
+
+                    b.Property<float?>("ExchangeRate")
+                        .HasColumnType("real")
+                        .HasColumnName("Exchange_rate");
+
+                    b.Property<string>("Hbl")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)")
+                        .HasColumnName("HBL");
+
+                    b.Property<DateTime?>("InvoiceDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Invoice_date");
+
+                    b.Property<string>("InvoiceNo")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Invoice_No");
+
+                    b.Property<string>("Partner")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Partner");
+
+                    b.Property<DateTime?>("PaymentDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Payment_date");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Type");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("INVOICE");
+                });
+
+            modelBuilder.Entity("PND_WEB.Models.InvoiceCharge", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("ID");
+
+                    b.Property<bool?>("Checked")
+                        .HasColumnType("bit")
+                        .HasColumnName("Checked");
+
+                    b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Currency");
+
+                    b.Property<float?>("ExchangeRate")
+                        .HasColumnType("real")
+                        .HasColumnName("Exchange_rate");
+
+                    b.Property<string>("InvoiceId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Invoice_ID");
+
+                    b.Property<float?>("MVat")
+                        .HasColumnType("real")
+                        .HasColumnName("M_VAT");
+
+                    b.Property<string>("SerName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Ser_Name");
+
+                    b.Property<float?>("SerPrice")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Price");
+
+                    b.Property<float?>("SerQuantity")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Quantity");
+
+                    b.Property<string>("SerUnit")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Ser_Unit");
+
+                    b.Property<float?>("SerVat")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_VAT");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InvoiceId");
+
+                    b.ToTable("INVOICE_CHARGE");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.InvoiceType", b =>
                 {
                     b.Property<string>("Code")
@@ -703,6 +813,117 @@ namespace PND_WEB.Migrations
                     b.ToTable("SOURSE");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.TblBookingConfirm", b =>
+                {
+                    b.Property<string>("BookingId")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Booking_ID");
+
+                    b.Property<string>("Airline")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Airline");
+
+                    b.Property<DateTime>("BookingDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Booking_Date");
+
+                    b.Property<string>("CargoDescription")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)")
+                        .HasColumnName("Cargo_Description");
+
+                    b.Property<decimal?>("ChargeableWeight")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("Chargeable_Weight");
+
+                    b.Property<int?>("ContainerQuantity")
+                        .HasColumnType("int")
+                        .HasColumnName("Container_Quantity");
+
+                    b.Property<string>("ContainerType")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Container_Type");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Created_Date");
+
+                    b.Property<string>("CustomerId")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Customer_ID");
+
+                    b.Property<DateTime>("ETA")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ETA");
+
+                    b.Property<DateTime>("ETD")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ETD");
+
+                    b.Property<string>("FlightNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Flight_Number");
+
+                    b.Property<string>("GoodType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Good_Type");
+
+                    b.Property<decimal?>("GrossWeight")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("Gross_Weight");
+
+                    b.Property<string>("POD")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("POD");
+
+                    b.Property<string>("POL")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("POL");
+
+                    b.Property<int?>("PackageQuantity")
+                        .HasColumnType("int")
+                        .HasColumnName("Package_Quantity");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)")
+                        .HasColumnName("Remarks");
+
+                    b.Property<string>("Status")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Status");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Updated_Date");
+
+                    b.Property<string>("VesselName")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Vessel_Name");
+
+                    b.Property<decimal?>("Volume")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("Volume");
+
+                    b.HasKey("BookingId");
+
+                    b.HasIndex("CustomerId");
+
+                    b.ToTable("tbl_BOOKING_CONFIRM");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.TblCharge", b =>
                 {
                     b.Property<int>("Id")
@@ -853,7 +1074,7 @@ namespace PND_WEB.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<double?>("Cmb")
+                    b.Property<double>("Cmb")
                         .HasColumnType("float");
 
                     b.Property<string>("ContNo")
@@ -874,7 +1095,7 @@ namespace PND_WEB.Migrations
                     b.Property<string>("GoodsQuantity")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("GrossWeight")
+                    b.Property<double>("GrossWeight")
                         .HasColumnType("float");
 
                     b.Property<string>("Hbl")
@@ -1098,6 +1319,99 @@ namespace PND_WEB.Migrations
                     b.ToTable("tbl_HBL");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.TblHblCharges", b =>
+                {
+                    b.Property<string>("ChargeId")
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Charge_ID");
+
+                    b.Property<bool?>("Behalf")
+                        .HasColumnType("bit")
+                        .HasColumnName("Behalf");
+
+                    b.Property<bool?>("Buy")
+                        .HasColumnType("bit")
+                        .HasColumnName("Buy");
+
+                    b.Property<bool?>("Checked")
+                        .HasColumnType("bit")
+                        .HasColumnName("Checked");
+
+                    b.Property<bool?>("Cont")
+                        .HasColumnType("bit")
+                        .HasColumnName("Cont");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Created_Date");
+
+                    b.Property<string>("Currency")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Currency");
+
+                    b.Property<string>("CustomerId")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Customer_ID");
+
+                    b.Property<float?>("ExchangeRate")
+                        .HasColumnType("real")
+                        .HasColumnName("Exchange_rate");
+
+                    b.Property<string>("HblId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("HBL_ID");
+
+                    b.Property<string>("InvoiceNo")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Invoice No");
+
+                    b.Property<float?>("MVat")
+                        .HasColumnType("real")
+                        .HasColumnName("M_VAT");
+
+                    b.Property<bool?>("Sell")
+                        .HasColumnType("bit")
+                        .HasColumnName("Sell");
+
+                    b.Property<string>("SerName")
+                        .HasMaxLength(255)
+                        .HasColumnType("nvarchar(255)")
+                        .HasColumnName("Ser_Name");
+
+                    b.Property<float?>("SerPrice")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Price");
+
+                    b.Property<float?>("SerQuantity")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_Quantity");
+
+                    b.Property<string>("SerUnit")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)")
+                        .HasColumnName("Ser_Unit");
+
+                    b.Property<float?>("SerVat")
+                        .HasColumnType("real")
+                        .HasColumnName("Ser_VAT");
+
+                    b.Property<string>("SupplierId")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Supplier_ID");
+
+                    b.Property<DateTime?>("UpdatedDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("Updated_Date");
+
+                    b.HasKey("ChargeId");
+
+                    b.ToTable("tbl_HBL_CHARGES");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.TblHscode", b =>
                 {
                     b.Property<int>("Id")
@@ -1279,6 +1593,12 @@ namespace PND_WEB.Migrations
                         .HasColumnType("bit")
                         .HasColumnName("Cont");
 
+                    b.Property<string>("Currency")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)")
+                        .HasColumnName("Currency");
+
                     b.Property<DateTime?>("DebitDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("Debit_date");
@@ -1315,6 +1635,7 @@ namespace PND_WEB.Migrations
                         .HasColumnName("Sell");
 
                     b.Property<string>("SupplierId")
+                        .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)")
                         .HasColumnName("Supplier_ID");
@@ -1372,6 +1693,12 @@ namespace PND_WEB.Migrations
                     b.Property<DateTime>("JobDate")
                         .HasColumnType("datetime2")
                         .HasColumnName("Job_date");
+
+                    b.Property<string>("JobOwner")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("JobStatus")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Link")
                         .HasMaxLength(500)
@@ -1750,6 +2077,17 @@ namespace PND_WEB.Migrations
                     b.Navigation("CodeNavigation");
                 });
 
+            modelBuilder.Entity("PND_WEB.Models.InvoiceCharge", b =>
+                {
+                    b.HasOne("PND_WEB.Models.Invoice", "Invoice")
+                        .WithMany("InvoiceCharges")
+                        .HasForeignKey("InvoiceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Invoice");
+                });
+
             modelBuilder.Entity("PND_WEB.Models.QuotationsCharge", b =>
                 {
                     b.HasOne("PND_WEB.Models.Quotation", "Quotation")
@@ -1757,6 +2095,17 @@ namespace PND_WEB.Migrations
                         .HasForeignKey("QuotationId");
 
                     b.Navigation("Quotation");
+                });
+
+            modelBuilder.Entity("PND_WEB.Models.TblBookingConfirm", b =>
+                {
+                    b.HasOne("PND_WEB.Models.TblCustomer", "Customer")
+                        .WithMany()
+                        .HasForeignKey("CustomerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.TblCharge", b =>
@@ -1821,7 +2170,9 @@ namespace PND_WEB.Migrations
 
                     b.HasOne("PND_WEB.Models.TblSupplier", "Supplier")
                         .WithMany("TblInvoices")
-                        .HasForeignKey("SupplierId");
+                        .HasForeignKey("SupplierId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("HblNavigation");
 
@@ -1877,6 +2228,11 @@ namespace PND_WEB.Migrations
                     b.Navigation("CarrierActions");
 
                     b.Navigation("TblJobs");
+                });
+
+            modelBuilder.Entity("PND_WEB.Models.Invoice", b =>
+                {
+                    b.Navigation("InvoiceCharges");
                 });
 
             modelBuilder.Entity("PND_WEB.Models.Quotation", b =>

@@ -6,6 +6,7 @@ using PND_WEB.ViewModels;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace PND_WEB.Controllers
 {
@@ -85,6 +86,8 @@ namespace PND_WEB.Controllers
             return View(invoices);
         }
 
+     
+
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -113,65 +116,135 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
 
-            // Get charges from InvoiceCharge
-            var charges = await _context.InvoiceCharges
-                .Where(c => c.InvoiceId == invoice.InvoiceNo)
-              
+            var charges = await _context.TblHblCharges
+              .Where(c => c.InvoiceNo == invoice.InvoiceNo && c.Checked == true)
+              .ToListAsync();
+
+            foreach (var charge in charges)
+            {
+                var existingCharge = await _context.InvoiceCharges
+                    .FirstOrDefaultAsync(c => c.Id == charge.ChargeId);
+                if (existingCharge != null)
+                {
+                    // Update existing charge
+                    existingCharge.SerUnit = charge.SerUnit;
+                    existingCharge.SerQuantity = charge.SerQuantity;
+                    existingCharge.SerPrice = charge.SerPrice;
+                    existingCharge.Currency = charge.Currency;
+                    existingCharge.ExchangeRate = charge.ExchangeRate;
+                    existingCharge.SerVat = charge.SerVat;
+                    existingCharge.MVat = charge.MVat;
+
+                }
+                else
+                {
+                    // Add new charge
+                    var newCharge = new InvoiceCharge
+                    {
+                        Id = charge.ChargeId,
+                        InvoiceId = invoice.Id,
+                        SerName = charge.SerName,
+                        SerUnit = charge.SerUnit,
+                        SerQuantity = charge.SerQuantity,
+                        SerPrice = charge.SerPrice,
+                        Currency = charge.Currency,
+                        ExchangeRate = charge.ExchangeRate,
+                        SerVat = charge.SerVat,
+                        MVat = charge.MVat,
+                        
+                        Checked = false // Ensure it's checked
+                    };
+                    _context.InvoiceCharges.Add(newCharge);
+                }
+            }
+            // Remove charges that are not in the HBL charges
+            var existingCharges = await _context.InvoiceCharges
+                .Where(c => c.InvoiceId == id)
                 .ToListAsync();
+            foreach (var existingCharge in existingCharges)
+            {
+                if (!charges.Any(c => c.ChargeId == existingCharge.Id))
+                {
+                    _context.InvoiceCharges.Remove(existingCharge);
+                }
+            }
+            await _context.SaveChangesAsync();
+
+
+
+
+
+
 
             var viewModel = new InvoiceDetailsVM
             {
                 Invoice = invoice,
-                Charges = charges
+                Charges = await _context.InvoiceCharges
+                    .Where(c => c.InvoiceId == id)
+                    .ToListAsync()
             };
-
+            
             return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> UpdateInvoice(InvoiceVM model)
+        public async Task<IActionResult> UpdateInvoice(InvoiceDetailsVM model)
         {
-            if (!ModelState.IsValid)
-            {
-                return Json(new { success = false, message = "Invalid model state" });
-            }
+           
 
             try
             {
-                var invoice = await _context.invoices.FindAsync(model.Id);
+                var invoice = await _context.invoices.FindAsync(model.Invoice.Id);
                 if (invoice == null)
                 {
-                    return Json(new { success = false, message = "Invoice not found" });
+                    TempData["Error"] = "Invoice not found";
+                    return RedirectToAction(nameof(Index));
                 }
 
-                invoice.Partner = model.Partner;
-                invoice.Currency = model.Currency;
-                invoice.ExchangeRate = model.ExchangeRate;
-                invoice.DebitDate = model.DebitDate;
-                invoice.PaymentDate = model.PaymentDate;
+
+                invoice.Partner = model.Invoice.Partner;
+                invoice.InvoiceNo = model.Invoice.InvoiceNo;
+                invoice.Type = model.Invoice.Type;
+                invoice.Currency = model.Invoice.Currency;
+                invoice.ExchangeRate = model.Invoice.ExchangeRate;
+                invoice.DebitDate = model.Invoice.DebitDate;
+                invoice.PaymentDate = model.Invoice.PaymentDate;
+                invoice.InvoiceDate = model.Invoice.InvoiceDate;
+
 
                 await _context.SaveChangesAsync();
-                return Json(new { success = true, message = "Invoice updated successfully" });
+                TempData["Success"] = "Invoice updated successfully";
+                return RedirectToAction(nameof(Details), new { id = model.Invoice.Id });
             }
             catch (Exception ex)
             {
-                return Json(new { success = false, message = $"Error updating invoice: {ex.Message}" });
+                TempData["Error"] = $"Error updating invoice: {ex.Message}";
+                return RedirectToAction(nameof(Details), new { id = model.Invoice.Id });
             }
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> UpdateChargeStatus([FromBody] UpdateChargeStatusVM model)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SaveSelectedCharges([FromBody] List<ChargeStatusVM> charges)
         {
+            if (charges == null || !charges.Any())
+            {
+                return Json(new { success = false, message = "No charges to update" });
+            }
+
             try
             {
-                var charge = await _context.InvoiceCharges.FindAsync(model.ChargeId);
-                if (charge == null)
+                foreach (var charge in charges)
                 {
-                    return Json(new { success = false, message = "Charge not found" });
+                    var existingCharge = await _context.InvoiceCharges.FindAsync(charge.ChargeId);
+                    if (existingCharge != null)
+                    {
+                        existingCharge.Checked = charge.IsChecked;
+                    }
                 }
 
-                charge.Checked = model.IsChecked;
                 await _context.SaveChangesAsync();
                 return Json(new { success = true });
             }
@@ -180,5 +253,7 @@ namespace PND_WEB.Controllers
                 return Json(new { success = false, message = ex.Message });
             }
         }
+
+      
     }
 } 

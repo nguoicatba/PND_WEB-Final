@@ -9,7 +9,7 @@ namespace PND_WEB.Models
     {
         [Key]
         [Column("ID")]
-        public int Id { get; set; }
+        public  string Id { get; set; }
 
         [Column("Invoice_ID")]
         [Required]
