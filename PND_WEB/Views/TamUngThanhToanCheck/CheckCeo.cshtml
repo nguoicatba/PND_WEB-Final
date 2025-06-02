@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Duyệt tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
 
 <div class="row">
     <div class="col-xl-12">
@@ -15,6 +15,9 @@
                 <p>
                     <a asp-action="EditBudget" class="btn btn-info btn-xs">
                         EDIT BUDGET
+                    </a>
+                    <a asp-action="EditBudgetStaff" class="btn btn-info btn-xs">
+                        EDIT BUDGET STAFF
                     </a>
                 </p>
                 <table class="table table-striped my-4 w-100 nowrap border" id="datatable3">
@@ -58,12 +61,23 @@
                                     </td>
                                 }
                                 <td>
-                                    @(item.Tu == true ? "Tạm ứng" : (item.Tt == true ? "Thanh toán" : ""))
+                                    @((item.Tu == true) && (item.Tt == true) ? "Thanh toán cho tạm ứng" : (item.Tt == true ? "Thanh toán" : (item.Tu == true ? "Tạm ứng" : "")))
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ceo == null ? "Chưa duyệt" : (item.Ceo == true ? "Đã duyệt" : "Huỷ"))
+                                    @if (item.Ceo == null)
+                                    {
+                                        <span class="badge badge-info">Chưa duyệt</span>
+                                    }
+                                    else if (item.Ceo == true)
+                                    {
+                                        <span class="badge badge-success">Đã duyệt</span>
+                                    }
+                                    else if (item.Ceo == false)
+                                    {
+                                        <span class="badge badge-inverse">Huỷ</span>
+                                    }
                                 </td>
                             </tr>
                         }

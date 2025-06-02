@@ -4,7 +4,8 @@
 @{
     ViewData["Title"] = "Details";
 
-    bool isReadOnly = Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
+    var userRole = User.IsInRole("CEO") || User.IsInRole("SuperAdmin");
+    bool isReadOnly = !userRole && Model.Quotation.Qsatus == "Hoàn thành" || Model.Quotation.Qsatus == "Đã hủy";
     var staffNameAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
@@ -14,94 +15,55 @@
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">About Quotation:</div>
     <div class="card-body">
-        <table class="table table-bordered">
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Mã báo giá:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.QuotationId</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Trạng thái:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qsatus</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Nhân viên:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.StaffName</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Liên lạc nhân viên:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Contact</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusTo</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Liên hệ khách hàng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.CusContact</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Ngày tạo:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Qdate?.ToString("dd/MM/yyyy")</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Hiệu lực:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Valid?.ToString("dd/MM/yyyy")</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Điều khoản:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Term</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Hàng hóa:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Commodity</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Khối lượng:
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Vol</span>
-                </td>
-            </tr>
-            <tr>
-                <td style="border: #FFF">
-                    <strong>
-                        Điểm đi (POL):
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pol</span>
-                </td>
-                <td style="border: #FFF">
-                    <strong>
-                        Điểm đến (POD):
-                    </strong>
-                    <span style="margin-left: 10px">@Model.Quotation.Pod</span>
-                </td>
-            </tr>
-        </table>
+        <div class="row">
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Basic Info</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.QuotationId)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.QuotationId)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Qsatus)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Qsatus)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.StaffName)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.StaffName)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Contact)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Contact)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.CusTo)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.CusTo)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.CusContact)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.CusContact)</dd>
+                </dl>
+            </div>
+            <div class="col-md-6">
+                <h5 class="border-bottom" style="background-color: lightgreen;">Shipping Details</h5>
+                <dl class="row">
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Qdate)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Qdate)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Valid)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Valid)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Term)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Term)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Commodity)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Commodity)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Vol)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Vol)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Pol)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Pol)</dd>
+
+                    <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Quotation.Pod)</dt>
+                    <dd class="col-sm-8">@Html.DisplayFor(model => model.Quotation.Pod)</dd>
+                </dl>
+            </div>
+        </div>
     </div>
 </div>
 

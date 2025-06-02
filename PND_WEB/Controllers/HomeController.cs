@@ -31,10 +31,39 @@ namespace PND_WEB.Controllers
             _viewRenderService = viewRenderService;
         }
 
-       
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
-            return View();
+            ViewBag.CompletedBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Hoàn thành");
+            ViewBag.WaitBookingsCount = _context.TblBookingConfirms.Count(q => q.Status == "Đang vận chuyển");
+
+            string todayPrefix = $"BK{DateTime.Now:yyyyMM}";
+            ViewBag.TodayBookingsCount = _context.TblBookingConfirms.Count(q => q.BookingId.StartsWith(todayPrefix));
+
+            // Get top 3 customers with most bookings
+            var topCustomers = await _context.TblBookingConfirms
+                .GroupBy(b => b.CustomerId)
+                .Select(g => new TopCustomerViewModel
+                {
+                    CustomerId = g.Key,
+                    BookingCount = g.Count(),
+                    CompanyName = _context.TblCustomers
+                        .Where(c => c.CustomerId == g.Key)
+                        .Select(c => c.CompanyName)
+                        .FirstOrDefault() ?? "Unknown"
+                })
+                .OrderByDescending(x => x.BookingCount)
+                .Take(3)
+                .ToListAsync();
+
+            ViewBag.TopCustomers = topCustomers;
+
+            var booking = await _context.TblBookingConfirms
+                .OrderByDescending(q => q.BookingId)
+                .Take(5)
+                .ToListAsync();
+
+            return View(booking);
         }
 
         [ClaimAuthorize("Job", "Create")]

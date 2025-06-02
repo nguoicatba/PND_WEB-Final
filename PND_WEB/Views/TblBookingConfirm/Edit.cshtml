@@ -1,0 +1,348 @@
+﻿@model PND_WEB.Models.TblBookingConfirm
+
+@{
+    ViewData["Title"] = "Edit";
+
+    var userRole = User.IsInRole("CEO") || User.IsInRole("SuperAdmin");
+    bool isReadOnly = !userRole && (Model.Status == "Hoàn thành" || Model.Status == "Đã hủy");
+
+    var commonAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" } };
+
+    var textAreaAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "rows", "3" }, { "readonly", "readonly" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "rows", "3" } };
+
+    var VesselNameAttr = isReadOnly
+     ? new Dictionary<string, object>
+       {
+          { "class", "form-control" },
+          { "readonly", "readonly" },
+          { "id", "vesselname" }
+       }
+     : new Dictionary<string, object>
+       {
+          { "class", "form-control" },
+          { "id", "vesselname" }
+       };
+
+    var VesselNameAttr2 = isReadOnly
+     ? new Dictionary<string, object>
+       {
+          { "class", "form-control" },
+          { "readonly", "readonly" },
+          { "id", "" }
+       }
+     : new Dictionary<string, object>
+       {
+          { "class", "form-control" },
+          { "id", "" }
+       };
+
+    var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>EDIT BOOKING: @Model.BookingId</b></div>
+            <div class="card-body">
+                <form asp-action="Edit">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="BookingId" />
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="Status" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                @Html.DropDownListFor(model => model.Status, (IEnumerable<SelectListItem>)ViewBag.StatusList,
+                                new { @class = "form-control", disabled = "disabled" })
+                            @Html.HiddenFor(model => model.Status)
+                                                        }
+                            else
+                            {
+                                @Html.DropDownListFor(model => model.Status, (IEnumerable<SelectListItem>)ViewBag.StatusList,
+                                new { @class = "form-control" })
+                                                        }
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="StaffName" class="control-label"></label>
+                            <input asp-for="StaffName" class="form-control" readonly/>
+                            <span asp-validation-for="StaffName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Contact" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Contact, commonAttr)
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="BookingDate" class="control-label"></label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   name="BookingDate"
+                                   value="@(Model.BookingDate.ToString("yyyy-MM-ddTHH:mm"))"
+                                   @(isReadOnly ? "readonly" : "") />
+                            <span asp-validation-for="BookingDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CustomerId" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="CustomerId" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="CustomerId" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "TblBookingConfirm")">
+                                    @if (Model.CustomerId != null)
+                                    {
+                                        <option value="@Model.CustomerId" selected="selected">@Model.CustomerId</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="PICcompany" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.PICcompany, commonAttr)
+                            <span asp-validation-for="PICcompany" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="QuotationId" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.QuotationId, commonAttr)
+                            <span asp-validation-for="QuotationId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="Shipper" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="Shipper" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="Shipper" class="form-control select2-not-tag" data-url="@Url.Action("ShipperGet", "TblBookingConfirm")">
+                                    @if (Model.Shipper != null)
+                                    {
+                                        <option value="@Model.Shipper" selected="selected">@Model.Shipper</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="Shipper" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="CNEE" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="CNEE" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="CNEE" class="form-control select2-not-tag" data-url="@Url.Action("CneeGet", "TblBookingConfirm")">
+                                    @if (Model.CNEE != null)
+                                    {
+                                        <option value="@Model.CNEE" selected="selected">@Model.CNEE</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="CNEE" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GoodType" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="GoodType" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="GoodType" class="form-control">
+                                    <option value="AI">AI</option>
+                                    <option value="AE">AE</option>
+                                    <option value="FCLI">FCLI</option>
+                                    <option value="FCLE">FCLE</option>
+                                    <option value="LCLI">LCLI</option>
+                                    <option value="LCLE">LCLE</option>
+                                    <option value="LGT">LGT</option>
+                                </select>
+                            }
+                            <span asp-validation-for="GoodType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETD" class="control-label"></label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   name="ETD"
+                                   value="@(Model.ETD.ToString("yyyy-MM-ddTHH:mm"))"
+                                   @(isReadOnly ? "readonly" : "") />
+                            <span asp-validation-for="ETD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETA" class="control-label"></label>
+                            <input type="datetime-local"
+                                   class="form-control"
+                                   name="ETA"
+                                   value="@(Model.ETA.ToString("yyyy-MM-ddTHH:mm"))"
+                                   @(isReadOnly ? "readonly" : "") />
+                            <span asp-validation-for="ETA" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="POL" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="POL" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="POL" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
+                                    @if (Model.POL != null)
+                                    {
+                                        <option value="@Model.POL" selected="selected">@Model.POL</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="POL" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="POD" class="control-label"></label>
+                            @if (isReadOnly)
+                            {
+                                <input asp-for="POD" class="form-control" readonly />
+                            }
+                            else
+                            {
+                                <select asp-for="POD" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
+                                    @if (Model.POD != null)
+                                    {
+                                        <option value="@Model.POD" selected="selected">@Model.POD</option>
+                                    }
+                                </select>
+                            }
+                            <span asp-validation-for="POD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="VesselName" id="lbvesselname" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.VesselName, VesselNameAttr)
+                            <span asp-validation-for="VesselName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerType" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ContainerType, commonAttr)
+                            <span asp-validation-for="ContainerType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerQuantity" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ContainerQuantity, commonAttr)
+                            <span asp-validation-for="ContainerQuantity" id="duongbien" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="PackageQuantity" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.PackageQuantity, commonAttr)
+                            <span asp-validation-for="PackageQuantity" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    @* ở đây  *@
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="FlightNumber" id="flightNumberGroup1" class="control-label"></label>
+                            <input asp-for="FlightNumber" id="flightNumberGroup" class="form-control"
+                                   readonly="@(Model.Status == "Đã hủy" || Model.Status == "Hoàn thành")" />
+
+                            <span asp-validation-for="FlightNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Airline" id="airlineGroup1" class="control-label"></label>
+                            <input asp-for="Airline" id="airlineGroup" class="form-control" 
+                                    readonly="@(Model.Status == "Đã hủy" || Model.Status == "Hoàn thành")" />
+                            <span asp-validation-for="Airline" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GrossWeight" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.GrossWeight, commonAttr)
+                            <span asp-validation-for="GrossWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ChargeableWeight" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.ChargeableWeight, commonAttr)
+                            <span asp-validation-for="ChargeableWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Volume" class="control-label"></label>
+                            @Html.TextBoxFor(model => model.Volume, commonAttr)
+                            <span asp-validation-for="Volume" class="text-danger"></span>
+                        </div>
+                    </div>
+
+
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="CargoDescription" class="control-label"></label>
+                            @Html.TextAreaFor(model => model.CargoDescription, textAreaAttr)
+                            <span asp-validation-for="CargoDescription" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label asp-for="Remarks" class="control-label"></label>
+                            @Html.TextAreaFor(model => model.Remarks, textAreaAttr)
+                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Save" class="btn btn-primary btn-xs" @disabledAttr />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/components/SelectList.js"></script>
+
+    <script>
+        function toggleAirFields() {
+            const selected = $('#GoodType').val();
+            const isAI = selected === 'AI' || selected === 'AI';
+
+            // Ẩn/hiện FlightNumber và Airline
+            $('#airlineGroup').toggle(isAI);
+            $('#airlineGroup1').toggle(isAI);
+            $('#flightNumberGroup').toggle(isAI);
+            $('#flightNumberGroup1').toggle(isAI);
+
+
+            $('#vesselname').toggle(!isAI);
+            $('#lbvesselname').toggle(!isAI);
+
+        }
+
+        $(document).ready(function () {
+            $('#GoodType').attr('id', 'GoodType');
+            toggleAirFields();
+
+            $('#GoodType').on('change', function () {
+                toggleAirFields();
+            });
+        });
+    </script>
+}

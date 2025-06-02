@@ -56,10 +56,10 @@
                 <div class="navbar-header">
                     <a class="navbar-brand" href="#/">
                         <div class="brand-logo">
-                            <img class="img-fluid" src="~/app/img/logo-pnd.png" alt="App Logo">
+                            <img class="img-fluid" src="~/app/img/logo-pnd.png" alt="App Logo" onclick="window.location.href='@Url.Action("Index", "Home")'" style="cursor: pointer;">
                         </div>
                         <div class="brand-logo-collapsed">
-                            <img class="img-fluid" src="~/app/img/logo-single-pnd.png" alt="App Logo">
+                            <img class="img-fluid" src="~/app/img/logo-single-pnd.png" alt="App Logo" onclick="window.location.href='@Url.Action("Index", "Home")'" style="cursor: pointer;">
                         </div>
                     </a>
                 </div>
@@ -207,7 +207,7 @@
                                 </li>
 
                                 <li class=" ">
-                                    <a asp-controller="Booking" asp-action="Index">
+                                    <a asp-controller="TblBookingConfirm" asp-action="Index">
                                         <span>Booking</span>
                                     </a>
                                 </li>
@@ -223,7 +223,7 @@
 
                         <li class=" ">
                             <a href="#MenuDoc" title="MenuDoc" data-toggle="collapse">
-                                <em class="fa fa-building-o"></em>
+                                <em class="icon-notebook"></em>
                                 <span>Thông tin chứng từ</span>
                             </a>
                             <ul class="sidebar-nav sidebar-subnav collapse" id="MenuDoc">
@@ -261,12 +261,6 @@
                                 </li>
                             </ul>
                         </li>
-
-
-                        @if (User.HasClaim("AllInvoice", "Check"))
-                        {
-                            
-                        }
 
                         <li class="nav-heading">
                             <span>Quản lý danh mục</span>
@@ -365,7 +359,7 @@
                         
                         @* điều kiện vào check *@
 
-                        @if (User.IsInRole("CEO") || User.IsInRole("Accountant"))
+                        @if (User.IsInRole("CEO") || User.IsInRole("Accountant") || User.IsInRole("SuperAdmin"))
                         {
                             <li>
                                 <a asp-controller="TamUngThanhToanCheck" asp-action="Check">
@@ -414,7 +408,7 @@
 
                         <li class=" ">
                             <a asp-controller="BaocaoThongke" asp-action="Index">
-                                <em class="icon-home"></em>
+                                <em class="fa fa-line-chart"></em>
                                 <span>Báo cáo thống kê</span>
                             </a>
                         </li>

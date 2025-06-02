@@ -2,7 +2,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Quotations", SubTitle = "Danh sách báo giá" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Quotations", SubTitle = "Danh sách toàn bộ báo giá" })
 
 <div class="card">
     <div class="card-body">
@@ -53,7 +53,22 @@
                             <a asp-controller="Quotations" asp-action="DetailsCharges" asp-route-id="@item.QuotationId">@Html.DisplayFor(modelItem => item.QuotationId)</a>
                         </td>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Qsatus)
+                            @if (item.Qsatus == "Hoàn thành")
+                            {
+                                <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Qsatus)</span>
+                            }
+                            else if (item.Qsatus == "Đã hủy")
+                            {
+                                <span class="badge badge-inverse">@Html.DisplayFor(modelItem => item.Qsatus)</span>
+                            }
+                            else if (item.Qsatus == "Đang đàm phán")
+                            {
+                                <span class="badge badge-info">@Html.DisplayFor(modelItem => item.Qsatus)</span>
+                            }
+                            else if (item.Qsatus == "Đã chốt")
+                            {
+                                <span class="badge badge-purple">@Html.DisplayFor(modelItem => item.Qsatus)</span>
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.StaffName)

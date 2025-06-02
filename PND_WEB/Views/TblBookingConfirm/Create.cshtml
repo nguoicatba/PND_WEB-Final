@@ -1,0 +1,220 @@
+﻿@model PND_WEB.Models.TblBookingConfirm
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header"><b>CREATE BOOKING CONFIRM</b></div>
+            <div class="card-body">
+                <form asp-action="Create" id="bookingForm">
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="BookingId" class="control-label"></label>
+                            <input asp-for="BookingId" class="form-control" readonly />
+                            <span asp-validation-for="BookingId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Status" class="control-label"></label>
+                            <input asp-for="Status" class="form-control" readonly />
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="StaffName" class="control-label"></label>
+                            <input asp-for="StaffName" class="form-control" readonly />
+                            <span asp-validation-for="StaffName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="Contact" class="control-label"></label>
+                            <input asp-for="Contact" class="form-control" />
+                            <span asp-validation-for="Contact" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label asp-for="BookingDate" class="control-label"></label>
+                            <input asp-for="BookingDate" type="date" class="form-control" value="@Model.BookingDate.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="BookingDate" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="CustomerId" class="control-label"></label>
+                            <select asp-for="CustomerId" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="CustomerId" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="PICcompany" class="control-label"></label>
+                            <input asp-for="PICcompany" class="form-control" />
+                            <span asp-validation-for="PICcompany" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-3">
+                            <label asp-for="QuotationId" class="control-label"></label>
+                            <input asp-for="QuotationId" class="form-control" />
+                            <span asp-validation-for="QuotationId" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="Shipper" class="control-label"></label>
+                            <select asp-for="Shipper" class="form-control select2-not-tag" data-url="@Url.Action("ShipperGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="Shipper" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="CNEE" class="control-label"></label>
+                            <select asp-for="CNEE" class="form-control select2-not-tag" data-url="@Url.Action("CneeGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="CNEE" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GoodType" class="control-label"></label>
+                            <select asp-for="GoodType" class="form-control">
+                                <option value="AI">AI</option>
+                                <option value="AE">AE</option>
+                                <option value="FCLI">FCLI</option>
+                                <option value="FCLE">FCLE</option>
+                                <option value="LCLI">LCLI</option>
+                                <option value="LCLE">LCLE</option>
+                                <option value="LGT">LGT</option>
+                            </select>
+                            <span asp-validation-for="GoodType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETD" class="control-label"></label>
+                            <input asp-for="ETD" type="date" class="form-control" value="@Model.ETD.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="ETD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ETA" class="control-label"></label>
+                            <input asp-for="ETA" type="date" class="form-control" value="@Model.ETA.ToString("yyyy-MM-dd")" />
+                            <span asp-validation-for="ETA" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="POL" class="control-label"></label>
+                            <select asp-for="POL" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="POL" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="POD" class="control-label"></label>
+                            <select asp-for="POD" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "TblBookingConfirm")">
+                            </select>
+                            <span asp-validation-for="POD" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="VesselName" id="lbvesselname" class="control-label"></label>
+                            <input asp-for="VesselName" id="vesselname" class="form-control" />
+                            <span asp-validation-for="VesselName" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerType"  class="control-label"></label>
+                            <input asp-for="ContainerType" class="form-control" />
+                            <span asp-validation-for="ContainerType" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ContainerQuantity"  class="control-label"></label>
+                            <input asp-for="ContainerQuantity" class="form-control" />
+                            <span asp-validation-for="ContainerQuantity" id="duongbien" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="PackageQuantity" class="control-label"></label>
+                            <input asp-for="PackageQuantity" class="form-control" />
+                            <span asp-validation-for="PackageQuantity" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="FlightNumber" id="flightNumberGroup1" class="control-label"></label>
+                            <input asp-for="FlightNumber" id="flightNumberGroup" class="form-control" />
+                            <span asp-validation-for="FlightNumber" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Airline" id="airlineGroup1" class="control-label"></label>
+                            <input asp-for="Airline" id="airlineGroup" class="form-control" />
+                            <span asp-validation-for="Airline" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="GrossWeight" class="control-label"></label>
+                            <input asp-for="GrossWeight" class="form-control" />
+                            <span asp-validation-for="GrossWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="ChargeableWeight" class="control-label"></label>
+                            <input asp-for="ChargeableWeight" class="form-control" />
+                            <span asp-validation-for="ChargeableWeight" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-4">
+                            <label asp-for="Volume" class="control-label"></label>
+                            <input asp-for="Volume" class="form-control" />
+                            <span asp-validation-for="Volume" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-6">
+                            <label asp-for="CargoDescription" class="control-label"></label>
+                            <textarea asp-for="CargoDescription" class="form-control"></textarea>
+                            <span asp-validation-for="CargoDescription" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Remarks" class="control-label"></label>
+                            <textarea asp-for="Remarks" class="form-control"></textarea>
+                            <span asp-validation-for="Remarks" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
+                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/components/SelectList.js"></script>
+
+    <script>
+        function toggleAirFields() {
+            const selected = $('#GoodType').val();
+            const isAI = selected === 'AI' || selected === 'AI';
+
+            // Ẩn/hiện FlightNumber và Airline
+            $('#airlineGroup').toggle(isAI);
+            $('#airlineGroup1').toggle(isAI);
+            $('#flightNumberGroup').toggle(isAI);
+            $('#flightNumberGroup1').toggle(isAI);
+
+
+            $('#vesselname').toggle(!isAI);
+            $('#lbvesselname').toggle(!isAI);
+            
+        }
+
+        $(document).ready(function () {
+            $('#GoodType').attr('id', 'GoodType');
+            toggleAirFields();
+
+            $('#GoodType').on('change', function () {
+                toggleAirFields();
+            });
+        });
+    </script>
+
+
+}

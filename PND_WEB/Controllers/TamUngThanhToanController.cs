@@ -376,7 +376,7 @@ namespace PND_WEB.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> TuttEdit(int id)
+        public async Task<IActionResult> TuttEdit(int? id)
         {
             if (id == null)
             {
@@ -394,6 +394,8 @@ namespace PND_WEB.Controllers
             };
             return View(tuttEditModel);
         }
+
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttEdit(int id, TuttEditModel tuttEditModel)
@@ -492,7 +494,7 @@ namespace PND_WEB.Controllers
             var items = paginatedData.Select(data => new
             {
                 id = data.Fee1,
-                text = data.Fee1,
+                text = data.Code,
                 code = data.Code,
                 disabled = false
             }).ToList();
@@ -514,8 +516,8 @@ namespace PND_WEB.Controllers
 
                 header = new
                 {
-                    header_code = "Code",
-                    header_name = "Fee"
+                    header_code = "Fee",
+                    header_name = "Code"
                 }
             });
         }

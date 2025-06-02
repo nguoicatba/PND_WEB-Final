@@ -5,7 +5,7 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạm ứng thanh toán", SubTitle = "Duyệt tạm ứng và thanh toán tạm ứng cho nhân viên công ty" })
 
 <div class="row">
     <div class="col-xl-12">
@@ -54,12 +54,23 @@
                                     </td>
                                 }
                                 <td>
-                                    @(item.Tu == true ? "Tạm ứng" : (item.Tt == true ? "Thanh toán" : ""))
+                                    @((item.Tu == true) && (item.Tt == true) ? "Thanh toán cho tạm ứng" : (item.Tt == true ? "Thanh toán" : (item.Tu == true ? "Tạm ứng" : "")))
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
                                 <td>
-                                    @(item.Ketoan == null ? "Chưa duyệt" : (item.Ketoan == true ? "Đã duyệt" : "Huỷ"))
+                                    @if (item.Ketoan == null)
+                                    {
+                                        <span class="badge badge-info">Chưa duyệt</span>
+                                    }
+                                    else if (item.Ketoan == true)
+                                    {
+                                        <span class="badge badge-success">Đã duyệt</span>
+                                    }
+                                    else if (item.Ketoan == false)
+                                    {
+                                        <span class="badge badge-inverse">Huỷ</span>
+                                    }
                                 </td>
                             </tr>
                         }

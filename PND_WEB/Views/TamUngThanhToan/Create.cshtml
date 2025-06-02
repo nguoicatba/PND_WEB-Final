@@ -3,13 +3,13 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạo tạm ứng thanh toán", SubTitle = "Tạo thông tin tạm ứng thanh toán" })
 <div class="row">
     <div class="col">
         <div class="card card-default">
             <div class="card-header"><b>CREATE TẠM ỨNG / THANH TOÁN</b></div>
             <div class="card-body">
-                <form asp-action="Create">
+                <form asp-action="Create" id="myForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-row">
                         <div class="form-group col-4">
@@ -40,11 +40,11 @@
                             <span asp-validation-for="GhiChu" class="text-danger"></span>
                         </div>
                         <div class="form-check form-check-inline col-auto">
-                            <input class="form-check-input" type="checkbox" name="Tu" id="Tu" value="true" @(Model != null && Model.Tu == true ? "checked" : "") />
+                            <input class="form-check-input" type="checkbox" name="Tu" value="true" @(Model != null && Model.Tu == true ? "checked" : "") />
                             <label class="form-check-label" for="Tu">Tạm Ứng (TU)</label>
                         </div>
                         <div class="form-check form-check-inline col-auto">
-                            <input class="form-check-input" type="checkbox" name="Tt" id="Tt" value="true" @(Model != null && Model.Tt == true ? "checked" : "") />
+                            <input class="form-check-input" type="checkbox" name="Tt" value="true" @(Model != null && Model.Tt == true ? "checked" : "") />
                             <label class="form-check-label" for="Tt">Thanh Toán (TT)</label>
                         </div>
                     </div>
@@ -65,19 +65,15 @@
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 
     <script>
-        const tuCheckbox = document.getElementById('Tu');
-        const ttCheckbox = document.getElementById('Tt');
+        document.getElementById("myForm").addEventListener("submit", function (e) {
+            const isTuChecked = document.querySelector('input[name="Tu"]').checked;
+            const isTtChecked = document.querySelector('input[name="Tt"]').checked;
 
-        tuCheckbox.addEventListener('change', function () {
-            if (this.checked) {
-                ttCheckbox.checked = false;
-            }
-        });
-
-        ttCheckbox.addEventListener('change', function () {
-            if (this.checked) {
-                tuCheckbox.checked = false;
+            if (!isTuChecked && !isTtChecked) {
+                e.preventDefault();
+                alert("Bạn phải chọn ít nhất một trong hai: Tạm Ứng (TU) hoặc Thanh Toán (TT).");
             }
         });
     </script>
+
 }

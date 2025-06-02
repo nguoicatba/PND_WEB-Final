@@ -1,16 +1,17 @@
 ﻿@model PND_WEB.ViewModels.BaoCaoThongKeViewModel
 
-<div class="row mb-4">
-    <div class="col-12">
+<div class="row">
+    <div class="col">
         <div class="card card-default">
             <div class="card-header">
+
                 <div class="float-left">
-                    <h4 class="card-title mb-0">Số lượng vận đơn theo tháng năm @Model.Nam</h4>
+                    <h4 class="card-title mb-0">Số lượng booking theo tháng năm @Model.Nam</h4>
                 </div>
                 <div class="float-right">
                     <form method="get" class="form-inline">
-                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="resetAndSubmit(this)">
-                            @for (int i = DateTime.Now.Year; i >= 2020; i--)
+                        <select name="nam" id="nam" class="form-control form-control-sm" onchange="this.form.submit()">
+                            @for (int i = DateTime.Now.Year; i >= 2019; i--)
                             {
                                 if (Model.Nam == i)
                                 {
@@ -25,26 +26,31 @@
                     </form>
                 </div>
             </div>
+
+
+            @* biểu đồ  *@
             <div class="card-body">
-                <canvas id="quotationChart" style="height: 300px;"></canvas>
+                <canvas id="bookingChart" style="height: 300px;"></canvas>
             </div>
+
+
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-12">
+    <div class="col">
         <div class="card card-default">
             <div class="card-header">
                 <div class="float-left">
                     <h4 class="card-title mb-0">
                         @if (string.IsNullOrEmpty(Model.Thang))
                         {
-                            <span>Số lượng vận đơn theo nhân viên và tháng năm @Model.Nam</span>
+                            <span>Số lượng booking theo nhân viên và tháng năm @Model.Nam</span>
                         }
                         else
                         {
-                            <span>Số lượng vận đơn theo nhân viên tháng @Model.Thang năm @Model.Nam</span>
+                            <span>Số lượng booking theo nhân viên tháng @Model.Thang năm @Model.Nam</span>
                         }
                     </h4>
                 </div>
@@ -71,17 +77,22 @@
             </div>
             <div class="card-body">
                 <div class="row">
+
+
+                    @* biểu đồ  *@
                     <div class="col-md-8">
                         <canvas id="staffChart" style="height: 300px;"></canvas>
                     </div>
+
+
                     <div class="col-md-4">
                         <div class="table-responsive">
-                            <table class="table table-bordered table-hover">
+                            <table class="table table-striped my-4 w-100 nowrap border">
                                 <thead class="thead-light">
                                     <tr>
                                         <th>Nhân viên</th>
                                         <th>Tháng</th>
-                                        <th class="text-center">Số lượng vận đơn</th>
+                                        <th style="text-align:center">Số lượng booking</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,7 +101,7 @@
                                         <tr>
                                             <td>@stat.StaffName</td>
                                             <td>@stat.Thang</td>
-                                            <td class="text-center">@stat.SoLuongQuotation</td>
+                                            <td style="text-align:center">@stat.SoLuongBooking</td>
                                         </tr>
                                     }
                                 </tbody>
@@ -106,32 +117,14 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Function to reset month selection when changing year
-        function resetAndSubmit(yearSelect) {
-            // Create a form and add the year parameter
-            var form = document.createElement('form');
-            form.method = 'get';
-            
-            // Add the selected year
-            var yearInput = document.createElement('input');
-            yearInput.type = 'hidden';
-            yearInput.name = 'nam';
-            yearInput.value = yearSelect.value;
-            form.appendChild(yearInput);
-            
-            // Submit the form
-            document.body.appendChild(form);
-            form.submit();
-        }
 
         document.addEventListener('DOMContentLoaded', function () {
-            // Biểu đồ thống kê theo tháng
-            var ctx = document.getElementById('quotationChart').getContext('2d');
+            var ctx = document.getElementById('bookingChart').getContext('2d');
             var data = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeTheoThang.Select(x => $"'Tháng {x.Thang}'")))],
                 datasets: [{
-                    label: 'Vận đơn',
-                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongQuotation))],
+                    label: 'Booking',
+                    data: [@string.Join(",", Model.ThongKeTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#9ED86E',
                     borderColor: '#9ED86E',
                     borderWidth: 0,
@@ -146,18 +139,17 @@
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: '#f0f0f0',
                             drawBorder: false
                         },
                         ticks: {
                             stepSize: 20,
                             callback: function(value) {
-                                return value + ' vận đơn';
+                                return value + ' booking';
                             }
                         },
                         title: {
                             display: true,
-                            text: 'Số lượng vận đơn'
+                            text: 'Số lượng booking'
                         }
                     },
                     x: {
@@ -194,8 +186,8 @@
             var staffData = {
                 labels: [@Html.Raw(string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => $"'{x.StaffName} - Tháng {x.Thang}'")))],
                 datasets: [{
-                    label: 'Vận đơn',
-                    data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongQuotation))],
+                    label: 'booking',
+                    data: [@string.Join(",", Model.ThongKeNguoiDungTheoThang.Select(x => x.SoLuongBooking))],
                     backgroundColor: '#4B89DC',
                     borderColor: '#4B89DC',
                     borderWidth: 0,
@@ -210,17 +202,16 @@
                     y: {
                         beginAtZero: true,
                         grid: {
-                            color: '#f0f0f0',
                             drawBorder: false
                         },
                         ticks: {
                             callback: function(value) {
-                                return value + ' vận đơn';
+                                return value + ' booking';
                             }
                         },
                         title: {
                             display: true,
-                            text: 'Số lượng vận đơn'
+                            text: 'Số lượng booking'
                         }
                     },
                     x: {

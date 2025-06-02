@@ -3,7 +3,8 @@
 @{
     ViewData["Title"] = "Edit";
 
-    bool isReadOnly = Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy";
+    var userRole = User.IsInRole("CEO") || User.IsInRole("SuperAdmin");
+    bool isReadOnly = !userRole && (Model.Qsatus == "Hoàn thành" || Model.Qsatus == "Đã hủy");
     var staffAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } };
@@ -11,11 +12,14 @@
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
     var dateAttr = isReadOnly
-        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "datetime-local" } }
-        : new Dictionary<string, object> { { "class", "form-control" }, { "type", "datetime-local" } };
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } };
+    var validDateAttr = isReadOnly
+        ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" }, { "type", "date" } }
+        : new Dictionary<string, object> { { "class", "form-control" }, { "type", "date" } };
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
-
+@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa thông tin báo giá", SubTitle = "Sửa thông tin báo giá" })
 <div class="row">
     <div class="col">
         <div class="card card-default">
@@ -54,21 +58,25 @@
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label asp-for="Qdate" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.Qdate, dateAttr)
+                            @Html.TextBoxFor(model => model.Qdate, "{0:yyyy-MM-dd}", dateAttr)
                             <span asp-validation-for="Qdate" class="text-danger"></span>
                         </div>
                         <div class="form-group col-3">
                             <div id="autocomplete-wrapper" style="position: relative;">
                                 <label asp-for="CusTo" class="control-label"></label>
-                                @Html.TextBoxFor(model => model.CusTo, isReadOnly
-                                         ? new Dictionary<string, object> {
-                                { "class", "form-control" },
-                                { "readonly", "readonly" }
+                                @if (isReadOnly)
+                                {
+                                    <input asp-for="CusTo" class="form-control" readonly />
                                 }
-                                         : new Dictionary<string, object> {
-                                { "class", "form-control" },
-                                { "id", "custos" }
-                                })
+                                else
+                                {
+                                    <select asp-for="CusTo" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "Quotations")">
+                                        @if (Model.CusTo != null)
+                                        {
+                                            <option value="@Model.CusTo" selected="selected">@Model.CusTo</option>
+                                        }
+                                    </select>
+                                }
                                 <span asp-validation-for="CusTo" class="text-danger"></span>
                             </div>
                         </div>
@@ -87,7 +95,7 @@
                         </div>
                         <div class="form-group col-3">
                             <label asp-for="Valid" class="control-label"></label>
-                            @Html.TextBoxFor(model => model.Valid, dateAttr)
+                            @Html.TextBoxFor(model => model.Valid, "{0:yyyy-MM-dd}", validDateAttr)
                             <span asp-validation-for="Valid" class="text-danger"></span>
                         </div>
                     </div>
@@ -117,7 +125,7 @@
                             }
                             else
                             {
-                                <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pol" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Pol != null)
                                     {
                                         <option value="@Model.Pol" selected="selected">@Model.Pol</option>
@@ -134,7 +142,7 @@
                             }
                             else
                             {
-                                <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Adds" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Adds != null)
                                     {
                                         <option value="@Model.Adds" selected="selected">@Model.Adds</option>
@@ -151,7 +159,7 @@
                             }
                             else
                             {
-                                <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pod" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                     @if (Model.Pod != null)
                                     {
                                         <option value="@Model.Pod" selected="selected">@Model.Pod</option>

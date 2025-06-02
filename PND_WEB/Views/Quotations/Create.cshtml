@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Create";
 }
-
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin báo giá", SubTitle = "Xóa thông tin báo giá" })
 <div class="row">
     <div class="col">
         <div class="card card-default">
@@ -42,7 +42,8 @@
                         <div class="form-group col-3">
                             <div id="autocomplete-wrapper" style="position: relative;">
                                 <label asp-for="CusTo"  class="control-label"></label>
-                                <input asp-for="CusTo" id="custo" class="form-control" />
+                                <select asp-for="CusTo" class="form-control select2-not-tag" data-url="@Url.Action("CustomerGet", "Quotations")">
+                                </select>
                                 <span asp-validation-for="CusTo" class="text-danger"></span>
                             </div>
                         </div>
@@ -78,7 +79,7 @@
                         <div class="form-group col-4">
                             <div style="position: relative;">
                                 <label asp-for="Pol"  class="control-label"></label>
-                                <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pol" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                 </select>
                                 <span asp-validation-for="Pol" class="text-danger"></span>
                             </div>
@@ -86,7 +87,7 @@
                         <div class="form-group col-4">
                             <div style="position: relative;">
                                 <label asp-for="Adds" class="control-label"></label>
-                                <select asp-for="Adds" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Adds" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                 </select>
                                 <span asp-validation-for="Adds" class="text-danger"></span>
                             </div>
@@ -94,7 +95,7 @@
                         <div class="form-group col-4">
                             <div style="position: relative;">
                                 <label asp-for="Pod" class="control-label"></label>
-                                <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Quotations")">
+                                <select asp-for="Pod" class="form-control select2-not-tag" data-url="@Url.Action("PortGet", "Quotations")">
                                 </select>
                                 <span asp-validation-for="Pod" class="text-danger"></span>
                             </div>

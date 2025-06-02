@@ -1,16 +1,203 @@
-﻿
-
-@* test *@
-@model PND_WEB.ViewModels.TuttViewModel
-
-
-
-
+﻿@model IEnumerable<PND_WEB.Models.TblBookingConfirm>
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "PND Logistics - Hệ thống quản lý";
 }
 
+@await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "Hệ thống quản lý PND Logistics" })
 
+<div class="container-fluid mt-4">
+    <!-- Quick Stats -->
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="card bg-primary text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">BOOKING THIS MONTH</h6>
+                            <h2 class="mt-2 mb-0">@ViewBag.TodayBookingsCount</h2>
+                        </div>
+                        <i class="fas fa-shipping-fast fa-2x opacity-50"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-success text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">BOOKING COMLETED</h6>
+                            <h2 class="mt-2 mb-0">@ViewBag.CompletedBookingsCount</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card bg-warning text-white h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6 class="mb-0">BOOKING WAIT</h6>
+                            <h2 class="mt-2 mb-0">@ViewBag.WaitBookingsCount</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <div class="row">
+        <!-- Top 3 Customers -->
+        <div class="col-md-12 mb-4">
+            <div class="card h-100">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">TOP 3 CUSTOMERS WITH MOST BOOKINGS</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        @foreach (var customer in ViewBag.TopCustomers)
+                        {
+                            <div class="col-md-4">
+                                <div class="card border-0 bg-light">
+                                    <div class="card-body text-center">
+                                        <div class="mb-3">
+                                            <em class="fa fa-building-o fa-2x"></em>
+                                        </div>
+                                        <h5 class="card-title">@customer.CompanyName</h5>
+                                        <p class="card-text">
+                                            <span class="badge bg-primary">@customer.BookingCount Bookings</span>
+                                        </p>
+                                        <div class="text-muted">Customer ID: @customer.CustomerId</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Trang chủ", SubTitle = "" })
+        <!-- Recent Orders -->
+        <div class="col-md-12">
+            <div class="card h-100">
+                <div class="card-header bg-light d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">RECENT BOOKING</h5>
+                    <a asp-controller="TblBookingConfirm" asp-action="Index" class="btn btn-primary btn-xs">
+                        WATCH ALL
+                    </a>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped my-4 w-100 nowrap border" >
+                            <thead class="">
+                                <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.BookingId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Status)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.StaffName)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CreatedDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Contact)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.CustomerId)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.PICcompany)
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.BookingId)
+                                        </td>
+                                        <td>
+                                            @if (item.Status == "Hoàn thành")
+                                            {
+                                                <span class="badge badge-success">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Đã hủy")
+                                            {
+                                                <span class="badge badge-inverse">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Chờ lấy hàng")
+                                            {
+                                                <span class="badge badge-info">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                            else if (item.Status == "Đang vận chuyển")
+                                            {
+                                                <span class="badge badge-purple">@Html.DisplayFor(modelItem => item.Status)</span>
+                                            }
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.StaffName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CreatedDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Contact)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.CustomerId)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.PICcompany)
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    @* <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">Thông báo mới</h5>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"></h6>
+                                <small></small>
+                            </div>
+                            <p class="mb-1"></p>
+                        </a>
+                        <a href="#" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h6 class="mb-1"></h6>
+                                <small></small>
+                            </div>
+                            <p class="mb-1"></p>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> *@
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script src="~/js/components/SelectList.js"></script>
+}

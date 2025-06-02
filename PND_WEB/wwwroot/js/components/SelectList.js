@@ -1,5 +1,4 @@
-﻿
-$(document).ready(function () {
+﻿$(document).ready(function () {
     // Select2 for Cport
     select2_cport();
     // Select2 for two columns
@@ -14,7 +13,7 @@ $(document).ready(function () {
     // select supplier
     select2_supplier(); 
    
-
+    select2_customer();
 })
 
 // Select2 for supplier
@@ -258,8 +257,9 @@ function select2_two_columns() {
             minimumInputLength: 0,
             templateResult: formatState2,
             templateSelection: formatState,
-            placeholder: 'Select Item',
-            
+            dropdownAutoWidth: true,
+            placeholder: '',
+            allowClear: true,
             theme: 'bootstrap4',
             width: '100%',
         });
@@ -350,6 +350,9 @@ function select2_cport() {
 
 }
 
+
+
+
 function select2_two_columns_code() {
     let header = null;
     function formatState2(state) {
@@ -431,5 +434,85 @@ function select2_two_columns_code() {
 
 
 
+
+}
+
+
+
+
+// Select2 for Cport
+function select2_customer() {
+    let header = null;
+    function formatCustomer(state) {
+        if (!state.code) {
+            return state.text;
+        }
+        if (state.code == '-1') {
+            var $state = $(
+                '<div class="row px-2 py-1" style="background-color:#d1e7dd; color:#0f5132; font-weight:bold; border-radius:4px;">' +
+                '<div class="col-6">' + header.header_code + '</div>' +
+                '<div class="col-6">' + header.header_name + '</div>' +
+                '</div>'
+            );
+            return $state;
+        }
+        var $state = $(
+            '<div class="row px-2 py-1">' +
+            '<div class="col-6">' + state.code + '</div>' +
+            '<div class="col-6">' + state.text + '</div>' +
+            '</div>'
+        );
+        return $state;
+    }
+
+    function SelectCustomer(state) {
+
+        if (!state.code) {
+            return state.text;
+        }
+        var $state = $(
+            '<span>' + state.text + '</span>'
+
+        );
+        return $state;
+    }
+
+    // Select in customer by NguyenKien
+    $('.select-customer').each(function () {
+        const $select = $(this);
+        const url = $select.data('url');
+
+        $select.select2({
+            ajax: {
+                url: url,
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: params.term || '',
+                        page: params.page
+                    };
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    header = data.header;
+                    return {
+                        results: data.items,
+                        pagination: {
+                            more: (params.page * 10) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            dropdownAutoWidth: true,
+            minimumInputLength: 0,
+            templateResult: formatCustomer,
+            templateSelection: SelectCustomer,
+            placeholder: 'Select Customer',
+            allowClear: true,
+            theme: 'bootstrap4',
+            width: '100%',
+        });
+    });
 
 }

@@ -4,15 +4,21 @@
     ViewData["Title"] = "Details";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết tạm ứng thanh toán", SubTitle = "Chi tiết thông tin tạm ứng thanh toán" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa tạm ứng thanh toán", SubTitle = "Xóa thông tin tạm ứng thanh toán" })
 
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg-success">About TUTT: @Model.tutt.SoTutt</div>
+            <div class="card-header bg-danger">Xóa tạm ứng thanh toán :</div>
             <div class="card-body">
                 <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.tutt.SoTutt)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.tutt.SoTutt)
+                    </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.tutt.Ngay)
                     </dt>
@@ -108,7 +114,7 @@
 
 
 <div class="card card-default" id="cardDemo14">
-    <div class="card-header bg-success">Tutt phí:</div>
+    <div class="card-header bg-danger">Xóa phí tạm ứng thanh toán :</div>
     <div class="card-body">
         <table class="table table-striped my-4 w-100" id="datatable3">
             <thead class="table-primary">

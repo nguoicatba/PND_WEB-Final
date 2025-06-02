@@ -39,6 +39,8 @@ namespace PND_WEB
 
             // Đăng ký các dịch vụ custom
             builder.Services.AddSingleton<BudgetService>();
+            builder.Services.AddSingleton<BudgetServiceStaff>();
+
             builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
 
             // Cấu hình Identity

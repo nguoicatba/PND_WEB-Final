@@ -27,11 +27,12 @@ namespace PND_WEB.Controllers
         // GET: Quotations
         public IActionResult Index()
         {
-            if (User.IsInRole("Sale"))
+            
+            if (User.HasClaim("Quotation", "IndexUser"))
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.IsInRole("DOC") || User.IsInRole("Accountant") || User.IsInRole("CEO") || User.HasClaim("QuotationsAdmin", "AdminView") || User.HasClaim("QuotationsAdmin", "AdminViewDetails"))
+            else if (User.HasClaim("Quotation", "IndexAdmin") || User.IsInRole("SuperAdmin"))
             {
                 return RedirectToAction(nameof(IndexAdmin));
             }
@@ -169,8 +170,7 @@ namespace PND_WEB.Controllers
             ViewBag.QsatusList = new List<SelectListItem>
             {
                 new SelectListItem { Value = "Đang đàm phán", Text = "Đang đàm phán" },
-                new SelectListItem { Value = "Đã chốt, chưa vận chuyển", Text = "Đã chốt, chưa vận chuyển" },
-                new SelectListItem { Value = "Đang vận chuyển", Text = "Đang vận chuyển" },
+                new SelectListItem { Value = "Đã chốt", Text = "Đã chốt" },
                 new SelectListItem { Value = "Đã hủy", Text = "Đã hủy" },
                 new SelectListItem { Value = "Hoàn thành", Text = "Hoàn thành" }
             };
@@ -404,39 +404,7 @@ namespace PND_WEB.Controllers
 
         //AutoComplete 
 
-        [HttpPost]
-        public JsonResult AutoCompleteCustomers(string prefix)
-        {
-            prefix = prefix?.ToLower(); // chuẩn hóa từ khóa
 
-            var customers = _context.TblCustomers
-                .Where(c =>
-                    (!string.IsNullOrEmpty(c.CompanyName) && c.CompanyName.ToLower().Contains(prefix)) ||
-                    (string.IsNullOrEmpty(c.CompanyName) && c.DutyPerson.ToLower().Contains(prefix)))
-                .Select(c => new
-                {
-                    label = !string.IsNullOrEmpty(c.CompanyName) ? c.CompanyName : c.DutyPerson,
-                    label2 = c.Contact
-                })
-                .ToList();
-
-            return Json(customers);
-        }
-
-
-        [HttpPost]
-        public JsonResult AutoCompleteFees(string prefix)
-        {
-            var fees = (from fee in this._context.Fees
-                            where fee.Fee1.Contains(prefix)
-                            select new
-                            {
-                                label = fee.Fee1,
-                                val = fee.Code
-                            }).ToList();
-
-            return Json(fees);
-        }
 
         [HttpPost]
         public JsonResult AutoCompleteUnits(string prefix)
@@ -462,7 +430,7 @@ namespace PND_WEB.Controllers
             var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
             var items = paginatedData.Select(data => new
             {
-                id = data.PortName,
+                id = data.Code,
                 text = data.PortName,
                 code = data.Code,
                 disabled = false
@@ -501,7 +469,7 @@ namespace PND_WEB.Controllers
             var items = paginatedData.Select(data => new
             {
                 id = data.Fee1,
-                text = data.Fee1,
+                text = data.Code,
                 code = data.Code,
                 disabled = false
             }).ToList();
@@ -523,8 +491,46 @@ namespace PND_WEB.Controllers
 
                 header = new
                 {
-                    header_code = "Code",
-                    header_name = "Fee"
+                    header_code = "Fee",
+                    header_name = "Code"
+                }
+            });
+        }
+
+
+        public async Task<JsonResult> CustomerGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = _context.TblCustomers.Where(data => data.CustomerId.ToLower().Contains(q.ToLower()) || data.CompanyName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.CustomerId,
+                text = data.CompanyName,
+                code = data.CustomerId,
+                disabled = false
+            }).ToList();
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Customer",
+                    code = "-1",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "CustomerID",
+                    header_name = "CompanyName"
                 }
             });
         }
@@ -542,10 +548,21 @@ namespace PND_WEB.Controllers
             if (quotation == null)
                 return NotFound();
 
+            // Get all ports that are used in this quotation
+            var portCodes = new[] { quotation.Pol, quotation.Pod }.Where(p => p != null).ToList();
+            var ports = await _context.Cports.Where(p => portCodes.Contains(p.Code)).ToListAsync();
+
+            // Get customer data
+            var customer = await _context.TblCustomers
+                .Where(c => c.CustomerId == quotation.CusTo)
+                .ToListAsync();
+
             var viewModel = new QuotationsEditDeleteDetailController
             {
                 Quotation = quotation,
-                QuotationsCharges = quotation.QuotationsCharges.ToList()
+                QuotationsCharges = quotation.QuotationsCharges.ToList(),
+                Cports = ports,
+                Customer = customer
             };
 
             string htmlContent = await _viewRenderService.RenderViewToStringAsync("ExportPDFQuotations", viewModel);
