@@ -62,7 +62,6 @@ namespace PND_WEB.Controllers
                 .ThenBy(x => x.Thang)
                 .ToList();
 
-            //bổ sung tháng không có booking
             var allMonths = Enumerable.Range(1, 12)
                 .Select(month => new ThongKeBookingViewModel
                 {
