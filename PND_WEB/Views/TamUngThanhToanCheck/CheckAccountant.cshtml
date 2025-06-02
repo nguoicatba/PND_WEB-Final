@@ -54,7 +54,7 @@
                                     </td>
                                 }
                                 <td>
-                                    @(item.Tu == true ? "Tạm ứng" : (item.Tt == true ? "Thanh toán" : ""))
+                                    @((item.Tu == true) && (item.Tt == true) ? "Thanh toán cho tạm ứng" : (item.Tt == true ? "Thanh toán" : (item.Tu == true ? "Tạm ứng" : "")))
                                 </td>
                                 <td>@Html.DisplayFor(modelItem => item.NoiDung)</td>
                                 <td>@Html.DisplayFor(modelItem => item.Ngay)</td>
