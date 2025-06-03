@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "About job", SubTitle = "About job" })
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Phân quyền job", SubTitle = "", Job_ID = ViewBag.JobId})
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->

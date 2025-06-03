@@ -24,6 +24,9 @@ namespace PND_WEB.Controllers
             BuyChargeVM buyChargeVM = new BuyChargeVM
             {
                 HBL_Id = id,
+                JOB_Id = _context.TblHbls.Where(h => h.Hbl == id)
+                    .Select(h => h.RequestId)
+                    .FirstOrDefault(),
                 _charges = BuyCharges.Select(c => new BuyChargeEM
                 {
                     ChargeId = c.ChargeId,

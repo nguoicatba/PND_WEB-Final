@@ -4,7 +4,7 @@
     ViewData["Title"] = "Details";
 }
 
-@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL",Hbl_ID=Model.Hbl })
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.Hbl, Job_ID = Model.RequestId })
 
 <div class="row">
     <div class="col-xl-12">
@@ -14,189 +14,173 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                
                     @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.Hbl, isLGT = ViewBag.GoodType == "LGT" })
                     <!-- Tab panes-->
                     <div class="tab-content">
-                        
-                        <div>
-
-                            <dl class="row">
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.IssuePlaceH)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.IssuePlaceH)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.IssueDateH)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.IssueDateH)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.OnBoardDateH)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.OnBoardDateH)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.NotifyParty)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.NotifyParty)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.BlType)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.BlType)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.NomFree)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.NomFree)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.ContSealNo)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.ContSealNo)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Volume)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Volume)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Quantity)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Quantity)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.GoodsDesciption)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.GoodsDesciption)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.GrossWeight)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.GrossWeight)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Tonnage)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Tonnage)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.CustomsDeclarationNo)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.CustomsDeclarationNo)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.InvoiceNo)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.InvoiceNo)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.NumberofOrigins)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.NumberofOrigins)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.FreightPayable)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.FreightPayable)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.MarkNos)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.MarkNos)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.FreightCharge)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.FreightCharge)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Prepaid)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Prepaid)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Collect)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Collect)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.SiNo)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.SiNo)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Pic)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Pic)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.DoDate)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.DoDate)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.PicPhone)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.PicPhone)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.CneeNavigation)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.CneeNavigation.Cnee)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Customer)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Customer.CustomerId)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.Request)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.Request.JobId)
-                                </dd>
-                                <dt class="col-sm-2">
-                                    @Html.DisplayNameFor(model => model.ShipperNavigation)
-                                </dt>
-                                <dd class="col-sm-10">
-                                    @Html.DisplayFor(model => model.ShipperNavigation.Shipper)
-                                </dd>
-                            </dl>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p class="lead bb">HBL Information</p>
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Hbl):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Hbl</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.IssueDateH):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.IssueDateH?.ToString("dd/MM/yyyy")</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.OnBoardDateH):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.OnBoardDateH?.ToString("dd/MM/yyyy")</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.BlType):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.BlType</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.NomFree):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.NomFree</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.ContSealNo):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.ContSealNo</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.GoodsDesciption):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.GoodsDesciption</strong>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6">
+                                <p class="lead bb">Cargo Details</p>
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Volume):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Volume</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Quantity):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Quantity</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.GrossWeight):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.GrossWeight</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Tonnage):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Tonnage</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.MarkNos):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.MarkNos</strong>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-                        <div>
-                            <a asp-action="Edit" asp-route-id="@Model?.Hbl">Edit</a> |
-                            <a asp-action="Index" asp-route-id="@Model?.RequestId">Back to List</a>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <p class="lead bb">Partner Information</p>
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.ShipperNavigation):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.ShipperNavigation?.Shipper</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.CneeNavigation):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.CneeNavigation?.Cnee</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.NotifyParty):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.NotifyParty</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Customer):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Customer?.CompanyName</strong>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-6">
+                                <p class="lead bb">Additional Information</p>
+                                <form class="form-horizontal">
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.CustomsDeclarationNo):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.CustomsDeclarationNo</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.InvoiceNo):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.InvoiceNo</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.SiNo):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.SiNo</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.DoDate):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.DoDate?.ToString("dd/MM/yyyy")</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.Pic):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.Pic</strong>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4">@Html.DisplayNameFor(model => model.PicPhone):</div>
+                                        <div class="col-md-8">
+                                            <strong>@Model.PicPhone</strong>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
-
+                        <div class="mt-3">
+                            <a asp-action="Edit" asp-route-id="@Model?.Hbl" class="btn btn-primary btn-xs">
+                                <i class="fa fa-edit"></i> Edit
+                            </a>
+                            <a asp-action="Index" asp-route-id="@Model?.RequestId" class="btn btn-secondary btn-xs">
+                                <i class="fa fa-arrow-left"></i> Back to List
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>

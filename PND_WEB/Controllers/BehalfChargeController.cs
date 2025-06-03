@@ -24,6 +24,10 @@ namespace PND_WEB.Controllers
             BehalfChargeVM behalfChargeVM = new BehalfChargeVM
             {
                 HBL_Id = id,
+                JOB_Id = _context.TblHbls
+                    .Where(h => h.Hbl == id)
+                    .Select(h => h.RequestId)
+                    .FirstOrDefault(),
                 _charges = BehalfCharges.Select(c => new BehalfChargeEM
                 {
                     ChargeId = c.ChargeId,

@@ -9,7 +9,20 @@
 <!-- Invoice Details Card -->
 <div class="card mb-3">
     <div class="card-header">
-        <h5 class="mb-0">Thông tin chi tiết</h5>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Thông tin chi tiết</h5>
+            <div class="ml-auto">
+                <button class="btn dropdown-toggle btn-info" type="button" data-toggle="dropdown">Xuất file</button>
+                <div class="dropdown-menu" role="menu">
+                    <a class="dropdown-item" asp-action="DebitNoteExport" asp-route-id="@Model.Invoice.Id">
+                        <i class="fa fa-file-pdf-o"></i> Debit Note
+                    </a>
+                    <a class="dropdown-item" asp-action="CreditNoteExport" asp-route-id="@Model.Invoice.Id">
+                        <i class="fa fa-file-pdf-o"></i> Credit Note
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <form id="invoiceForm" asp-controller="Invoice" asp-action="UpdateInvoice" method="post">

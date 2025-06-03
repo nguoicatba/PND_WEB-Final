@@ -4,8 +4,10 @@ namespace PND_WEB.ViewModels
 {
     public class ContainerViewModel
     {
-        public string HBL_ID { get; set; }
-  
+        public string ?HBL_ID { get; set; }
+
+        public string? JOB_ID { get; set; }
+
         public List<TblConth>? containers { get; set; }
 
         public double  totalGrossWeight { get; set; }

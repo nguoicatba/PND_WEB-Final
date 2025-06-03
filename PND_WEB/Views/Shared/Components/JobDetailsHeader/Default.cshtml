@@ -8,9 +8,16 @@
     <div class="ml-auto">
         <a asp-action="CloseJob" asp-controller="Job" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-danger btn-xs" id="close_job">
             <span class="btn-label">
-                <i class="fa fa-close"></i>
+                <i class="icon-lock"></i>
             </span>
-            Close Job
+            Lock Job
+        </a>
+      
+        <a asp-action="Index" asp-controller="Job" class="btn btn-labeled btn-outline-secondary btn-xs">
+            <span class="btn-label">
+                <i class="icon-close"></i>
+            </span>
+            Cancel
         </a>
         
 

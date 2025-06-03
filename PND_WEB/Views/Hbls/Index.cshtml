@@ -3,8 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
-
-@await Component.InvokeAsync("HeaderBody", new { Title = "About job", SubTitle = "About job" })
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "HBL", SubTitle = "Danh sách HBL", Job_ID = Model.Job_Id})
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->
@@ -30,8 +29,8 @@
                         <p>
                             <a asp-action="Create" asp-route-id=@Model.Job_Id class="btn btn-primary btn-xs">Create New</a>
                         </p>
-                        <table class="table table-striped my-4 w-100" id="datatable3">
-                            <thead class="table-primary">
+                        <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
+                            <thead class="">
                                 <tr>
                                     <th>Action</th>
 

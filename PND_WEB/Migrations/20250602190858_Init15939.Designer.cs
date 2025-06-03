@@ -12,8 +12,8 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250602104327_Init5280208")]
-    partial class Init5280208
+    [Migration("20250602190858_Init15939")]
+    partial class Init15939
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -829,6 +829,11 @@ namespace PND_WEB.Migrations
                         .HasColumnType("datetime2")
                         .HasColumnName("Booking_Date");
 
+                    b.Property<string>("CNEE")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("CNEE");
+
                     b.Property<string>("CargoDescription")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)")
@@ -837,6 +842,10 @@ namespace PND_WEB.Migrations
                     b.Property<decimal?>("ChargeableWeight")
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("Chargeable_Weight");
+
+                    b.Property<string>("Contact")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Contact");
 
                     b.Property<int?>("ContainerQuantity")
                         .HasColumnType("int")
@@ -880,6 +889,10 @@ namespace PND_WEB.Migrations
                         .HasColumnType("decimal(18,2)")
                         .HasColumnName("Gross_Weight");
 
+                    b.Property<string>("PICcompany")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("PIC_company");
+
                     b.Property<string>("POD")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)")
@@ -894,10 +907,23 @@ namespace PND_WEB.Migrations
                         .HasColumnType("int")
                         .HasColumnName("Package_Quantity");
 
+                    b.Property<string>("QuotationId")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Quotation_Id");
+
                     b.Property<string>("Remarks")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)")
                         .HasColumnName("Remarks");
+
+                    b.Property<string>("Shipper")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)")
+                        .HasColumnName("Shipper");
+
+                    b.Property<string>("StaffName")
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("StaffName");
 
                     b.Property<string>("Status")
                         .HasMaxLength(20)

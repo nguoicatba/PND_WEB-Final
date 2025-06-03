@@ -257,8 +257,8 @@ function select2_two_columns() {
             minimumInputLength: 0,
             templateResult: formatState2,
             templateSelection: formatState,
-            dropdownAutoWidth: true,
-            placeholder: '',
+          
+            placeholder: 'Select item',
             allowClear: true,
             theme: 'bootstrap4',
             width: '100%',

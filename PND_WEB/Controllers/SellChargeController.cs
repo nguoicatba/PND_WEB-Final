@@ -24,6 +24,10 @@ namespace PND_WEB.Controllers
             var sellChargeVM = new SellChargeVM
             {
                 HBL_Id = id,
+                JOB_Id = _context.TblHbls
+                    .Where(h => h.Hbl == id)
+                    .Select(h => h.RequestId)
+                    .FirstOrDefault(),
                 _charges = SellCharges.Select(c => new SellChargeEM
                 {
                     ChargeId = c.ChargeId,
