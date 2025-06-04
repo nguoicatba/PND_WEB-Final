@@ -1,4 +1,5 @@
-﻿@model PND_WEB.Models.TblJob
+﻿@using static PND_WEB.ViewComponents.BreadcrumbViewComponent
+@model PND_WEB.Models.TblJob
 
 @{
     ViewData["Title"] = "Create";
@@ -6,6 +7,12 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Tạo mới job", SubTitle = "Tạo mới job" })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Tạo mới job", Controller="",Action="Create",Parameter=""}
+  
+})
 
 
 <div class="row">

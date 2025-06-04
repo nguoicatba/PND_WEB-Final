@@ -291,7 +291,7 @@ namespace PND_WEB.Controllers
 
                 // Group charges by supplier for invoice number generation
                 var listinvoie = await _context.invoices
-                    .Where(i => i.Hbl == request.hblId && i.Type == "Debit Note").ToListAsync();
+                    .Where(i => i.Hbl == request.hblId && i.Type == "Credit Note").ToListAsync();
 
                 foreach (var charge in charges)
                 {
@@ -323,15 +323,15 @@ namespace PND_WEB.Controllers
                     if (charge.Checked == true)
                     {
                         var existingInvoice = await _context.invoices
-                            .FirstOrDefaultAsync(i => i.Partner == charge.SupplierId && i.Hbl == charge.HblId && i.Type == "Debit Note");
+                            .FirstOrDefaultAsync(i => i.Partner == charge.SupplierId && i.Hbl == charge.HblId && i.Type == "Credit Note");
                         if (existingInvoice == null)
                         {
                             var newInvoice = new Invoice
                             {
                                 Id = Guid.NewGuid().ToString(),
                                 Partner = charge.SupplierId,
-                                InvoiceNo = await GenerateCode("DBN"),
-                                Type = "Debit Note",
+                                InvoiceNo = await GenerateCode("CDN"),
+                                Type = "Credit Note",
                                 Currency = "USD",
                                 ExchangeRate = 1.0f,
                                 DebitDate = DateTime.Now,

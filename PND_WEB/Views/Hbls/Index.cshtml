@@ -4,6 +4,13 @@
     ViewData["Title"] = "Index";
 }
 @await Component.InvokeAsync("JobDetailsHeader", new { Title = "HBL", SubTitle = "Danh sách HBL", Job_ID = Model.Job_Id})
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách HBL", Controller="",Action="Edit",Parameter=""}
+
+})
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->

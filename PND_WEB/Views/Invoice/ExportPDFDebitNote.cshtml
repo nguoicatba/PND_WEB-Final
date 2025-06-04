@@ -7,6 +7,7 @@
     var id = 0;
     DateTime today = DateTime.Now;
     string formattedToday = today.ToString("dddd, MMMM dd, yyyy ");
+    string typeTransport = (Model.JobType == "AI" || Model.JobType == "AE") ? "Flight:" : "Vessel/Voy:";
 }
 
 <!DOCTYPE html>
@@ -98,7 +99,7 @@
     </div>
 
     <div style="text-align:center;">
-        <h1 style="margin: 0; padding : 0; color: dimgray">DEBIT NOTE</h1>
+        <h1 style="margin: 0; padding : 0; color: dimgray">@Model.TypeInvoice</h1>
         <h2 style="margin: 3px; padding : 3px">@Model.JobType</h2>
         <div class="right" style="color: dimgray; font-size: 24px">@formattedToday</div>
     </div>
@@ -111,7 +112,7 @@
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">@Model.Cnee</span>
+                <strong style="color: gray;">Partner:</strong> <span style="color: black;">@Model.Partner</span>
             </div>
             <br />
             <div>
@@ -123,7 +124,7 @@
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;">@Model.Transport</span>
+                <strong style="color: gray;">@typeTransport</strong> <span style="color: black;"> @Model.Transport   </span>
             </div>
             <br />
             <div>

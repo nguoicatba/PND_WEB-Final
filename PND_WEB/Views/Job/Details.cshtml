@@ -5,6 +5,11 @@
 }
 @await Component.InvokeAsync("JobDetailsHeader", new { Title = "Chi tiết job", SubTitle = "Chi tiết job",Job_ID=Model.JobId })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="",Action="",Parameter=""}
+})
 <div class="row">
     <div class="col-xl-12">
         <div class="card card-default" id="cardDemo14">

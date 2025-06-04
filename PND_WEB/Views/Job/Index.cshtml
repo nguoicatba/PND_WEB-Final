@@ -1,5 +1,5 @@
-﻿@model IEnumerable<PND_WEB.Models.TblJob>
-
+﻿
+@model IEnumerable<PND_WEB.Models.TblJob>
 @{
     ViewData["Title"] = "Index";
 }
@@ -7,7 +7,12 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách job", SubTitle = "Danh sách job" })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="",Action="",Parameter="" },
+  
 
+})
 
 <div class="card">
     <div class="card-body">

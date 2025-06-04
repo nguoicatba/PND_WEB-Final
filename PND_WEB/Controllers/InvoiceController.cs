@@ -261,6 +261,34 @@ namespace PND_WEB.Controllers
             }
         }
 
+        public async Task<string> GetNamePatner(string id)
+        {
+            var invoice = await _context.invoices
+                .FirstOrDefaultAsync(i => i.Id == id);
+            string namePatner = "";
+            if (invoice == null)
+                namePatner = "Unknown Partner";
+            else
+            {
+                if (invoice.InvoiceNo.StartsWith("CDN"))
+                {
+                    var partner = await _context.TblSuppliers
+                        .Where(s => s.SupplierId == invoice.Partner)
+                        .Select(s => s.NameSup)
+                        .FirstOrDefaultAsync();
+                    namePatner = partner ?? "Unknown Partner";
+                }
+                else
+                {
+                    var partner = await _context.TblCustomers
+                        .Where(c => c.CustomerId == invoice.Partner)
+                        .Select(c => c.CompanyName)
+                        .FirstOrDefaultAsync();
+                    namePatner = partner ?? "Unknown Partner";
+                }
+            }
+            return namePatner;
+        }
         public async Task<IActionResult> DebitNoteExport(string id)
         {
             var invoice = await _context.invoices
@@ -270,12 +298,15 @@ namespace PND_WEB.Controllers
             var job = await _context.TblJobs
                 .Include(j => j.TblHbls)
                 .FirstOrDefaultAsync(j => j.JobId == hbl.RequestId);
+            var namePatner = await GetNamePatner(id);
 
             DebitNoteExport viewModel = new DebitNoteExport
             {
                 JobId = job.JobId,
                 JobType = job.GoodsType,
                 Cnee = hbl.Cnee,
+                TypeInvoice = invoice.Type,
+                Partner = namePatner, // Use the correctly awaited result  
                 HBL = hbl.Hbl,
                 MBL = job.Mbl,
                 ETA = job.Eta,
@@ -290,7 +321,7 @@ namespace PND_WEB.Controllers
                     .Where(c => c.InvoiceId == id)
                     .SumAsync(c => (c.SerPrice ?? 0) * (c.SerQuantity ?? 0) * (c.ExchangeRate ?? 1) * (1 + (c.SerVat ?? 0) / 100) + (c.MVat ?? 0)),
                 Charges = await _context.InvoiceCharges
-                    .Where(c => c.InvoiceId == id)
+                    .Where(c => c.InvoiceId == id && c.Checked == true)
                     .Select(c => new TblCharge
                     {
                         SerName = c.SerName,
@@ -311,15 +342,15 @@ namespace PND_WEB.Controllers
             var doc = new HtmlToPdfDocument()
             {
                 GlobalSettings = {
-                    PaperSize = PaperKind.A4,
-                    Orientation = Orientation.Portrait
-                },
+                           PaperSize = PaperKind.A4,
+                           Orientation = Orientation.Portrait
+                       },
                 Objects = {
-                    new ObjectSettings()
-                    {
-                        HtmlContent = htmlContent
-                    }
-                }
+                           new ObjectSettings()
+                           {
+                               HtmlContent = htmlContent
+                           }
+                       }
             };
 
             var file = _converter.Convert(doc);
