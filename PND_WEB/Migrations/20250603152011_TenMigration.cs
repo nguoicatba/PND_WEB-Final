@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PND_WEB.Migrations
 {
     /// <inheritdoc />
-    public partial class Init5280208 : Migration
+    public partial class TenMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -753,7 +753,13 @@ namespace PND_WEB.Migrations
                     Status = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: true),
                     Remarks = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     Created_Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Updated_Date = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Updated_Date = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    StaffName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Contact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PIC_company = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Quotation_Id = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CNEE = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    Shipper = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
                 },
                 constraints: table =>
                 {

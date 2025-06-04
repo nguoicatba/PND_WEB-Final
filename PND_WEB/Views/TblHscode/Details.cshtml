@@ -1,9 +1,63 @@
 ﻿@model PND_WEB.Models.TblHscode
+@using System.Text.RegularExpressions
 
 @{
     ViewData["Title"] = "Details";
 }
 @await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết HSCODE", SubTitle = "Chi tiết HSCODE" })
+@functions {
+    public static string XuLyNoiDung(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return "";
+
+        var result = new List<string>();
+        int i = 0;
+
+        while (i < input.Length)
+        {
+            int colonIndex = input.IndexOf(':', i);
+            if (colonIndex == -1)
+            {
+                result.Add(input.Substring(i).Trim());
+                break;
+            }
+
+            // Nếu là ": :" (2 dấu : cách nhau bởi một khoảng trắng)
+            if (colonIndex + 2 < input.Length &&
+                input[colonIndex + 1] == ' ' &&
+                input[colonIndex + 2] == ':')
+            {
+                result.Add(input.Substring(i, colonIndex - i + 3));
+                i = colonIndex + 3;
+                continue;
+            }
+
+            // Phần trước dấu `:`
+            string before = input.Substring(i, colonIndex - i).Trim();
+
+            // Trường hợp dấu `:` đứng một mình
+            bool justColon = string.IsNullOrWhiteSpace(before);
+
+            // Kiểm tra nếu là mã HS code (4–8 chữ số)
+            bool isHSCode = System.Text.RegularExpressions.Regex.IsMatch(before, @"^\d{4,8}$");
+
+            if (isHSCode || justColon)
+            {
+                result.Add(before + " :");
+            }
+            else
+            {
+                result.Add(before + " :<br />");
+            }
+
+            i = colonIndex + 1;
+        }
+
+        return string.Join("", result);
+    }
+}
+
+
 
 <div class="row">
     <div class="col">
@@ -21,8 +75,9 @@
                         @Html.DisplayNameFor(model => model.MoTaHangHoaV)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.MoTaHangHoaV)
+                        @Html.Raw(XuLyNoiDung(Model.MoTaHangHoaV))
                     </dd>
+
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.MoTaHangHoaE)
                     </dt>
