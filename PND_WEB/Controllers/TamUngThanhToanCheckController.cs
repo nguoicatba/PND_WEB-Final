@@ -291,54 +291,62 @@ namespace PND_WEB.Controllers
 
                     await _context.SaveChangesAsync();
 
-                    if (tblTutt.Ketoan == true || tblTutt.Ceo == true)
+                    var checktutt = await _context.TblTutts.FirstOrDefaultAsync(t => t.SoTutt == tblTutt.SoTutt);
+                          
+                    if(checktutt.Tu == true)
                     {
-                        var sotuttcu = tblTutt.SoTutt;
-
-                        var tuttcu = await _context.TblTutts.FirstOrDefaultAsync(t => t.SoTutt == sotuttcu);
-                        if (tuttcu == null)
+                        if (tblTutt.Ketoan == true || tblTutt.Ceo == true)
                         {
-                            return NotFound();
-                        }
+                            var sotuttcu = tblTutt.SoTutt;
 
-                        var tuttphioList = await _context.TblTuttsPhi
-                            .Where(p => p.SoTutt == sotuttcu)
-                            .ToListAsync();
+                            var tuttcu = await _context.TblTutts.FirstOrDefaultAsync(t => t.SoTutt == sotuttcu);
+                            if (tuttcu == null)
+                            {
+                                return NotFound();
+                            }
 
-                        string sotuttmoi = GenerateNewSoTutt(sotuttcu);
+                            var tuttphioList = await _context.TblTuttsPhi
+                                .Where(p => p.SoTutt == sotuttcu)
+                                .ToListAsync();
 
-                        var newTutt = new TblTutt
-                        {
-                            SoTutt = sotuttmoi,
-                            Ngay = tuttcu.Ngay,
-                            NhanvienTutt = tuttcu.NhanvienTutt,
-                            NoiDung = tuttcu.NoiDung,
-                            xacnhanduyet = tuttcu.xacnhanduyet,
-                            Tu = true,
-                            Tt = true,
-                            Ketoan = null,
-                            Ceo = null,
-                            GhiChu = tuttcu.GhiChu
-                        };
+                            string sotuttmoi = GenerateNewSoTutt(sotuttcu);
 
-                        _context.TblTutts.Add(newTutt);
-
-                        foreach (var item in tuttphioList)
-                        {
-                            var newItem = new TblTuttPhi
+                            var newTutt = new TblTutt
                             {
                                 SoTutt = sotuttmoi,
-                                SoHoaDon = item.SoHoaDon,
-                                TenPhi = item.TenPhi,
-                                SoTien = item.SoTien,
-                                GhiChu = item.GhiChu,
+                                Ngay = tuttcu.Ngay,
+                                NhanvienTutt = tuttcu.NhanvienTutt,
+                                NoiDung = tuttcu.NoiDung,
+                                xacnhanduyet = tuttcu.xacnhanduyet,
+                                Tu = true,
+                                Tt = true,
+                                Ketoan = null,
+                                Ceo = null,
+                                GhiChu = tuttcu.GhiChu
                             };
 
-                            _context.TblTuttsPhi.Add(newItem);
-                        }
+                            _context.TblTutts.Add(newTutt);
 
-                        await _context.SaveChangesAsync();
+                            foreach (var item in tuttphioList)
+                            {
+                                var newItem = new TblTuttPhi
+                                {
+                                    SoTutt = sotuttmoi,
+                                    SoHoaDon = item.SoHoaDon,
+                                    TenPhi = item.TenPhi,
+                                    SoTien = item.SoTien,
+                                    GhiChu = item.GhiChu,
+                                };
+
+                                _context.TblTuttsPhi.Add(newItem);
+                            }
+
+                            await _context.SaveChangesAsync();
+                        }
                     }
+
+
+                    
 
 
                     return RedirectToAction(nameof(Check));
