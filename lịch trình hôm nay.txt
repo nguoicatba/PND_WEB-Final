@@ -46,6 +46,10 @@ lệnh do: ok
 2/6/2025:
 
 sửa lại exchangerate buycharge
-
+fix lại phân quyền job
+fix trang chủ
+fix cược công với hàng LGT
+fix hóa đơn
+fix hình ảnh container :ok
 
 

@@ -5,67 +5,89 @@
 }
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin container", SubTitle = "Thêm thông tin container" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    // new BreadcrumbItem { Title = "Chi tiết job", Controller="Job",Action="Details",Parameter=Model.JOB_ID },
+    new BreadcrumbItem { Title = "Danh sách container", Controller="Container",Action="Index",Parameter=Model.HBL_ID },
+    new BreadcrumbItem { Title = "Thêm container", Controller="",Action="",Parameter="" }
+})
+
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">CREATE Container</div>
+            <div class="card-header bg-success">CREATE Container</div>
             <div class="card-body">
                 <form asp-action="Create">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="container.Hbl" value=@Model.container.Hbl />
-                    <div class="form-group">
-                        <label asp-for="container.ContNo" class="control-label"></label>
-                        <input asp-for="container.ContNo" class="form-control" />
-                        <span asp-validation-for="container.ContNo" class="text-danger"></span>
+                    
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="container.ContNo" class="control-label required-label"></label>
+                            <input asp-for="container.ContNo" class="form-control" />
+                            <span asp-validation-for="container.ContNo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.ContQuantity" class="control-label required-label"></label>
+                            <input asp-for="container.ContQuantity" class="form-control" />
+                            <span asp-validation-for="container.ContQuantity" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.ContType" class="control-label required-label"></label>
+                            <select asp-for="container.ContType" class="form-control select2-code" data-url="@Url.Action("UnitGet", "Container")">
+                            </select>
+                            <span asp-validation-for="container.ContType" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="container.ContQuantity" class="control-label"></label>
-                        <input asp-for="container.ContQuantity" class="form-control" />
-                        <span asp-validation-for="container.ContQuantity" class="text-danger"></span>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="container.SealNo" class="control-label"></label>
+                            <input asp-for="container.SealNo" class="form-control" />
+                            <span asp-validation-for="container.SealNo" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.GrossWeight" class="control-label"></label>
+                            <input asp-for="container.GrossWeight" class="form-control" />
+                            <span asp-validation-for="container.GrossWeight" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.Cmb" class="control-label"></label>
+                            <input asp-for="container.Cmb" class="form-control" />
+                            <span asp-validation-for="container.Cmb" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="container.ContType" class="control-label required-label"></label>
-                        <select asp-for="container.ContType" class="form-control select2-code" data-url="@Url.Action("UnitGet", "Container")">
-                        </select>
-                        <span asp-validation-for="container.ContType" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="container.SealNo" class="control-label"></label>
-                        <input asp-for="container.SealNo" class="form-control" />
-                        <span asp-validation-for="container.SealNo" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="container.GrossWeight" class="control-label"></label>
-                        <input asp-for="container.GrossWeight" class="form-control" />
-                        <span asp-validation-for="container.GrossWeight" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="container.Cmb" class="control-label"></label>
-                        <input asp-for="container.Cmb" class="form-control" />
-                        <span asp-validation-for="container.Cmb" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="container.GoodsQuantity" class="control-label"></label>
-                        <input asp-for="container.GoodsQuantity" class="form-control" />
-                        <span asp-validation-for="container.GoodsQuantity" class="text-danger"></span>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label asp-for="container.GoodsQuantity" class="control-label"></label>
+                            <input asp-for="container.GoodsQuantity" class="form-control" />
+                            <span asp-validation-for="container.GoodsQuantity" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.GoodsKind" class="control-label required-label"></label>
+                            <select asp-for="container.GoodsKind" class="form-control select2-not-tag" data-url="@Url.Action("KindOfPackageGet", "Container")">
+                            </select>
+                            <span asp-validation-for="container.GoodsKind" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group col-4">
+                            <label asp-for="container.GoodsDepcription" class="control-label"></label>
+                            <input asp-for="container.GoodsDepcription" class="form-control" />
+                            <span asp-validation-for="container.GoodsDepcription" class="text-danger"></span>
+                        </div>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="container.GoodsKind" class="control-label required-label"></label>
-                        <select asp-for="container.GoodsKind" class="form-control select2-not-tag" data-url="@Url.Action("KindOfPackageGet", "Container")">
-                        </select>
-                        <span asp-validation-for="container.GoodsKind" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="container.GoodsDepcription" class="control-label"></label>
-                        <input asp-for="container.GoodsDepcription" class="form-control" />
-                        <span asp-validation-for="container.GoodsDepcription" class="text-danger"></span>
-                    </div>
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary btn-xs" />
-                        <a asp-action="Index" asp-route-id="@Model.HBL_ID" class="btn btn-info btn-xs">Back to List</a>
+                        <a asp-action="Index" asp-route-id="@Model.HBL_ID" class="btn btn-secondary btn-xs">Back to List</a>
                     </div>
                 </form>
             </div>
@@ -73,7 +95,9 @@
     </div>
 </div>
 
-
+@section CssFile {
+    <link rel="stylesheet" href="~/css/components/RequiredLabel.css" />
+}
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
