@@ -321,9 +321,26 @@ namespace PND_WEB.Controllers
             string datePart = today.ToString("yyyyMM");
             string prefix = $"TU{datePart}";
 
-            var totalThisMonth = await _context.TblTuttsPhi
-                .Where(p => p.SoTutt.StartsWith(prefix))
+            var listtu = await _context.TblTutts
+                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == false) 
+                .ToListAsync();
+
+            var listtt = await _context.TblTutts
+                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == true)
+                .ToListAsync();
+
+            var soTuttListTu = listtu.Select(p => p.SoTutt).ToList();
+            var soTuttListTt = listtt.Select(p => p.SoTutt).ToList();
+
+            var totalThisMonthTu = await _context.TblTuttsPhi
+                .Where(p => soTuttListTu.Contains(p.SoTutt))
                 .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+            var totalThisMonthTt = await _context.TblTuttsPhi
+                .Where(p => soTuttListTt.Contains(p.SoTutt))
+                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+            var totalThisMonth = totalThisMonthTu - totalThisMonthTt;
 
             var limit = _budgetService.GetLimit();
 
