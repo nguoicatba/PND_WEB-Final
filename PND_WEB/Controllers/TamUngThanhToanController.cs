@@ -348,12 +348,6 @@ namespace PND_WEB.Controllers
             ViewBag.TotalThisMonth = totalThisMonth;
             ViewBag.Limit = limit;
 
-            //if (totalThisMonth >= limit)
-            //{
-            //    TempData["ErrorMessage"] = "Tổng số tiền tạm ứng trong tháng đã vượt hạn mức cho phép.";
-            //    return RedirectToAction(nameof(Index));
-            //}
-
             if (id == null)
             {
                 return NotFound();
@@ -384,9 +378,43 @@ namespace PND_WEB.Controllers
                     return NotFound();
                 }
                 tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
+
+
+                var today = DateTime.UtcNow.Date;
+                string datePart = today.ToString("yyyyMM");
+                string prefix = $"TU{datePart}";
+
+                var listtu = await _context.TblTutts
+                    .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == false)
+                    .ToListAsync();
+
+                var listtt = await _context.TblTutts
+                    .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == true)
+                    .ToListAsync();
+
+                var soTuttListTu = listtu.Select(p => p.SoTutt).ToList();
+                var soTuttListTt = listtt.Select(p => p.SoTutt).ToList();
+
+                var totalThisMonthTu = await _context.TblTuttsPhi
+                    .Where(p => soTuttListTu.Contains(p.SoTutt))
+                    .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+                var totalThisMonthTt = await _context.TblTuttsPhi
+                    .Where(p => soTuttListTt.Contains(p.SoTutt))
+                    .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+                var totalThisMonth = totalThisMonthTu - totalThisMonthTt;
+
+                if (totalThisMonth > 10000000)
+                {
+                    return View(tuttEditModel);
+                }
+
                 _context.Add(tuttEditModel.tuttphi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Details), new { id = tuttEditModel.id });
+
+
             }
             return View(tuttEditModel);
         }
