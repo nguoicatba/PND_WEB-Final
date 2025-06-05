@@ -1,16 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using PND_WEB.Models;
-using PND_WEB.Data;
-using PND_WEB.ViewModels;
-using DinkToPdf;
+﻿using DinkToPdf;
+using DinkToPdf.Contracts;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.Mvc.ViewEngines;
 using Microsoft.AspNetCore.Mvc.ViewFeatures;
-using DinkToPdf.Contracts;
+using Microsoft.EntityFrameworkCore;
+using PND_WEB.Data;
+using PND_WEB.Models;
 using PND_WEB.Services;
+using PND_WEB.ViewModels;
 
 namespace PND_WEB.Controllers
 {
@@ -20,14 +21,16 @@ namespace PND_WEB.Controllers
         private readonly IConverter _converter;
         private readonly IViewRenderService _viewRenderService;
         private readonly BudgetService _budgetService;
+        private readonly UserManager<AppUserModel> _userManager;
 
         public TamUngThanhToanController(DataContext context, IConverter converter,
-            IViewRenderService viewRenderService, BudgetService budgetService)
+            IViewRenderService viewRenderService, BudgetService budgetService, UserManager<AppUserModel> userManager)
         {
             _context = context;
             _converter = converter;
             _viewRenderService = viewRenderService;
             _budgetService = budgetService;
+            _userManager = userManager;
         }
 
         public async Task<string> PredictQuotationCode()
@@ -155,6 +158,36 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
         {
+            var username = User.Identity.Name;
+            var user = await _userManager.FindByNameAsync(username);
+
+            var now = DateTime.Now;
+            var yearPart = now.Year.ToString();
+            var monthPart = now.Month.ToString("D2");
+
+            var countsByNhanvien = await _context.TblTutts
+                .Where(q => q.Tu == true &&
+                            q.SoTutt.Length >= 8 &&
+                            q.SoTutt.Substring(2, 4) == yearPart &&
+                            q.SoTutt.Substring(6, 2) == monthPart)
+                .GroupBy(q => q.NhanvienTutt)
+                .Select(g => new {
+                    NhanvienTutt = g.Key,
+                    CountTu = g.Count()
+                })
+                .ToListAsync();
+
+            var countOfCurrentUser = countsByNhanvien
+                .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)  
+                .Select(c => c.CountTu)
+                .FirstOrDefault();
+
+            if (countOfCurrentUser >= 5)
+            {
+                return View(tblTutt);
+            }
+
+
             if (ModelState.IsValid)
             {
                 tblTutt.SoTutt = await GenerateQuotationCode();
@@ -317,37 +350,6 @@ namespace PND_WEB.Controllers
         [HttpGet]
         public async Task<IActionResult> TuttCreate(string id)
         {
-            var today = DateTime.UtcNow.Date;
-            string datePart = today.ToString("yyyyMM");
-            string prefix = $"TU{datePart}";
-
-            var listtu = await _context.TblTutts
-                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == false) 
-                .ToListAsync();
-
-            var listtt = await _context.TblTutts
-                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == true)
-                .ToListAsync();
-
-            var soTuttListTu = listtu.Select(p => p.SoTutt).ToList();
-            var soTuttListTt = listtt.Select(p => p.SoTutt).ToList();
-
-            var totalThisMonthTu = await _context.TblTuttsPhi
-                .Where(p => soTuttListTu.Contains(p.SoTutt))
-                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
-
-            var totalThisMonthTt = await _context.TblTuttsPhi
-                .Where(p => soTuttListTt.Contains(p.SoTutt))
-                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
-
-            var totalThisMonth = totalThisMonthTu - totalThisMonthTt;
-
-            var limit = _budgetService.GetLimit();
-
-
-            ViewBag.TotalThisMonth = totalThisMonth;
-            ViewBag.Limit = limit;
-
             if (id == null)
             {
                 return NotFound();
@@ -378,37 +380,6 @@ namespace PND_WEB.Controllers
                     return NotFound();
                 }
                 tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
-
-
-                var today = DateTime.UtcNow.Date;
-                string datePart = today.ToString("yyyyMM");
-                string prefix = $"TU{datePart}";
-
-                var listtu = await _context.TblTutts
-                    .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == false)
-                    .ToListAsync();
-
-                var listtt = await _context.TblTutts
-                    .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == true)
-                    .ToListAsync();
-
-                var soTuttListTu = listtu.Select(p => p.SoTutt).ToList();
-                var soTuttListTt = listtt.Select(p => p.SoTutt).ToList();
-
-                var totalThisMonthTu = await _context.TblTuttsPhi
-                    .Where(p => soTuttListTu.Contains(p.SoTutt))
-                    .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
-
-                var totalThisMonthTt = await _context.TblTuttsPhi
-                    .Where(p => soTuttListTt.Contains(p.SoTutt))
-                    .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
-
-                var totalThisMonth = totalThisMonthTu - totalThisMonthTt;
-
-                if (totalThisMonth > 10000000)
-                {
-                    return View(tuttEditModel);
-                }
 
                 _context.Add(tuttEditModel.tuttphi);
                 await _context.SaveChangesAsync();
