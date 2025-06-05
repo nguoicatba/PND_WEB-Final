@@ -183,6 +183,7 @@ namespace PND_WEB.Controllers
 
                 if (countOfCurrentUser >= 5)
                 {
+                    ModelState.AddModelError("NhanvienTutt", "Nhân viên này đã tạo quá 5 tạm ứng trong tháng này.");
                     return View(tblTutt);
                 }
             }
@@ -406,6 +407,7 @@ namespace PND_WEB.Controllers
 
             if (tongTienNhanVien >= _budgetService.GetLimit())
             {
+                ModelState.AddModelError("tuttphi.SoTien", "Tổng tiền của nhân viên trong tháng đã vượt quá giới hạn cho phép.");
                 return View(tuttEditModel);
             }
 
