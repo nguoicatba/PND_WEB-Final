@@ -249,6 +249,18 @@ namespace PND_WEB.Controllers
         }
 
 
+        string GenerateNewSoTutt(string oldSoTutt)
+        {
+            if (oldSoTutt.StartsWith("TU"))
+            {
+                return "TT" + oldSoTutt.Substring(2);
+            }
+            else
+            {
+                throw new Exception("Định dạng SoTutt không đúng");
+            }
+        }
+
         // POST: TamUngThanhToan/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -256,6 +268,8 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CheckEdit(string id, [Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu")] TblTutt tblTutt)
         {
+            
+
             if (id != tblTutt.SoTutt)
             {
                 return NotFound();
@@ -272,10 +286,69 @@ namespace PND_WEB.Controllers
                     }
 
                     existingTutt.Ceo = tblTutt.Ceo;
-                    existingTutt.Ketoan = tblTutt.Ketoan    ;
+                    existingTutt.Ketoan = tblTutt.Ketoan;
                     existingTutt.GhiChu = tblTutt.GhiChu;
 
                     await _context.SaveChangesAsync();
+
+                    var checktutt = await _context.TblTutts.FirstOrDefaultAsync(t => t.SoTutt == tblTutt.SoTutt);
+                          
+                    if(checktutt.Tu == true)
+                    {
+                        if (tblTutt.Ketoan == true || tblTutt.Ceo == true)
+                        {
+                            var sotuttcu = tblTutt.SoTutt;
+
+                            var tuttcu = await _context.TblTutts.FirstOrDefaultAsync(t => t.SoTutt == sotuttcu);
+                            if (tuttcu == null)
+                            {
+                                return NotFound();
+                            }
+
+                            var tuttphioList = await _context.TblTuttsPhi
+                                .Where(p => p.SoTutt == sotuttcu)
+                                .ToListAsync();
+
+                            string sotuttmoi = GenerateNewSoTutt(sotuttcu);
+
+                            var newTutt = new TblTutt
+                            {
+                                SoTutt = sotuttmoi,
+                                Ngay = tuttcu.Ngay,
+                                NhanvienTutt = tuttcu.NhanvienTutt,
+                                NoiDung = tuttcu.NoiDung,
+                                xacnhanduyet = tuttcu.xacnhanduyet,
+                                Tu = true,
+                                Tt = true,
+                                Ketoan = null,
+                                Ceo = null,
+                                GhiChu = tuttcu.GhiChu
+                            };
+
+                            _context.TblTutts.Add(newTutt);
+
+                            foreach (var item in tuttphioList)
+                            {
+                                var newItem = new TblTuttPhi
+                                {
+                                    SoTutt = sotuttmoi,
+                                    SoHoaDon = item.SoHoaDon,
+                                    TenPhi = item.TenPhi,
+                                    SoTien = item.SoTien,
+                                    GhiChu = item.GhiChu,
+                                };
+
+                                _context.TblTuttsPhi.Add(newItem);
+                            }
+
+                            await _context.SaveChangesAsync();
+                        }
+                    }
+
+
+                    
+
+
                     return RedirectToAction(nameof(Check));
                 }
                 catch (DbUpdateConcurrencyException)

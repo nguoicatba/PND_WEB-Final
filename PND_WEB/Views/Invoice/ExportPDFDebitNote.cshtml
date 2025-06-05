@@ -1,4 +1,4 @@
-﻿@using PND_WEB.ViewModels
+@using PND_WEB.ViewModels
 
 @model DebitNoteExport
 
@@ -7,6 +7,7 @@
     var id = 0;
     DateTime today = DateTime.Now;
     string formattedToday = today.ToString("dddd, MMMM dd, yyyy ");
+    string typeTransport = (Model.JobType == "AI" || Model.JobType == "AE") ? "Flight:" : "Vessel/Voy:";
 }
 
 <!DOCTYPE html>
@@ -15,79 +16,77 @@
     <meta charset="utf-8" />
     <style>
         body {
-        font-family: Arial, Helvetica, sans-serif;
-        font-size: 20px;
-        margin: 30px;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 20px;
+            margin: 30px;
         }
 
         .center {
-        width: 100%;
-        clear: both;
-        margin-top: 20px;
+            width: 100%;
+            clear: both;
+            margin-top: 20px;
         }
 
         table {
-        width: 100%;
-        border-collapse: collapse;
+            width: 100%;
+            border-collapse: collapse;
         }
 
         th, td {
-        border: 1px solid #000;
-        padding: 6px;
-        text-align: center;
+            border: 1px solid #000;
+            padding: 6px;
+            text-align: center;
         }
 
         .text-right {
-        text-align: right;
+            text-align: right;
         }
 
         .bold {
-        font-weight: bold;
+            font-weight: bold;
         }
 
         .left-right {
-        width: 100%;
-        overflow: hidden;
-        margin-bottom: 10px;
-        margin-top: 10px;
+            width: 100%;
+            overflow: hidden;
+            margin-bottom: 10px;
+            margin-top: 10px;
         }
 
         .left {
-        width: 50%;
-        float: left;
+            width: 50%;
+            float: left;
         }
 
         .right {
-        width: 50%;
-        float: right;
+            width: 50%;
+            float: right;
         }
 
         .left2 {
-        width: 30%;
-        float: left;
+            width: 30%;
+            float: left;
         }
 
         .right2 {
-        width: 70%;
-        float: right;
+            width: 70%;
+            float: right;
         }
 
         .left3 {
-        width: 70%;
-        float: left;
+            width: 70%;
+            float: left;
         }
 
         .right3 {
-        width: 30%;
-        float: right;
+            width: 30%;
+            float: right;
         }
     </style>
 </head>
 <body>
     <div class="left-right">
         <div class="left2">
-
-            @* ảnh chưa đc chuẩn tại chỗ này chưa bt để kiểu gì (k dùng đc link ảo có ~)*@
             <img src="https://localhost:7290/app/img/logo-pnd-export-pdf.jpg" />
         </div>
         <div class="right2">
@@ -99,76 +98,69 @@
         </div>
     </div>
 
-
     <div style="text-align:center;">
-        <h1 style="margin: 0; padding : 0; color: dimgray">DEBIT NOTE</h1>
-
-        @* chèn thêm các dữ liệu vô những chỗ có x ( good type ) *@
-        <h2 style="margin: 3px; padding : 3px">   @Model.JobType  </h2>
-        <div class="right" style="color: dimgray; font-size: 24px"> @formattedToday     </div>
+        <h1 style="margin: 0; padding : 0; color: dimgray">@Model.TypeInvoice</h1>
+        <h2 style="margin: 3px; padding : 3px">@Model.JobType</h2>
+        <div class="right" style="color: dimgray; font-size: 24px">@formattedToday</div>
     </div>
     <br />
 
     <div class="left-right">
         <div class="left">
-            @* chèn thêm các dữ liệu vô những chỗ có x  *@
             <div>
-                <strong style="color: gray;">Job No:</strong> <span style="color: black;">    @Model.JobId   </span>
+                <strong style="color: gray;">Job No:</strong> <span style="color: black;">@Model.JobId</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Consignee:</strong> <span style="color: black;">   @Model.Cnee  </span>
+                <strong style="color: gray;">Partner:</strong> <span style="color: black;">@Model.Partner</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">MBL:</strong> <span style="color: black;">    @Model.Cnee  </span>
+                <strong style="color: gray;">MBL:</strong> <span style="color: black;">@Model.MBL</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">HBL:</strong> <span style="color: black;">    @Model.HBL  </span>
+                <strong style="color: gray;">HBL:</strong> <span style="color: black;">@Model.HBL</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">Vessel/Voy:</strong> <span style="color: black;"> @Model.Transport   </span>
+                <strong style="color: gray;">@typeTransport</strong> <span style="color: black;"> @Model.Transport   </span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">ETA:</strong> <span style="color: black;">    @Model.ETA.ToString("dd/MM/yyyy")  </span>
+                <strong style="color: gray;">ETA:</strong> <span style="color: black;">@Model.ETA.ToString("dd/MM/yyyy")</span>
             </div>
         </div>
         <div class="right">
-           
             <div>
-                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">    @Model.Quantity  </span>
+                <strong style="color: gray;">Quantity:</strong> <span style="color: black;">@Model.Quantity</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">    @Model.GrossWeight  </span>
+                <strong style="color: gray;">G.W(KGS):</strong> <span style="color: black;">@Model.GrossWeight</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">    @Model.CBM   </span>
+                <strong style="color: gray;">G.W(CBM):</strong> <span style="color: black;">@Model.CBM</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">POL:</strong> <span style="color: black;">   @Model.POL </span>
+                <strong style="color: gray;">POL:</strong> <span style="color: black;">@Model.POL</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">POD:</strong> <span style="color: black;">    @Model.POD   </span>
+                <strong style="color: gray;">POD:</strong> <span style="color: black;">@Model.POD</span>
             </div>
             <br />
             <div>
-                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">   @Model.PODel   </span>
+                <strong style="color: gray;">PO.Delivery:</strong> <span style="color: black;">@Model.PODel</span>
             </div>
         </div>
     </div>
 
-
     <br />
     <div style="text-align:right">
         <span style="background-color: lightgoldenrodyellow">TOTAL INVOICE (VND)</span>
-
         <input type="text" style="color: black; background-color: lightgoldenrodyellow" value="@Model.Total" />
     </div>
 
@@ -189,16 +181,10 @@
                 </tr>
             </thead>
             <tbody>
-
-                @* chèn thêm các dữ liệu vô những chỗ có xanh lá  *@
-
-
                 @foreach (var item in Model.Charges)
                 {
                     ++id;
-
-                <tr>
-                   
+                    <tr>
                         <td>@id</td>
                         <td>@item.SerName</td>
                         <td>@item.SerPrice</td>
@@ -209,11 +195,9 @@
                         <td>@item.SerVat</td>
                         <td>@item.MVat</td>
                         <td>@Model.Amount(item)</td>
-              
-                </tr>
+                    </tr>
                 }
             </tbody>
-          
         </table>
     </div>
     <br />
@@ -241,6 +225,5 @@
             <strong> PND LOGISTICS.,LTD</strong>
         </div>
     </div>
-
 </body>
-</html>
+</html> 

@@ -406,11 +406,31 @@
                             </ul>
                         </li>
 
+                        <li class="nav-heading">
+                            <span>Báo cáo thống kê</span>
+                        </li>
+
+
                         <li class=" ">
-                            <a asp-controller="BaocaoThongke" asp-action="Index">
+                            <a href="#StatisticalReport" title="StatisticalReport" data-toggle="collapse">
                                 <em class="fa fa-line-chart"></em>
                                 <span>Báo cáo thống kê</span>
                             </a>
+                            <ul class="sidebar-nav sidebar-subnav collapse" id="StatisticalReport">
+                                <li class="sidebar-subnav-header">Báo cáo thống kê</li>
+                                <li class=" ">
+                                    <a asp-controller="BaocaoThongke" asp-action="Bestsale">
+                                        <span>Thống kê Booking</span>
+                                    </a>
+                                </li>
+                                <li class=" ">
+                                    <a asp-controller="xxxx" asp-action="xxx">
+                                        <span>Doanh thu</span>
+                                    </a>
+                                </li>
+
+
+                            </ul>
                         </li>
 
                         <li class=" ">

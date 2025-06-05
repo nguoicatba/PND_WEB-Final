@@ -10,15 +10,18 @@
             <span class="btn-label">
                 <i class="fa fa-file-pdf-o"></i>
             </span> PDF File
-
-         </button>
-        
+        </button>
         <div class="dropdown-menu" role="menu">
             <a class="dropdown-item" asp-action="ExportPDFHBL" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">HBL/HWAB</a>
             <a class="dropdown-item" asp-action="ExportPDFDO" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">D.O File</a>
             <a class="dropdown-item" asp-action="ExportPDFAN" asp-controller="Hbls" asp-route-id="@Model.Hbl_ID">Arrival Note</a>
-
-
         </div>
+
+        <a asp-action="Index" asp-controller="Hbls" asp-route-id="@ViewBag.Job_ID" class="btn btn-labeled btn-outline-secondary btn-xs">
+            <span class="btn-label">
+                <i class="icon-close"></i>
+            </span>
+            Cancel
+        </a>
     </div>
 </div>

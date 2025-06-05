@@ -11,6 +11,7 @@ namespace PND_WEB.Data.Seeders
 
         public static async Task SeedAsync(DataContext _context,RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
         {
+            
             if (!await roleManager.RoleExistsAsync("SuperAdmin"))
             {
                 var role = new IdentityRole
@@ -62,8 +63,6 @@ namespace PND_WEB.Data.Seeders
 
 
             }
-
-
 
 
         }

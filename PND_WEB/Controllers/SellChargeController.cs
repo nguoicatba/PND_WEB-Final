@@ -24,6 +24,10 @@ namespace PND_WEB.Controllers
             var sellChargeVM = new SellChargeVM
             {
                 HBL_Id = id,
+                JOB_Id = _context.TblHbls
+                    .Where(h => h.Hbl == id)
+                    .Select(h => h.RequestId)
+                    .FirstOrDefault(),
                 _charges = SellCharges.Select(c => new SellChargeEM
                 {
                     ChargeId = c.ChargeId,
@@ -53,6 +57,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Create")]
         public IActionResult Create(string id)
         {
             var sellChargeEM = new SellChargeEM
@@ -97,6 +102,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -187,6 +193,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -473,7 +480,7 @@ namespace PND_WEB.Controllers
 
                 // Group charges by customer for invoice number generation
                 var listinvoie = await _context.invoices
-                    .Where(i => i.Hbl == request.hblId && i.Type == "Credit Note").ToListAsync();
+                    .Where(i => i.Hbl == request.hblId && i.Type == "Debit Note").ToListAsync();
 
                 foreach (var charge in charges)
                 {
@@ -509,8 +516,8 @@ namespace PND_WEB.Controllers
                             {
                                 Id = Guid.NewGuid().ToString(),
                                 Partner = charge.CustomerId,
-                                InvoiceNo = await GenerateCode("CDN"),
-                                Type = "Credit Note",
+                                InvoiceNo = await GenerateCode("DBN"),
+                                Type = "Debit Note",
                                 Currency = "USD",
                                 ExchangeRate = 1.0f,
                                 DebitDate = DateTime.Now,

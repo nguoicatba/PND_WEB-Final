@@ -62,18 +62,25 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 
     <script>
-        document.getElementById("myForm").addEventListener("submit", function (e) {
-            const isTuChecked = document.querySelector('input[name="Tu"]').checked;
-            const isTtChecked = document.querySelector('input[name="Tt"]').checked;
+        const tuCheckbox = document.querySelector('input[name="Tu"]');
+        const ttCheckbox = document.querySelector('input[name="Tt"]');
 
-            if (!isTuChecked && !isTtChecked) {
-                e.preventDefault();
-                alert("Bạn phải chọn ít nhất một trong hai: Tạm Ứng (TU) hoặc Thanh Toán (TT).");
+        // Đảm bảo chỉ chọn 1 trong 2 checkbox
+        tuCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                ttCheckbox.checked = false;
+            }
+        });
+
+        ttCheckbox.addEventListener('change', function () {
+            if (this.checked) {
+                tuCheckbox.checked = false;
             }
         });
     </script>
-
 }

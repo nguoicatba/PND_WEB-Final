@@ -3,96 +3,89 @@
 @{
     ViewData["Title"] = "Index";
 }
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "HBL", SubTitle = "Danh sách HBL", Job_ID = Model.Job_Id})
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "About job", SubTitle = "About job" })
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách HBL", Controller="",Action="Edit",Parameter=""}
+})
+
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->
         <div class="card card-default" id="cardDemo14">
             <div class="card-header bg-success">About job: @Model.Job_Id</div>
             <div class="card-body">
-                <div role="tabpanel">
-                    <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Job" asp-action="Details" asp-route-id=@Model.Job_Id>Chi tiết job</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active">List HBL</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="JobUser" asp-action="Index" asp-route-id=@Model.Job_Id>Phân quyền job</a>
-                        </li>
-                       
-                    </ul>
-                    <!-- Tab panes-->
-                    <div class="tab-content">
-                        <p>
-                            <a asp-action="Create" asp-route-id=@Model.Job_Id class="btn btn-primary btn-xs">Create New</a>
-                        </p>
-                        <table class="table table-striped my-4 w-100" id="datatable3">
-                            <thead class="table-primary">
+                <!-- Nav tabs-->
+                @await Component.InvokeAsync("JobNavTab", new { Job_ID = Model.Job_Id, userName = User.Identity.Name })
+                <!-- Tab panes-->
+                <div class="tab-content">
+                    <p>
+                        <a asp-action="Create" asp-route-id=@Model.Job_Id class="btn btn-primary btn-xs">Create New</a>
+                    </p>
+                    <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
+                        <thead class="">
+                            <tr>
+                                <th>Action</th>
+
+                                <th>@Html.DisplayNameFor(model=>model.Hbls[0].Hbl)</th>
+                              
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].IssueDateH)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].OnBoardDateH)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].Shipper)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].Cnee)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].NotifyParty)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].BlType)</th>
+
+                                <th>@Html.DisplayNameFor(model => model.Hbls[0].NomFree)</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Hbls)
+                            {
                                 <tr>
-                                    <th>Action</th>
-
-                                    <th>@Html.DisplayNameFor(model=>model.Hbls[0].Hbl)</th>
-                                  
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].IssueDateH)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].OnBoardDateH)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].Shipper)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].Cnee)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].NotifyParty)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].BlType)</th>
-
-                                    <th>@Html.DisplayNameFor(model => model.Hbls[0].NomFree)</th> 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model.Hbls)
-                                {
-                                    <tr>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Hbl" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Hbl" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
                              
-                                            <a asp-action="Delete" asp-route-id="@item.Hbl" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                                        </td>
-                                        <td>
-                                            <a asp-action="Details" asp-route-id="@item.Hbl">   @Html.DisplayFor(modelItem => item.Hbl) </a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.IssueDateH)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.OnBoardDateH)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Shipper)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.Cnee)
-                                        </td>
-                                        
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NotifyParty)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.BlType)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => item.NomFree)
-                                        </td>   
+                                        <a asp-action="Delete" asp-route-id="@item.Hbl" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                    </td>
+                                    <td>
+                                        <a asp-action="Details" asp-route-id="@item.Hbl">   @Html.DisplayFor(modelItem => item.Hbl) </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IssueDateH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OnBoardDateH)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Shipper)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Cnee)
+                                    </td>
+                                    
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NotifyParty)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BlType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.NomFree)
+                                    </td>   
    
-                                       
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
+                                   
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

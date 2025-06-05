@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+    var colspan = User.HasClaim("AllInvoice", "Check") ? 13 : 12;
 }
 
-@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id, Job_ID = Model.JOB_Id })
 
 <div class="row">
     <div class="col-xl-12">
@@ -19,11 +20,16 @@
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <div class="d-flex align-items-center">
-                            <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
-                                <span class="btn-label">
-                                <i class="fa fa-plus-square-o"></i>
-                                </span>New Charge
-                            </a>
+                            @if (User.HasClaim("Container Charge", "Create"))
+                            {
+                                <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
+                                    <span class="btn-label">
+                                        <i class="fa fa-plus-square-o"></i>
+                                    </span>New Charge
+                                </a>
+                            }
+
+                          
                             @if (User.HasClaim("AllInvoice", "Check"))
                             {
                                 <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
@@ -67,17 +73,24 @@
                                         {
                                             <td>
                                                 <input type="checkbox" class="charge-checkbox" 
-                                                       value="@item.ChargeId" 
-                                                       data-checked="@item.Checked"
-                                                       data-supplier="@item.SupplierId"
-                                                       @(item.Checked == true ? "checked" : "") />
+                                                value="@item.ChargeId" 
+                                                data-checked="@item.Checked"
+                                                data-supplier="@item.SupplierId"
+                                                @(item.Checked == true ? "checked" : "") />
                                             </td>
                                         }
                                         @if (item.Checked == false || item.Checked == null)
                                         {
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                                <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                                @if (User.HasClaim("Container Charge", "Edit"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@item.ChargeId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                                }
+                                                @if (User.HasClaim("Container Charge", "Delete"))
+                                                {
+                                                    <a asp-action="Delete" asp-route-id="@item.ChargeId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                                }
+
                                             </td>
                                         }
                                         else
@@ -101,7 +114,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="13" class="text-right">Total:</td>
+                                    <td colspan="@colspan" class="text-right">Total:</td>
                                     <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
                                 </tr>
                             </tfoot>

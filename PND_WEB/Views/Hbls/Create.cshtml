@@ -9,9 +9,30 @@
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Create HBL</div>
+         <form asp-action="Create">
+            <div class="card-header d-flex justify-content-between align-items-center" style="border-bottom: 2px solid #e4e5e6;">
+                <div>Create HBL</div>
+                <div>
+                       
+                    <button type="submit" class="btn btn-primary btn-xs">
+                            <span class="btn-label">
+                                <i class="fa fa-plus-circle"></i>
+                            </span>
+                            Create
+                      </button>
+                    <a asp-action="Index" asp-route-id=@Model.Job_ID class="btn btn-outline-secondary btn-xs">
+
+                            <span class="btn-label">
+                                <i class="fa fa-close"></i>
+                            </span>
+                            Back to List
+                    </a>
+                </div>
+                 
+            </div>
+          
             <div class="card-body">
-                <form asp-action="Create">
+               
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                   
                     <input type="hidden" asp-for="Hbl.RequestId" value=@Model.Hbl.RequestId />
@@ -213,17 +234,12 @@
 
                   
 
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
-                        <div class="mt-2">
-                            <a asp-action="Index" asp-route-id=@Model.Job_ID>Back to List</a>
-                        </div>
-                    </div>
-                </form>
+                  
+               
             </div>
+            </form>
         </div>
-
-        
+     
     </div>
 </div>
 

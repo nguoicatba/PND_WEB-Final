@@ -2,9 +2,14 @@
 
 @{
     ViewData["Title"] = "Details";
+    var colspan = 13;
+    if (User.HasClaim("AllInvoice", "Check"))
+    {
+        colspan++;
+    }
 }
 
-@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id, Job_ID = Model.JOB_Id })
 
 <div class="row">
     <div class="col-xl-12">
@@ -15,17 +20,20 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                     @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
+                    @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
                     <!-- Tab panes-->
                     <div class="tab-content">
 
-                                <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center">
+                                    @if (User.HasClaim("Sell Charge", "Create"))
+                                    {
+                                        <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
+                                            <span class="btn-label">
+                                                <i class="fa fa-plus-square-o"></i>
+                                            </span>New Charge
+                                        </a>
+                                    }
 
-                                <a asp-action="Create" asp-route-id="@Model.HBL_Id" class="btn btn-labeled btn btn-primary btn-xs mr-2">
-                                        <span class="btn-label">
-                                        <i class="fa fa-plus-square-o"></i>
-                                        </span>New Charge
-                                    </a>
                                     @if (User.HasClaim("AllInvoice", "Check"))
                                     {
                                         <button id="saveCheckedCharges" class="btn btn-labeled btn btn-success btn-xs mr-2">
@@ -34,18 +42,22 @@
                                             </span>Save Data
                                         </button>
                                     }
-                                    <div class="dropdown">
-                                        <button class="btn btn-secondary dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <span class="btn-label">
-                                            <i class="fa fa-long-arrow-down"></i>
-                                            </span>Get Charge
-                                        </button>
-                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            <a class="dropdown-item" href="#" data-toggle="modal" data-target="#getBuyChargesModal">Giá mua</a>
+                                    @if (User.HasClaim("Sell Charge", "Get Charge"))
+                                    {
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle btn-xs" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <span class="btn-label">
+                                                    <i class="fa fa-long-arrow-down"></i>
+                                                </span>Get Charge
+                                            </button>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#getBuyChargesModal">Giá mua</a>
+                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                                <br />
+                                    }
+                                
+                         </div>
+                        <br />
 
 
                                 <table class="table nowrap border display table-sm" id="mytable" style="width:100%">
@@ -127,12 +139,11 @@
                                     </tbody>
                                     <tfoot>
                                         <tr>
-                                            <td colspan="12" class="text-right">Total:</td>
+                                            <td colspan="@colspan" class="text-right">Total:</td>
                                             <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
                                         </tr>
                                     </tfoot>
                                 </table>
-                           
                     </div>
                 </div>
             </div>

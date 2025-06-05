@@ -48,6 +48,10 @@ namespace PND_WEB.Controllers
         {
             ContainerViewModel containerViewModel = new ContainerViewModel();
             containerViewModel.HBL_ID = id;
+            containerViewModel.JOB_ID = await _context.TblHbls
+                .Where(h => h.Hbl == id)
+                .Select(h => h.RequestId)
+                .FirstOrDefaultAsync();
             containerViewModel.containers = await _context.TblConths
                 .Where(c => c.Hbl == id)
                 .ToListAsync();

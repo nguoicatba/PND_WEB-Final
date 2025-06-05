@@ -1,0 +1,22 @@
+﻿@using static PND_WEB.ViewComponents.BreadcrumbViewComponent
+@model List<BreadcrumbItem>
+
+ @* chỉ dành cho trường hợp: Home/Job/43334 *@
+ @* lỗi phát sinh cho trường hợp : Home/ Job/ key=1 && key=2 *@
+ <div>
+<ol class="breadcrumb">
+    @foreach (var item in Model)
+    {
+        if (item.IsActive)
+        {
+            <li class="breadcrumb-item active">@item.Title</li>
+        }
+        else
+        {
+            <li class="breadcrumb-item">
+                <a asp-action="@item.Action" asp-controller="@item.Controller" asp-route-id="@item.Parameter">@item.Title</a>
+            </li>
+        }
+    }
+</ol>
+</div>

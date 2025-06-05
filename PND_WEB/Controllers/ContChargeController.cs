@@ -24,6 +24,10 @@ namespace PND_WEB.Controllers
             ContChargeVM contChargeVM = new ContChargeVM
             {
                 HBL_Id = id,
+                JOB_Id = _context.TblHbls
+                    .Where(h => h.Hbl == id)
+                    .Select(h => h.RequestId)
+                    .FirstOrDefault(),
                 _charges = ContCharges.Select(c => new ContChargeEM
                 {
                     ChargeId = c.ChargeId,

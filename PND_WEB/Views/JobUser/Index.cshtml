@@ -1,10 +1,19 @@
 ﻿@model List<PND_WEB.ViewModels.JobUserViewModel>
+@using System.ComponentModel.DataAnnotations
 
 @{
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "About job", SubTitle = "About job" })
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Phân quyền job", SubTitle = "", Job_ID = ViewBag.JobId})
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="Job",Action="Details",Parameter=ViewBag.JobId },
+    new BreadcrumbItem { Title = "Phân quyền job", Controller="",Action="",Parameter="" }
+})
+
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->
@@ -13,36 +22,23 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Job" asp-action="Details" asp-route-id=@ViewBag.JobId>Chi tiết job</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Hbls" asp-action="Index" asp-route-id=@ViewBag.JobId>List HBL</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active">Phân quyền job</a>
-                        </li>
-
-                    </ul>
+                    @await Component.InvokeAsync("JobNavTab", new { Job_ID = ViewBag.JobId, userName = User.Identity.Name })
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <p>
                             <a asp-action="Create" asp-route-id=@ViewBag.JobId class="btn btn-primary btn-xs">Create New</a>
                         </p>
-                        <table class="table table-striped my-4 w-100" id="datatable3">
-                            <thead class="table-primary">
+                        <table class="table table-striped border" id="datatable1">
+                            <thead class="">
                                 <tr>
                                     <th>Action</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].UserName)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].Staff_Name)</th>
-                               
-                                    <th>@Html.DisplayNameFor(model => model[0].RoleName)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].Description)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].CreateDate)</th>
+                                    <th>User Name</th>
+                                    <th>Staff Name</th>
+                                    <th>Role Name</th>
+                                    <th>Description</th>
+                                    <th>Create Date</th>
 
-                                   
-
+    
                                 </tr>
                             </thead>
                             <tbody>

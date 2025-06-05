@@ -9,7 +9,14 @@
 <!-- Invoice Details Card -->
 <div class="card mb-3">
     <div class="card-header">
-        <h5 class="mb-0">Thông tin chi tiết</h5>
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">Thông tin chi tiết</h5>
+            <div class="ml-auto">
+                <a class="btn btn-xs btn-primary" asp-action="DebitNoteExport" asp-route-id="@Model.Invoice.Id">
+                    <i class="fa fa-file-pdf-o"></i> Xuất file
+                </a>
+            </div>
+        </div>
     </div>
     <div class="card-body">
         <form id="invoiceForm" asp-controller="Invoice" asp-action="UpdateInvoice" method="post">
@@ -71,14 +78,16 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="Invoice.PaymentDate"></label>
-                        <input asp-for="Invoice.PaymentDate" class="form-control" type="date" />
+                        <input asp-for="Invoice.PaymentDate" class="form-control" type="date"
+                          value="@(Model.Invoice.PaymentDate == null ? "" : Model.Invoice.PaymentDate.Value.ToString("yyyy-MM-dd"))" />
                         <span asp-validation-for="Invoice.PaymentDate" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                         <label asp-for="Invoice.InvoiceDate"></label>
-                        <input asp-for="Invoice.InvoiceDate" class="form-control" type="date" />
+                        <input asp-for="Invoice.InvoiceDate" class="form-control" type="date"
+                            value="@(Model.Invoice.InvoiceDate == null ? "" : Model.Invoice.InvoiceDate.Value.ToString("yyyy-MM-dd"))" />
                         <span asp-validation-for="Invoice.InvoiceDate" class="text-danger"></span>
                     </div>
                 </div>

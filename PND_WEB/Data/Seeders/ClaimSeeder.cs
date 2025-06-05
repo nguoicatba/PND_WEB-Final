@@ -7,6 +7,7 @@ namespace PND_WEB.Data.Seeders
     {
         public static async Task SeedAsync(DataContext context)
         {
+          
             if (!context.Claims.Any())
             {
 
@@ -56,7 +57,7 @@ namespace PND_WEB.Data.Seeders
 
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Create", Description = "Tạo Container mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Edit", Description = "Chỉnh sửa Container" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Edit", Description = "Xóa sửa Container" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Delete", Description = "Xóa Container" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Index", Description = "Xem Container" },
 
                     //Buy Invoice
@@ -64,8 +65,35 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Edit", Description = "Chỉnh sửa hóa đơn mua hàng" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Delete", Description = "Xóa hóa đơn mua hàng" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Index", Description = "Xem hóa đơn mua hàng" },
-
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Details", Description = "Xem hóa đơn mua hàng" },
+
+                    // Buy Charge Manager
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Buy Charge", ClaimValue = "Index", Description = "Xem phí mua hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Buy Charge", ClaimValue = "Create", Description = "Tạo phí mua hàng mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Buy Charge", ClaimValue = "Edit", Description = "Chỉnh sửa phí mua hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Buy Charge", ClaimValue = "Delete", Description = "Xóa phí mua hàng" },
+
+                    // Sell Charge Manager
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Sell Charge", ClaimValue = "Index", Description = "Xem phí bán hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Sell Charge", ClaimValue = "Create", Description = "Tạo phí bán hàng mới" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Sell Charge", ClaimValue = "Edit", Description = "Chỉnh sửa phí bán hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Sell Charge", ClaimValue = "Delete", Description = "Xóa phí bán hàng" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Sell Charge", ClaimValue = "Get Charge", Description = "Lấy phí nhanh" },
+
+                     // Container Charge Manager
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container Charge", ClaimValue = "Index", Description = "Xem phí cược container" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container Charge", ClaimValue = "Create", Description = "Tạo phí cược container mới" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container Charge", ClaimValue = "Edit", Description = "Chỉnh sửa phí cược container" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container Charge", ClaimValue = "Delete", Description = "Xóa phí cược container" },
+
+                     // Behalf Charge Manager
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Index", Description = "Xem phí chi hộ" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Create", Description = "Tạo phí chi hộ mới" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Edit", Description = "Chỉnh sửa phí chi hộ" },
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Delete", Description = "Xóa phí chi hộ" },
+
+
+
 
 
                    //Charge Invoice Manager

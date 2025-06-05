@@ -5,7 +5,8 @@ namespace PND_WEB.ViewModels
 {
     public class ContChargeVM
     {
-        public string? HBL_Id { get; set; }  
+        public string? HBL_Id { get; set; }
+        public string? JOB_Id { get; set; }
 
         public List<ContChargeEM> ?_charges;
     }

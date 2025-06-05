@@ -6,6 +6,12 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa job", SubTitle = "Chỉnh sửa job" })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Edit job", Controller="",Action="Edit",Parameter=""}
+
+})
 
 
 

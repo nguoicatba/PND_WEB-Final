@@ -3,8 +3,13 @@
 @{
     ViewData["Title"] = "Details";
 }
-@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Chi tiết job", SubTitle = "Chi tiết job",Job_ID=Model.JobId })
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Chi tiết job", SubTitle = "Chi tiết job", Job_ID = Model.JobId })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="",Action="",Parameter=""}
+})
 <div class="row">
     <div class="col-xl-12">
         <div class="card card-default" id="cardDemo14">
@@ -12,159 +17,186 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Chi tiết job</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Hbls" asp-action="Index" asp-route-id=@Model.JobId>List HBL</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="JobUser" asp-action="Index" asp-route-id=@Model.JobId>Phân quyền job</a>
-                        </li>
-                    </ul>
+                    @await Component.InvokeAsync("JobNavTab", new { Job_ID = Model.JobId, userName = User.Identity.Name })
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <div class="tab-pane active" id="home" role="tabpanel">
-                            <!-- Group 1: Basic Info -->
-                            <h5 class="border-bottom" style="background-color: lightgreen;">
-                                Basic Info
-                            </h5>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.GoodsType)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.GoodsType)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.JobDate)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.JobDate)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Mbl)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Mbl)</dd>
-                                    </dl>
+                                <div class="col-lg-6">
+                                    <p class="lead bb">Basic Information</p>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Mode):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Mode)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.GoodsType):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.GoodsType)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.JobDate):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.JobDate)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Mbl):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Mbl)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.IssueDateM):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.IssueDateM)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.OnBoardDateM):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.OnBoardDateM)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.YunLock):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.YunLock)</strong>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.IssueDateM)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.IssueDateM)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.OnBoardDateM)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.OnBoardDateM)</dd>
-                                    </dl>
+                                <div class="col-lg-6">
+                                    <p class="lead bb">Routing Information</p>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Pol):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Pol)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Pod):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Pod)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Podis):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Podis)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Podel):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Podel)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.PlaceofReceipt):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.PlaceofReceipt)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.PlaceofDelivery):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.PlaceofDelivery)</strong>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <!-- Group 2: Routing Info -->
-                           
-                            <h5 class="border-bottom" style="background-color: lightgreen;">
-                                Routing Info
-                            </h5>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Pol)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Pol)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Pod)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Pod)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Podis)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Podis)</dd>
-                                    </dl>
+                                <div class="col-lg-6">
+                                    <p class="lead bb">Schedule Information</p>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.VesselName):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.VesselName)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.VoyageName):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.VoyageName)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.PreCariageBy):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.PreCariageBy)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Etd):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Etd)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Eta):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Eta)</strong>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Podel)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Podel)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlaceofReceipt)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PlaceofReceipt)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PlaceofDelivery)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PlaceofDelivery)</dd>
-                                    </dl>
+                                <div class="col-lg-6">
+                                    <p class="lead bb">Partner Information</p>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.AgentNavigation):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.AgentNavigation.Code)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.CarrierNavigation):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.CarrierNavigation.Code)</strong>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <!-- Group 3: Schedule -->
-                            <h5 class="border-bottom" style="background-color: lightgreen;">
-                                Schedule
-                            </h5>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.VesselName)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.VesselName)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.VoyageName)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.VoyageName)</dd>
-                                    </dl>
-                                </div>
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.PreCariageBy)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.PreCariageBy)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Etd)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Etd)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Eta)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Eta)</dd>
-                                    </dl>
+                                <div class="col-lg-6">
+                                    <p class="lead bb">Additional Information</p>
+                                    <form class="form-horizontal">
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Ycompany):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Ycompany)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.Link):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.Link)</strong>
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            <div class="col-md-4">@Html.DisplayNameFor(model => model.UseTime):</div>
+                                            <div class="col-md-8">
+                                                <strong>@Html.DisplayFor(model => model.UseTime)</strong>
+                                            </div>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
-
-                            <!-- Group 4: Carrier / Agent -->
-                            <h5 class="border-bottom" style="background-color: lightgreen;">
-                                Carrier / Agent
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.AgentNavigation)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.AgentNavigation.Code)</dd>
-                                    </dl>
-                                </div>
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.CarrierNavigation)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.CarrierNavigation.Code)</dd>
-                                    </dl>
-                                </div>
-                            </div>
-
-                            <!-- Group 5: System Info -->
-                            <h5 class="border-bottom" style="background-color: lightgreen;">
-                                System Info
-                            </h5>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Mode)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Mode)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Ycompany)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Ycompany)</dd>
-                                    </dl>
-                                </div>
-                                <div class="col-md-6">
-                                    <dl class="row">
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.Link)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.Link)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.YunLock)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.YunLock)</dd>
-
-                                        <dt class="col-sm-4">@Html.DisplayNameFor(model => model.UseTime)</dt>
-                                        <dd class="col-sm-8">@Html.DisplayFor(model => model.UseTime)</dd>
-                                    </dl>
-                                </div>
-                            </div>
-
-                            <!-- Action buttons -->
-                            <div class="row">
-                                <a asp-action="Edit" asp-route-id="@Model?.JobId" class="btn btn-primary">Edit</a>
-                                <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+                            <div class="mt-3">
+                                <a asp-action="Edit" asp-route-id="@Model?.JobId" class="btn btn-primary btn-xs">
+                                    <i class="fa fa-edit"></i> Edit
+                                </a>
+                                <a asp-action="Index" class="btn btn-outline-secondary btn-xs">
+                                    <i class="fa fa-arrow-left"></i> Back to List
+                                </a>
                             </div>
                         </div>
                     </div>

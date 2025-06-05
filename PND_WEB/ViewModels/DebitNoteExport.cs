@@ -7,6 +7,8 @@ namespace PND_WEB.ViewModels
         public string ?JobId { get; set; }
         public string ?JobType { get; set; }
 
+        public string? TypeInvoice { get; set; }
+        public string? Partner { get; set; }
         public string ?Cnee { get; set; }
         public string ?MBL { get; set; }
         public string? HBL { get; set; }

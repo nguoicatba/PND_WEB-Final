@@ -2,9 +2,10 @@
 
 @{
     ViewData["Title"] = "Details";
+    var colspan = User.HasClaim("AllInvoice", "Check") ? 13 : 12;
 }
 
-@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id })
+@await Component.InvokeAsync("HblHeader", new { Title = "HBL", SubTitle = "Chi tiết HBL", Hbl_ID = Model.HBL_Id, Job_ID = Model.JOB_Id })
 
 <div class="row">
     <div class="col-xl-12">
@@ -101,7 +102,7 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="13" class="text-right">Total:</td>
+                                    <td colspan="@colspan" class="text-right">Total:</td>
                                     <td>@Model._charges.Sum(item => (item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)).ToString("N2")</td>
                                 </tr>
                             </tfoot>
