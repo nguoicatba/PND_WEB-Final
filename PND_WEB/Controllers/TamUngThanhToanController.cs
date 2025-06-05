@@ -187,38 +187,6 @@ namespace PND_WEB.Controllers
                 }
             }
 
-            if (tblTutt.Tt == true)
-            {
-                var now = DateTime.Now;
-                var yearPart = now.Year.ToString();
-                var monthPart = now.Month.ToString("D2");
-
-                var totalByNhanvienTrongThang = await (
-                    from tutt in _context.TblTutts
-                    join phi in _context.TblTuttsPhi on tutt.SoTutt equals phi.SoTutt
-                    where tutt.Tt == true &&
-                          tutt.SoTutt.Length >= 8 &&
-                          tutt.SoTutt.Substring(2, 4) == yearPart &&
-                          tutt.SoTutt.Substring(6, 2) == monthPart
-                    group phi by tutt.NhanvienTutt into g
-                    select new
-                    {
-                        NhanvienTutt = g.Key,
-                        TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
-                    }
-                ).ToListAsync();
-
-                var tongTienNhanVien = totalByNhanvienTrongThang
-                    .Where(x => x.NhanvienTutt == tblTutt.NhanvienTutt)
-                    .Select(x => x.TongTien)
-                    .FirstOrDefault();
-
-                if (tongTienNhanVien >= _budgetService.GetLimit())
-                {
-                    return View(tblTutt);
-                }
-            }
-
 
             if (ModelState.IsValid)
             {
@@ -404,6 +372,43 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
         {
+
+            var now = DateTime.Now;
+            var yearPart = now.Year.ToString();
+            var monthPart = now.Month.ToString("D2");
+
+            var totalByNhanvienTrongThang = await (
+                from tutt in _context.TblTutts
+                join phi in _context.TblTuttsPhi on tutt.SoTutt equals phi.SoTutt
+                where tutt.Tt == true &&
+                        tutt.SoTutt.Length >= 8 &&
+                        tutt.SoTutt.Substring(2, 4) == yearPart &&
+                        tutt.SoTutt.Substring(6, 2) == monthPart
+                group phi by tutt.NhanvienTutt into g
+                select new
+                {
+                    NhanvienTutt = g.Key,
+                    TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
+                }
+            ).ToListAsync();
+
+            var sotutt =  tuttEditModel.tuttphi.SoTutt;
+
+            var staffname = await _context.TblTutts
+                .Where(p => p.SoTutt == sotutt)
+                .Select(p => p.NhanvienTutt)
+                .FirstOrDefaultAsync();
+
+            var tongTienNhanVien = totalByNhanvienTrongThang
+                .Where(x => x.NhanvienTutt == staffname)
+                .Select(x => x.TongTien)
+                .FirstOrDefault();
+
+            if (tongTienNhanVien >= _budgetService.GetLimit())
+            {
+                return View(tuttEditModel);
+            }
+
             if (ModelState.IsValid)
             {
                 var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
