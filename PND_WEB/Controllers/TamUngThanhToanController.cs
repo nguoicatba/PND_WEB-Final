@@ -445,6 +445,35 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttEdit(int id, TuttEditModel tuttEditModel)
         {
+            var today = DateTime.UtcNow.Date;
+            string datePart = today.ToString("yyyyMM");
+            string prefix = $"TU{datePart}";
+
+            var listtu = await _context.TblTutts
+                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == false)
+                .ToListAsync();
+
+            var listtt = await _context.TblTutts
+                .Where(p => p.SoTutt.StartsWith(prefix) && p.Tt == true)
+                .ToListAsync();
+
+            var soTuttListTu = listtu.Select(p => p.SoTutt).ToList();
+            var soTuttListTt = listtt.Select(p => p.SoTutt).ToList();
+
+            var totalThisMonthTu = await _context.TblTuttsPhi
+                .Where(p => soTuttListTu.Contains(p.SoTutt))
+                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+            var totalThisMonthTt = await _context.TblTuttsPhi
+                .Where(p => soTuttListTt.Contains(p.SoTutt))
+                .SumAsync(p => (decimal?)(p.SoTien ?? 0)) ?? 0;
+
+            var totalThisMonth = totalThisMonthTu - totalThisMonthTt;
+
+            if (totalThisMonth > 10000000)
+            {
+                return View(tuttEditModel);
+            }
             if (id != tuttEditModel.tuttphi.Id)
             {
                 return NotFound();
