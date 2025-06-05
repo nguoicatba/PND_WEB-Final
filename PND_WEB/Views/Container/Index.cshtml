@@ -2,6 +2,8 @@
 
 @{
     ViewData["Title"] = "Container";
+
+
 }
 
 @await Component.InvokeAsync("HblHeader", new { Title = "Container", SubTitle = "Container", Hbl_ID = Model.HBL_ID, Job_ID = Model.JOB_ID })
@@ -20,20 +22,26 @@
             <div class="card-body">
                 <div role="tabpanel">
                     @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_ID, isLGT = ViewBag.GoodType == "LGT" })
-                    
+
                     <div class="tab-content">
                         <partial name="_StatusMessage" model="@TempData["status"]" />
                         <p>
-                            <a asp-action="Create" asp-route-id=@Model.HBL_ID class="btn btn-labeled btn-primary btn-xs">
-                                <span class="btn-label">
-                                    <i class="fa fa-plus-circle"></i>
-                                </span>
-                                New Container
-                            </a>
+                            @if (User.HasClaim("Container", "Create"))
+                            {
+                                <a asp-action="Create" asp-route-id=@Model.HBL_ID class="btn btn-labeled btn-primary btn-xs">
+                                    <span class="btn-label">
+                                        <i class="fa fa-plus-circle"></i>
+                                    </span>
+                                    New Container
+                                </a>
+                            }
+
                         </p>
                         <table class="table nowrap border display" id="mytable" style="width:100%">
                             <thead>
                                 <tr>
+
+
                                     <th>Action</th>
                                     <th data-priority="1">@Html.DisplayNameFor(model => model.containers[0].ContNo)</th>
                                     <th>@Html.DisplayNameFor(model => model.containers[0].SealNo)</th>
@@ -50,10 +58,26 @@
                                 @foreach (var item in Model.containers)
                                 {
                                     <tr>
-                                        <td>
-                                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                                            <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
-                                        </td>
+
+                                        @if (User.HasClaim("Container", "Edit") || User.HasClaim("Container", "Delete"))
+                                        {
+                                            <td>
+                                                @if (User.HasClaim("Container", "Edit"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                                }
+                                                @if (User.HasClaim("Container", "Delete"))
+                                                {
+                                                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                                                }
+
+
+                                            </td>
+                                        }
+                                        else
+                                        {
+                                            <td></td>
+                                        }
                                         <td>@item.ContNo</td>
                                         <td>@item.SealNo</td>
                                         <td>@item.ContType</td>
@@ -68,11 +92,8 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <td>Total:</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                               
+                                    <td colspan="5">Total:</td>
                                     <td>@Model.totalGrossWeight</td>
                                     <td>@Model.totalCbm</td>
                                     <td></td>

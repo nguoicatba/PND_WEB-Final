@@ -57,6 +57,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Create")]
         public IActionResult Create(string id)
         {
             var sellChargeEM = new SellChargeEM
@@ -101,6 +102,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -191,6 +193,7 @@ namespace PND_WEB.Controllers
         }
 
         [HttpGet]
+        [ClaimAuthorize("Sell Charge", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)

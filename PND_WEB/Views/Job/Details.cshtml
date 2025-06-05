@@ -3,7 +3,7 @@
 @{
     ViewData["Title"] = "Details";
 }
-@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Chi tiết job", SubTitle = "Chi tiết job",Job_ID=Model.JobId })
+@await Component.InvokeAsync("JobDetailsHeader", new { Title = "Chi tiết job", SubTitle = "Chi tiết job", Job_ID = Model.JobId })
 
 @await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
     new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
@@ -17,17 +17,7 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                    <ul class="nav nav-tabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link active" href="#home" aria-controls="home" role="tab" data-toggle="tab">Chi tiết job</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="Hbls" asp-action="Index" asp-route-id=@Model.JobId>List HBL</a>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <a class="nav-link" asp-controller="JobUser" asp-action="Index" asp-route-id=@Model.JobId>Phân quyền job</a>
-                        </li>
-                    </ul>
+                    @await Component.InvokeAsync("JobNavTab", new { Job_ID = Model.JobId, userName = User.Identity.Name })
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <div class="tab-pane active" id="home" role="tabpanel">
