@@ -1,9 +1,43 @@
 ﻿@model PND_WEB.Models.TblHscode
-
+@using System.Text;
 @{
     ViewData["Title"] = "Details";
 }
 @await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết HSCODE", SubTitle = "Chi tiết HSCODE" })
+@functions {
+    public static string XuLyNoiDung(string input)
+    {
+        if (string.IsNullOrWhiteSpace(input)) return "";
+
+        var sb = new StringBuilder();
+        sb.AppendLine("<table class='table table-bordered'>");
+        sb.AppendLine("<thead><tr><th style='width: 100px;'></th><th>Mô tả</th></tr></thead>");
+        sb.AppendLine("<tbody>");
+
+        var segments = input.Split(':');
+        string lastHsCode = "";
+
+        foreach (var segment in segments)
+        {
+            string part = segment.Trim();
+            if (string.IsNullOrEmpty(part)) continue;
+
+            if (part.All(char.IsDigit) && part.Length >= 4 && part.Length <= 10)
+            {
+                lastHsCode = part;
+                continue;
+            }
+
+            sb.AppendLine($"<tr><td style='width: 100px;'>{lastHsCode}</td><td>{part}</td></tr>");
+            lastHsCode = "";
+        }
+
+        sb.AppendLine("</tbody></table>");
+        return sb.ToString();
+    }
+}
+
+
 
 <div class="row">
     <div class="col">
@@ -21,13 +55,14 @@
                         @Html.DisplayNameFor(model => model.MoTaHangHoaV)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.MoTaHangHoaV)
+                        @Html.Raw(XuLyNoiDung(Model.MoTaHangHoaV))
                     </dd>
+
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.MoTaHangHoaE)
                     </dt>
                     <dd class="col-sm-10">
-                        @Html.DisplayFor(model => model.MoTaHangHoaE)
+                        @Html.Raw(XuLyNoiDung(Model.MoTaHangHoaE))
                     </dd>
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.DonViTinh)
