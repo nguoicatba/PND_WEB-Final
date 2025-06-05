@@ -158,34 +158,38 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
         {
-            var username = User.Identity.Name;
-            var user = await _userManager.FindByNameAsync(username);
-
-            var now = DateTime.Now;
-            var yearPart = now.Year.ToString();
-            var monthPart = now.Month.ToString("D2");
-
-            var countsByNhanvien = await _context.TblTutts
-                .Where(q => q.Tu == true &&
-                            q.SoTutt.Length >= 8 &&
-                            q.SoTutt.Substring(2, 4) == yearPart &&
-                            q.SoTutt.Substring(6, 2) == monthPart)
-                .GroupBy(q => q.NhanvienTutt)
-                .Select(g => new {
-                    NhanvienTutt = g.Key,
-                    CountTu = g.Count()
-                })
-                .ToListAsync();
-
-            var countOfCurrentUser = countsByNhanvien
-                .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)  
-                .Select(c => c.CountTu)
-                .FirstOrDefault();
-
-            if (countOfCurrentUser >= 5)
+            if(tblTutt.Tu == true)
             {
-                return View(tblTutt);
+                var username = User.Identity.Name;
+                var user = await _userManager.FindByNameAsync(username);
+
+                var now = DateTime.Now;
+                var yearPart = now.Year.ToString();
+                var monthPart = now.Month.ToString("D2");
+
+                var countsByNhanvien = await _context.TblTutts
+                    .Where(q => q.Tu == true &&
+                                q.SoTutt.Length >= 8 &&
+                                q.SoTutt.Substring(2, 4) == yearPart &&
+                                q.SoTutt.Substring(6, 2) == monthPart)
+                    .GroupBy(q => q.NhanvienTutt)
+                    .Select(g => new {
+                        NhanvienTutt = g.Key,
+                        CountTu = g.Count()
+                    })
+                    .ToListAsync();
+
+                var countOfCurrentUser = countsByNhanvien
+                    .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)
+                    .Select(c => c.CountTu)
+                    .FirstOrDefault();
+
+                if (countOfCurrentUser >= 5)
+                {
+                    return View(tblTutt);
+                }
             }
+            
 
 
             if (ModelState.IsValid)
