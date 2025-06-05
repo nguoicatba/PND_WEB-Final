@@ -4,7 +4,7 @@
 
     public BudgetService()
     {
-        _limit = 10000000;
+        _limit = 5000000;
     }
 
     public decimal GetLimit()
