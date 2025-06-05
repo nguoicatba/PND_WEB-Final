@@ -175,7 +175,7 @@ namespace PND_WEB.Controllers
                         CountTu = g.Count()
                     })
                     .ToListAsync();
-
+                 
                 var countOfCurrentUser = countsByNhanvien
                     .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)
                     .Select(c => c.CountTu)
