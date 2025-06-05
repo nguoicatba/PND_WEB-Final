@@ -2,6 +2,13 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Thêm mới người phụ trách", SubTitle = "Thêm người phụ trách" })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="Job",Action="Details",Parameter=Model.Job_ID },
+    new BreadcrumbItem { Title = "Phân quyền job", Controller="JobUser",Action="Index",Parameter=Model.Job_ID },
+    new BreadcrumbItem { Title = "Thêm mới người phụ trách", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">

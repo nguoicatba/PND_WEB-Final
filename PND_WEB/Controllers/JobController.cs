@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing.Printing;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -15,10 +16,14 @@ namespace PND_WEB.Controllers
     public class JobController : Controller
     {
         private readonly DataContext _context;
+        UserManager<AppUserModel> _userManager;
+        private readonly ILogger<JobController> _logger;
 
-        public JobController(DataContext context)
+        public JobController(DataContext context, UserManager<AppUserModel> userManager, ILogger<JobController> logger)
         {
             _context = context;
+            _userManager = userManager;
+            _logger = logger;
         }
 
         // GET: Job
@@ -26,6 +31,25 @@ namespace PND_WEB.Controllers
         {
             var dataPndContext = _context.TblJobs.Include(t => t.AgentNavigation).Include(t => t.CarrierNavigation);
             return View(await dataPndContext.ToListAsync());
+        }
+
+        public async Task<bool> UserRequired(string jobId, string JobCreater)
+        {
+            var UserName = User.Identity.Name;
+
+            var UserId = await _userManager.FindByNameAsync(UserName);
+
+
+            var UserJobExits = await _context.JobUser
+                .Where(c => c.User_ID == UserId.Id && c.Job_ID == jobId)
+                .FirstOrDefaultAsync();
+
+            if (UserJobExits != null || UserName == JobCreater)
+            {
+                return true; // User is already assigned to the job
+            }
+            else return false;
+
         }
 
         // GET: Job/Details/5
@@ -44,6 +68,17 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
+
+          
+            var userRequired = await UserRequired(id, tblJob.JobOwner);
+            if (!userRequired)
+            {
+                _logger.LogWarning($"User {User.Identity.Name} is not authorized to view job details for Job ID: {id}");
+                return Unauthorized("You do not have permission to view this job.");
+            }
+
+
+
 
             return View(tblJob);
         }

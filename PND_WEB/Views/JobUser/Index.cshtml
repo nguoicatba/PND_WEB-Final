@@ -1,10 +1,19 @@
 ﻿@model List<PND_WEB.ViewModels.JobUserViewModel>
+@using System.ComponentModel.DataAnnotations
 
 @{
     ViewData["Title"] = "Index";
 }
 
 @await Component.InvokeAsync("JobDetailsHeader", new { Title = "Phân quyền job", SubTitle = "", Job_ID = ViewBag.JobId})
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="Job",Action="Details",Parameter=ViewBag.JobId },
+    new BreadcrumbItem { Title = "Phân quyền job", Controller="",Action="",Parameter="" }
+})
+
 <div class="row">
     <div class="col-xl-12">
         <!-- START card-->
@@ -30,19 +39,17 @@
                         <p>
                             <a asp-action="Create" asp-route-id=@ViewBag.JobId class="btn btn-primary btn-xs">Create New</a>
                         </p>
-                        <table class="table table-striped my-4 w-100" id="datatable3">
-                            <thead class="table-primary">
+                        <table class="table table-striped border" id="datatable1">
+                            <thead class="">
                                 <tr>
                                     <th>Action</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].UserName)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].Staff_Name)</th>
-                               
-                                    <th>@Html.DisplayNameFor(model => model[0].RoleName)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].Description)</th>
-                                    <th>@Html.DisplayNameFor(model => model[0].CreateDate)</th>
+                                    <th>User Name</th>
+                                    <th>Staff Name</th>
+                                    <th>Role Name</th>
+                                    <th>Description</th>
+                                    <th>Create Date</th>
 
-                                   
-
+    
                                 </tr>
                             </thead>
                             <tbody>
