@@ -225,8 +225,38 @@ namespace PND_WEB.Controllers
             {
                 try
                 {
-                    booking.UpdatedDate = DateTime.Now;
-                    _context.Update(booking);
+                    var existingBooking = await _context.TblBookingConfirms.FindAsync(id);
+                    if (existingBooking == null)
+                    {
+                        return NotFound();
+                    }
+
+                    existingBooking.CustomerId = booking.CustomerId;
+                    existingBooking.GoodType = booking.GoodType;
+                    existingBooking.ETD = booking.ETD;
+                    existingBooking.ETA = booking.ETA;
+                    existingBooking.POL = booking.POL;
+                    existingBooking.POD = booking.POD;
+                    existingBooking.VesselName = booking.VesselName;
+                    existingBooking.ContainerType = booking.ContainerType;
+                    existingBooking.ContainerQuantity = booking.ContainerQuantity;
+                    existingBooking.FlightNumber = booking.FlightNumber;
+                    existingBooking.Airline = booking.Airline;
+                    existingBooking.PackageQuantity = booking.PackageQuantity;
+                    existingBooking.GrossWeight = booking.GrossWeight;
+                    existingBooking.ChargeableWeight = booking.ChargeableWeight;
+                    existingBooking.Volume = booking.Volume;
+                    existingBooking.CargoDescription = booking.CargoDescription;
+                    existingBooking.Status = booking.Status;
+                    existingBooking.Remarks = booking.Remarks;
+                    existingBooking.Contact = booking.Contact;
+                    existingBooking.PICcompany = booking.PICcompany;
+                    existingBooking.QuotationId = booking.QuotationId;
+                    existingBooking.Shipper = booking.Shipper;
+                    existingBooking.CNEE = booking.CNEE;
+
+                    existingBooking.UpdatedDate = DateTime.Now;
+
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

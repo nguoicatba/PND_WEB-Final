@@ -167,8 +167,8 @@
                         <td>@item.Currency</td>
                         <td>@item.Unit</td>
                         <td class="text-right">@item.Quantity</td>
-                        <td class="text-right">@item.Rate?.ToString("N2")</td>
-                        <td class="text-right">@amount.ToString("N2")</td>
+                        <td class="text-right">@item.Rate?.ToString("N0")</td>
+                        <td class="text-right">@amount.ToString("N0")</td>
                         <td>@item.Notes</td>
                     </tr>
                 }
@@ -176,7 +176,7 @@
             <tfoot>
                 <tr>
                     <td colspan="5" class="text-right bold"><center>TOTAL</center></td>
-                    <td class="text-right bold">@totalAmount.ToString("N2")</td>
+                    <td class="text-right bold">@totalAmount.ToString("N0")</td>
                     <td></td>
                 </tr>
             </tfoot>
