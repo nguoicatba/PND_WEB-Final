@@ -9,6 +9,17 @@
     var staffNameAttr = isReadOnly
         ? new Dictionary<string, object> { { "class", "form-control" }, { "readonly", "readonly" } }
         : new Dictionary<string, object> { { "class", "form-control" } };
+
+    var groupedTotals = Model.QuotationsCharges
+    .GroupBy(c => c.Currency)
+    .Select(g => new
+    {
+        Currency = g.Key,
+        Total = g.Sum(c =>
+            (c.Quantity.HasValue ? (float)c.Quantity : 0f) *
+            (c.Rate.HasValue ? (float)c.Rate : 0f)
+        )
+    }).ToList();
 }
 @await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin báo giá", SubTitle = "Chi tiết thông tin báo giá" })
 
@@ -113,13 +124,13 @@
                         <td>@item.ChargeName</td>
                         <td>@item.Quantity</td>
                         <td>@item.Unit</td>
-                        <td>@item.Rate?.ToString("N2")</td>
+                        <td>@item.Rate?.ToString("N0")</td>
                         <td>@item.Currency</td>
                         <td>@item.Notes</td>
                         <td>
                             @if (item.Rate.HasValue)
                             {
-                                @(((double)item.Quantity * item.Rate.Value).ToString("N2"))
+                                @(((double)item.Quantity * item.Rate.Value).ToString("N0"))
                                 ;
                             }
                         </td>
@@ -127,18 +138,22 @@
                 }
             </tbody>
             <tfoot>
-                <tr>
-                    @if (!isReadOnly)
-                    {
-                        <td colspan="7" class="text-end"><strong>Tổng cộng:</strong></td>
-                    }
-                    else
-                    {
-                        <td colspan="6" class="text-end"><strong>Tổng cộng:</strong></td>
-                    }
-                    <td><strong>@totalAmount.ToString("N2")</strong></td>
-                </tr>
+                @foreach (var total in groupedTotals)
+                {
+                    <tr>
+                        @if (!isReadOnly)
+                        {
+                            <td colspan="7" class="text-end"><strong>Tổng cộng (@total.Currency):</strong></td>
+                        }
+                        else
+                        {
+                            <td colspan="6" class="text-end"><strong>Tổng cộng (@total.Currency):</strong></td>
+                        }
+                        <td><strong>@total.Total.ToString("N0")</strong></td>
+                    </tr>
+                }
             </tfoot>
+
         </table>
     </div>
 </div>
