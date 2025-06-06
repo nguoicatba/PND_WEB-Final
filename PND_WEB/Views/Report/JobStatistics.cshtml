@@ -1,0 +1,287 @@
+@model PND_WEB.ViewModels.JobStatisticsViewModel
+
+@{
+    ViewData["Title"] = "Thống kê Job";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Thống kê Job", SubTitle = "Báo cáo thống kê chi tiết về Job" })
+
+<div class="content-wrapper">
+    <!-- Filter Card -->
+    <div class="card mb-3">
+        <div class="card-header">
+            <h3 class="card-title">Bộ lọc</h3>
+        </div>
+        <div class="card-body">
+            <form method="get" class="form-inline">
+                <div class="form-group mx-2">
+                    <label class="mr-2">Từ ngày:</label>
+                    <input type="date" name="fromDate" class="form-control" value="@Model.FromDate.ToString("yyyy-MM-dd")" />
+                </div>
+                <div class="form-group mx-2">
+                    <label class="mr-2">Đến ngày:</label>
+                    <input type="date" name="toDate" class="form-control" value="@Model.ToDate.ToString("yyyy-MM-dd")" />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <em class="fa fa-search"></em> Tìm kiếm
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="row mb-3">
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h3 class="card-title">Tổng số Job</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h2 class="mb-0">@Model.TotalJobs</h2>
+                            <p class="mb-0 text-muted">Jobs trong khoảng thời gian</p>
+                        </div>
+                        <div class="ml-auto">
+                            <em class="fa fa-shipping-fast fa-3x text-info"></em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-6">
+            <div class="card">
+                <div class="card-header bg-success text-white">
+                    <h3 class="card-title">Trung bình HBL/Job</h3>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h2 class="mb-0">@Model.AverageHblsPerJob.ToString("F1")</h2>
+                            <p class="mb-0 text-muted">House bills trung bình mỗi job</p>
+                        </div>
+                        <div class="ml-auto">
+                            <em class="fa fa-file-alt fa-3x text-success"></em>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts -->
+    <div class="row mb-3">
+        <div class="col-xl-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Biểu đồ số lượng Job theo tháng</h3>
+                </div>
+                <div class="card-body">
+                    <div style="height: 400px;">
+                        <canvas id="jobsByMonthChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Phân bố theo Mode</h3>
+                </div>
+                <div class="card-body">
+                    <div style="height: 400px;">
+                        <canvas id="jobsByModeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics Tables -->
+    <div class="row mb-3">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Thống kê theo Agent</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Agent</th>
+                                    <th class="text-right">Số lượng</th>
+                                    <th class="text-right">Tỷ lệ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.JobsByAgent.OrderByDescending(x => x.Count))
+                                {
+                                    <tr>
+                                        <td>@item.AgentName</td>
+                                        <td class="text-right">@item.Count</td>
+                                        <td class="text-right">@(((double)item.Count / Model.TotalJobs * 100).ToString("F1"))%</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Thống kê theo Carrier</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Carrier</th>
+                                    <th class="text-right">Số lượng</th>
+                                    <th class="text-right">Tỷ lệ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.JobsByCarrier.OrderByDescending(x => x.Count))
+                                {
+                                    <tr>
+                                        <td>@item.CarrierName</td>
+                                        <td class="text-right">@item.Count</td>
+                                        <td class="text-right">@(((double)item.Count / Model.TotalJobs * 100).ToString("F1"))%</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Jobs -->
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Job gần đây</h3>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Job ID</th>
+                            <th>Ngày tạo</th>
+                            <th>Mode</th>
+                            <th>Loại hàng</th>
+                            <th>Agent</th>
+                            <th>Carrier</th>
+                            <th>POL</th>
+                            <th>POD</th>
+                            <th>ETD</th>
+                            <th>ETA</th>
+                            <th>Số HBL</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var job in Model.RecentJobs)
+                        {
+                            <tr>
+                                <td>
+                                    <a asp-controller="Job" asp-action="Details" asp-route-id="@job.JobId">
+                                        @job.JobId
+                                    </a>
+                                </td>
+                                <td>@job.JobDate.ToString("dd/MM/yyyy")</td>
+                                <td>@job.Mode</td>
+                                <td>@job.GoodsType</td>
+                                <td>@job.AgentName</td>
+                                <td>@job.CarrierName</td>
+                                <td>@job.Pol</td>
+                                <td>@job.Pod</td>
+                                <td>@job.Etd.ToString("dd/MM/yyyy")</td>
+                                <td>@job.Eta.ToString("dd/MM/yyyy")</td>
+                                <td>@job.HblCount</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/vendor/chart.js/dist/Chart.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Load chart data
+            $.get('@Url.Action("GetJobChartData")', {
+                fromDate: '@Model.FromDate.ToString("yyyy-MM-dd")',
+                toDate: '@Model.ToDate.ToString("yyyy-MM-dd")'
+            }, function(data) {
+                // Jobs by Month Chart
+                var monthlyCtx = document.getElementById('jobsByMonthChart').getContext('2d');
+                new Chart(monthlyCtx, {
+                    type: 'line',
+                    data: {
+                        labels: data.jobsByMonth.map(x => x.date),
+                        datasets: [{
+                            label: 'Số lượng Job',
+                            data: data.jobsByMonth.map(x => x.count),
+                            borderColor: '#17a2b8',
+                            backgroundColor: 'rgba(23, 162, 184, 0.1)',
+                            borderWidth: 2,
+                            fill: true,
+                            tension: 0.4
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            display: true,
+                            position: 'top'
+                        },
+                        scales: {
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true
+                                }
+                            }]
+                        }
+                    }
+                });
+
+                // Jobs by Mode Chart
+                var modeCtx = document.getElementById('jobsByModeChart').getContext('2d');
+                new Chart(modeCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: data.jobsByMode.map(x => x.mode),
+                        datasets: [{
+                            data: data.jobsByMode.map(x => x.count),
+                            backgroundColor: [
+                                '#f86c6b',
+                                '#4dbd74',
+                                '#20a8d8',
+                                '#ffc107',
+                                '#6f42c1'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        legend: {
+                            position: 'bottom'
+                        },
+                        cutoutPercentage: 60
+                    }
+                });
+            });
+        });
+    </script>
+}

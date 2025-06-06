@@ -29,8 +29,31 @@ namespace PND_WEB.Controllers
         // GET: Job
         public async Task<IActionResult> Index()
         {
-            var dataPndContext = _context.TblJobs.Include(t => t.AgentNavigation).Include(t => t.CarrierNavigation);
-            return View(await dataPndContext.ToListAsync());
+            var jobs = await _context.TblJobs
+                .Include(j => j.AgentNavigation)
+                .Include(j => j.CarrierNavigation)
+                .ToListAsync();
+
+            // Cập nhật DateLock cho mỗi job
+            foreach (var job in jobs)
+            {
+                var daysSinceCreation = (DateTime.Now - job.JobDate).Days;
+                var newDateLock = Math.Max(-1, 15 - daysSinceCreation);
+                
+                if (job.YunLock != newDateLock)
+                {
+                    job.YunLock = newDateLock;
+                    _context.Update(job);
+                }
+            }
+
+            // Lưu các thay đổi vào database
+            if (_context.ChangeTracker.HasChanges())
+            {
+                await _context.SaveChangesAsync();
+            }
+
+            return View(jobs);
         }
 
         public async Task<bool> UserRequired(string jobId, string JobCreater)

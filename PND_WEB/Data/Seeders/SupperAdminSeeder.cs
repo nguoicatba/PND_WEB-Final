@@ -11,7 +11,34 @@ namespace PND_WEB.Data.Seeders
 
         public static async Task SeedAsync(DataContext _context,RoleManager<IdentityRole> roleManager, UserManager<AppUserModel> userManager)
         {
-            
+            //// delete role supderadimin and account
+            //var existingRole = await roleManager.FindByNameAsync("SuperAdmin");
+            //if (existingRole != null)
+            //{
+            //    // Delete all claims associated with the role
+            //    var claims = await roleManager.GetClaimsAsync(existingRole);
+            //    foreach (var claim in claims)
+            //    {
+            //        await roleManager.RemoveClaimAsync(existingRole, claim);
+            //    }
+            //    // Delete the role
+            //    await roleManager.DeleteAsync(existingRole);
+            //    // Delete the super admin account
+            //    var superAdminAccount = await userManager.FindByNameAsync("superadminpnd");
+            //    if (superAdminAccount != null)
+            //    {
+            //        await userManager.DeleteAsync(superAdminAccount);
+            //    }
+            //}
+            //// delete acount
+            //var existingUser = await userManager.FindByNameAsync("superadminpnd");
+            //if (existingUser != null)
+            //{
+            //    await userManager.DeleteAsync(existingUser);
+            //}
+
+
+
             if (!await roleManager.RoleExistsAsync("SuperAdmin"))
             {
                 var role = new IdentityRole

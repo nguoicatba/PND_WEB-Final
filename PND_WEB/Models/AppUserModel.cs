@@ -18,7 +18,10 @@ namespace PND_WEB.Models
         [DisplayName("Create Date")]
         public DateTime? createDate { get; set; }
 
-     
+        //[DisplayName("Is Active")]
+        //public bool IsActive { get; set; }
+
+
 
     }
 }

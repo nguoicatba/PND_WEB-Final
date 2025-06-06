@@ -284,8 +284,8 @@
                                         <span>Invoice List</span>
                                     </a>
                                 </li>
-                             
-                               
+
+
 
 
                             </ul>
@@ -344,7 +344,7 @@
                                 <li class=" ">
                                     <a asp-controller="BlType" asp-action="Index">
                                         <span>BILL TYPE</span>
-                                     </a>
+                                    </a>
                                 </li>
 
 
@@ -356,7 +356,7 @@
                         <li class="nav-heading">
                             <span>Tạm ứng thanh toán</span>
                         </li>
-                        
+
                         @* điều kiện vào check *@
 
                         @if (User.IsInRole("CEO") || User.IsInRole("Accountant") || User.IsInRole("SuperAdmin"))
@@ -377,34 +377,43 @@
                                 </a>
                             </li>
                         }
-
-
-                        <li class="nav-heading">
-                            <span>Quản lý tài khoản</span>
-                        </li>
-
-
-                        <li class=" ">
-                            <a href="#Account" title="Account" data-toggle="collapse">
-                                <em class="fa fa-users text-primary"></em>
+                        @if (User.HasClaim("Account","Manager")|| User.HasClaim("Role", "Manager"))
+                        {
+                            <li class="nav-heading">
                                 <span>Quản lý tài khoản</span>
-                            </a>
-                            <ul class="sidebar-nav sidebar-subnav collapse" id="Account">
-                                <li class="sidebar-subnav-header">Quản lý tài khoản</li>
-                                <li class=" ">
-                                    <a asp-controller="User" asp-action="Index">
-                                        <span>Cập nhật tài khoản</span>
-                                    </a>
-                                </li>
-                                <li class=" ">
-                                    <a asp-controller="Role" asp-action="Index">
-                                        <span>Quản lý quyền</span>
-                                    </a>
-                                </li>
+                            </li>
 
 
-                            </ul>
-                        </li>
+                            <li class=" ">
+                                <a href="#Account" title="Account" data-toggle="collapse">
+                                    <em class="fa fa-users text-primary"></em>
+                                    <span>Quản lý tài khoản</span>
+                                </a>
+                                <ul class="sidebar-nav sidebar-subnav collapse" id="Account">
+                                    <li class="sidebar-subnav-header">Quản lý tài khoản</li>
+                                    @if (User.HasClaim("Account", "Manager"))
+                                    {
+                                        <li class=" ">
+                                            <a asp-controller="User" asp-action="Index">
+                                                <span>Cập nhật tài khoản</span>
+                                            </a>
+                                        </li>
+                                    };
+
+                                    @if (User.HasClaim("Role", "Manager"))
+                                    {
+                                        <li class=" ">
+                                            <a asp-controller="Role" asp-action="Index">
+                                                <span>Quản lý quyền</span>
+                                            </a>
+                                        </li>
+                                    };
+                                   
+                                </ul>
+                            </li>
+                        }
+
+                      
 
                         <li class="nav-heading">
                             <span>Báo cáo thống kê</span>
@@ -426,6 +435,12 @@
                                 <li class=" ">
                                     <a asp-controller="xxxx" asp-action="xxx">
                                         <span>Doanh thu</span>
+                                    </a>
+                                </li>
+
+                                <li class=" ">
+                                    <a asp-controller="Report" asp-action="JobStatistics">
+                                        <span>About job</span>
                                     </a>
                                 </li>
 
@@ -504,6 +519,8 @@
     @* <script src="~/app/vendor/pdfmake/build/pdfmake.js"></script> *@
     @* <script src="~/app/vendor/pdfmake/build/vfs_fonts.js"></script> *@
     <script src="~/app/vendor/datatable-test/datatables.js"></script>
+    <!-- CHART.JS-->
+    <script src="~/app/vendor/chart.js/dist/Chart.js"></script>
     <!-- FILESTYLE-->
     <script src="~/app/vendor/bootstrap-filestyle/src/bootstrap-filestyle.js"></script>
     <!-- TAGS INPUT-->

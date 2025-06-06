@@ -1,4 +1,4 @@
 
-Add-Migration Init15939
+Add-Migration Init
 
 Update-Database

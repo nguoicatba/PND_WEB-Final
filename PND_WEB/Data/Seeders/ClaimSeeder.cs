@@ -7,7 +7,13 @@ namespace PND_WEB.Data.Seeders
     {
         public static async Task SeedAsync(DataContext context)
         {
-          
+            // delete all existing claims
+            //if (context.Claims.Any())
+            //{
+            //    context.Claims.RemoveRange(context.Claims);
+            //    await context.SaveChangesAsync();
+            //}
+
             if (!context.Claims.Any())
             {
 
@@ -91,6 +97,11 @@ namespace PND_WEB.Data.Seeders
                      new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Create", Description = "Tạo phí chi hộ mới" },
                      new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Edit", Description = "Chỉnh sửa phí chi hộ" },
                      new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Behalf Charge", ClaimValue = "Delete", Description = "Xóa phí chi hộ" },
+
+                     //Account Manager
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Account", ClaimValue = "Manager", Description = "Quản lý tài khoản" },
+                     //Role Manager
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Role", ClaimValue = "Manager", Description = "Quản lý quyền" },
 
 
 
