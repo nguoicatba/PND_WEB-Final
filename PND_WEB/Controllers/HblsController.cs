@@ -37,7 +37,7 @@ namespace PND_WEB.Controllers
             _converter = converter;
         }
 
-
+        [ClaimAuthorize("HBL","Index")]
         public async Task<IActionResult> Index(string id)
         {
             //if (await CheckJobExists(id) == false)
@@ -60,6 +60,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Hbls/Details/5
+        [ClaimAuthorize("HBL", "Details")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -83,6 +84,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Hbls/Create
+        [ClaimAuthorize("HBL", "Create")]
         public IActionResult Create(string id)
         {
          
@@ -141,7 +143,7 @@ namespace PND_WEB.Controllers
         // GET: Hbls/Edit/5
         [HttpGet]
         [ActionName("Edit")]
-     
+        [ClaimAuthorize("HBL", "Edit")]
         public async Task<IActionResult> Edit(string id)
         {
 
@@ -216,6 +218,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Hbls/Delete/5
+        [ClaimAuthorize("HBL", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)
@@ -556,6 +559,5 @@ namespace PND_WEB.Controllers
             Response.Headers.Add("Content-Disposition", "inline; filename=BILL.pdf");
             return File(file, "application/pdf");
         }
-
     }
 }

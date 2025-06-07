@@ -22,6 +22,7 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Edit", Description = "Chỉnh sửa job" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Delete", Description = "Xóa job" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Index", Description = "Xem job" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Job", ClaimValue = "Details", Description = "Xem chi tiết job" },
 
 
                     // báo giá sale
@@ -56,8 +57,9 @@ namespace PND_WEB.Data.Seeders
                     // HBL
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Create", Description = "Tạo HBL mới" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Edit", Description = "Chỉnh sửa HBL" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Edit", Description = "Xóa sửa HBL" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Delete", Description = "Xóa  HBL" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Index", Description = "Xem HBL" },
+                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "HBL", ClaimValue = "Details", Description = "Xem chi tiết HBL" },
 
                     // Container
 
@@ -66,12 +68,7 @@ namespace PND_WEB.Data.Seeders
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Delete", Description = "Xóa Container" },
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Container", ClaimValue = "Index", Description = "Xem Container" },
 
-                    //Buy Invoice
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Create", Description = "Tạo hóa đơn mua hàng mới" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Edit", Description = "Chỉnh sửa hóa đơn mua hàng" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Delete", Description = "Xóa hóa đơn mua hàng" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Index", Description = "Xem hóa đơn mua hàng" },
-                    new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "BuyInvoice", ClaimValue = "Details", Description = "Xem hóa đơn mua hàng" },
+     
 
                     // Buy Charge Manager
                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "Buy Charge", ClaimValue = "Index", Description = "Xem phí mua hàng" },
@@ -107,10 +104,10 @@ namespace PND_WEB.Data.Seeders
 
 
 
-                   //Charge Invoice Manager
-                   new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Manager Charge", Description = "Cập nhật phí hóa đơn" },
-                      // Check Invoice
-                   new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Check", Description = "Duyệt thông tin đơn" }
+                       //Charge Invoice Manager
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Manager Charge", Description = "Cập nhật phí hóa đơn" },
+                          // Check Invoice
+                     new ApplicationClaim { Id = Guid.NewGuid().ToString(), ClaimType = "AllInvoice", ClaimValue = "Check", Description = "Duyệt thông tin đơn" }
 
 
 

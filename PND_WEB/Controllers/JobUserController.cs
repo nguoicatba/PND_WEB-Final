@@ -125,7 +125,7 @@ namespace PND_WEB.Controllers
             {
                 return NotFound();
             }
-            JobUserEditModel jobUserEditModel = new JobUserEditModel
+            JobUserEditModel jobUserEditModel = new()
             {
                 Id = jobUser.Id,
                 Job_ID = jobUser.Job_ID,

@@ -20,11 +20,13 @@
                 <h3 class="card-title">Xác nhận xóa job</h3>
             </div>
             <div class="card-body">
-                <div class="alert alert-warning">
-                    <h5><i class="fas fa-exclamation-triangle"></i> Cảnh báo!</h5>
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                     <p>Bạn có chắc chắn muốn xóa job này? Hành động này không thể hoàn tác.</p>
                 </div>
-
+             
                 <div class="table-responsive">
                     <table class="table table-bordered">
                         <tr>
@@ -84,14 +86,14 @@
 
                 <form asp-action="Delete" class="mt-4">
                     <input type="hidden" asp-for="JobId" />
-                    <div class="text-right">
-                        <button type="submit" class="btn btn-labeled btn-danger">
+                    <div>
+                        <button type="submit" class="btn btn-labeled btn-danger btn-xs">
                             <span class="btn-label"><i class="fa fa-trash"></i></span>
-                            Xác nhận xóa
+                            Delete
                         </button>
-                        <a asp-action="Index" class="btn btn-labeled btn-secondary">
+                        <a asp-action="Index" class="btn btn-labeled btn-secondary btn-xs">
                             <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
-                            Quay lại
+                            Back To List
                         </a>
                     </div>
                 </form>

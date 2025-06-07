@@ -12,14 +12,7 @@
         <a class="@(currentController == "Container" ? "nav-link active" : "nav-link")"
         asp-controller="Container" asp-action="Index" asp-route-id=@Model.HBL_ID>Container</a>
     </li>
-    @* <li class="nav-item" role="presentation"> *@
-    @*     <a class="nav-link" asp-controller="BuyInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn mua</a> *@
-    @* </li> *@
-
-    @* <li class="nav-item" role="presentation"> *@
-    @*     <a class="nav-link" asp-controller="SelInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Hóa đơn bán</a> *@
-    @* </li> *@
-
+  
     <li class="nav-item" role="presentation">
         <a class="@(currentController == "BuyCharge" ? "nav-link active" : "nav-link")"
         asp-controller="BuyCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Giá mua</a>

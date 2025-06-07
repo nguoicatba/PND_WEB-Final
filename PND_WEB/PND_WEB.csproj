@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="DinkToPdf" Version="1.0.8" />
+    <PackageReference Include="MailKit" Version="4.12.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="8.0.0" />
@@ -22,6 +23,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+    <PackageReference Include="MimeKit" Version="4.12.0" />
     <PackageReference Include="PagedList.Mvc" Version="4.5.0" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="10.5.7" />
 

@@ -26,7 +26,8 @@ namespace PND_WEB.Controllers
             _logger = logger;
         }
 
-        // GET: Job
+        // GET: Job'
+        [ClaimAuthorize("Job", "Index")]
         public async Task<IActionResult> Index()
         {
             var jobs = await _context.TblJobs
@@ -59,6 +60,10 @@ namespace PND_WEB.Controllers
         public async Task<bool> UserRequired(string jobId, string JobCreater)
         {
             var UserName = User.Identity.Name;
+            if (User.IsInRole("SuperAdmin") || User.IsInRole("Ceo"))
+            {
+                return true; // SuperAdmin or Admin can view any job
+            }
 
             var UserId = await _userManager.FindByNameAsync(UserName);
 
@@ -75,7 +80,7 @@ namespace PND_WEB.Controllers
 
         }
 
-        // GET: Job/Details/5
+        [ClaimAuthorize("Job", "Details")]
         public async Task<IActionResult> Details(string id)
         {
             if (id == null)
@@ -152,6 +157,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Job/Edit/5
+        [ClaimAuthorize("Job", "Edit")]
         public async Task<IActionResult> Edit(string id)
         {
             if (id == null)
@@ -210,6 +216,7 @@ namespace PND_WEB.Controllers
         }
 
         // GET: Job/Delete/5
+        [ClaimAuthorize("Job", "Delete")]
         public async Task<IActionResult> Delete(string id)
         {
             if (id == null)

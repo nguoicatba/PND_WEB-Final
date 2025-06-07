@@ -16,7 +16,7 @@
             <div class="card-body">
                 <div role="tabpanel">
                     <!-- Nav tabs-->
-                    @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id, isLGT = ViewBag.GoodType == "LGT" })
+                    @await Component.InvokeAsync("HblNavTab", new { HBL_ID = Model.HBL_Id})
                     <!-- Tab panes-->
                     <div class="tab-content">
                         <div class="d-flex align-items-center">
