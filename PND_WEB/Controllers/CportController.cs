@@ -56,13 +56,7 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,PortName")] Cport cport)
         {
-            var cportCodes = _context.Cports
-            .Select(c => c.Code.Trim().ToUpper())
-            .ToList();
-
-            var newCportCode = cport.Code.Trim().ToUpper();
-
-            if (cportCodes.Contains(newCportCode))
+            if (CportExists(cport.Code))
             {
                 ModelState.AddModelError("Code", "Mã cport đã tồn tại");
             }

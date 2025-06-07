@@ -63,13 +63,7 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,AgentName,AgentNamekd,AgentAdd,Note")] Agent agent)
         {
-            var agentCodes = _context.Agents
-            .Select(c => c.Code.Trim().ToUpper())
-            .ToList();
-
-            var newAgentCode = agent.Code.Trim().ToUpper();
-
-            if (agentCodes.Contains(newAgentCode))
+            if (AgentExists(agent.Code))
             {
                 ModelState.AddModelError("Code", "Mã agent đã tồn tại");
             }

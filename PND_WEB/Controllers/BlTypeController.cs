@@ -56,13 +56,7 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,BlName,Note")] BlType blType)
         {
-            var existingCodes = _context.BlTypes
-                .Select(c => c.Code.Trim().ToUpper())
-                .ToList();
-
-            var newCode = blType.Code.Trim().ToUpper();
-
-            if (existingCodes.Contains(newCode))
+            if (BlTypeExists(blType.Code))
             {
                 ModelState.AddModelError("Code", "Mã blType đã tồn tại");
             }

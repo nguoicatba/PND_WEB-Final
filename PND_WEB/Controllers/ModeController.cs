@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using PND_WEB.Models;
 using PND_WEB.Data;
+using PND_WEB.Models;
+using System;
+using System.Collections.Generic;
+using System.Composition;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PND_WEB.Controllers
 {
@@ -56,16 +57,11 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,Note")] Mode mode)
         {
-            var modeCodes = _context.Modes
-            .Select(c => c.Code.Trim().ToUpper())
-            .ToList();
-
-            var newModeCode = mode.Code.Trim().ToUpper();
-
-            if (modeCodes.Contains(newModeCode))
+            if (ModeExists(mode.Code))
             {
                 ModelState.AddModelError("Code", "Mã mode đã tồn tại");
             }
+
 
             if (ModelState.IsValid)
             {
