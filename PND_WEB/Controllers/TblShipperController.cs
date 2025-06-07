@@ -1,12 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using PND_WEB.Models;
 using PND_WEB.Data;
+using PND_WEB.Models;
+using System;
+using System.Collections.Generic;
+using System.Composition;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PND_WEB.Controllers
 {
@@ -56,8 +57,14 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Shipper,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
         {
+            if (TblShipperExists(tblShipper.Shipper))
+            {
+                ModelState.AddModelError("Shipper", "Mã Shipper đã tồn tại");
+            }
+
             if (ModelState.IsValid)
             {
+                
                 _context.Add(tblShipper);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
