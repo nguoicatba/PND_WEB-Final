@@ -103,8 +103,31 @@
     </div>
 
     <div style="text-align:center;">
-        <h1>Tạm ứng thanh toán</h1>
-        <div>Tạm ứng thanh toán No: @tutt.SoTutt</div>
+        @if (tutt.Tt == true && tutt.Tu == true)
+        {
+            <h1>THANH TOÁN CHO TẠM ỨNG</h1>
+        }
+        else if (tutt.Tt == true)
+        {
+            <h1>THANH TOÁN</h1>
+        }
+        else if (tutt.Tu == true)
+        {
+            <h1>TẠM ỨNG</h1>
+        }
+
+        @if (tutt.Tt == true && tutt.Tu == true)
+        {
+            <div>Thanh toán cho tạm ứng No: @tutt.SoTutt</div>
+        }
+        else if (tutt.Tt == true)
+        {
+            <div>Thanh toán No: @tutt.SoTutt</div>
+        }
+        else if (tutt.Tu == true)
+        {
+            <div>Tạm ứng No: @tutt.SoTutt</div>
+        }
     </div>
 
     <div class="center">
