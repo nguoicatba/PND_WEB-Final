@@ -66,6 +66,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var carrierid = _context.Carriers.Select(c => c.Code).ToList();
+                if (carrierid.Contains(carrier.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã carrier đã tồn tại");
+                }
                 _context.Add(carrier);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -60,6 +60,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var unitid = _context.Units.Select(c => c.Code).ToList();
+                if (unitid.Contains(unit.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã unit đã tồn tại");
+                }
                 _context.Add(unit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

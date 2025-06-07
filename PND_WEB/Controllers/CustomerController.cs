@@ -59,7 +59,7 @@ namespace PND_WEB.Controllers
             var cusid = _context.TblCustomers.Select(c => c.CustomerId).ToList();
             if (cusid.Contains(tblCustomer.CustomerId))
             {
-                ModelState.AddModelError("CustomerId", "Mã khách hàng đã tồn tại");
+                ModelState.AddModelError("CustomerId", "Mã customer đã tồn tại");
             }
 
             if (ModelState.IsValid)

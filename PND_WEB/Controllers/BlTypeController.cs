@@ -58,6 +58,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var bltypeid = _context.BlTypes.Select(c => c.Code).ToList();
+                if (bltypeid.Contains(blType.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã blType đã tồn tại");
+                }
                 _context.Add(blType);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

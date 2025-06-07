@@ -58,6 +58,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var cportid = _context.Cports.Select(c => c.Code).ToList();
+                if (cportid.Contains(cport.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã cport đã tồn tại");
+                }
                 _context.Add(cport);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

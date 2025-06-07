@@ -58,6 +58,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var feeid = _context.Fees.Select(c => c.Code).ToList();
+                if (feeid.Contains(fee.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã fee đã tồn tại");
+                }
                 _context.Add(fee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

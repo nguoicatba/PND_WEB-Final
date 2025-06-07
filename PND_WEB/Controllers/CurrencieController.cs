@@ -58,6 +58,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var currid = _context.Currencies.Select(c => c.Code).ToList();
+                if (currid.Contains(currency.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã currency đã tồn tại");
+                }
                 _context.Add(currency);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

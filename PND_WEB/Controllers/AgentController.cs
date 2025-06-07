@@ -65,6 +65,11 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
+                var agentid = _context.Agents.Select(c => c.Code).ToList();
+                if (agentid.Contains(agent.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã agent đã tồn tại");
+                }
                 _context.Add(agent);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

@@ -58,6 +58,11 @@ namespace PND_WEB.Controllers
         {
             if (ModelState.IsValid)
             {
+                var modeid = _context.Modes.Select(c => c.Code).ToList();
+                if (modeid.Contains(mode.Code))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã mode đã tồn tại");
+                }
                 _context.Add(mode);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

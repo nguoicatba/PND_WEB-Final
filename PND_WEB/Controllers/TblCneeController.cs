@@ -63,6 +63,11 @@ namespace WebApplication4.Controllers
         {
             if (ModelState.IsValid)
             {
+                var cneeid = _context.TblCnees.Select(c => c.Cnee).ToList();
+                if (cneeid.Contains(tblCnee.Cnee))
+                {
+                    ModelState.AddModelError("CustomerId", "Mã cnee đã tồn tại");
+                }
                 _context.Add(tblCnee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
