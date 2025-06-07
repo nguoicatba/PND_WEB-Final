@@ -72,30 +72,40 @@
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label asp-for="Hbl.Shipper" class="control-label required-label"></label>
-                            <select asp-for="Hbl.Shipper" class="form-control select2-not-tag" data-url="@Url.Action("ShipperGet", "Hbls")">
-                                <option value="@Model.Hbl.ShipperNavigation.Shipper" selected="selected">@Model.Hbl.ShipperNavigation.Shipper</option>
-                               
+                            <select asp-for="Hbl.Shipper" class="form-control select-party" data-url="@Url.Action("ShipperGet", "Hbls")">
+                                <option value="@Model.Hbl.ShipperNavigation.Shipper" selected="selected">@Model.Hbl.ShipperNavigation.ShipperName</option>
                             </select>
                             <span asp-validation-for="Hbl.Shipper" class="text-danger"></span>
-
                         </div>
 
                         <div class="form-group col-4">
                             <label asp-for="Hbl.Cnee" class="control-label required-label"></label>
-                            <select asp-for="Hbl.Cnee" class="form-control select2-not-tag" data-url="@Url.Action("CneeGet", "Hbls")">
-                                <option value="@Model.Hbl.CneeNavigation.Cnee" selected="selected">@Model.Hbl.CneeNavigation.Cnee</option>
+                            <select asp-for="Hbl.Cnee" class="form-control select-party" data-url="@Url.Action("CneeGet", "Hbls")">
+                                <option value="@Model.Hbl.CneeNavigation.Cnee" selected="selected">@Model.Hbl.CneeNavigation.Vcnee</option>
                             </select>
                             <span asp-validation-for="Hbl.Cnee" class="text-danger"></span>
-
                         </div>
 
                         <div class="form-group col-4">
                             <label asp-for="Hbl.NotifyParty"></label>
-                            <input asp-for="Hbl.NotifyParty" class="form-control" />
+                            <select asp-for="Hbl.NotifyParty" class="form-control select-party" data-url="@Url.Action("NotifyPartyGet", "Hbls")">
+                                @if (!string.IsNullOrEmpty(Model.Hbl.NotifyParty))
+                                {
+                                    if (Model.Hbl.NotifyParty == "Same as Consignee")
+                                    {
+                                        <option value="Same as Consignee" selected="selected">Same as Consignee</option>
+                                    }
+                                    else
+                                    {
+
+                                        <option value="@Model.Hbl.NotifyParty" selected="selected">@Model.Hbl.NotifyParty</option>
+
+
+                                    }
+                                }
+                            </select>
                             <span asp-validation-for="Hbl.NotifyParty" class="text-danger"></span>
                         </div>
-
-
                     </div>
 
                     <div class="form-row">

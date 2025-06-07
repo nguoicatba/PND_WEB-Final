@@ -55,7 +55,7 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Shipper,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
+        public async Task<IActionResult> Create([Bind("Shipper,ShipperName,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
         {
             if (TblShipperExists(tblShipper.Shipper))
             {
@@ -93,7 +93,7 @@ namespace PND_WEB.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Shipper,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
+        public async Task<IActionResult> Edit(string id, [Bind("Shipper,ShipperName,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
         {
             if (id != tblShipper.Shipper)
             {

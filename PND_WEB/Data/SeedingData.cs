@@ -223,6 +223,7 @@ namespace PND_WEB.Data
                     new TblShipper
                     {
                         Shipper = "INTL001",
+                        ShipperName = "International Logistics UK Ltd",
                         Saddress = "121 King Street, London EC2V 7AA, UK",
                         Scity = "London",
                         SpersonInCharge = "Alice Johnson",
@@ -231,6 +232,7 @@ namespace PND_WEB.Data
                     new TblShipper
                     {
                         Shipper = "INTL002",
+                        ShipperName = "Global Freight USA Inc",
                         Saddress = "350 Mission Street, San Francisco, CA 94105, USA",
                         Scity = "San Francisco",
                         SpersonInCharge = "Michael Chen",
@@ -239,6 +241,7 @@ namespace PND_WEB.Data
                     new TblShipper
                     {
                         Shipper = "INTL003",
+                        ShipperName = "Tokyo Shipping Corporation",
                         Saddress = "1-1-2 Marunouchi, Chiyoda-ku, Tokyo 100-0005, Japan",
                         Scity = "Tokyo",
                         SpersonInCharge = "Hiroshi Tanaka",
@@ -247,6 +250,7 @@ namespace PND_WEB.Data
                     new TblShipper
                     {
                         Shipper = "INTL004",
+                        ShipperName = "Hamburg Maritime GmbH",
                         Saddress = "Süderstraße 288, 20537 Hamburg, Germany",
                         Scity = "Hamburg",
                         SpersonInCharge = "Klara Schmidt",
@@ -255,6 +259,7 @@ namespace PND_WEB.Data
                     new TblShipper
                     {
                         Shipper = "INTL005",
+                        ShipperName = "Beijing International Freight Co",
                         Saddress = "Suite 1802, 18F, Tower A, Beijing Fortune Plaza, Beijing, China",
                         Scity = "Beijing",
                         SpersonInCharge = "Li Wei",

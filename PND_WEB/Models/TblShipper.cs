@@ -13,6 +13,8 @@ public partial class TblShipper
     [MaxLength(255)]
     public string Shipper { get; set; } = null!;
 
+    public string ShipperName { get; set; }
+
     [Column("SAddress")]
     [MaxLength(1000)]
     [Display(Name = "Shipper Address")]

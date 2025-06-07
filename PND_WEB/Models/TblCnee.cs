@@ -20,10 +20,12 @@ public partial class TblCnee
     [Column("CAddress")]
     [MaxLength(1000)]
     [Display(Name = "Address")]
+  
     public string? Caddress { get; set; }
 
     [Column("VAddress")]
     [MaxLength(1000)]
+    [Display(Name = "Local Address")]
     public string? Vaddress { get; set; }
 
     [Column("CCity")]

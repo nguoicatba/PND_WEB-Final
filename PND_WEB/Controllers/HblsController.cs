@@ -275,76 +275,105 @@ namespace PND_WEB.Controllers
 
         }
 
-        public async Task<JsonResult> CneeGet(string q = "", int page = 1)
+        public async Task<IActionResult> ShipperGet(string q = "", int page = 1)
         {
-            int pageSize = 10;
-            var query = q == "" ? _context.TblCnees : _context.TblCnees.Where(data => data.Cnee.ToLower().Contains(q.ToLower()) || data.Cnee.ToLower().Contains(q.ToLower()));
-            var totalCount = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            var items = paginatedData.Select(data => new
+            try
             {
-                id = data.Cnee,
-                text = data.Cnee,
-                disabled = false
-            }).ToList();
+                int pageSize = 10;
+                var query = q == "" ? _context.TblShippers : _context.TblShippers.Where(data => 
+                    data.Shipper.ToLower().Contains(q.ToLower()) || 
+                    data.ShipperName.ToLower().Contains(q.ToLower()) ||
+                    data.TaxId.ToLower().Contains(q.ToLower()));
+                var totalCount = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
-            if (page == 1)
-            {
-                items.Insert(0, new
+                var items = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(data => new
+                    {
+                        id = data.Shipper,
+                        text = data.ShipperName,
+                        tax = data.TaxId,
+                        disabled = false
+                    })
+                    .ToListAsync();
+                // insert -1
+                if (page == 1)
                 {
-                    id = "-1",
-                    text = "Select Cnee",
-                    disabled = true
-                });
-            }
-        
-            return Json(new
-            {
-                items = items,
-                total_count = totalCount,
-                header = new
-                {
-                    header_code = "Cnee Code",
-                    header_name = "Cnee Name"
+                    items.Insert(0, new
+                    {
+                        id = "-1",
+                        text = "Select Shipper",
+                        tax = "",
+                        disabled = true
+                    });
                 }
 
-            });
+                var header = new
+                {
+                    header_code = "Code",
+                    header_name = "Name",
+                    header_tax = "Tax ID"
+                };
+
+                return Json(new { total_count = totalCount, items, header });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
         }
 
-        public async Task<JsonResult> ShipperGet(string q="", int page = 1)
+        public async Task<IActionResult> CneeGet(string q = "", int page = 1)
         {
-            int pageSize = 10;
-            var query = q=="" ? _context.TblShippers : _context.TblShippers.Where(data => data.Shipper.ToLower().Contains(q.ToLower()) || data.Shipper.ToLower().Contains(q.ToLower()));
-            var totalCount = await query.CountAsync();
-            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
-            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
-            var items = paginatedData.Select(data => new
+            try
             {
-                id = data.Shipper,
-                text = data.Shipper,
-                disabled = false
-            }).ToList();
-            if (page == 1)
-            {
-                items.Insert(0, new
+                int pageSize = 10;
+                var query = q == "" ? _context.TblCnees : _context.TblCnees.Where(data => 
+                    data.Cnee.ToLower().Contains(q.ToLower()) || 
+                    data.Vcnee.ToLower().Contains(q.ToLower()) ||
+                    data.TaxId.ToLower().Contains(q.ToLower()));
+                var totalCount = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                var items = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(data => new
+                    {
+                        id = data.Cnee,
+                        text = data.Vcnee,
+                        tax = data.TaxId,
+                        disabled = false
+                    })
+                    .ToListAsync();
+                // insert -1
+                if (page == 1)
                 {
-                    id = "-1",
-                    text = "Select Shipper",
-                    disabled = true
-                });
-            }
-            return Json(new
-            {
-                items = items,
-                total_count = totalCount,
-                header = new
-                {
-                    header_code = "Shipper Code",
-                    header_name = "Shipper Name"
+                    items.Insert(0, new
+                    {
+                        id = "-1",
+                        text = "Select Cnee",
+                        tax = "",
+                        disabled = true
+                    });
                 }
 
-            });
+
+                var header = new
+                {
+                    header_code = "Code",
+                    header_name = "Name", 
+                    header_tax = "Tax ID"
+                };
+
+                return Json(new { total_count = totalCount, items, header });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
         }
 
         public async Task<JsonResult> CustomerGet(string q="", int page = 1)
@@ -558,6 +587,65 @@ namespace PND_WEB.Controllers
             var file = _converter.Convert(doc);
             Response.Headers.Add("Content-Disposition", "inline; filename=BILL.pdf");
             return File(file, "application/pdf");
+        }
+
+        public async Task<IActionResult> NotifyPartyGet(string q = "", int page = 1)
+        {
+            try
+            {
+                int pageSize = 10;
+                var query = q == "" ? _context.TblCnees : _context.TblCnees.Where(data => 
+                    data.Cnee.ToLower().Contains(q.ToLower()) || 
+                    data.Vcnee.ToLower().Contains(q.ToLower()) ||
+                    data.TaxId.ToLower().Contains(q.ToLower()));
+                var totalCount = await query.CountAsync();
+                var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+                var items = await query
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Select(data => new
+                    {
+                        id = data.Cnee,
+                        text = data.Vcnee,
+                        tax = data.TaxId,
+                        disabled = false
+                    })
+                    .ToListAsync();
+
+                // insert special options at page 1
+                if (page == 1)
+                {
+                    items.Insert(0, new
+                    {
+                        id = "-1",
+                        text = "Select Notify Party",
+                        tax = "",
+                        disabled = true
+                    });
+                    
+                    items.Insert(1, new
+                    {
+                        id = "Same as Consignee",
+                        text = "Same as Consignee",
+                        tax = "",
+                        disabled = false
+                    });
+                }
+
+                var header = new
+                {
+                    header_code = "Code",
+                    header_name = "Name", 
+                    header_tax = "Tax ID"
+                };
+
+                return Json(new { total_count = totalCount, items, header });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { error = ex.Message });
+            }
         }
     }
 }
