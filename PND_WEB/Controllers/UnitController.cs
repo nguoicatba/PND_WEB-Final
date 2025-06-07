@@ -58,13 +58,14 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,UnitName,Note")] Unit unit)
         {
+            var unitid = _context.Units.Select(c => c.Code).ToList();
+            if (unitid.Contains(unit.Code))
+            {
+                ModelState.AddModelError("CustomerId", "Mã unit đã tồn tại");
+            }
             if (ModelState.IsValid)
             {
-                var unitid = _context.Units.Select(c => c.Code).ToList();
-                if (unitid.Contains(unit.Code))
-                {
-                    ModelState.AddModelError("CustomerId", "Mã unit đã tồn tại");
-                }
+                
                 _context.Add(unit);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

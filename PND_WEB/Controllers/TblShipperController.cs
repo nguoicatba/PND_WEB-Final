@@ -56,13 +56,14 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Shipper,Saddress,Scity,SpersonInCharge,TaxId")] TblShipper tblShipper)
         {
+            var shipperid = _context.TblShippers.Select(c => c.Shipper).ToList();
+            if (shipperid.Contains(tblShipper.Shipper))
+            {
+                ModelState.AddModelError("CustomerId", "Mã shipper đã tồn tại");
+            }
             if (ModelState.IsValid)
             {
-                var shipperid = _context.TblShippers.Select(c => c.Shipper).ToList();
-                if (shipperid.Contains(tblShipper.Shipper))
-                {
-                    ModelState.AddModelError("CustomerId", "Mã shipper đã tồn tại");
-                }
+                
                 _context.Add(tblShipper);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

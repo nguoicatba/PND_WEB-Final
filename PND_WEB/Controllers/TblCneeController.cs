@@ -61,13 +61,14 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Cnee,Vcnee,Caddress,Vaddress,Ccity,CpersonInCharge,TaxId,Haddress")] TblCnee tblCnee)
         {
+            var cneeid = _context.TblCnees.Select(c => c.Cnee).ToList();
+            if (cneeid.Contains(tblCnee.Cnee))
+            {
+                ModelState.AddModelError("CustomerId", "Mã cnee đã tồn tại");
+            }
             if (ModelState.IsValid)
             {
-                var cneeid = _context.TblCnees.Select(c => c.Cnee).ToList();
-                if (cneeid.Contains(tblCnee.Cnee))
-                {
-                    ModelState.AddModelError("CustomerId", "Mã cnee đã tồn tại");
-                }
+                
                 _context.Add(tblCnee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
