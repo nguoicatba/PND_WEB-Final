@@ -58,7 +58,7 @@ namespace PND_WEB.Controllers
         {
             if (TblCustomerExists(tblCustomer.CustomerId))
             {
-                ModelState.AddModelError("Code", "Mã Customer đã tồn tại");
+                ModelState.AddModelError("CustomerId", "Mã Customer đã tồn tại");
             }
 
 

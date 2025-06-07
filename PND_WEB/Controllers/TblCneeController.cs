@@ -64,7 +64,7 @@ namespace WebApplication4.Controllers
         {
             if (TblCneeExists(tblCnee.Cnee))
             {
-                ModelState.AddModelError("Code", "Mã Cnee đã tồn tại");
+                ModelState.AddModelError("Cnee", "Mã Cnee đã tồn tại");
             }
 
             if (ModelState.IsValid)

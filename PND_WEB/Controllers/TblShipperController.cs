@@ -59,7 +59,7 @@ namespace PND_WEB.Controllers
         {
             if (TblShipperExists(tblShipper.Shipper))
             {
-                ModelState.AddModelError("Code", "Mã Shipper đã tồn tại");
+                ModelState.AddModelError("Shipper", "Mã Shipper đã tồn tại");
             }
 
             if (ModelState.IsValid)

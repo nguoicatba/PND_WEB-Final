@@ -66,7 +66,7 @@ namespace PND_WEB.Controllers
         {
             if (TblSupplierExists(tblSupplier.SupplierId))
             {
-                ModelState.AddModelError("Code", "Mã Supplier đã tồn tại");
+                ModelState.AddModelError("SupplierId", "Mã Supplier đã tồn tại");
             }
 
             if (ModelState.IsValid)
