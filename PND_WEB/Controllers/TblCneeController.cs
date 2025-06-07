@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using PND_WEB.Models;
 using PND_WEB.Data;
+using PND_WEB.Models;
 using PND_WEB.ViewModels;
+using System;
+using System.Collections.Generic;
+using System.Composition;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace WebApplication4.Controllers
 {
@@ -61,8 +62,14 @@ namespace WebApplication4.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Cnee,Vcnee,Caddress,Vaddress,Ccity,CpersonInCharge,TaxId,Haddress")] TblCnee tblCnee)
         {
+            if (TblCneeExists(tblCnee.Cnee))
+            {
+                ModelState.AddModelError("Cnee", "Mã Cnee đã tồn tại");
+            }
+
             if (ModelState.IsValid)
             {
+                
                 _context.Add(tblCnee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
