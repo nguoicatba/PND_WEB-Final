@@ -10,7 +10,7 @@
 @await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
     new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
     new BreadcrumbItem { Title = "Danh sách job", Controller="",Action="",Parameter="" },
-  
+
 
 })
 
@@ -25,7 +25,7 @@
                 New Job
             </a>
 
-        
+
         </p>
 
         <table class="table nowrap border display" id="mytable" style="width:100%">
@@ -78,11 +78,18 @@
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@item.JobId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
-                            <a asp-action="Delete" asp-route-id="@item.JobId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
+                        @if (item.JobStatus)
+                        {
+                            <td>
+                                <a asp-action="Edit" asp-route-id="@item.JobId" class="btn btn-success btn-xs"><i class="fa fa-edit"></i></a>
+                                <a asp-action="Delete" asp-route-id="@item.JobId" class="btn btn-danger btn-xs"><i class="fa fa-trash"></i></a>
 
-                        </td>
+                            </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
 
                         <td>
                             <a asp-action = "Details" asp-route-id = "@item.JobId" > @Html.DisplayFor(modelItem => item.JobId) </a>
@@ -97,7 +104,7 @@
                             @Html.DisplayFor(modelItem => item.JobOwner)
                         </td>
                         <td>
-                            @if (item.JobStatus == true || item.YunLock < 0)
+                            @if (item.JobStatus == true)
                             {
                                 <span class="badge bg-success">Open</span>
                             }

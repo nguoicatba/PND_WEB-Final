@@ -1,4 +1,4 @@
-﻿@model (string Title, string SubTitle, string Job_ID)
+﻿@model (string Title, string SubTitle, string Job_ID, bool isLocked)
 
 <div class="content-heading">
     <div>
@@ -6,12 +6,28 @@
         <small>@Model.SubTitle</small>
     </div>
     <div class="ml-auto">
-        <a asp-action="CloseJob" asp-controller="Job" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-danger btn-xs" id="close_job">
-            <span class="btn-label">
-                <i class="icon-lock"></i>
-            </span>
-            Lock Job
-        </a>
+
+        @if (!Model.isLocked)
+        {
+            <a asp-action="UnlockJob" asp-controller="Job" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-success btn-xs" id="unlock_job">
+                <span class="btn-label">
+                    <i class="icon-lock-open"></i>
+                </span>
+                Unlock Job
+            </a>
+
+        }
+        @if (Model.isLocked && (User.IsInRole("Admin")|| User.IsInRole("SuperAdmin")||User.IsInRole("Ceo")))
+        {
+            <a asp-action="CloseJob" asp-controller="Job" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-danger btn-xs" id="close_job">
+                <span class="btn-label">
+                    <i class="icon-lock"></i>
+                </span>
+                Lock Job
+            </a>
+        }
+
+       
       
         <a asp-action="Index" asp-controller="Job" class="btn btn-labeled btn-outline-secondary btn-xs">
             <span class="btn-label">

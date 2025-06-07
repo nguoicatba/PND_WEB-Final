@@ -33,6 +33,7 @@ namespace PND_WEB.Controllers
             var jobs = await _context.TblJobs
                 .Include(j => j.AgentNavigation)
                 .Include(j => j.CarrierNavigation)
+                .OrderByDescending(j => j.JobDate)
                 .ToListAsync();
 
             // Cập nhật DateLock cho mỗi job
@@ -44,6 +45,13 @@ namespace PND_WEB.Controllers
                 if (job.YunLock != newDateLock)
                 {
                     job.YunLock = newDateLock;
+                    _context.Update(job);
+                }
+                if (job.JobStatus == false || job.YunLock < 0)
+                {
+                    job.YunLock = -1;
+                    job.JobStatus = false; // Set JobStatus to false if YunLock is less than 0
+
                     _context.Update(job);
                 }
             }
@@ -119,6 +127,27 @@ namespace PND_WEB.Controllers
             return View();
         }
 
+        public async Task<string> GenerateCode(string prefix)
+        {
+            string Date = DateTime.Now.ToString("yyyyMMdd");
+            var lastJobs = await _context.TblJobs
+                .Where(i => i.JobId.StartsWith(prefix) && i.JobId.Contains(Date))
+                .OrderByDescending(i => i.JobId)
+                .FirstOrDefaultAsync();
+            if (lastJobs == null)
+            {
+                return $"{prefix}{Date}0001";
+            }
+            else
+            {
+
+                string lastCode = lastJobs.JobId.Substring(prefix.Length + Date.Length);
+                int nextNumber = int.Parse(lastCode) + 1;
+                return $"{prefix}{Date}/{nextNumber:D4}"; // D4 ensures the number is zero-padded to 4 digits
+
+            }
+        }
+
         // POST: Job/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -127,7 +156,7 @@ namespace PND_WEB.Controllers
         public async Task<IActionResult> Create([Bind("JobId,GoodsType,JobDate,Mbl,IssueDateM,OnBoardDateM,VesselName,VoyageName,Pol,Pod,Podel,Podis,PlaceofReceipt,PlaceofDelivery,PreCariageBy,Etd,Eta,Mode,Agent,Carrier,Ycompany,Link,YunLock,UseTime")] TblJob tblJob)
         {
             tblJob.JobDate = DateTime.Now.Date;
-            tblJob.JobId = tblJob.GoodsType + "HP" + DateTime.Now.ToString("ddMMyyyyHHmmss");
+            tblJob.JobId = await GenerateCode(tblJob.GoodsType+"HP");
             tblJob.YunLock = 15;
             tblJob.JobStatus = true;
             tblJob.JobOwner = User.Identity.Name ?? "UnknownUser"; 
@@ -269,9 +298,28 @@ namespace PND_WEB.Controllers
                 return NotFound();
             }
             tblJob.JobStatus = false; // Set JobStatus to false to close the job
+            tblJob.YunLock = -1; // Set YunLock to -1 to indicate the job is closed
             _context.Update(tblJob);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Details), new { id = id });
+        }
+
+        public async Task<IActionResult> UnLockJob (string id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var tblJob = await _context.TblJobs.FindAsync(id);
+            if (tblJob == null)
+            {
+                return NotFound();
+            }
+            tblJob.YunLock = 3; 
+            tblJob.JobStatus = true; // Set JobStatus to true to unlock the job
+            _context.Update(tblJob);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Details),new {id=id});
         }
 
         public async Task<JsonResult> GoodsTypeGet(string q="", int page = 1)

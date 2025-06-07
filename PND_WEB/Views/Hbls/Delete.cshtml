@@ -1,186 +1,92 @@
-﻿@model PND_WEB.Models.TblHbl
+﻿@using static PND_WEB.ViewComponents.BreadcrumbViewComponent
+@model PND_WEB.Models.TblHbl
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete HBL";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Delete HBL", SubTitle = "Delete HBL" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa HBL", SubTitle = "Xóa HBL" })
 
-<div>
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssuePlaceH)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssuePlaceH)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssueDateH)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssueDateH)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OnBoardDateH)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OnBoardDateH)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NotifyParty)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NotifyParty)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.BlType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.BlType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NomFree)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NomFree)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ContSealNo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ContSealNo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Volume)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Volume)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Quantity)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Quantity)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GoodsDesciption)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GoodsDesciption)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GrossWeight)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GrossWeight)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tonnage)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tonnage)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CustomsDeclarationNo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CustomsDeclarationNo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.InvoiceNo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.InvoiceNo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.NumberofOrigins)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.NumberofOrigins)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FreightPayable)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FreightPayable)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.MarkNos)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.MarkNos)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FreightCharge)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FreightCharge)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Prepaid)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Prepaid)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Collect)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Collect)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.SiNo)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.SiNo)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pic)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pic)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.DoDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.DoDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PicPhone)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PicPhone)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CneeNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CneeNavigation.Cnee)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Customer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Customer.CustomerId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Request)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Request.JobId)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.ShipperNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.ShipperNavigation.Shipper)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Hbl" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index" asp-route-id="@Model.RequestId">Back to List</a>
-    </form>
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách HBL", Controller="Hbls",Action="Index",Parameter=Model.RequestId },
+    new BreadcrumbItem { Title = "Xóa HBL", Controller="",Action="Delete",Parameter=""}
+})
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Xác nhận xóa HBL</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>Bạn có chắc chắn muốn xóa HBL này? Hành động này không thể hoàn tác.</p>
+                </div>
+             
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="w-25">@Html.DisplayNameFor(model => model.Hbl)</th>
+                            <td>@Html.DisplayFor(model => model.Hbl)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.IssueDateH)</th>
+                            <td>@Html.DisplayFor(model => model.IssueDateH)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.OnBoardDateH)</th>
+                            <td>@Html.DisplayFor(model => model.OnBoardDateH)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.ShipperNavigation)</th>
+                            <td>@Html.DisplayFor(model => model.ShipperNavigation.Shipper)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.CneeNavigation)</th>
+                            <td>@Html.DisplayFor(model => model.CneeNavigation.Cnee)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.NotifyParty)</th>
+                            <td>@Html.DisplayFor(model => model.NotifyParty)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.BlType)</th>
+                            <td>@Html.DisplayFor(model => model.BlType)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.NomFree)</th>
+                            <td>@Html.DisplayFor(model => model.NomFree)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.GoodsDesciption)</th>
+                            <td>@Html.DisplayFor(model => model.GoodsDesciption)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Request)</th>
+                            <td>@Html.DisplayFor(model => model.Request.JobId)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="Hbl" />
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-labeled btn-danger btn-xs">
+                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                            Delete
+                        </button>
+                        <a asp-action="Index" asp-route-id="@Model.RequestId" class="btn btn-labeled btn-secondary btn-xs">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                            Back To List
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

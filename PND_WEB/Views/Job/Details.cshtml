@@ -191,10 +191,14 @@
                                 </div>
                             </div>
                             <div class="mt-3">
-                                <a asp-action="Edit" asp-route-id="@Model?.JobId" class="btn btn-labeled btn-primary btn-xs">
-                                    <span class="btn-label"><i class="fa fa-edit"></i></span>
-                                    Edit
-                                </a>
+                                @if (Model.JobStatus== true)
+                                {
+                                    <a asp-action="Edit" asp-route-id="@Model?.JobId" class="btn btn-labeled btn-primary btn-xs">
+                                        <span class="btn-label"><i class="fa fa-edit"></i></span>
+                                        Edit
+                                    </a>
+                                }
+
                                 <a asp-action="Index" class="btn btn-labeled btn-secondary btn-xs">
                                     <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
                                     Back to List
