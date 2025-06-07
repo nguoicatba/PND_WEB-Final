@@ -63,10 +63,15 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SupplierId,NameSup,Typer,AddressSup,LccFee,Note")] TblSupplier tblSupplier)
         {
-            var supplierid = _context.TblSuppliers.Select(c => c.SupplierId).ToList();
-            if (supplierid.Contains(tblSupplier.SupplierId))
+            var supplierIds = _context.TblSuppliers
+            .Select(c => c.SupplierId.Trim().ToUpper())
+            .ToList();
+
+            var newSupplierId = tblSupplier.SupplierId.Trim().ToUpper();
+
+            if (supplierIds.Contains(newSupplierId))
             {
-                ModelState.AddModelError("CustomerId", "Mã supplier đã tồn tại");
+                ModelState.AddModelError("SupplierId", "Mã supplier đã tồn tại");
             }
             if (ModelState.IsValid)
             {

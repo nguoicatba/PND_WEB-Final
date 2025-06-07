@@ -64,11 +64,17 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,CarrierName,CarrierNamekd,CarierAdd,Note")] Carrier carrier)
         {
-            var carrierid = _context.Carriers.Select(c => c.Code).ToList();
-            if (carrierid.Contains(carrier.Code))
+            var carrierCodes = _context.Carriers
+            .Select(c => c.Code.Trim().ToUpper())
+            .ToList();
+
+            var newCarrierCode = carrier.Code.Trim().ToUpper();
+
+            if (carrierCodes.Contains(newCarrierCode))
             {
-                ModelState.AddModelError("CustomerId", "Mã carrier đã tồn tại");
+                ModelState.AddModelError("Code", "Mã carrier đã tồn tại");
             }
+
             if (ModelState.IsValid)
             {
                 

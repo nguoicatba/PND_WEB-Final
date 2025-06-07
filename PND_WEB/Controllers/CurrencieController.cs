@@ -56,11 +56,17 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,CurrName,Note")] Currency currency)
         {
-            var currid = _context.Currencies.Select(c => c.Code).ToList();
-            if (currid.Contains(currency.Code))
+            var currencyCodes = _context.Currencies
+            .Select(c => c.Code.Trim().ToUpper())
+            .ToList();
+
+            var newCurrencyCode = currency.Code.Trim().ToUpper();
+
+            if (currencyCodes.Contains(newCurrencyCode))
             {
-                ModelState.AddModelError("CustomerId", "Mã currency đã tồn tại");
+                ModelState.AddModelError("Code", "Mã currency đã tồn tại");
             }
+
             if (ModelState.IsValid)
             {
                 

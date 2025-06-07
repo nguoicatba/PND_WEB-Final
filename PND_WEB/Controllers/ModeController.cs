@@ -56,11 +56,17 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,Note")] Mode mode)
         {
-            var modeid = _context.Modes.Select(c => c.Code).ToList();
-            if (modeid.Contains(mode.Code))
+            var modeCodes = _context.Modes
+            .Select(c => c.Code.Trim().ToUpper())
+            .ToList();
+
+            var newModeCode = mode.Code.Trim().ToUpper();
+
+            if (modeCodes.Contains(newModeCode))
             {
-                ModelState.AddModelError("CustomerId", "Mã mode đã tồn tại");
+                ModelState.AddModelError("Code", "Mã mode đã tồn tại");
             }
+
             if (ModelState.IsValid)
             {
                 

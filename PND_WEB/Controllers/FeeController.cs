@@ -56,11 +56,17 @@ namespace PND_WEB.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Code,Fee1,Unit,Note")] Fee fee)
         {
-            var feeid = _context.Fees.Select(c => c.Code).ToList();
-            if (feeid.Contains(fee.Code))
+            var feeCodes = _context.Fees
+                .Select(c => c.Code.Trim().ToUpper())
+                .ToList();
+
+            var newFeeCode = fee.Code.Trim().ToUpper();
+
+            if (feeCodes.Contains(newFeeCode))
             {
-                ModelState.AddModelError("CustomerId", "Mã fee đã tồn tại");
+                ModelState.AddModelError("Code", "Mã fee đã tồn tại");
             }
+
             if (ModelState.IsValid)
             {
                 
