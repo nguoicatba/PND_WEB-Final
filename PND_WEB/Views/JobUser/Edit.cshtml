@@ -45,11 +45,16 @@
 
 
 
-                    <div class="form-group">
-                        <input type="submit" value="Edit" class="btn btn-primary" />
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-labeled btn-primary btn-xs">
+                            <span class="btn-label"><i class="fa fa-save"></i></span>
+                            Save
+                        </button>
+                        <a asp-action="Index" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-secondary btn-xs">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                           Back to List
+                        </a>
                     </div>
-
-
                 </form>
             </div>
         </div>

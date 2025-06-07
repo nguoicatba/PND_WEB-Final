@@ -2,7 +2,7 @@
 @model PND_WEB.Models.TblJob
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Job";
 }
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Tạo mới job", SubTitle = "Tạo mới job" })
@@ -11,227 +11,185 @@
     new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
     new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
     new BreadcrumbItem { Title = "Tạo mới job", Controller="",Action="Create",Parameter=""}
-  
 })
-
 
 <div class="row">
     <div class="col">
-        <div class="card card-default">
-            <div class="card-header">Job Form Cre</div>
+         <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Thông tin job mới</h3>
+            </div>
             <div class="card-body">
-
-                <form asp-action="Create">
+                <form asp-action="Create" id="createJobForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-
-
                     <div class="form-row">
-                        <div class="from-group col-2">
-                            <label asp-for="JobId" class="control-label required-label">Job ID</label>
+                        <div class="form-group col-md-2">
+                            <label asp-for="JobId" class="control-label required-label">@Html.DisplayNameFor(model => model.JobId)</label>
                             <input asp-for="JobId" class="form-control" readonly="readonly" value="0" />
                             <span asp-validation-for="JobId" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-2">
-                            <label asp-for="JobDate" class="control-label"></label>
+                        <div class="form-group col-md-2">
+                            <label asp-for="JobDate" class="control-label">@Html.DisplayNameFor(model => model.JobDate)</label>
                             <input asp-for="JobDate" class="form-control" readonly="readonly" type="date" value="@DateTime.Now.Date.ToString("yyyy-MM-dd")" />
                             <span asp-validation-for="JobDate" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-2">
-                            <label asp-for="VesselName" class="control-label"></label>
-                            <input asp-for="VesselName" class="form-control" />
-                            <span asp-validation-for="VesselName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-2">
-                            <label asp-for="VoyageName" class="control-label"></label>
-                            <input asp-for="VoyageName" class="form-control" />
-                            <span asp-validation-for="VoyageName" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-2">
-                            <label asp-for="Mode" class="control-label"></label>
-                            <select asp-for="Mode" class="form-control" asp-items="ViewBag.Mode"></select>
-                            <span asp-validation-for="Mode" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-2">
-                            <label asp-for="YunLock" class="control-label"></label>
-                            <input asp-for="YunLock" class="form-control" readonly="readonly" />
-                            <span asp-validation-for="YunLock" class="text-danger"></span>
-                        </div>
-
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group col-2">
-                            <label asp-for="Mbl" class="control-label"></label>
-                            <input asp-for="Mbl" class="form-control" />
-                            <span asp-validation-for="Mbl" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-2">
-                            <label asp-for="GoodsType" class="control-label required-label">
-                               </label>
+                        <div class="form-group col-md-3">
+                            <label asp-for="GoodsType" class="control-label required-label">@Html.DisplayNameFor(model => model.GoodsType)</label>
                             <select asp-for="GoodsType" class="form-control select2-not-tag" data-url="@Url.Action("GoodsTypeGet", "Job")">
                             </select>
                             <span asp-validation-for="GoodsType" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-2">
-                            <label asp-for="Etd" class="control-label required-label"></label>
-                            <input asp-for="Etd" class="form-control" type="date" />
-                            <span asp-validation-for="Etd" class="text-danger"></span>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Mode" class="control-label">@Html.DisplayNameFor(model => model.Mode)</label>
+                            <select asp-for="Mode" class="form-control" asp-items="ViewBag.Mode"></select>
+                            <span asp-validation-for="Mode" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-2">
-                            <label asp-for="Eta" class="control-label required-label"></label>
-                            <input asp-for="Eta" class="form-control" type="date" />
-                            <span asp-validation-for="Eta" class="text-danger"></span>
+                        <div class="form-group col-md-2">
+                            <label asp-for="YunLock" class="control-label">@Html.DisplayNameFor(model => model.YunLock)</label>
+                            <input asp-for="YunLock" class="form-control" readonly="readonly" />
+                            <span asp-validation-for="YunLock" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-2">
-                            <label asp-for="IssueDateM" class="control-label"></label>
-                            <input asp-for="IssueDateM" class="form-control"
-                                 
-                                   type="date" />
-
-                            <span asp-validation-for="IssueDateM" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group col-2">
-                            <label asp-for="OnBoardDateM" class="control-label"></label>
-                            <input asp-for="OnBoardDateM" class="form-control"
-                              
-                                   type="date" />
-                            <span asp-validation-for="OnBoardDateM" class="text-danger"></span>
-                        </div>
-
-
                     </div>
 
                     <div class="form-row">
-                        <div class="form-group col-6">
+                        <div class="form-group col-md-3">
+                            <label asp-for="Mbl" class="control-label">@Html.DisplayNameFor(model => model.Mbl)</label>
+                            <input asp-for="Mbl" class="form-control" />
+                            <span asp-validation-for="Mbl" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="VesselName" class="control-label">@Html.DisplayNameFor(model => model.VesselName)</label>
+                            <input asp-for="VesselName" class="form-control" />
+                            <span asp-validation-for="VesselName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="VoyageName" class="control-label">@Html.DisplayNameFor(model => model.VoyageName)</label>
+                            <input asp-for="VoyageName" class="form-control" />
+                            <span asp-validation-for="VoyageName" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="PreCariageBy" class="control-label">@Html.DisplayNameFor(model => model.PreCariageBy)</label>
+                            <input asp-for="PreCariageBy" class="form-control" />
+                            <span asp-validation-for="PreCariageBy" class="text-danger"></span>
+                        </div>
+                    </div>
 
-                            <label asp-for="Agent" class="control-label required-label"></label>
+                    <div class="form-row">
+                        <div class="form-group col-md-3">
+                            <label asp-for="Etd" class="control-label required-label">@Html.DisplayNameFor(model => model.Etd)</label>
+                            <input asp-for="Etd" class="form-control" type="date" />
+                            <span asp-validation-for="Etd" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="Eta" class="control-label required-label">@Html.DisplayNameFor(model => model.Eta)</label>
+                            <input asp-for="Eta" class="form-control" type="date" />
+                            <span asp-validation-for="Eta" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="IssueDateM" class="control-label">@Html.DisplayNameFor(model => model.IssueDateM)</label>
+                            <input asp-for="IssueDateM" class="form-control" type="date" />
+                            <span asp-validation-for="IssueDateM" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-md-3">
+                            <label asp-for="OnBoardDateM" class="control-label">@Html.DisplayNameFor(model => model.OnBoardDateM)</label>
+                            <input asp-for="OnBoardDateM" class="form-control" type="date" />
+                            <span asp-validation-for="OnBoardDateM" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group col-md-6">
+                            <label asp-for="Agent" class="control-label required-label">@Html.DisplayNameFor(model => model.Agent)</label>
                             <select asp-for="Agent" class="form-control select2-not-tag" data-url="@Url.Action("AgentGet", "Job")">
                             </select>
                             <span asp-validation-for="Agent" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-6">
-                            <label asp-for="Carrier" class="control-label required-label"></label>
+                        <div class="form-group col-md-6">
+                            <label asp-for="Carrier" class="control-label required-label">@Html.DisplayNameFor(model => model.Carrier)</label>
                             <select asp-for="Carrier" class="form-control select2-not-tag" data-url="@Url.Action("CarrierGet", "Job")">
                             </select>
                             <span asp-validation-for="Carrier" class="text-danger"></span>
-
                         </div>
-
-
                     </div>
 
-
                     <div class="form-row">
-                        <div class="form-group col-4">
-                            <label asp-for="Pol" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Pol" class="control-label">@Html.DisplayNameFor(model => model.Pol)</label>
                             <select asp-for="Pol" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
-
                             <span asp-validation-for="Pol" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-4">
-                            <label asp-for="Pod" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Pod" class="control-label">@Html.DisplayNameFor(model => model.Pod)</label>
                             <select asp-for="Pod" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
                             <span asp-validation-for="Pod" class="text-danger"></span>
                         </div>
-                        <div class="form-group col-4">
-                            <label asp-for="Podel" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Podel" class="control-label">@Html.DisplayNameFor(model => model.Podel)</label>
                             <select asp-for="Podel" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
                             <span asp-validation-for="Podel" class="text-danger"></span>
-
                         </div>
-
-
-
                     </div>
 
                     <div class="form-row">
-
-                        <div class="form-group col-4">
-                            <label asp-for="Podis" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="Podis" class="control-label">@Html.DisplayNameFor(model => model.Podis)</label>
                             <select asp-for="Podis" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
-
                             <span asp-validation-for="Podis" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-4">
-                            <label asp-for="PlaceofReceipt" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="PlaceofReceipt" class="control-label">@Html.DisplayNameFor(model => model.PlaceofReceipt)</label>
                             <select asp-for="PlaceofReceipt" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
-
                             <span asp-validation-for="PlaceofReceipt" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-4">
-                            <label asp-for="PlaceofDelivery" class="control-label"></label>
+                        <div class="form-group col-md-4">
+                            <label asp-for="PlaceofDelivery" class="control-label">@Html.DisplayNameFor(model => model.PlaceofDelivery)</label>
                             <select asp-for="PlaceofDelivery" class="form-control select-port" data-url="@Url.Action("PortGet", "Job")">
                             </select>
                             <span asp-validation-for="PlaceofDelivery" class="text-danger"></span>
                         </div>
-
-
                     </div>
 
                     <div class="form-row">
-
-                        <div class="form-group col-4">
-                            <label asp-for="PreCariageBy" class="control-label"></label>
-                            <input asp-for="PreCariageBy" class="form-control" />
-                            <span asp-validation-for="PreCariageBy" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-4">
-                            <label asp-for="Link" class="control-label"></label>
-                            @Html.TextArea("Link", "my default content for textarea", new { @class = "form-control" })
+                        <div class="form-group col-md-6">
+                            <label asp-for="Link" class="control-label">@Html.DisplayNameFor(model => model.Link)</label>
+                            <textarea asp-for="Link" class="form-control" rows="3"></textarea>
                             <span asp-validation-for="Link" class="text-danger"></span>
                         </div>
-
-                        <div class="form-group col-4">
-                            <label asp-for="Ycompany" class="control-label"></label>
-                            @Html.TextArea("Ycompany", "my default content for textarea", new { @class = "form-control" })
+                        <div class="form-group col-md-6">
+                            <label asp-for="Ycompany" class="control-label">@Html.DisplayNameFor(model => model.Ycompany)</label>
+                            <textarea asp-for="Ycompany" class="form-control" rows="3"></textarea>
                             <span asp-validation-for="Ycompany" class="text-danger"></span>
-
                         </div>
-
-
                     </div>
 
-
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+                    <div class="form-group text-right">
+                        <button type="submit" class="btn btn-labeled btn-primary btn-xs">
+                            <span class="btn-label"><i class="fa fa-save"></i></span>
+                            Save
+                        </button>
+                        <a asp-action="Index" class="btn btn-labeled btn-secondary btn-xs">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                            Back to List
+                        </a>
                     </div>
-
-
                 </form>
-
             </div>
         </div>
-
-        <div>
-            <a asp-action="Index">Back to List</a>
-        </div>
-        <!-- END card-->
- </div>
- </div>
+    </div>
+</div>
 
 @section CssFile{
-        <link rel="stylesheet" href="~/css/components/RequiredLabel.css" />
+    <link rel="stylesheet" href="~/css/components/RequiredLabel.css" />
 }
-
-
-
 
 @section Scripts {
-    
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script src="~/js/components/SelectList.js"></script>
- 
- 
 }
+

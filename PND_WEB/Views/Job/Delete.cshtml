@@ -1,159 +1,101 @@
-﻿@model PND_WEB.Models.TblJob
+﻿@using static PND_WEB.ViewComponents.BreadcrumbViewComponent
+@model PND_WEB.Models.TblJob
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Delete Job";
 }
 
-<h1>Delete</h1>
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa job", SubTitle = "Xóa job" })
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>TblJob</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.GoodsType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.GoodsType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.JobDate)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.JobDate)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mbl)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mbl)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.IssueDateM)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.IssueDateM)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.OnBoardDateM)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.OnBoardDateM)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VesselName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VesselName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.VoyageName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.VoyageName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pol)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pol)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Pod)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Pod)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Podel)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Podel)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Podis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Podis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlaceofReceipt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlaceofReceipt)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PlaceofDelivery)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PlaceofDelivery)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.PreCariageBy)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.PreCariageBy)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Etd)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Etd)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Eta)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Eta)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Mode)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Mode)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Ycompany)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Ycompany)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Link)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Link)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.YunLock)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.YunLock)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.UseTime)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.UseTime)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AgentNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AgentNavigation.Code)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CarrierNavigation)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CarrierNavigation.Code)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="JobId" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Xóa job", Controller="",Action="Delete",Parameter=""}
+})
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">
+                <h3 class="card-title">Xác nhận xóa job</h3>
+            </div>
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <h5><i class="fas fa-exclamation-triangle"></i> Cảnh báo!</h5>
+                    <p>Bạn có chắc chắn muốn xóa job này? Hành động này không thể hoàn tác.</p>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="w-25">@Html.DisplayNameFor(model => model.JobId)</th>
+                            <td>@Html.DisplayFor(model => model.JobId)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.GoodsType)</th>
+                            <td>@Html.DisplayFor(model => model.GoodsType)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.JobDate)</th>
+                            <td>@Html.DisplayFor(model => model.JobDate)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Mbl)</th>
+                            <td>@Html.DisplayFor(model => model.Mbl)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.VesselName)</th>
+                            <td>@Html.DisplayFor(model => model.VesselName)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.VoyageName)</th>
+                            <td>@Html.DisplayFor(model => model.VoyageName)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Mode)</th>
+                            <td>@Html.DisplayFor(model => model.Mode)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.AgentNavigation)</th>
+                            <td>@Html.DisplayFor(model => model.AgentNavigation.AgentName)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.CarrierNavigation)</th>
+                            <td>@Html.DisplayFor(model => model.CarrierNavigation.CarrierName)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Pol)</th>
+                            <td>@Html.DisplayFor(model => model.Pol)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Pod)</th>
+                            <td>@Html.DisplayFor(model => model.Pod)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Etd)</th>
+                            <td>@Html.DisplayFor(model => model.Etd)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Eta)</th>
+                            <td>@Html.DisplayFor(model => model.Eta)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="JobId" />
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                            Xác nhận xóa
+                        </button>
+                        <a asp-action="Index" class="btn btn-labeled btn-secondary">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                            Quay lại
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

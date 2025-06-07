@@ -2,46 +2,57 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Xóa người phụ trách", SubTitle = "Xóa người phụ trách" })
 
-
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách job", Controller="Job",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết job", Controller="Job",Action="Details",Parameter=Model.Job_ID },
+    new BreadcrumbItem { Title = "Phân quyền job", Controller="JobUser",Action="Index",Parameter=Model.Job_ID },
+    new BreadcrumbItem { Title = "Xóa người phụ trách", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-
+            <div class="card-header">
+                <h3 class="card-title">Xác nhận xóa người phụ trách</h3>
+            </div>
             <div class="card-body">
-                <h4>Are you sure you want to delete this?</h4>
-                <div>
-                    <h4>Agent</h4>
-                    <hr />
-                    <dl class="row">
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.UserName)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.UserName)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Staff_Name)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Staff_Name)
-                        </dd>
-                        <dt class="col-sm-2">
-                            @Html.DisplayNameFor(model => model.Description)
-                        </dt>
-                        <dd class="col-sm-10">
-                            @Html.DisplayFor(model => model.Description)
-                        </dd>
-                       
-                    </dl>
-
-                    <form asp-action="Delete">
-                        <input type="hidden" asp-for="Id" value="@Model.Id" />
-                        <input type="hidden" asp-for="Job_ID" value="@Model.Job_ID" />
-                        <input type="submit" value="Delete" class="btn btn-danger btn-xs" /> |
-                        <a asp-action="Index" class="btn btn-primary btn-xs" asp-route-id="@Model.Job_ID">Back to List</a>
-                    </form>
+                <div class="alert alert-warning">
+                    <h5><i class="fa fa-exclamation-triangle"></i> Cảnh báo!</h5>
+                    <p>Bạn có chắc chắn muốn xóa người phụ trách này? Hành động này không thể hoàn tác.</p>
                 </div>
+
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <tr>
+                            <th class="w-25">@Html.DisplayNameFor(model => model.UserName)</th>
+                            <td>@Html.DisplayFor(model => model.UserName)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Staff_Name)</th>
+                            <td>@Html.DisplayFor(model => model.Staff_Name)</td>
+                        </tr>
+                        <tr>
+                            <th>@Html.DisplayNameFor(model => model.Description)</th>
+                            <td>@Html.DisplayFor(model => model.Description)</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <form asp-action="Delete" class="mt-4">
+                    <input type="hidden" asp-for="Id" value="@Model.Id" />
+                    <input type="hidden" asp-for="Job_ID" value="@Model.Job_ID" />
+                    <div class="text-right">
+                        <button type="submit" class="btn btn-labeled btn-danger btn-xs">
+                            <span class="btn-label"><i class="fa fa-trash"></i></span>
+                            Xác nhận xóa
+                        </button>
+                        <a asp-action="Index" asp-route-id="@Model.Job_ID" class="btn btn-labeled btn-secondary btn-xs">
+                            <span class="btn-label"><i class="fa fa-arrow-left"></i></span>
+                            Quay lại
+                        </a>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
