@@ -369,62 +369,60 @@ namespace PND_WEB.Controllers
         }
 
 
+        // In TuttCreate POST action, only check budget limit if đây là thanh toán (Tt == true)
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
         {
-
             var now = DateTime.Now;
             var yearPart = now.Year.ToString();
             var monthPart = now.Month.ToString("D2");
 
-            var totalByNhanvienTrongThang = await (
-                from tutt in _context.TblTutts
-                join phi in _context.TblTuttsPhi on tutt.SoTutt equals phi.SoTutt
-                where tutt.Tt == true &&
-                        tutt.SoTutt.Length >= 8 &&
-                        tutt.SoTutt.Substring(2, 4) == yearPart &&
-                        tutt.SoTutt.Substring(6, 2) == monthPart
-                group phi by tutt.NhanvienTutt into g
-                select new
-                {
-                    NhanvienTutt = g.Key,
-                    TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
-                }
-            ).ToListAsync();
-
-            var sotutt =  tuttEditModel.tuttphi.SoTutt;
-
-            var staffname = await _context.TblTutts
-                .Where(p => p.SoTutt == sotutt)
-                .Select(p => p.NhanvienTutt)
-                .FirstOrDefaultAsync();
-
-            var tongTienNhanVien = totalByNhanvienTrongThang
-                .Where(x => x.NhanvienTutt == staffname)
-                .Select(x => x.TongTien)
-                .FirstOrDefault();
-
-            if (tongTienNhanVien >= _budgetService.GetLimit())
+            // Lấy SoTutt để kiểm tra loại phiếu
+            var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
+            if (tutt == null)
             {
-                ModelState.AddModelError("tuttphi.SoTien", "Tổng tiền của nhân viên trong tháng đã vượt quá giới hạn cho phép.");
-                return View(tuttEditModel);
+                return NotFound();
+            }
+            tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
+
+            // Chỉ kiểm tra giới hạn nếu là phiếu thanh toán (Tt == true)
+            if (tutt.Tt == true)
+            {
+                var totalByNhanvienTrongThang = await (
+                    from t in _context.TblTutts
+                    join phi in _context.TblTuttsPhi on t.SoTutt equals phi.SoTutt
+                    where t.Tt == true &&
+                          t.SoTutt.Length >= 8 &&
+                          t.SoTutt.Substring(2, 4) == yearPart &&
+                          t.SoTutt.Substring(6, 2) == monthPart
+                    group phi by t.NhanvienTutt into g
+                    select new
+                    {
+                        NhanvienTutt = g.Key,
+                        TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
+                    }
+                ).ToListAsync();
+
+                var staffname = tutt.NhanvienTutt;
+                var tongTienNhanVien = totalByNhanvienTrongThang
+                    .Where(x => x.NhanvienTutt == staffname)
+                    .Select(x => x.TongTien)
+                    .FirstOrDefault();
+
+                var tongTienSauKhiThem = tongTienNhanVien + (decimal)(tuttEditModel.tuttphi.SoTien ?? 0);
+                if (tongTienSauKhiThem >= _budgetService.GetLimit())
+                {
+                    ModelState.AddModelError("tuttphi.SoTien", "Tổng tiền của nhân viên trong tháng đã vượt quá giới hạn cho phép.");
+                    return View(tuttEditModel);
+                }
             }
 
             if (ModelState.IsValid)
             {
-                var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
-                if (tutt == null)
-                {
-                    return NotFound();
-                }
-                tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
-
                 _context.Add(tuttEditModel.tuttphi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Details), new { id = tuttEditModel.id });
-
-
             }
             return View(tuttEditModel);
         }

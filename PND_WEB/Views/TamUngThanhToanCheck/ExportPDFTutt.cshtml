@@ -143,8 +143,9 @@
             Ngày tạo : @tutt.Ngay?.ToString("dd/MM/yyyy")
         </div>
         <div class="right">
-            Đến ngày :
+            Đến ngày : @(tutt.Ngay?.AddDays(15).ToString("dd/MM/yyyy"))
         </div>
+
     </div>
 
     <div class="center">

@@ -12,8 +12,8 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250607185215_AddShiperName")]
-    partial class AddShiperName
+    [Migration("20250608045235_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
