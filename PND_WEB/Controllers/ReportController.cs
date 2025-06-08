@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web.Virtualization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PND_WEB.Data;
@@ -161,6 +162,55 @@ namespace PND_WEB.Controllers
                 .ToList();
 
             return Json(new { jobsByMonth, jobsByMode });
+        }
+
+        public async Task<IActionResult> Profit(DateTime? fromDate, DateTime? toDate)
+        {
+            if (!fromDate.HasValue)
+                fromDate = DateTime.Now.AddMonths(-1);
+            if (!toDate.HasValue)
+                toDate = DateTime.Now;
+
+            ViewBag.Filter = new ProfitReportFilterModel
+            {
+                FromDate = fromDate.Value,
+                ToDate = toDate.Value
+            };
+
+            var job = await _context.TblJobs
+                .Where(j => j.JobDate >= fromDate && j.JobDate <= toDate)
+                .Include(j => j.AgentNavigation)
+                .Include(j => j.CarrierNavigation)
+                .ToListAsync();
+
+            var hbls = await _context.TblHbls
+                .Where(h => job.Select(j => j.JobId).Contains(h.RequestId))
+                .Include(h => h.ShipperNavigation)
+                .Include(h => h.CneeNavigation)
+                .ToListAsync();
+            //((item.SerPrice ?? 0) * (item.SerQuantity ?? 0) * (item.ExchangeRate ?? 1) * (1 + (item.SerVat ?? 0) / 100) + (item.MVat ?? 0)
+             List<ProfitReportViewModel> profitReports = new List<ProfitReportViewModel>();
+            foreach (var hbl in hbls)
+            {
+                var jobDetails = job.FirstOrDefault(j => j.JobId == hbl.RequestId);
+                if (jobDetails == null) continue;
+                var totalBuy = await _context.TblHblCharges
+                    .Where(hc => hc.HblId == hbl.Hbl && hc.Checked==true && hc.Buy == true)
+                    .SumAsync(hc => (hc.SerPrice ?? 0) * (hc.SerQuantity ?? 0) * (hc.ExchangeRate ?? 1) * (1 + (hc.SerVat ?? 0) / 100) + (hc.MVat ?? 0));
+                var totalSell = await _context.TblHblCharges
+                    .Where(hc => hc.HblId == hbl.Hbl && hc.Checked == true && hc.Sell == true)
+                    .SumAsync(hc => (hc.SerPrice ?? 0) * (hc.SerQuantity ?? 0) * (hc.ExchangeRate ?? 1) * (1 + (hc.SerVat ?? 0) / 100) + (hc.MVat ?? 0));
+                profitReports.Add(new ProfitReportViewModel
+                {
+                    Hbl = hbl,
+                    Job = jobDetails,
+                    TotalBuy = totalBuy,
+                    TotalSell = totalSell,
+                    Profit = totalSell - totalBuy
+                });
+            }
+
+            return View(profitReports);
         }
     }
 } 

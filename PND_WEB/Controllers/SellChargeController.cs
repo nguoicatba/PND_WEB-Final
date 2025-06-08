@@ -292,7 +292,42 @@ namespace PND_WEB.Controllers
             });
         }
 
-      
+        [HttpGet]
+        public async Task<JsonResult> CurrencyGet(string q = "", int page = 1)
+        {
+            int pageSize = 10;
+            var query = q == "" ? _context.Currencies : _context.Currencies.Where(data => data.Code.ToLower().Contains(q.ToLower()) || data.CurrName.ToLower().Contains(q.ToLower()));
+            var totalCount = await query.CountAsync();
+            var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+            var paginatedData = await query.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+            var items = paginatedData.Select(data => new
+            {
+                id = data.Code,
+                text = data.CurrName,
+                disabled = false
+            }).ToList();
+
+            if (page == 1)
+            {
+                items.Insert(0, new
+                {
+                    id = "-1",
+                    text = "Select Currency",
+                    disabled = true
+                });
+            }
+
+            return Json(new
+            {
+                items = items,
+                total_count = totalCount,
+                header = new
+                {
+                    header_code = "Code",
+                    header_name = "Currency Name"
+                }
+            });
+        }
 
         [HttpGet]
         public async Task<JsonResult> FeeGet(string q = "", int page = 1)

@@ -1,0 +1,99 @@
+@model IEnumerable<PND_WEB.ViewModels.ProfitReportViewModel>
+
+@{
+    ViewData["Title"] = "Profit Report";
+}
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Báo cáo lợi nhuận", SubTitle = "Thống kê lợi nhuận theo từng HBL" })
+
+<div class="row">
+    <div class="col">
+        <div class="card card-default">
+            <div class="card-header">Thống kê lợi nhuận</div>
+            <div class="card-body">
+                <!-- Filter Form -->
+                <form method="get" class="form-inline mb-3">
+                    <div class="form-group mx-2">
+                        <label class="mr-2">Từ ngày:</label>
+                        <input type="date" name="fromDate" class="form-control" value="@ViewBag.Filter.FromDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <div class="form-group mx-2">
+                        <label class="mr-2">Đến ngày:</label>
+                        <input type="date" name="toDate" class="form-control" value="@ViewBag.Filter.ToDate.ToString("yyyy-MM-dd")" />
+                    </div>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fa fa-search"></i> Tìm kiếm
+                    </button>
+                </form>
+               
+                    <table class="table nowrap border display" id="profitTable" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th style="display:none;">Job/MBL</th>
+                            <th>HBL</th>
+                            <th>Shipper</th>
+                            <th>Consignee</th>
+                            <th>Agent</th>
+                            <th>Carrier</th>
+                            <th>ETD</th>
+                            <th>ETA</th>
+                            <th>Total Buy</th>
+                            <th>Total Sell</th>
+                            <th>Profit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td style="display:none;">
+                                    <a asp-controller="Job" asp-action="Details" asp-route-id="@item.Job?.JobId">
+                                        @item.Job?.JobId
+                                    </a>
+                                </td>
+                                <td>
+                                    <a asp-controller="Hbls" asp-action="Details" asp-route-id="@item.Hbl?.Hbl">
+                                        @item.Hbl?.Hbl
+                                    </a>
+                                </td>
+                                <td>@item.Hbl?.ShipperNavigation?.ShipperName</td>
+                                <td>@item.Hbl?.CneeNavigation?.Vcnee</td>
+                                <td>@item.Job?.AgentNavigation?.AgentName</td>
+                                <td>@item.Job?.CarrierNavigation?.CarrierName</td>
+                                <td>@item.Job?.Etd.ToString("dd/MM/yyyy")</td>
+                                <td>@item.Job?.Eta.ToString("dd/MM/yyyy")</td>
+                                <td class="text-primary">@item.TotalBuy.ToString("N2")</td>
+                                <td class="text-danger">@item.TotalSell.ToString("N2")</td>
+                                <td class="text-success">@item.Profit.ToString("N2")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#profitTable').DataTable({
+                order: [[0, 'asc']],
+                scrollX: true,
+                rowGroup: {
+                    dataSrc: 0,
+                    startRender: function (rows, group) {
+                        return $('<tr/>')
+                            .append('<td colspan="10"><strong>Job/MBL: ' + group + '</strong></td>');
+                    }
+                },
+                columnDefs: [
+                    {
+                        targets: [0],
+                        visible: false
+                    }
+                ]
+            });
+        });
+    </script>
+} 
