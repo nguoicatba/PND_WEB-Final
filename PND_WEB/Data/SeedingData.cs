@@ -29,6 +29,8 @@ namespace PND_WEB.Data
 
             await AccountantSeeder.SeedAsync(_context, roleManager, userManager);
 
+            await CustomerSeeder.SeedAsync(_context); 
+
             if (!await roleManager.RoleExistsAsync("Admin"))
             {
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
@@ -156,15 +158,6 @@ namespace PND_WEB.Data
                 await _context.SaveChangesAsync();
             }
 
-            // Seeding Customers
-            if (!await _context.TblCustomers.AnyAsync())
-            {
-                await _context.TblCustomers.AddRangeAsync(
-                    new TblCustomer { CustomerId = "0108111428", CompanyName = "HAI AN FREIGHT FORWARDING JOINT STOCK COMPANY", ComAddress = "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai", Website = "http://www.haian.com.vn", DutyPerson = "Nguyễn Văn A", Contact = "0987546897", Email = "" },
-                    new TblCustomer { CustomerId = "132132", CompanyName = "DONASCO Logistics - Công Ty TNHH DONASCO", ComAddress = "Văn phòng 3B, Tầng 3, Tòa B, Tòa nhà Green Pearl số 378 Minh Khai", Website = "http://www.haian.com.vn", DutyPerson = "Nguyễn Văn A", Contact = "0987541297", Email = "" }
-                );
-                await _context.SaveChangesAsync();
-            }
 
             // Seeding Agents
             if (!await _context.Agents.AnyAsync())

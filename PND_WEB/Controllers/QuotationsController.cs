@@ -27,15 +27,16 @@ namespace PND_WEB.Controllers
         // GET: Quotations
         public IActionResult Index()
         {
-            
+            if (User.HasClaim("Quotation", "IndexAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("CEO"))
+            {
+                return RedirectToAction(nameof(IndexAdmin));
+            }
+
             if (User.HasClaim("Quotation", "IndexUser"))
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.HasClaim("Quotation", "IndexAdmin") || User.IsInRole("SuperAdmin"))
-            {
-                return RedirectToAction(nameof(IndexAdmin));
-            }
+           
             return NotFound();
         }
 

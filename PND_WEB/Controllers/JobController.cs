@@ -68,7 +68,7 @@ namespace PND_WEB.Controllers
         public async Task<bool> UserRequired(string jobId, string JobCreater)
         {
             var UserName = User.Identity.Name;
-            if (User.IsInRole("SuperAdmin") || User.IsInRole("Ceo"))
+            if (User.IsInRole("SuperAdmin") || User.IsInRole("CEO"))
             {
                 return true; // SuperAdmin or Admin can view any job
             }

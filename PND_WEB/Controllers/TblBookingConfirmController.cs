@@ -88,15 +88,16 @@ namespace PND_WEB.Controllers
 
         public IActionResult Index()
         {
+            if (User.HasClaim("BookingComfirm", "IndexAdmin") || User.IsInRole("SuperAdmin") || User.IsInRole("CEO"))
+            {
+                return RedirectToAction(nameof(IndexAdmin));
+            }
 
             if (User.HasClaim("BookingComfirm", "IndexUser"))
             {
                 return RedirectToAction(nameof(IndexUser));
             }
-            else if (User.HasClaim("BookingComfirm", "IndexAdmin") || User.IsInRole("SuperAdmin"))
-            {
-                return RedirectToAction(nameof(IndexAdmin));
-            }
+          
             return NotFound();
         }
 

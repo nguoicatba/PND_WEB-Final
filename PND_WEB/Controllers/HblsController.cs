@@ -98,7 +98,7 @@ namespace PND_WEB.Controllers
             {
                 string lastCode = lastHbls.Hbl.Substring(prefix.Length + Date.Length);
                 int nextNumber = int.Parse(lastCode) + 1;
-                return $"{prefix}{Date}/{nextNumber:D4}"; // D4 ensures the number is zero-padded to 4 digits
+                return $"{prefix}{Date}{nextNumber:D4}"; // D4 ensures the number is zero-padded to 4 digits
             }
         }
 
