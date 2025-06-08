@@ -317,6 +317,8 @@ namespace PND_WEB.Controllers
                 POL = job.Pol,
                 POD = job.Pod,
                 PODel = job.Podel,
+                Currency = invoice.Currency,
+                ExchangeRate = invoice.ExchangeRate ?? 1, // Default to 1 if null
                 Total = await _context.InvoiceCharges
                     .Where(c => c.InvoiceId == id)
                     .SumAsync(c => (c.SerPrice ?? 0) * (c.SerQuantity ?? 0) * (c.ExchangeRate ?? 1) * (1 + (c.SerVat ?? 0) / 100) + (c.MVat ?? 0)),

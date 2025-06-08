@@ -32,7 +32,8 @@ namespace PND_WEB.ViewModels
 
 
         public float? Total { get; set; }
-
+        public string? Currency { get; set; }   
+        public float? ExchangeRate { get; set; }
         public List<TblCharge>? Charges { get; set; }
 
         public float Amount(TblCharge tblCharge)
