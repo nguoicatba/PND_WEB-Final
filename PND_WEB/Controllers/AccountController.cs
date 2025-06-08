@@ -38,6 +38,12 @@ namespace PND_WEB.Controllers
                 var result = await _signInManager.PasswordSignInAsync(loginViewModel.UserName, loginViewModel.Password, false, false);
                 if (result.Succeeded)
                 {
+                    var user = await _userManager.FindByNameAsync(loginViewModel.UserName);
+                    if (user.Status != "Active")
+                    {
+                        ModelState.AddModelError("", "Tài khoản của bạn đã bị khóa hoặc không hoạt động");
+                        return View(loginViewModel);
+                    }
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng");

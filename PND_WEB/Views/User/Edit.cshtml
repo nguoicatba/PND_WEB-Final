@@ -4,42 +4,60 @@
     ViewData["Title"] = "Edit User";
 }
 
+@section CssFile {
+    <link href="~/css/required-label.css" rel="stylesheet" />
+}
+
 @await Component.InvokeAsync("HeaderBody", new { Title = "Sửa tài khoản", SubTitle = "Sửa tài khoản" })
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">EDIT CPORT</div>
+            <div class="card-header">
+                Chỉnh sửa thông tin tài khoản
+            </div>
             <div class="card-body">
+                <partial name="_StatusMessage" model="@TempData["status"]" />
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Password" value="@Model.Password" />
+                    <input type="hidden" asp-for="ConfirmPassword" value="@Model.Password" />
                     <div class="row">
                         <div class="form-group col-6">
-                            <label asp-for="UserName" class="control-label"></label>
-                            <input asp-for="UserName" class="form-control" placeholder="Username" />
+                            <label asp-for="UserName" class="control-label required-label"></label>
+                            <input asp-for="UserName" class="form-control" placeholder="Nhập tên đăng nhập" />
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                         <div class="form-group col-6">
-                            <label asp-for="Staff_Name" class="control-label"></label>
-                            <input asp-for="Staff_Name" class="form-control" placeholder="Họ tên" />
+                            <label asp-for="Staff_Name" class="control-label required-label"></label>
+                            <input asp-for="Staff_Name" class="form-control" placeholder="Nhập tên nhân viên" />
                             <span asp-validation-for="Staff_Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" type="text" readonly="readonly" />
-                            <span asp-validation-for="Password" class="text-danger"></span>
-                        </div>
-                        <div class="form-group col-6">
                             <label asp-for="DOB" class="control-label"></label>
-                            <input asp-for="DOB" class="form-control" placeholder="Ngày sinh" />
+                            <input asp-for="DOB" class="form-control" placeholder="Chọn ngày sinh" />
                             <span asp-validation-for="DOB" class="text-danger"></span>
                         </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Status" class="control-label"></label>
+                            <select asp-for="Status" class="form-control">
+                                <option value="Active">Hoạt động</option>
+                                <option value="Inactive">Không hoạt động</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Save" class="btn btn-success btn-xs" />
-                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-success btn-xs">
+                            <i class="fa fa-save"></i> Lưu thay đổi
+                        </button>
+                      
+                        <a asp-action="Index" class="btn btn-secondary btn-xs">
+                            <i class="fa fa-arrow-left"></i> Quay lại
+                        </a>
                     </div>
                 </form>
             </div>
@@ -48,7 +66,6 @@
 </div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
 }

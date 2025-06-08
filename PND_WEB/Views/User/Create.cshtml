@@ -4,44 +4,86 @@
     ViewData["Title"] = "Create User";
 }
 
+@section CssFile {
+    <link href="~/css/required-label.css" rel="stylesheet" />
+}
+
 @await Component.InvokeAsync("HeaderBody", new { Title = "Tạo tài khoản", SubTitle = "Tạo tài khoản" })
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">CREATE CPORT</div>
+            <div class="card-header">
+                Thông tin tài khoản mới
+            </div>
             <div class="card-body">
                 <partial name="_StatusMessage" model="@TempData["status"]" />
-                <form asp-action="Create">
+                <form asp-action="Create" id="createUserForm">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" value="0" />
-                   <div class="row">
+                    <div class="row">
                         <div class="form-group col-6">
-                            <label asp-for="UserName" class="control-label"></label>
-                            <input asp-for="UserName" class="form-control" placeholder="Username" />
+                            <label asp-for="UserName" class="control-label required-label"></label>
+                            <input asp-for="UserName" class="form-control" placeholder="Nhập tên đăng nhập" />
                             <span asp-validation-for="UserName" class="text-danger"></span>
                         </div>
                         <div class="form-group col-6">
-                            <label asp-for="Staff_Name" class="control-label"></label>
-                            <input asp-for="Staff_Name" class="form-control" placeholder="Họ tên" />
+                            <label asp-for="Staff_Name" class="control-label required-label"></label>
+                            <input asp-for="Staff_Name" class="form-control" placeholder="Nhập tên nhân viên" />
                             <span asp-validation-for="Staff_Name" class="text-danger"></span>
                         </div>
                     </div>
                     <div class="row">
                         <div class="form-group col-6">
-                            <label asp-for="Password" class="control-label"></label>
-                            <input asp-for="Password" class="form-control" placeholder="Password" />
+                            <label asp-for="Password" class="control-label required-label"></label>
+                            <div class="input-group">
+                                <input asp-for="Password" class="form-control" placeholder="Nhập mật khẩu" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('Password')">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
                             <span asp-validation-for="Password" class="text-danger"></span>
+                            <small class="form-text text-muted">
+                                Mật khẩu phải có ít nhất 6 ký tự, bao gồm chữ hoa, chữ thường, số và ký tự đặc biệt
+                            </small>
                         </div>
                         <div class="form-group col-6">
-                            <label asp-for="DOB" class="control-label"></label>
-                            <input asp-for="DOB" class="form-control" placeholder="Ngày sinh" />
-                            <span asp-validation-for="DOB" class="text-danger"></span>
+                            <label asp-for="ConfirmPassword" class="control-label required-label"></label>
+                            <div class="input-group">
+                                <input asp-for="ConfirmPassword" class="form-control" placeholder="Xác nhận mật khẩu" />
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('ConfirmPassword')">
+                                        <i class="fa fa-eye"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                         </div>
                     </div>
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary btn-xs" />
-                        <a asp-action="Index" class="btn btn-info btn-xs">Back to List</a>
+                    <div class="row">
+                        <div class="form-group col-6">
+                            <label asp-for="DOB" class="control-label"></label>
+                            <input asp-for="DOB" class="form-control" placeholder="Chọn ngày sinh" />
+                            <span asp-validation-for="DOB" class="text-danger"></span>
+                        </div>
+                        <div class="form-group col-6">
+                            <label asp-for="Status" class="control-label"></label>
+                            <select asp-for="Status" class="form-control">
+                                <option value="Active">Hoạt động</option>
+                                <option value="Inactive">Không hoạt động</option>
+                            </select>
+                            <span asp-validation-for="Status" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="form-group mt-4">
+                        <button type="submit" class="btn btn-primary btn-xs">
+                            <i class="fa fa-save"></i> Tạo tài khoản
+                        </button>
+                        <a asp-action="Index" class="btn btn-secondary btn-xs">
+                            <i class="fa fa-arrow-left"></i> Quay lại
+                        </a>
                     </div>
                 </form>
             </div>
@@ -49,8 +91,19 @@
     </div>
 </div>
 
+
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        
+
+        function togglePassword(fieldId) {
+            var field = document.getElementById(fieldId);
+            if (field.type === "password") {
+                field.type = "text";
+            } else {
+                field.type = "password";
+            }
+        }
+    </script>
 }

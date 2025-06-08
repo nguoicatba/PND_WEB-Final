@@ -13,6 +13,7 @@ public class ClaimAuthorizeAttribute : Attribute, IAuthorizationFilter
     private readonly string _claimType;
     private readonly string _claimValue;
 
+
     public ClaimAuthorizeAttribute(string claimType, string claimValue)
     {
         _claimType = claimType;
@@ -28,7 +29,9 @@ public class ClaimAuthorizeAttribute : Attribute, IAuthorizationFilter
             context.Result = new RedirectToActionResult("Login", "Account", null);
             return;
         }
+        // check account is ative
 
+        
         var hasClaim= user.Claims.Any(c=>c.Type ==  _claimType && c.Value == _claimValue);
 
         if (!hasClaim)

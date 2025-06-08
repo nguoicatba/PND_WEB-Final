@@ -114,6 +114,7 @@ namespace PND_WEB.Controllers
                 user.UserName = userModel.UserName;
                 user.Staff_Name = userModel.Staff_Name;
                 user.DOB = userModel.DOB;
+                user.Status = userModel.Status;
 
                 IdentityResult result = await _userManager.UpdateAsync(user);
                 if (result.Succeeded)
@@ -125,7 +126,19 @@ namespace PND_WEB.Controllers
                     ModelState.AddModelError("", error.Description);
                 }
             }
-            return View(userModel);
+            else
+            {   TempData["status"] = "Error: ";
+                foreach (var error in ModelState.Values)
+                {
+                    foreach (var subError in error.Errors)
+                    {
+                        TempData["status"] += subError.ErrorMessage + " ";
+
+                    }
+
+                }
+            }
+             return View(userModel);
         }
 
         public async Task<IActionResult> Delete(string id)
