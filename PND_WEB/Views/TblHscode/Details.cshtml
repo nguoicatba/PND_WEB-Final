@@ -34,14 +34,17 @@
             if (match.Success)
             {
                 lastHsCode = match.Groups[1].Value;
-                var desc = match.Groups[2].Value.TrimStart(':', '-', ' ');
+                var desc = match.Groups[2].Value;
+                // Xóa dấu ':' ở đầu mô tả nhưng giữ lại dấu '-'
+                desc = desc.StartsWith(":") ? desc.Substring(1).TrimStart() : desc;
                 sb.AppendLine($"<tr><td style='width: 100px;'>{lastHsCode}</td><td>{desc}</td></tr>");
                 lastHsCode = "";
                 continue;
             }
 
             // Nếu có mã HS trước đó, gán cho dòng này
-            var desc2 = part.TrimStart(':', '-', ' ');
+            var desc2 = part;
+            desc2 = desc2.StartsWith(":") ? desc2.Substring(1).TrimStart() : desc2;
             sb.AppendLine($"<tr><td style='width: 100px;'>{lastHsCode}</td><td>{desc2}</td></tr>");
             lastHsCode = "";
         }
