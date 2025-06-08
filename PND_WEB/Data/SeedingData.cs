@@ -21,30 +21,24 @@ namespace PND_WEB.Data
 
             await SupperAdminSeeder.SeedAsync(_context, roleManager, userManager);
 
+            await CEOSeeder.SeedAsync(_context, roleManager, userManager);
+
+            await SaleSeeder.SeedAsync(_context, roleManager, userManager);
+
+            await DocsSeeder.SeedAsync(_context, roleManager, userManager);
+
+            await AccountantSeeder.SeedAsync(_context, roleManager, userManager);
+
             if (!await roleManager.RoleExistsAsync("Admin"))
             {
                 await roleManager.CreateAsync(new IdentityRole("Admin"));
             }
-            if (!await roleManager.RoleExistsAsync("CEO"))
-            {
-                await roleManager.CreateAsync(new IdentityRole("CEO"));
-            }
-            if (!await roleManager.RoleExistsAsync("Docs"))
-            {
-                await roleManager.CreateAsync(new IdentityRole("Docs"));
-            }
-            if (!await roleManager.RoleExistsAsync("Sale"))
-            {
-                await roleManager.CreateAsync(new IdentityRole("Sale"));
-            }
+           
             if (!await roleManager.RoleExistsAsync("Log"))
             {
                 await roleManager.CreateAsync(new IdentityRole("Logistic"));
             }
-            if (!await roleManager.RoleExistsAsync("Accountant"))
-            {
-                await roleManager.CreateAsync(new IdentityRole("Accountant"));
-            }
+        
 
             // Seeding Sourses
             if (!await _context.Sourses.AnyAsync())
