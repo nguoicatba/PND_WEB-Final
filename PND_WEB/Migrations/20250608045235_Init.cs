@@ -398,6 +398,7 @@ namespace PND_WEB.Migrations
                 columns: table => new
                 {
                     Shipper = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    ShipperName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     SAddress = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
                     SCity = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     SPerson_in_charge = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),

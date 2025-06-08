@@ -148,14 +148,12 @@ namespace PND_WEB.Controllers
             return View(tblTutt);
         }
 
-        // POST: TamUngThanhToan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Thay đổi trong action Create (POST) để chỉ đếm tạm ứng chưa được duyệt
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
         {
-            if(tblTutt.Tu == true)
+            if (tblTutt.Tu == true)
             {
                 var username = User.Identity.Name;
                 var user = await _userManager.FindByNameAsync(username);
@@ -164,30 +162,22 @@ namespace PND_WEB.Controllers
                 var yearPart = now.Year.ToString();
                 var monthPart = now.Month.ToString("D2");
 
-                var countsByNhanvien = await _context.TblTutts
-                    .Where(q => q.Tu == true &&
-                                q.SoTutt.Length >= 8 &&
-                                q.SoTutt.Substring(2, 4) == yearPart &&
-                                q.SoTutt.Substring(6, 2) == monthPart)
-                    .GroupBy(q => q.NhanvienTutt)
-                    .Select(g => new {
-                        NhanvienTutt = g.Key,
-                        CountTu = g.Count()
-                    })
-                    .ToListAsync();
-                 
-                var countOfCurrentUser = countsByNhanvien
-                    .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)
-                    .Select(c => c.CountTu)
-                    .FirstOrDefault();
+                // Đếm số tạm ứng chưa được duyệt trong tháng này của nhân viên
+                var countOfCurrentUser = await _context.TblTutts
+                    .Where(q => q.Tu == true
+                                && q.xacnhanduyet == null
+                                && q.SoTutt.Length >= 8
+                                && q.SoTutt.Substring(2, 4) == yearPart
+                                && q.SoTutt.Substring(6, 2) == monthPart
+                                && q.NhanvienTutt == tblTutt.NhanvienTutt)
+                    .CountAsync();
 
                 if (countOfCurrentUser >= 5)
                 {
-                    ModelState.AddModelError("NhanvienTutt", "Nhân viên này đã tạo quá 5 tạm ứng trong tháng này.");
+                    ModelState.AddModelError("NhanvienTutt", "Nhân viên này đã tạo quá 5 tạm ứng chưa được duyệt trong tháng này.");
                     return View(tblTutt);
                 }
             }
-
 
             if (ModelState.IsValid)
             {
@@ -369,62 +359,61 @@ namespace PND_WEB.Controllers
         }
 
 
+        // Trong TuttCreate POST action, chỉ tính budget cho thanh toán KHÔNG có tạm ứng
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
         {
-
             var now = DateTime.Now;
             var yearPart = now.Year.ToString();
             var monthPart = now.Month.ToString("D2");
 
-            var totalByNhanvienTrongThang = await (
-                from tutt in _context.TblTutts
-                join phi in _context.TblTuttsPhi on tutt.SoTutt equals phi.SoTutt
-                where tutt.Tt == true &&
-                        tutt.SoTutt.Length >= 8 &&
-                        tutt.SoTutt.Substring(2, 4) == yearPart &&
-                        tutt.SoTutt.Substring(6, 2) == monthPart
-                group phi by tutt.NhanvienTutt into g
-                select new
-                {
-                    NhanvienTutt = g.Key,
-                    TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
-                }
-            ).ToListAsync();
-
-            var sotutt =  tuttEditModel.tuttphi.SoTutt;
-
-            var staffname = await _context.TblTutts
-                .Where(p => p.SoTutt == sotutt)
-                .Select(p => p.NhanvienTutt)
-                .FirstOrDefaultAsync();
-
-            var tongTienNhanVien = totalByNhanvienTrongThang
-                .Where(x => x.NhanvienTutt == staffname)
-                .Select(x => x.TongTien)
-                .FirstOrDefault();
-
-            if (tongTienNhanVien >= _budgetService.GetLimit())
+            var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
+            if (tutt == null)
             {
-                ModelState.AddModelError("tuttphi.SoTien", "Tổng tiền của nhân viên trong tháng đã vượt quá giới hạn cho phép.");
-                return View(tuttEditModel);
+                return NotFound();
+            }
+            tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
+
+            // Chỉ kiểm tra budget nếu là phiếu thanh toán (Tt == true) và KHÔNG phải phiếu thanh toán sinh ra từ tạm ứng
+            // Ở đây giả sử: phiếu thanh toán không có tạm ứng là Tu == false hoặc null
+            if (tutt.Tt == true && (tutt.Tu == null || tutt.Tu == false))
+            {
+                var totalByNhanvienTrongThang = await (
+                    from t in _context.TblTutts
+                    join phi in _context.TblTuttsPhi on t.SoTutt equals phi.SoTutt
+                    where t.Tt == true
+                          && (t.Tu == null || t.Tu == false) // chỉ lấy thanh toán không có tạm ứng
+                          && t.SoTutt.Length >= 8
+                          && t.SoTutt.Substring(2, 4) == yearPart
+                          && t.SoTutt.Substring(6, 2) == monthPart
+                    group phi by t.NhanvienTutt into g
+                    select new
+                    {
+                        NhanvienTutt = g.Key,
+                        TongTien = g.Sum(x => (decimal?)x.SoTien ?? 0)
+                    }
+                ).ToListAsync();
+
+                var staffname = tutt.NhanvienTutt;
+                var tongTienNhanVien = totalByNhanvienTrongThang
+                    .Where(x => x.NhanvienTutt == staffname)
+                    .Select(x => x.TongTien)
+                    .FirstOrDefault();
+
+                var tongTienSauKhiThem = tongTienNhanVien + (decimal)(tuttEditModel.tuttphi.SoTien ?? 0);
+                if (tongTienSauKhiThem >= _budgetService.GetLimit())
+                {
+                    ModelState.AddModelError("tuttphi.SoTien", "Tổng tiền của nhân viên trong tháng đã vượt quá giới hạn cho phép.");
+                    return View(tuttEditModel);
+                }
             }
 
             if (ModelState.IsValid)
             {
-                var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
-                if (tutt == null)
-                {
-                    return NotFound();
-                }
-                tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
-
                 _context.Add(tuttEditModel.tuttphi);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Details), new { id = tuttEditModel.id });
-
-
             }
             return View(tuttEditModel);
         }
