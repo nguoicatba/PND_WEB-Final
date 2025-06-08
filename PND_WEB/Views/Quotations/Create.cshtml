@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Create";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Thêm thông tin báo giá", SubTitle = "Xóa thông tin báo giá" })
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Tạo mới báo giá", SubTitle = "Tạo mới báo giá" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách báo giá", Controller="Quotations", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Tạo mới báo giá", Controller="", Action="", Parameter="" }
+})
+
 <div class="row">
     <div class="col">
         <div class="card card-default">

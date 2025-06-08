@@ -5,7 +5,13 @@
     ViewData["Title"] = "Details";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin Booking", SubTitle = "Chi tiết thông tin Booking" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết Booking", SubTitle = "Chi tiết Booking" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Booking", Controller="TblBookingConfirm", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết Booking", Controller="", Action="", Parameter="" }
+})
 
 <div class="card card-default">
     <div class="card-header bg-success">Thông tin Booking:</div>

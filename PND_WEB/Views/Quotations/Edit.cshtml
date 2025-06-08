@@ -19,7 +19,15 @@
         : new Dictionary<string, object> { { "class", "form-control" }, { "type", "date" } };
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa thông tin báo giá", SubTitle = "Sửa thông tin báo giá" })
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa báo giá", SubTitle = "Chỉnh sửa báo giá" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách báo giá", Controller="Quotations", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chỉnh sửa báo giá", Controller="", Action="", Parameter="" }
+})
+
 <div class="row">
     <div class="col">
         <div class="card card-default">

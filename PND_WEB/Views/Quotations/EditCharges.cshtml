@@ -1,9 +1,15 @@
 ﻿@model PND_WEB.Models.QuotationsCharge
 @Html.HiddenFor(model => model.QuotationId)
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Charges";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa phí báo giá", SubTitle = "Sửa phí báo giá" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa phí báo giá", SubTitle = "Chỉnh sửa phí báo giá" })
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách báo giá", Controller="Quotations", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết báo giá", Controller="Quotations", Action="DetailsCharges", Parameter=Model.QuotationId },
+    new BreadcrumbItem { Title = "Chỉnh sửa phí báo giá", Controller="", Action="", Parameter="" }
+})
 <div class="row">
     <div class="col">
         <div class="card card-default">

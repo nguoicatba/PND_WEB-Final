@@ -3,7 +3,15 @@
 @{
     ViewData["Title"] = "Details";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết HSCODE", SubTitle = "Chi tiết HSCODE" })
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết HSCode", SubTitle = "Chi tiết HSCode" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách HSCode", Controller="TblHscode", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết HSCode", Controller="", Action="", Parameter="" }
+})
+
 @functions {
     public static string XuLyNoiDung(string input)
     {

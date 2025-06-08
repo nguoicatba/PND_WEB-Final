@@ -6,6 +6,12 @@
 
 @await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Booking", SubTitle = "Xác nhận xóa thông tin Booking" })
 
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Booking", Controller="TblBookingConfirm", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Xóa Booking", Controller="", Action="", Parameter="" }
+})
+
 <div class="card card-default">
     <div class="card-header bg-danger">Delete Booking:</div>
     <div class="card-body">

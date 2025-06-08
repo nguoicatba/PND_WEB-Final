@@ -43,6 +43,14 @@
     var disabledAttr = isReadOnly ? "disabled=\"disabled\"" : "";
 }
 
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa Booking", SubTitle = "Chỉnh sửa Booking" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Booking", Controller="TblBookingConfirm", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chỉnh sửa Booking", Controller="", Action="", Parameter="" }
+})
+
 <div class="row">
     <div class="col">
         <div class="card card-default">

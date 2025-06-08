@@ -21,7 +21,13 @@
         )
     }).ToList();
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết thông tin báo giá", SubTitle = "Chi tiết thông tin báo giá" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết báo giá", SubTitle = "Chi tiết báo giá" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách báo giá", Controller="Quotations", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chi tiết báo giá", Controller="", Action="", Parameter="" }
+})
 
 <div class="card card-default" id="cardDemo14">
     <div class="card-header bg-success">About Quotation:</div>

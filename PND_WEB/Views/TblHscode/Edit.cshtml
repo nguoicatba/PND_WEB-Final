@@ -4,7 +4,13 @@
     ViewData["Title"] = "Edit";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa ghi chú HSCODE", SubTitle = "Sửa ghi chú HSCODE" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa HSCode", SubTitle = "Chỉnh sửa HSCode" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách HSCode", Controller="TblHscode", Action="Index", Parameter="" },
+    new BreadcrumbItem { Title = "Chỉnh sửa HSCode", Controller="", Action="", Parameter="" }
+})
 
 <div class="row">
     <div class="col">
