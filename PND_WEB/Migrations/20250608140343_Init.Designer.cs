@@ -12,7 +12,7 @@ using PND_WEB.Data;
 namespace PND_WEB.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20250608045235_Init")]
+    [Migration("20250608140343_Init")]
     partial class Init
     {
         /// <inheritdoc />
