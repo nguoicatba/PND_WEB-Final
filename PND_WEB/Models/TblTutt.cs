@@ -17,6 +17,7 @@ public partial class TblTutt
 
     [Column("Ngay")]
     [DisplayName("Ngày tạo")]
+    [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
     public DateTime? Ngay { get; set; }
 
     [Column("NhanvienTUTT")]
@@ -55,6 +56,5 @@ public partial class TblTutt
     [DisplayName("Ghi chú")]
     public string? GhiChu { get; set; }
 
-  
     public virtual ICollection<TblTuttPhi> TblTuttPhis { get; set; } = new List<TblTuttPhi>();
 }
