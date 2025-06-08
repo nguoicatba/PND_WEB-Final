@@ -3,12 +3,19 @@
 @{
     ViewData["Title"] = "Delete";
 }
-@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa thông tin đại lý", SubTitle = "Xóa thông tin đại lý" })
+
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Agent", SubTitle = "Xóa thông tin đại lý" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Agent", Controller="Agent",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Xóa Agent", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">DELETE AGENT</div>
+            <div class="card-header">Xác nhận xóa Agent</div>
             <div class="card-body">
                 <dl class="row">
                     <dt class="col-sm-2">

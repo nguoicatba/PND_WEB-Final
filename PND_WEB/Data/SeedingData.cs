@@ -29,7 +29,9 @@ namespace PND_WEB.Data
 
             await AccountantSeeder.SeedAsync(_context, roleManager, userManager);
 
-            await CustomerSeeder.SeedAsync(_context); 
+            await CustomerSeeder.SeedAsync(_context);
+
+            await JobSeeder.SeedAsync(_context);
 
             if (!await roleManager.RoleExistsAsync("Admin"))
             {

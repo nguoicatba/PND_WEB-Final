@@ -5,9 +5,14 @@
 }
 
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Agent", SubTitle = "Danh sách thông tin đại lý" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Agent", SubTitle = "Danh sách thông tin đại lý" })
 
-<div class="card">
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Agent", Controller="",Action="",Parameter="" }
+})
+
+<div class="card card-default">
     <div class="card-body">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>

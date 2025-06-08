@@ -4,13 +4,25 @@
     ViewData["Title"] = "Delete";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa thông tin nhà cung cấp", SubTitle = "Xóa thông tin nhà cung cấp" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Supplier", SubTitle = "Xóa thông tin nhà cung cấp" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Supplier", Controller="TblSupplier",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Xóa Supplier", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">DELETE SUPPLIER</div>
+            <div class="card-header">Xác nhận xóa Supplier</div>
             <div class="card-body">
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <p>Bạn có chắc chắn muốn xóa Supplier này? Hành động này không thể hoàn tác.</p>
+                </div>
                  <dl class="row">
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.SupplierId)

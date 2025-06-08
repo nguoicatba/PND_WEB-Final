@@ -4,12 +4,18 @@
     ViewData["Title"] = "Edit";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Sửa thông tin người vận chuyển", SubTitle = "Sửa thông tin người vận chuyển" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chỉnh sửa Shipper", SubTitle = "Chỉnh sửa thông tin shipper" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Shipper", Controller="TblShipper",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Chỉnh sửa Shipper", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">EDIT SHIPPER</div>
+            <div class="card-header">Chỉnh sửa thông tin Shipper</div>
             <div class="card-body">
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>

@@ -4,9 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Cnee", SubTitle = "Danh sách thông tin người nhận hàng" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách CNEE", SubTitle = "Danh sách thông tin người nhận hàng" })
 
-<div class="card">
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách CNEE", Controller="",Action="",Parameter="" }
+})
+
+<div class="card card-default">
     <div class="card-body">
         <p>
             <a asp-action="Create" class="btn btn-primary btn-xs">Create New</a>

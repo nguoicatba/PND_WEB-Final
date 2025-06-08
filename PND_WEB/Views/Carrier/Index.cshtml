@@ -4,9 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Carrier", SubTitle = "Danh sách thông tin hãng tàu" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Danh sách Carrier", SubTitle = "Danh sách thông tin hãng tàu" })
 
-<div class="card">
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Carrier", Controller="",Action="",Parameter="" }
+})
+
+<div class="card card-default">
     <div class="card-body">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <p>

@@ -4,13 +4,22 @@
     ViewData["Title"] = "Delete";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa thông tin hãng tàu", SubTitle = "Xóa thông tin hãng tàu" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Xóa Carrier", SubTitle = "Xóa thông tin hãng tàu" })
+
+@await Component.InvokeAsync("Breadcrumb", new List<BreadcrumbItem> {
+    new BreadcrumbItem { Title = "Trang chủ", Controller="Home",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Danh sách Carrier", Controller="Carrier",Action="Index",Parameter="" },
+    new BreadcrumbItem { Title = "Xóa Carrier", Controller="",Action="",Parameter="" }
+})
 
 <div class="row">
     <div class="col">
         <div class="card card-default">
-            <div class="card-header">Carrier</div>
+            <div class="card-header">
+                <h3 class="card-title">Xác nhận xóa Carrier</h3>
+            </div>
             <div class="card-body">
+
                 <dl class="row">
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.Code)
