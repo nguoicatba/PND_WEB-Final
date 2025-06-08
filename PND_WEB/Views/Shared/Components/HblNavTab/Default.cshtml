@@ -28,16 +28,13 @@
         asp-controller="BehalfCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Chi hộ</a>
     </li>
 
-    <li class="nav-item" role="presentation">
-        <a class="@(currentController == "ContCharge" ? "nav-link active" : "nav-link")"
-        asp-controller="ContCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Cược container</a>
-    </li>
+ 
 
     @if (Model.isLGT == true)
     {
         <li class="nav-item" role="presentation">
-            <a class="@(currentController == "ContInvoice" ? "nav-link active" : "nav-link")"
-            asp-controller="ContInvoice" asp-action="Index" asp-route-id=@Model.HBL_ID>Phí cược công</a>
+            <a class="@(currentController == "ContCharge" ? "nav-link active" : "nav-link")"
+               asp-controller="ContCharge" asp-action="Index" asp-route-id=@Model.HBL_ID> Cược container</a>
         </li>
     }
 

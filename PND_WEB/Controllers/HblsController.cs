@@ -83,6 +83,25 @@ namespace PND_WEB.Controllers
             return View(tblHbl);
         }
 
+        public async Task<string> GenerateCode(string prefix)
+        {
+            string Date = DateTime.Now.ToString("yyyyMMdd");
+            var lastHbls = await _context.TblHbls
+                .Where(i => i.Hbl.StartsWith(prefix) && i.Hbl.Contains(Date))
+                .OrderByDescending(i => i.Hbl)
+                .FirstOrDefaultAsync();
+            if (lastHbls == null)
+            {
+                return $"{prefix}{Date}0001";
+            }
+            else
+            {
+                string lastCode = lastHbls.Hbl.Substring(prefix.Length + Date.Length);
+                int nextNumber = int.Parse(lastCode) + 1;
+                return $"{prefix}{Date}/{nextNumber:D4}"; // D4 ensures the number is zero-padded to 4 digits
+            }
+        }
+
         // GET: Hbls/Create
         [ClaimAuthorize("HBL", "Create")]
         public IActionResult Create(string id)
@@ -109,6 +128,10 @@ namespace PND_WEB.Controllers
             
             if (ModelState.IsValid)
             {   
+                
+                string prefix ="HBL";
+                hblJobEditModel.Hbl.Hbl = await GenerateCode(prefix);
+                
                 hblJobEditModel.Hbl.Collect = hblJobEditModel.Collect;
                 hblJobEditModel.Hbl.Prepaid = hblJobEditModel.Prepaid;
                 hblJobEditModel.Hbl.FreightCharge = hblJobEditModel.FreightCharge;
