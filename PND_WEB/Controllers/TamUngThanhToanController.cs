@@ -148,14 +148,12 @@ namespace PND_WEB.Controllers
             return View(tblTutt);
         }
 
-        // POST: TamUngThanhToan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // Thay đổi trong action Create (POST) để chỉ đếm tạm ứng chưa được duyệt
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("SoTutt,Ngay,NhanvienTutt,NoiDung,xacnhanduyet,Ketoan,Ceo,GhiChu,Tu,Tt")] TblTutt tblTutt)
         {
-            if(tblTutt.Tu == true)
+            if (tblTutt.Tu == true)
             {
                 var username = User.Identity.Name;
                 var user = await _userManager.FindByNameAsync(username);
@@ -164,30 +162,22 @@ namespace PND_WEB.Controllers
                 var yearPart = now.Year.ToString();
                 var monthPart = now.Month.ToString("D2");
 
-                var countsByNhanvien = await _context.TblTutts
-                    .Where(q => q.Tu == true &&
-                                q.SoTutt.Length >= 8 &&
-                                q.SoTutt.Substring(2, 4) == yearPart &&
-                                q.SoTutt.Substring(6, 2) == monthPart)
-                    .GroupBy(q => q.NhanvienTutt)
-                    .Select(g => new {
-                        NhanvienTutt = g.Key,
-                        CountTu = g.Count()
-                    })
-                    .ToListAsync();
-                 
-                var countOfCurrentUser = countsByNhanvien
-                    .Where(c => c.NhanvienTutt == tblTutt.NhanvienTutt)
-                    .Select(c => c.CountTu)
-                    .FirstOrDefault();
+                // Đếm số tạm ứng chưa được duyệt trong tháng này của nhân viên
+                var countOfCurrentUser = await _context.TblTutts
+                    .Where(q => q.Tu == true
+                                && q.xacnhanduyet == null
+                                && q.SoTutt.Length >= 8
+                                && q.SoTutt.Substring(2, 4) == yearPart
+                                && q.SoTutt.Substring(6, 2) == monthPart
+                                && q.NhanvienTutt == tblTutt.NhanvienTutt)
+                    .CountAsync();
 
                 if (countOfCurrentUser >= 5)
                 {
-                    ModelState.AddModelError("NhanvienTutt", "Nhân viên này đã tạo quá 5 tạm ứng trong tháng này.");
+                    ModelState.AddModelError("NhanvienTutt", "Nhân viên này đã tạo quá 5 tạm ứng chưa được duyệt trong tháng này.");
                     return View(tblTutt);
                 }
             }
-
 
             if (ModelState.IsValid)
             {
