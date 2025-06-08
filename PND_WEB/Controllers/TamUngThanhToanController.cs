@@ -359,7 +359,7 @@ namespace PND_WEB.Controllers
         }
 
 
-        // In TuttCreate POST action, only check budget limit if đây là thanh toán (Tt == true)
+        // Trong TuttCreate POST action, chỉ tính budget cho thanh toán KHÔNG có tạm ứng
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> TuttCreate(TuttEditModel tuttEditModel)
@@ -368,7 +368,6 @@ namespace PND_WEB.Controllers
             var yearPart = now.Year.ToString();
             var monthPart = now.Month.ToString("D2");
 
-            // Lấy SoTutt để kiểm tra loại phiếu
             var tutt = await _context.TblTutts.FindAsync(tuttEditModel.id);
             if (tutt == null)
             {
@@ -376,16 +375,18 @@ namespace PND_WEB.Controllers
             }
             tuttEditModel.tuttphi.SoTutt = tutt.SoTutt;
 
-            // Chỉ kiểm tra giới hạn nếu là phiếu thanh toán (Tt == true)
-            if (tutt.Tt == true)
+            // Chỉ kiểm tra budget nếu là phiếu thanh toán (Tt == true) và KHÔNG phải phiếu thanh toán sinh ra từ tạm ứng
+            // Ở đây giả sử: phiếu thanh toán không có tạm ứng là Tu == false hoặc null
+            if (tutt.Tt == true && (tutt.Tu == null || tutt.Tu == false))
             {
                 var totalByNhanvienTrongThang = await (
                     from t in _context.TblTutts
                     join phi in _context.TblTuttsPhi on t.SoTutt equals phi.SoTutt
-                    where t.Tt == true &&
-                          t.SoTutt.Length >= 8 &&
-                          t.SoTutt.Substring(2, 4) == yearPart &&
-                          t.SoTutt.Substring(6, 2) == monthPart
+                    where t.Tt == true
+                          && (t.Tu == null || t.Tu == false) // chỉ lấy thanh toán không có tạm ứng
+                          && t.SoTutt.Length >= 8
+                          && t.SoTutt.Substring(2, 4) == yearPart
+                          && t.SoTutt.Substring(6, 2) == monthPart
                     group phi by t.NhanvienTutt into g
                     select new
                     {
