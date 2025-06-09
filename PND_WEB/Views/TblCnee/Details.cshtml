@@ -4,14 +4,14 @@
     ViewData["Title"] = "Chi tiết Cnee";
 }
 
-@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết người nhận hàng", SubTitle = "Chi tiết người nhận hàng" })
+@await Component.InvokeAsync("HeaderBody", new { Title = "Chi tiết CNEE", SubTitle = "Chi tiết người nhận hàng" })
 
 
 <div class="row">
     <div class="col-xl-12">
         <partial name="_StatusMessage" model="@TempData["status"]" />
         <div class="card card-default" id="cardDemo14">
-            <div class="card-header bg-success">About Carrier: @Model.Cnee.Cnee</div>
+            <div class="card-header bg-success">About Cnee: @Model.Cnee.Cnee</div>
                 <div class="card-body">
                     <dl class="row">
                         <dt class="col-sm-2">

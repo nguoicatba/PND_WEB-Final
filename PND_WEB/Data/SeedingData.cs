@@ -31,7 +31,6 @@ namespace PND_WEB.Data
 
             await CustomerSeeder.SeedAsync(_context);
 
-            await JobSeeder.SeedAsync(_context);
 
             if (!await roleManager.RoleExistsAsync("Admin"))
             {
@@ -1261,6 +1260,8 @@ namespace PND_WEB.Data
                 );
                 await _context.SaveChangesAsync();
             }
+
+            await JobSeeder.SeedAsync(_context);
         }
     }
 }
